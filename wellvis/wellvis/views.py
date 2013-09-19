@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
+from django.http import HttpResponseRedirect
 from main.models import Country, Field, Platform, Well
 
 # Which method is called, is defined from urls.py
@@ -23,7 +24,7 @@ def dashboard(request):
 
     # if user is not logged in, return the home function
     if not request.user.is_authenticated():
-        return home(request)  
+        return HttpResponseRedirect("/") 
 
     countries = Country.objects.all()
     fields = Field.objects.all()

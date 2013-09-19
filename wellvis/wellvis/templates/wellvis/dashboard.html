@@ -1,8 +1,4 @@
-<html>
-<head>
-    
-</head>
-<body> 
+{% block content %}
     {% for country in countries %}
         <h3>Country: {{ country.name }}</h3>
         <ul>
@@ -38,6 +34,4 @@
             {% endfor %}
         </ul>
     {% endfor %}
-    <script src="{{ STATIC_URL }}js/jquery-2.0.3.js"></script>
-</body>
-</html>
+{% endblock %}

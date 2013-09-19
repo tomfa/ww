@@ -1,11 +1,13 @@
-<html>
-<head>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css">
-</head>
-<body>
+{% extends "base/main.html" %}
+
+{% block styles %}
+<style type="text/css">body { background-color: #F0F; }</style>
+{% endblock %}
+
+{% block content %}
+    
     <p>The data format is {{ thisDataFormat }}</p>
     <p>CAKE: {{ cake }}</p>
     <p>You might want to go see <a href="/dashboard">The dashboard</a></p>
-    <script src="{{ STATIC_URL }}js/jquery-2.0.3.js"></script>
-</body>
-</html>
+
+{% endblock %}

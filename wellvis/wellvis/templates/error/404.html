@@ -1,0 +1,19 @@
+{% extends "base/main.html" %}
+
+{% block title %}
+<h1>
+  {% if page_title %}
+  {{ page_title }}
+  {% else %}
+  Resource not available.
+  {% endif %}
+</h1>
+{% endblock %}
+
+{% block content %}
+{% if reason %}
+<p>{{ reason }}</p>
+{% else %}
+<p>The webpage you tried to reach, does not exist.</p>
+{% endif %}
+{% endblock %}

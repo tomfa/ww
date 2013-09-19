@@ -1,0 +1,22 @@
+{% extends "base/main.html" %}
+
+{% block title %}
+<h1>
+  {% if page_title %}
+  {{ page_title }}
+  {% else %}
+  A server error occured.
+  {% endif %}
+</h1>
+{% endblock %}
+
+{% block content %}
+{% if reason %}
+<p>{{ reason }}</p>
+{% else %}
+<p>
+The web server encountered an error. This has been automatically reported 
+to the appropriate personel.
+</p>
+{% endif %}
+{% endblock %}

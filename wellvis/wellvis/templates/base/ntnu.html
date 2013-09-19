@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+	<link rel="icon" href="http://www.ntnu.no/ntnu_images/logoicon.ico"  type="image/ico" />
+	<link rel="Shortcut Icon" href="http://www.ntnu.no/ntnu-theme/images/logoicon.ico" />
+	
+	<link rel="stylesheet" type="text/css" href="https://www.ntnu.no/ntnu-theme/css/base.css" media="all">
+	<link rel="stylesheet" type="text/css" href="https://www.ntnu.no/ntnu-theme/css/layout.css" media="all">
+	<link rel="stylesheet" type="text/css" href="https://www.ntnu.no/ntnu-theme/css/navigation.css" media="all">
+	<link rel="stylesheet" type="text/css" href="https://www.ntnu.no/ntnu-theme/css/portlet.css" media="all">
+	<link rel="stylesheet" type="text/css" href="https://www.ntnu.no/ntnu-theme/css/forms.css" media="all">
+	<link rel="stylesheet" type="text/css" href="https://www.ntnu.no/ntnu-theme/css/custom.css" media="all">
+	
+    {% block javascript %}{% endblock %}
+    
+    <title>Søknadskjema for jobb hos NTNU IT Orakeltjenesten - NTNU</title>
+
+	<style type="text/css">
+		th, td {
+			text-align: left;
+			vertical-align: top;
+		}
+
+		input {
+			width: 350px;
+		}
+
+		textarea {
+			width: 475px;
+			height: 300px;
+		}
+	</style>
+</head>
+
+<body>
+<div id="main_content">
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>

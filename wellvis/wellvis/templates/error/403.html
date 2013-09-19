@@ -1,0 +1,22 @@
+{% extends "base/main.html" %}
+
+{% block title %}
+<h1>
+  {% if page_title %}
+  {{ page_title }}
+  {% else %}
+  Access denied
+  {% endif %}
+</h1>
+{% endblock %}
+
+{% block content %}
+{% if reason %}
+<p>{{ reason }}</p>
+{% else %}
+<p>You tried to access a resource that you do not have access to.</p>
+<p>
+If you think this is a mistake, please contact your Wellvis contact person.
+</p>
+{% endif %}
+{% endblock %}

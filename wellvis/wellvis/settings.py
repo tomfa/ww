@@ -128,8 +128,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',  # Database helper
     'main',
-     'django.contrib.admin',  # admin pages
-     'django.contrib.admindocs',  # admin documentation:
+    'wpath',
+    'django.contrib.admin',  # admin pages
+    'django.contrib.admindocs',  # admin documentation:
 )
 
 # A sample logging configuration. The only tangible logging

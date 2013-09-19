@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Country(models.Model):
     """
     A country is a top level model that contains oil :model:`main.Field`, 
@@ -75,7 +74,7 @@ class Project(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     # below: to be implemented
-    # path = models.ForeignKey(wPath)
+    # path = models.ForeignKey(Path, null=True, blank=True)
     # force = models.ForeignKey(wForce)
     # design = models.ForeignKey(wDesign)
     # plan = models.ForeignKey(wPlan)

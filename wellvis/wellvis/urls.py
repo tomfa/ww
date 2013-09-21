@@ -9,10 +9,18 @@ urlpatterns = patterns('',
     url(r'^$', 'wellvis.views.home', name='home'),
     url(r'^dashboard/', 'wellvis.views.dashboard', name='dashboard'),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
+    # Modules
+    (r'^wpath/', include('wpath.urls')),
+    (r'^wcp/', include('wcp.urls')),
+    (r'^wdesign/', include('wdesign.urls')),
+    (r'^wplan/', include('wplan.urls')),
+    (r'^wreport/', include('wreport.urls')),
+    (r'^wsupport/', include('wsupport.urls')),
+
+    # Admin documentation
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # Admin-panel
     url(r'^admin/', include(admin.site.urls)),
 )
 

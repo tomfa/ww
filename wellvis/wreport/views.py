@@ -9,8 +9,8 @@ def home(request):
     """
     context = {
         # This dataformat is JSON
-        'thisDataFormat':'THIS IS WPATH',
-        'cake':'THIS IS WPATH'
+        'thisDataFormat':'THIS IS wReport',
+        'cake':'THIS IS wReport'
     }
 
     return render(request, 'wellvis/home.html', context)

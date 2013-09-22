@@ -1,76 +1,51 @@
-{% load url from future %}
-{% if user_type == 'Orakel' %}
-  <dl>
-    <dt>Hovedmeny</dt>
-    <dd><a href="{% url 'frontpage' %}"><span class="linkdot"></span>Oversikt</a></dd>
-    <dd><a href="{% url 'schedule' %}"><span class="linkdot"></span>Timeplan</a></dd>
-		{% if sms %}
-    	<dd><a href="{% url 'sms-main' %}"><span class="linkdot"></span>SMS</a></dd>
-		{% else %}
-    	<dd><a href="{% url 'sms-new' %}"><span class="linkdot"></span>SMS</a></dd>
-		{% endif %}
-    <dd><a href="{% url 'omdist' %}"><span class="linkdot"></span>DVD-utlån</a></dd>
-    <dd><a href="{% url 'servicedesk-new-service' %}"><span class="linkdot"></span>Skrankesak</a></dd>
-    <dd><a href="{% url 'event' %}"><span class="linkdot"></span>Events</a></dd>
-    <dd><a href="{% url 'group' %}"><span class="linkdot"></span>Grupper</a></dd>
-    <dd><a href="{% url 'wish-seminarlist' %}"><span class="linkdot"></span>Seminarønsker</a></dd>
-    <dd><a href="{% url 'latecoming-show' %}"><span class="linkdot"></span>Forsentkomming</a></dd>
-    <dd><a href="{% url 'studentpc-list-years' %}"><span class="linkdot"></span>StudentPC</a></dd>
-    <dd><a href="{% url 'tweets' %}"><span class="linkdot"></span>Twitter</a></dd>
-    <dd><a href="{% url 'achievements-personal' %}"><span class="linkdot"></span>Achievements</a></dd>
-		<dd><a href="{% url 'strip' %}"><span class="linkdot"></span>HEX/HTML-stripper</a></dd>
-  </dl>
-  <dl>
-    <dt>Internverktøy</dt>
-		<dd><a href="{% url 'knowledgedb-list' %}"><span class="linkdot"></span>Saker</a></dd>
-    <dd><a href="https://interntrac.orakel.ntnu.no/" target="_blank"><span class="linkdot"></span>InternTrac</a></dd>
-    <dd><a href="https://driftstrac.orakel.ntnu.no/" target="_blank"><span class="linkdot"></span>DriftsTrac</a></dd>
-    <dd><a href="https://sympa.orakel.ntnu.no/wws" target="_blank"><span class="linkdot"></span>Sympa</a></dd>
-  </dl>
-  <dl>
-    <dt>Dokumentasjon</dt>
-    <dd><a href="{% url 'knowledgedb-list' %}"><span class="linkdot"></span>Saker</a></dd>
-    <dd><a href="https://fuglane.itea.ntnu.no/display/fuglane/Orakel" target="_blank"><span class="linkdot"></span>Fuglane</a></dd>
-		<dd><a href="{% url 'wiki-wiki' %}"><span class="linkdot"></span>Internwiki</a></dd>
-    <dd><a href="http://www.ntnu.no/adm/okonomi/portal/lonn/tidsplaner/lonnskjoring" target="_blank"><span class="linkdot"></span>Lønnskjøringsplan</a></dd>
-  </dl>
-  <dl>
-    <dt>Verktøy</dt>
-    <dd><a href="https://bas.ntnu.no/login" target="_blank"><span class="linkdot"></span>BAS</a></dd>
-    <dd><a href="http://nav.ntnu.no/" target="_blank"><span class="linkdot"></span>NAV</a></dd>
-    <dd><a href="https://www.itea.ntnu.no/drift/mailsearch/" target="_blank"><span class="linkdot"></span>Mailsøk</a></dd>
-    <dd><a href="https://www.itea.ntnu.no/utskrift/orakel/" target="_blank"><span class="linkdot"></span>Kortsjekk</a></dd>
-    <dd><a href="http://stud.ntnu.no/kundesenter/" target="_blank"><span class="linkdot"></span>Kundesenteret</a></dd>
-    <dd><a href="https://www.itea.ntnu.no/drift/diskkvote/" target="_blank"><span class="linkdot"></span>Endre diskkvote</a></dd>
-    <dd><a href="https://timereg.itea.ntnu.no/" target="_blank"><span class="linkdot"></span>Timeregistrering</a></dd>
-    <dd><a href="https://telmaxweb.itea.ntnu.no/tmweb10intern/" target="_blank"><span class="linkdot"></span>NTNU Telefonkatalog</a></dd>
-    <dd><a href="http://infoskjerm.itea.ntnu.no/" target="_blank"><span class="linkdot"></span>Infoskjermer</a></dd>
-    <dd><a href="http://ntnu.no/kart/" target="_blank"><span class="linkdot"></span>NTNU Kart</a></dd>
-    <dd><a href="https://www.ntnu.no/wiki/display/orakeltest" target="_blank"><span class="linkdot"></span>Testwiki</a></dd>
-  </dl>
-{% else %}
-  {% if user_type == 'Emeritus' %}
-    <dl>
-      <dt>Emeritusmeny</dt>
-      <dd><a href="{% url 'news-unread' %}"><span class="linkdot"></span>Nyheter</a></dd>
-      <dd><a href="{% url 'event' %}"><span class="linkdot"></span>Events</a></dd>
-      <dd><a href="{% url 'group' %}"><span class="linkdot"></span>Grupper</a></dd>
-    	<dd><a href="https://interntrac.orakel.ntnu.no/" target="_blank"><span class="linkdot"></span>InternTrac</a></dd>
-    	<dd><a href="https://driftstrac.orakel.ntnu.no/" target="_blank"><span class="linkdot"></span>DriftsTrac</a></dd>
-      <dd><a href="http://ntnu.no/kart/" target="_blank"><span class="linkdot"></span>NTNU Kart</a></dd>
-      <dd><a href="https://telmaxweb.itea.ntnu.no/tmweb10intern/" target="_blank"><span class="linkdot"></span>NTNU Telefonkatalog</a></dd>
-    </dl>
-  {% else %}
-  {# Brukeren er verken Orakel eller Emeritus. Kan byttes til 'elif' ved Django 1.4 #}
-    <dl>
-      <dt>Meny</dt>
-      <dd><a href="{% url 'servicedesk-new-service' %}"><span class="linkdot"></span>Ny skrankesak</a></dd>
-    </dl>
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">wellVis</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse navbar-inverse">
+    <ul class="nav navbar-nav">
+      {% if user.is_authenticated %}
+      <li><a href="/dashboard/">wPanel</a></li>
+
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modules
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="/wpath/">wPath</a></li>
+          <li><a href="/wplan/">wPlan</a></li>
+          <li><a href="/wdesign/">wDesign</a></li>
+          <li><a href="/wreport/">wReport</a></li>
+        </ul>
+      </li>
+    </ul>
+    
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/wsupport/">wSupport</a></li>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Go</button>
+      </form>
+    </ul>
+    {% else %}
+    <li><a href="#">Software</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact us</a></li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href="#">Login</a></li>
+  </ul>
   {% endif %}
-{% endif %}
-{% if request.user.is_superuser %}
-  <dl>
-    <dt>Admin</dt>
-    <dd><a href="/admin/"><span class="linkdot"></span>Django-admin</a></dd>
-  </dl>
-{% endif %}
+</div><!-- /.navbar-collapse -->
+</nav>

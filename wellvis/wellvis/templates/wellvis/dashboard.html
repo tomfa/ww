@@ -1,37 +1,5 @@
+{% extends "base/main.html" %}
+
 {% block content %}
-    {% for country in countries %}
-        <h3>Country: {{ country.name }}</h3>
-        <ul>
-            <li>shortname: {{ country.short_name }}</li>
-            <li>description: {{ country.description }}</li>
-            <li>countryCode: {{ country.country_code }}</li>
-            {% for field in fields %}
-            <h4>Field: {{ field.name }}</h4>
-                {% if field.country == country %}
-                <ul>
-                    <li>shortname: {{ field.short_name }}</li>
-                    <li>description: {{ field.description }}</li>
-                    {% for platform in platforms %}
-                        {% if platform.field == field %}
-                            <h5>Platform: {{ platform.name }}</h5>
-                            <ul>
-                                 <li>shortname: {{ platform.short_name }}</li>
-                                 <li>description: {{ platform.description }}</li>
-                                 <li>latitude: {{ platform.latitude }}</li>
-                                 <li>longitude: {{ platform.longitude }}</li>
-                                 {% for well in wells %}
-                                 <h6>Well: {{ well.name }}</h6>
-                                 <ul>
-                                     <li>shortname: {{ well.short_name }}</li>
-                                    <li>description: {{ well.description }}</li>
-                                 </ul>
-                                 {% endfor %}
-                             </ul> 
-                        {% endif %}
-                    {% endfor %}
-                 </ul>   
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% endfor %}
+<p>What should be here?</p>
 {% endblock %}

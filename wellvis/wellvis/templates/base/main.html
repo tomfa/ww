@@ -13,40 +13,13 @@
 </head>
 
 <body>
-	<div id="page">
-		<div id="content">
-			<div id="header">
-				<a href="/">
-					LOGO?
-				</a>
-			</div>
-
+		<div class="content">
 			<!-- BLOCK FOR TOP LINK MENU  -->
-			{% block top_links %}
-			<div id="topmenu">
-				{% if top_links %}
-				<ul>
-					{% for link in top_links %}
-					<li><a href="{{ link.url }}">
-						<span class="toplink_leftcorner"></span>
-						{{ link.name }}
-						<span class="toplink_rightcorner"></span></a>
-					</li>
-					{% endfor %}
-				</ul>
-				{% endif %}
-			</div>
-			{% endblock %}
+			{% include "base/menu.html" %}
+			{% include "base/sidepanel.html" %}
 
-			<div id="menuwrap">
-				<div id="menu">
-					{% block menu %}
-					{% endblock %}
-				</div>
-			</div>
-
-			<div id="mainpage">
-				<div id="title">
+				<div class="col-sm-8 col-md-9">
+					<div id="title">
 					{% block title %}
 					{% if page_title %}
 					<h1>
@@ -54,20 +27,12 @@
 					</h1>
 					{% endif %}
 					{% endblock %}
-				</div>
-				<div id="content">
+					</div>
 					{% block content %}{% endblock %}
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="footer">
-	<p>Do we even want a footer?</p>
-</div>
 
 <!-- SCRIPTS -->
-<script src="{{ STATIC_URL }}js/jquery-2.0.03.js"></script>
+<script src="{{ STATIC_URL }}js/jquery-2.0.3.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
 <!-- Date picker would be nice at some point-->
 

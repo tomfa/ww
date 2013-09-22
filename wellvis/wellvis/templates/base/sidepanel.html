@@ -1,0 +1,74 @@
+<div class="col-sm-4 col-md-3 sidepanel">
+<ol class="breadcrumb platform">
+  {% if not selected_country %}
+  <li class="breadcrumb_country">&nbsp;</li>
+  {% else %}
+  <li class="breadcrumb_country"><a href="/country/{{ selected_country.pk }}">{{ selected_country.short_name }}</a></li>
+  
+  {% if selected_field %}
+  <li class="breadcrumb_field"><a href="/field/{{ selected_field.pk }}">{{ selected_field.short_name }}</a></li>
+  
+  {% if selected_platform %}
+  <li class="breadcrumb_platform"><a href="/platform/{{ selected_platform.pk }}">{{ selected_platform.short_name }}</a></li>
+  
+  {% if selected_well %}
+  <li class="breadcrumb_well"><a href="/well/{{ selected_well.pk }}">{{ selected_well.short_name }}</a></li>
+
+  {% endif %}{% endif %}{% endif %}{% endif %}
+
+</ol>
+
+<ul class="nav nav-pills nav-stacked">
+  {% if not selected_country %}
+    {% if countries %}
+      {% for country in countries %}
+      <li class="nav_country">
+        <a href="/country/{{ country.pk }}">
+          <span class="badge pull-right">3</span>
+          {{ country.name }}
+        </a>
+      </li>
+      {% endfor %}
+    {% endif %}
+  {% else %}{% if not selected_field %}
+    {% if fields %}
+      {% for field in fields %}
+      <li class="nav_field">
+        <a href="/field/{{ field.pk }}">
+          <span class="badge pull-right">3</span>
+          {{ field.name }}
+        </a>
+      </li>
+      {% endfor %}
+    {% endif %}
+  {% else %}{% if not selected_platform %}
+    {% if platforms %}
+      {% for platform in platforms %}
+      <li class="nav_platform">
+        <a href="/platform/{{ platform.pk }}">
+          <span class="badge pull-right">3</span>
+          {{ platform.name }}
+        </a>
+      </li>
+      {% endfor %}
+    {% endif %}
+  {% else %}{% if not selected_well %}
+    {% if wells %}
+      {% for well in wells %}
+      <li class="nav_well">
+        <a href="/well/{{ well.pk }}">
+          <span class="badge pull-right">3</span>
+          {{ well.name }}
+        </a>
+      </li>
+      {% endfor %}
+    {% endif %}
+  {% else %}
+    <li><a href="#">wPlan</a></li>
+    <li><a href="#">wPath</a></li>
+    <li><a href="#">wDesign</a></li>
+    <li><a href="#">wReport</a></li>
+  {% endif %}{% endif %}{% endif %}{% endif %}
+
+</ul>
+</div>

@@ -1,0 +1,39 @@
+/*
+*  Sidepanel.js
+*  
+*  Purpose:
+*  Holds settings regarding sidepanel
+*  - Last view 
+*  - Hidden or shown
+*  
+*  Requirements:
+*  jquery-2.0.3.js or newer
+*  jquery-cookie.js   @https://github.com/carhartl/jquery-cookie
+*  
+*  Usage:
+*  
+*  
+*/
+
+$(".sidePanelToggler").click(function() {
+    toggleSidePanel(!($(".sidepanel").is(":visible")));
+});
+
+
+function toggleSidePanel(visible) {
+    if (visible) {
+        $.cookie("sidepanel_show", "True");
+        $(".sidePanelToggler").removeClass("glyphicon-chevron-down");
+        $(".sidePanelToggler").addClass("glyphicon-chevron-up");
+        $(".sidepanel").show();
+    } else {
+        $.cookie("sidepanel_show", "");
+        $(".sidepanel").hide();
+        $(".sidePanelToggler").removeClass("glyphicon-chevron-up");
+        $(".sidePanelToggler").addClass("glyphicon-chevron-down");
+    }
+}
+
+$( document ).ready(function() {
+      console.log($.cookie("sidepanel_show"));
+  });

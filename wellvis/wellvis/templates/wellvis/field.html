@@ -1,5 +1,11 @@
 {% extends "base/main.html" %}
 
 {% block content %}
-<p>What should be here?</p>
+<p>The content of this page should show the status of the selected field.</p>
+<h3></h3>
+<ul>
+    <li>name: {{ selected_field.name }}</li>
+    <li>short_name: {{ selected_field.short_name }}</li>
+    <li>description: {{ selected_field.description }}</li>
+</ul>
 {% endblock %}

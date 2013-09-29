@@ -22,12 +22,12 @@ $(".sidePanelToggler").click(function() {
 
 function toggleSidePanel(visible) {
     if (visible) {
-        $.cookie("sidepanel_show", "True");
+        $.cookie("sidepanel_hidden", "1", { path: '/' });
         $(".sidePanelToggler").removeClass("glyphicon-chevron-down");
         $(".sidePanelToggler").addClass("glyphicon-chevron-up");
         $(".sidepanel").show();
     } else {
-        $.cookie("sidepanel_show", "");
+        $.cookie("sidepanel_hidden", "0", { path: '/' });
         $(".sidepanel").hide();
         $(".sidePanelToggler").removeClass("glyphicon-chevron-up");
         $(".sidePanelToggler").addClass("glyphicon-chevron-down");
@@ -35,5 +35,5 @@ function toggleSidePanel(visible) {
 }
 
 $( document ).ready(function() {
-      console.log($.cookie("sidepanel_show"));
+      console.log($.cookie("sidepanel_hidden"));
   });

@@ -15,7 +15,7 @@ def home(request):
     }
 
     try:
-        add_sidepanel_to_context(context, request.COOKIES.get('sidepanel_type'), request.COOKIES.get('sidepanel_id'), hidden=request.COOKIES.get('sidepanel_show'))
+        add_sidepanel_to_context(context, request.COOKIES.get('sidepanel_type'), request.COOKIES.get('sidepanel_id'), hidden=request.COOKIES.get('sidepanel_hidden'))
     except:
         pass
 
@@ -27,7 +27,7 @@ def view_country(request, countryid):
     View for country.
     """
     context = {}
-    add_sidepanel_to_context(context, "country", countryid, hidden=request.COOKIES.get('sidepanel_show'))
+    add_sidepanel_to_context(context, "country", countryid, hidden=request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/country.html', context)
 
@@ -42,7 +42,7 @@ def view_field(request, fieldid):
     View for field.
     """
     context = {}
-    add_sidepanel_to_context(context, "field", fieldid, request.COOKIES.get('sidepanel_show'))
+    add_sidepanel_to_context(context, "field", fieldid, request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/field.html', context)
 
@@ -56,17 +56,19 @@ def generate_sidepanel(context, request):
     if (request):
         type = request.COOKIES.get('sidepanel_type')
         id = request.COOKIES.get('sidepanel_id')
-        hidden = request.COOKIES.get('sidepanel_show')
-        print "SIDEPANEL " + hidden
+        hidden = request.COOKIES.get('sidepanel_hidden')
     return add_sidepanel_to_context(context, type, id, hidden)
 
 
-def add_sidepanel_to_context(context, type=None, id=1, hidden=False):
+def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
     
     '''
     Adds sidepanel with selected project based on cookies.
     Issue: Will give 404-page if you delete a project saved in cookies
     '''
+
+    
+
     if type == None:
         countries = Country.objects.all()
         newcontext = {
@@ -123,8 +125,10 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=False):
             'page_title': selected_well.name,
         }
 
-        if hidden == "True":
-            newcontext['sidepanel_show', 'True'];
+    if hidden == "1":
+        newcontext['sidepanel_hidden'] = '0'
+    else:
+        newcontext['sidepanel_hidden'] = '1'
 
             
 
@@ -136,7 +140,7 @@ def view_platform(request, platformid):
     View for platform.
     """
     context = {}
-    add_sidepanel_to_context(context, "platform", platformid, request.COOKIES.get('sidepanel_show'))
+    add_sidepanel_to_context(context, "platform", platformid, request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/platform.html', context)
 
@@ -151,7 +155,7 @@ def view_well(request, wellid):
     View for well.
     """
     context = {}
-    add_sidepanel_to_context(context, "well", wellid, request.COOKIES.get('sidepanel_show'))
+    add_sidepanel_to_context(context, "well", wellid, request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/well.html', context)
 
@@ -182,6 +186,6 @@ def dashboard(request):
         'wells': wells
     }
 
-    add_sidepanel_to_context(context, hidden=request.COOKIES.get('sidepanel_show'))
+    add_sidepanel_to_context(context, hidden=request.COOKIES.get('sidepanel_hidden'))
 
     return render(request, 'wellvis/dashboard.html', context)

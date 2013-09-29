@@ -1,5 +1,10 @@
 {% extends "base/main.html" %}
 
 {% block content %}
-<p>What should be here?</p>
+<p>The content of this page should show the status of the selected well.</p>
+<h3></h3>
+<ul>
+    <li>short_name: {{ selected_well.short_name }}</li>
+    <li>description: {{ selected_well.description }}</li>
+</ul>
 {% endblock %}

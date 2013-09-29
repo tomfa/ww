@@ -1,5 +1,12 @@
 {% extends "base/main.html" %}
 
 {% block content %}
-<p>What should be here?</p>
+<p>The content of this page should show the status of the selected platform.</p>
+<h3></h3>
+<ul>
+    <li>short_name: {{ selected_platform.short_name }}</li>
+    <li>latitude: {{ selected_platform.latitude }}</li>
+    <li>longitude: {{ selected_platform.longitude }}</li>
+    <li>description: {{ selected_platform.description }}</li>
+</ul>
 {% endblock %}

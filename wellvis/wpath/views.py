@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponseRedirect
+from wellvis.views import generate_sidepanel
 
 
 def home(request):
@@ -12,6 +13,8 @@ def home(request):
         'thisDataFormat':'THIS IS WPATH',
         'cake':'THIS IS WPATH'
     }
+
+    generate_sidepanel(context, request)
 
     return render(request, 'wellvis/home.html', context)
 

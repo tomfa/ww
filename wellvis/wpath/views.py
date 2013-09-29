@@ -14,3 +14,16 @@ def home(request):
     }
 
     return render(request, 'wellvis/home.html', context)
+
+
+def test(request):
+    """
+    Test
+    """
+    context = {
+        # This dataformat is JSON
+        'thisDataFormat':'THIS IS WPATH',
+        'cake':'THIS IS WPATH'
+    }
+
+    return render(request, 'wpath/3D_View.html', context)

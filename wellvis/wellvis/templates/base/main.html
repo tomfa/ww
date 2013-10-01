@@ -20,7 +20,9 @@
 		<div class="content">
 			<!-- BLOCK FOR TOP LINK MENU  -->
 			{% include "base/menu.html" %}
+			{% if user.is_authenticated %}
 			{% include "base/sidepanel.html" %}
+			{% endif %}
 
 				<div class="col-sm-8 col-md-9">
 					<div id="title">

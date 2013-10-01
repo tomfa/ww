@@ -9,11 +9,10 @@ def home(request):
     showing a demo of the software, contact info and such.
     """
     context = {
-        # This dataformat is JSON
-        'thisDataFormat':'THIS IS WPATH',
-        'cake':'THIS IS WPATH'
     }
 
     generate_sidepanel(context, request)
 
-    return render(request, 'wellvis/home.html', context)
+    context['headline'] = "wPath"
+
+    return render(request, 'wpath/3D_View.html', context)

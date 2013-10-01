@@ -9,15 +9,11 @@ def home(request):
     showing a demo of the software, contact info and such.
     """
     context = {
-        'thisDataFormat':'JSON',
-        'cake':'is Always Good',
-        'page_title': "Homesweethome",
     }
 
-    try:
-        add_sidepanel_to_context(context, request.COOKIES.get('sidepanel_type'), request.COOKIES.get('sidepanel_id'), hidden=request.COOKIES.get('sidepanel_hidden'))
-    except:
-        pass
+    generate_sidepanel(context, request)
+
+    context['page_title'] = "Drilling made simply secure"
 
     return render(request, 'wellvis/home.html', context)
 
@@ -66,7 +62,6 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
     Adds sidepanel with selected project based on cookies.
     Issue: Will give 404-page if you delete a project saved in cookies
     '''
-
     
 
     if type == None:

@@ -30,11 +30,15 @@
 						{{ page_title }}
 					</h1>
 					{% endif %}
+					{% if headline %}
+					<h3>
+						{{ headline }}
+					</h3>
+					{% endif %}
 					{% endblock %}
 					</div>
 					{% block content %}{% endblock %}
 				</div>
-
 <!-- SCRIPTS -->
 <script src="{{ STATIC_URL }}js/jquery-2.0.3.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap.js"></script>

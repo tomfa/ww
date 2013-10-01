@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponseRedirect
-
+from wellvis.views import generate_sidepanel
 
 def home(request):
     """
@@ -8,9 +8,10 @@ def home(request):
     showing a demo of the software, contact info and such.
     """
     context = {
-        # This dataformat is JSON
-        'thisDataFormat':'THIS IS wPlan',
-        'cake':'THIS IS wPlan'
     }
+
+    generate_sidepanel(context, request)
+
+    context['headline'] = "wPlan"
 
     return render(request, 'wellvis/home.html', context)

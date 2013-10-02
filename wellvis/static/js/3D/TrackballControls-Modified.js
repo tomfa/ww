@@ -42,6 +42,11 @@ THREE.TrackballControls = function ( object, target, domElement) {
 
 	this.target = target; //new THREE.Vector3(-45, 80, -20);
 
+	//==|| The deviation in the target
+	this.targetXdev = this.target.x;
+	this.targetYdev = this.target.y;
+	this.targetZdev = this.target.z;
+
 	var lastPosition = new THREE.Vector3();
 
 	var _state = STATE.NONE,
@@ -255,8 +260,10 @@ THREE.TrackballControls = function ( object, target, domElement) {
 			colorTrace("z = " +  _this.target.z, "Blue");
 
 			//==|| Update the Screen Center
-			updateScreenCenter( _this.target.x + 45,  _this.target.y - 80,  _this.target.z + 20);
+			//updateScreenCenter( _this.target.x + 45,  _this.target.y - 80,  _this.target.z + 20);
 
+			//==|| Fixing the deviation in the target 
+			updateScreenCenter( _this.target.x - this.targetXdev,  _this.target.y - this.targetYdev,  _this.target.z - this.targetZdev);
 
 		}
 
@@ -439,13 +446,13 @@ THREE.TrackballControls = function ( object, target, domElement) {
 
 		}
 
-/*
+
 		//colorTrace("Mouse Moved", "Green");
 		colorTrace("x : " +  theCamera.position.x, "Blue");
 		colorTrace("y : " +  theCamera.position.y, "Green");
 		colorTrace("z : " +  theCamera.position.z, "Red");
 		colorTrace("-----------", "Black");
-*/
+
 
 
 		//	colorTrace("x = " +  _this.target.x, "Black");

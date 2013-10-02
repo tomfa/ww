@@ -203,7 +203,7 @@
 				
 #theControlButtonsContainer {
 	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
-	height: 34px;
+	height: 40px;
 	border: 1px solid #000;
 	padding: 5px 10px 1px 10px;
 }
@@ -212,6 +212,7 @@
 	border-radius: 3px;
 	height: 27px;
 	float: left;
+	padding: 0px 8px;
 }
 	.activeBtn {
 		background: #ccc;
@@ -332,6 +333,7 @@
    	//==|| The Default Values ||===============================
    	//=========================================================
 
+   	var theOtherPortion = 30/100*theScreenWidth;
    	var theWidth 	= theScreenWidth - 435; //418
    	var theHeight 	= theScreenHeight - 59; 
   	//theHeight = theHeight - 40;
@@ -610,6 +612,8 @@ $(document).ready(function() {
 		stats.domElement.style.zIndex = 100;
 		//theContainer.append( stats.domElement ); //==|| Not showing the stats for now
 
+
+		onWindowResize();
 
 		//==|| On window resize
 		window.addEventListener( 'resize', onWindowResize, false );
@@ -1228,8 +1232,10 @@ function registerDonePathButton() {
 		theScreenWidth = window.innerWidth;
   		theScreenHeight = window.innerHeight;
 
-   		theWidth 	= theScreenWidth - 435;
-   		theHeight 	= theScreenHeight - 59; 
+		theOtherPortion = 25/100*theScreenWidth;
+   		
+   		theWidth 	= theScreenWidth - 435 - theOtherPortion - 8;
+   		theHeight 	= theScreenHeight - 59 - 128; 
   	
 
   		$("#thePathsDetailContainer").css({"height" : theHeight + 2});

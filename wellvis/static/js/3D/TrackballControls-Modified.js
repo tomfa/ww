@@ -454,15 +454,11 @@ THREE.TrackballControls = function ( object, target, domElement) {
 		}
 
 /*
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		//colorTrace("Mouse Moved", "Green");
 		colorTrace("x : " +  theCamera.position.x, "Blue");
 		colorTrace("y : " +  theCamera.position.y, "Green");
 		colorTrace("z : " +  theCamera.position.z, "Red");
 		colorTrace("-----------", "Black");
-<<<<<<< HEAD
-
-=======
 */
 
 

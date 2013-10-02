@@ -1,8 +1,6 @@
 {% extends "base/main.html" %}
 
 {% block content %}
-<<<<<<< HEAD
-
 	
 	<div id="theMainContainer">
 
@@ -64,20 +62,10 @@
 	</div>
 
 
-=======
-<div id="specialbody">
-	<div id="theContainer" style=""> </div>
-	<div id="theControlButtonsContainer">
-		<button id="toggleGridBtn" class="btn">Toggle Grids</button>
-
-	</div>
-</div>
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 {% endblock %}
 
 {% block styles %}
 
-<<<<<<< HEAD
 		<style>
 #theMainContainer {
 	color: #000;
@@ -287,43 +275,6 @@
 		</style>
 
 
-=======
-<style>
-	#specialbody {
-		color: #000;
-		font-family:Monospace;
-		font-size:13px;
-		text-align:center;
-		font-weight: bold;
-
-		background-color: #fff;
-		margin: 0px;
-		padding: 0px;
-		overflow: hidden;
-	}
-
-	#theContainer {
-		width: 1000px; 
-		height: 500px; 
-		border: 1px solid #aaa;
-		float: left;
-	}
-
-	#theControlButtonsContainer {
-		float: left;
-		background: #9EABE0;
-		width: 250px;
-		height: 500px;
-		border: 1px solid #fff;
-	}
-
-	.btn {
-		width: 150px;
-		height: 50px;
-		background: #ddd;
-	}
-</style>
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 {% endblock %}
 
 {% block scripts %}
@@ -337,17 +288,6 @@
 		<!--<script src="{{ STATIC_URL }}/js/jquery-2.0.3.min.js"></script>-->
 		<script src="{{ STATIC_URL }}/js/jquery-ui.js"></script>
 
-
-<<<<<<< HEAD
-
-=======
-		
-<script type="text/javascript">
-/**
- * @author Pawan Chamling Rai
- */
-</script>
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 <script type="text/javascript">
 	//==< for browser logs >===
 	function colorTrace(msg, color) {
@@ -370,15 +310,9 @@
 	var theCamera, theControls, theScene, theRenderer;
 	var theCameraTarget;
 
-<<<<<<< HEAD
-=======
-	var cross;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
-
 	var theWidth = window.innerWidth;
   	var theHeight = window.innerHeight;
   	
-<<<<<<< HEAD
 
 
 /*
@@ -400,16 +334,10 @@
 		
 	*/
 
-
-
-
-=======
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
   	//=========================================================
    	//==|| The Default Values ||===============================
    	//=========================================================
 
-<<<<<<< HEAD
    	colorTrace("The width is " +  theWidth, "Blue");
    	theWidth = theWidth - 787//435; //581
    //	theHeight = 500;
@@ -422,23 +350,11 @@
    	var	theZ = 150;
 
    	//==|| The Unit for grids
-=======
-   	theWidth = 1000;
-   	theHeight = 500;
-
-   	var minX = -200, 
-   		maxX = 150;
-   	var	minZ = -150, 
-   		maxZ = 200;
-   	var	theY = 350;
-
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
    	var theUnit = 50;
 
    	//==|| the Main Object that would contain every other object in the scene
 	var theMainObject = new THREE.Object3D();
 
-<<<<<<< HEAD
 	//==|| The WellPath
 	var theWellPath = new THREE.Object3D();
 
@@ -503,60 +419,10 @@
 
 	//==|| The state of the grids
 	var planesAreVisible = true;
-=======
-	//==|| The main three Planes
-   	var theX_Plane = new THREE.Object3D();
-   	var theY_Plane = new THREE.Object3D();
-   	var theZ_Plane = new THREE.Object3D();
-
-
-	   	//==|| The X-Plane Childrens
-	 	var theX_PlaneOutline, 		theX_PlaneOutlineGeo, 	theX_PlaneOutlineMaterial;
-	 	var theX_PlaneGridLines, 	theX_PlaneGridLinesGeo, theX_PlaneGridLinesMaterial;
-	 	var theX_PlaneAxisLine, 	theX_PlaneAxisLineGeo, 	theX_PlaneAxisLineMaterial;
-	 	var theX_PlaneOutlineMaterialColor 			= 0xFF0000;
-	 	var theX_PlaneOutlineMaterialLineWidth 		= 1;
-	 	var theX_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
-	 	var theX_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theX_PlaneAxisLineMaterialColor 		= 0x333333;
-	 	var theX_PlaneAxisLineMaterialLineWidth 	= 1;
-	 	//==|| The X-Plane Grids
-	 	var theX_PlaneGrids =  new THREE.Object3D();
-
-
-		//==|| The Y-Plane Childrens
-	 	var theY_PlaneOutline, 		theY_PlaneOutlineGeo, 	theY_PlaneOutlineMaterial;
-     	var theY_PlaneGridLines, 	theY_PlaneGridLinesGeo, theY_PlaneGridLinesMaterial;
-     	var theY_PlaneAxisLine, 	theY_PlaneAxisLineGeo, 	theY_PlaneAxisLineMaterial;
-	 	var theY_PlaneOutlineMaterialColor 			= 0x00FF00;
-	 	var theY_PlaneOutlineMaterialLineWidth 		= 1;
-	 	var theY_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
-	 	var theY_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theY_PlaneAxisLineMaterialColor 		= 0x333333;
-	 	var theY_PlaneAxisLineMaterialLineWidth 	= 1;
-	 	//==|| The X-Plane Grids
-	 	var theY_PlaneGrids =  new THREE.Object3D();
-
-
-		//==|| The Z-Plane Children
-     	var theZ_PlaneOutline, 		theZ_PlaneOutlineGeo, 	theZ_PlaneOutlineMaterial;
-     	var theZ_PlaneGridLines, 	theZ_PlaneGridLinesGeo, theZ_PlaneGridLinesMaterial;
-     	var theZ_PlaneAxisLine, 	theZ_PlaneAxisLineGeo, 	theZ_PlaneAxisLineMaterial;
-	 	var theZ_PlaneOutlineMaterialColor 			= 0x0000FF;
-	 	var theZ_PlaneOutlineMaterialLineWidth 		= 1;
-	 	var theZ_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
-	 	var theZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theZ_PlaneAxisLineMaterialColor 		= 0x333333;
-	 	var theZ_PlaneAxisLineMaterialLineWidth 	= 1;
-	 	//==|| The X-Plane Grids
-	 	var theZ_PlaneGrids =  new THREE.Object3D();
-
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
  	//==|| The state of the grids
    	var gridIsVisible = true;
 
-<<<<<<< HEAD
    	//==|| The state of the rotation point
    	var rotationPointIsVisible = true;
 
@@ -567,8 +433,6 @@
    	var wellPathIsVisible = true;
 
 
-=======
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
    	//==|| The center cursor/sign 
 	var theScreenCenter;
@@ -581,19 +445,13 @@
 
 
    	//==|| Stores the values/labes for the grids
-<<<<<<< HEAD
    	var theXZ_PlaneLabels = new THREE.Object3D();
    	var theXY_PlaneLabels = new THREE.Object3D();
 
-=======
-   	var theY_PlaneLabels = new THREE.Object3D();
-   	var theZ_PlaneLabels = new THREE.Object3D();
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
    	//==|| The distance between the Axes-Plane outline and the grid value/label
    	var labelMargin = 20;
 
-<<<<<<< HEAD
    	//==|| The Previous point - initially at the origin
    	var thePreviousPoint = new THREE.Vector3(0,0,0); 
 
@@ -619,11 +477,6 @@ var theLine = function(theStartPoint, theEndPoint, theColor, theLineWidth) {
 //####################################################################################################################################
 //#########################################################[ DOM Ready ]##############################################################
 //####################################################################################################################################
-=======
-
-
-
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 $(document).ready(function() {
 
 
@@ -638,11 +491,7 @@ $(document).ready(function() {
 	//render();
 	//animate();
 
-<<<<<<< HEAD
 	$("#thePathsDetailContainer").css({"height" : theHeight});
-=======
-
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 	//===< turn them into jQuery buttons >===
@@ -651,7 +500,6 @@ $(document).ready(function() {
 	});
 
 
-<<<<<<< HEAD
 	//=========================
 	//==|| Toggle Buttons ||===
 	//=========================
@@ -692,40 +540,6 @@ $(document).ready(function() {
 //################################################################################################################################################
 
 
-=======
-	//==|| Add the click event ||===
-	$("#toggleGridBtn").click(function(){
-
-		if(gridIsVisible) { 
-			colorTrace("Grid is going to be invisible", "red");
-			gridIsVisible = false;
-
-			//theMainObject.remove(theX_Plane);
-			theX_Plane.remove(theX_PlaneGrids);
-			//theX_Plane.clear();//remove(theAxisLine);
-			//theRenderer.removeObject(theScene, theX_Plane);
-			//theScene.update();
-			render();
-		}
-		else {
-			colorTrace("Grid is going to be visible","green");
-			gridIsVisible = true;
-			
-			//theMainObject.add(theX_Plane);
-			theX_Plane.add(theX_PlaneGrids);
-			//theX_Plane.add(theAxisLine);
-			//theRenderer.addObject(theScene, theX_Plane);
-			//theScene.update();
-			render();
-		}
-
-	});
-
-
-
-
-}); //==|| dom ready ||========
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 </script>
@@ -745,7 +559,6 @@ $(document).ready(function() {
 	    theCamera.position.y = -26;
 	    theCamera.position.z = -248; //==|| Zoom
 
-<<<<<<< HEAD
 
 	    theCamera.position.x = -350; //==|| This is our zoom now
 	    theCamera.position.y = 285;
@@ -753,10 +566,6 @@ $(document).ready(function() {
 
 	    //==| Flip the camera so that the Y is pointing downwards rather than upwards
 	    theCamera.up.set(0, 0, -1 ); 
-=======
-	    //==| Flip the camera so that the Y is pointing downwards rather than upwards
-	    theCamera.up.set( 0, -1, 0 ); 
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 		//theCamera.rotation.eulerOrder = 'XYZ';
 	    //theCamera.lookAt(new THREE.Vector3(100, 100, 0));
@@ -765,12 +574,8 @@ $(document).ready(function() {
 	   // theCamera.updateProjectionMatrix();
 
 	   //==|| The Target for camera to rotate on
-<<<<<<< HEAD
 	   //	theCameraTarget = new THREE.Vector3(-45, 80, -20);
 	   	theCameraTarget = new THREE.Vector3(28, -28, 110);
-=======
-	   	theCameraTarget = new THREE.Vector3(-45, 80, -20);
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 		//==|| The World / The Scene
 		theScene = new THREE.Scene();
@@ -785,31 +590,8 @@ $(document).ready(function() {
 		addAxesPlanes();
 
 
-<<<<<<< HEAD
 		//==|| The Renderer
 		theRenderer = new THREE.WebGLRenderer( { antialias: true } );
-=======
-
-
-		//==|| The lights
-
-			/*
-			light = new THREE.DirectionalLight( 0xffffff );
-			light.position.set( 1, 1, 1 );
-			theScene.add( light );
-
-			light = new THREE.DirectionalLight( 0x002288 );
-			light.position.set( -1, -1, -1 );
-			theScene.add( light );
-
-			light = new THREE.AmbientLight( 0x222222 );
-			theScene.add( light );
-			*/
-
-
-		//==|| The Renderer
-		theRenderer = new THREE.WebGLRenderer( { antialias: false } );
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		theRenderer.setClearColor( theScene.fog.color, 1 );
 		theRenderer.setSize( theWidth, theHeight );
 
@@ -837,7 +619,6 @@ $(document).ready(function() {
 	}
 
 
-<<<<<<< HEAD
  function registerButtonPressReleaseEffects() {
 
  	$(".btn").mousedown(function(){
@@ -1409,14 +1190,9 @@ function registerDonePathButton() {
 //###################################################################################################################################### #
 //######################################################################################################################################
 	//==|| The Vector3
-=======
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
     function v(x,y,z){ 
     	return new THREE.Vector3(x,y,z); 
     }
-
-<<<<<<< HEAD
-
 
 
     //==|| Add Track ball controls
@@ -1424,12 +1200,6 @@ function registerDonePathButton() {
     	theControls = new THREE.TrackballControls(theCamera, theCameraTarget,  theRenderer.domElement);
 
 		theControls.rotateSpeed = 3.0;
-=======
-    function addTrackballControls() {
-    	theControls = new THREE.TrackballControls(theCamera, theCameraTarget,  theRenderer.domElement);
-
-		theControls.rotateSpeed = 2.0;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		theControls.zoomSpeed = 2;
 		theControls.panSpeed = 1;
 
@@ -1454,7 +1224,6 @@ function registerDonePathButton() {
 	function onWindowResize() {
 		colorTrace("On Window Resize", "Blue");
 
-<<<<<<< HEAD
 
 		theWidth = window.innerWidth;
   		theHeight = window.innerHeight;
@@ -1464,8 +1233,6 @@ function registerDonePathButton() {
 
   		$("#thePathsDetailContainer").css({"height" : theHeight - 120});
 
-=======
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		theCamera.aspect = theWidth / theHeight;
 		theCamera.updateProjectionMatrix();
 
@@ -1530,7 +1297,6 @@ function registerDonePathButton() {
    	}
 
 
-<<<<<<< HEAD
    	function checkRangesForPlanes(x, y, z) {
 
    		var redraw = false;
@@ -1736,110 +1502,38 @@ function registerDonePathButton() {
 
 		
 
-=======
-	function addAxesPlanes() {
-
-
-		drawX_Plane();
-		drawY_Plane();
-		drawZ_Plane();
-		drawArrowAxisZ();
-
-		//==|| Add the main object to the Scene
-		theScene.add(theMainObject);
-
-			
-
-
-
-		/*
-      	
-      	//==|| The Axis Names
-		var titleX = createText2D('-X');
-      	titleX.position.x = -60;
-      	theMainObject.add(titleX);
-
-      	var titleX = createText2D('X');
-      	titleX.position.x = 60;
-      	theMainObject.add(titleX);
-
-      	var titleX = createText2D('-Y');
-      	titleX.position.y = -60;
-      	theMainObject.add(titleX);
-
-      	var titleX = createText2D('Y');
-      	titleX.position.y = 60;
-      	theMainObject.add(titleX);
-
-      	var titleX = createText2D('-Z');
-      	titleX.position.z = -60;
-      	theMainObject.add(titleX);
-
-      	var titleX = createText2D('Z');
-     	titleX.position.z = 60;
-      	theMainObject.add(titleX);
-		
-		*/
-
-
-
-
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 	}
 
 
 
-<<<<<<< HEAD
 
 	function drawYZ_Plane() {
-=======
-	function drawX_Plane() {
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
       	//==|| The X Plane
 
     	//==|| The Outline Material
-<<<<<<< HEAD
       	theYZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
       			color: theYZ_PlaneOutlineMaterialColor, 
       			lineWidth: theYZ_PlaneOutlineMaterialLineWidth
-=======
-      	theX_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
-      			color: theX_PlaneOutlineMaterialColor, 
-      			lineWidth: theX_PlaneOutlineMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
       	//==|| The Gridline Material
-<<<<<<< HEAD
 		theYZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
       			color: theYZ_PlaneGridLinesMaterialColor, 
       			lineWidth: theYZ_PlaneGridLinesMaterialLineWidth
-=======
-		theX_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
-      			color: theX_PlaneGridLinesMaterialColor, 
-      			lineWidth: theX_PlaneGridLinesMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
 		//==|| the AxisLine Material
-<<<<<<< HEAD
 		theYZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
       			color: theYZ_PlaneAxisLineMaterialColor, 
       			lineWidth: theYZ_PlaneAxisLineMaterialLineWidth
-=======
-		theX_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
-      			color: theX_PlaneAxisLineMaterialColor, 
-      			lineWidth: theX_PlaneAxisLineMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
 
 		//==|| the Outline Geometry
-<<<<<<< HEAD
       	theYZ_PlaneOutlineGeo = new THREE.Geometry();
       	theYZ_PlaneOutlineGeo.vertices.push(
 
@@ -1847,33 +1541,18 @@ function registerDonePathButton() {
       		v(maxX, maxY, 0), v(maxX, maxY, theZ),
       		v(maxX, maxY, theZ), v(maxX, minY, theZ),
       		v(maxX, minY, theZ), v(maxX, minY, 0)
-=======
-      	theX_PlaneOutlineGeo = new THREE.Geometry();
-      	theX_PlaneOutlineGeo.vertices.push(
-
-      		v(minX, 0, maxZ), v(maxX, 0, maxZ),
-      		v(maxX, 0, maxZ), v(maxX, theY, maxZ),
-      		v(maxX, theY, maxZ), v(minX, theY, maxZ),
-      		v(minX, theY, maxZ), v(minX, 0, maxZ)
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
       	);
 
 
       	//==|| the Outline
-<<<<<<< HEAD
       	theYZ_PlaneOutline = new THREE.Line(theYZ_PlaneOutlineGeo, theYZ_PlaneOutlineMaterial);
       	theYZ_PlaneOutline.type = THREE.Lines;
-=======
-      	theX_PlaneOutline = new THREE.Line(theX_PlaneOutlineGeo, theX_PlaneOutlineMaterial);
-      	theX_PlaneOutline.type = THREE.Lines;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 
       	//==|| Checking how many grids are there in width, lenght and height
-<<<<<<< HEAD
       	var noOfGridsInLength = ((-1 * minY) + maxY) / theUnit;
       	var noOfGridsInHeight = (theZ / theUnit)
 
@@ -1928,117 +1607,40 @@ function registerDonePathButton() {
 
       	//==|| Adding the X-Plane to the MainObject
       	theMainObject.add(theYZ_Plane);
-=======
-      	var noOfGridsInLength = ((-1 * minX) + maxX) / theUnit;
-      	var noOfGridsInHeight = (theY / theUnit)
-
-      	//==|| The Gridlines Geometry
-		theX_PlaneGridLinesGeo = new THREE.Geometry();
-
-      	//==|| If more than 2 grids we need to draw additional lines
-      	if(noOfGridsInLength > 1){		      		
-	      	for(var value = (minX + theUnit); value <= (maxX - theUnit); value += theUnit) {
-	      		if(value != 0) {
-	      			theX_PlaneGridLinesGeo.vertices.push(
-	      				v(value, 0, maxZ), v(value, theY, maxZ)
-	      			);
-	      		}	
-	      	}
-	   	}
-
-		//==|| If more than 2 grids we need to draw additional lines
-      	if(noOfGridsInHeight > 1){		      		
-	      	for(var value = (theUnit); value <= (theY - theUnit); value += theUnit) {
-      			theX_PlaneGridLinesGeo.vertices.push(
-      				v(minX, value, maxZ), v(maxX, value, maxZ)
-      			);			      		
-	      	}
-	   	}
-
-
-      	//==|| the Gridlines
-      	theX_PlaneGridLines = new THREE.Line(theX_PlaneGridLinesGeo, theX_PlaneGridLinesMaterial);
-      	theX_PlaneGridLines.type = THREE.Lines;
-
-	   	//==|| The AxisLine Geometry
-		theX_PlaneAxisLineGeo = new THREE.Geometry();
-      	theX_PlaneAxisLineGeo.vertices.push(
-      		v(0, 0, maxZ), v(0, theY, maxZ)
-      	);
-
-      	//==|| The AxisLine
-      	theX_PlaneAxisLine = new THREE.Line(theX_PlaneAxisLineGeo, theX_PlaneAxisLineMaterial);
-      	theX_PlaneAxisLine.type = THREE.Lines;
-
-
-      	//==|| Adding axis line to the Plane Grids object  	
-      	theX_PlaneGrids.add(theX_PlaneGridLines);		      	
-      	theX_PlaneGrids.add(theX_PlaneAxisLine);
-
-      	//==|| Adding different lines in the X-Plane  
-      	theX_Plane.add(theX_PlaneOutline);
-      	theX_Plane.add(theX_PlaneGrids);
-
-      	//==|| Adding the X-Plane to the MainObject
-      	theMainObject.add(theX_Plane);
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 	}
 
 
 
-<<<<<<< HEAD
 	function drawXZ_Plane() {
-=======
-	function drawY_Plane() {
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
       	//==|| The Y Plane
 
      
 
      	//==|| The Outline Material
-<<<<<<< HEAD
       	theXZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
       			color: theXZ_PlaneOutlineMaterialColor, 
       			lineWidth: theXZ_PlaneOutlineMaterialLineWidth
-=======
-      	theY_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
-      			color: theY_PlaneOutlineMaterialColor, 
-      			lineWidth: theY_PlaneOutlineMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
       	//==|| The Gridline Material
-<<<<<<< HEAD
 		theXZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
       			color: theXZ_PlaneGridLinesMaterialColor, 
       			lineWidth: theXZ_PlaneGridLinesMaterialLineWidth
-=======
-		theY_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
-      			color: theY_PlaneGridLinesMaterialColor, 
-      			lineWidth: theY_PlaneGridLinesMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
 		//==|| the AxisLine Material
-<<<<<<< HEAD
 		theXZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
       			color: theXZ_PlaneAxisLineMaterialColor, 
       			lineWidth: theXZ_PlaneAxisLineMaterialLineWidth
-=======
-		theY_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
-      			color: theY_PlaneAxisLineMaterialColor, 
-      			lineWidth: theY_PlaneAxisLineMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
 
 		//==|| The Outline Geometry
-<<<<<<< HEAD
       	theXZ_PlaneOutlineGeo = new THREE.Geometry();
       	theXZ_PlaneOutlineGeo.vertices.push(
 
@@ -2046,33 +1648,18 @@ function registerDonePathButton() {
       		v(maxX, minY, theZ), v(minX, minY, theZ),
       		v(minX, minY, theZ), v(minX, minY, 0),
       		v(minX, minY, 0), v(maxX, minY, 0)
-=======
-      	theY_PlaneOutlineGeo = new THREE.Geometry();
-      	theY_PlaneOutlineGeo.vertices.push(
-
-      		v(minX, 0, minZ), v(minX, 0, maxZ),
-      		v(minX, 0, maxZ), v(minX, theY, maxZ),
-      		v(minX, theY, maxZ), v(minX, theY, minZ),
-      		v(minX, theY, minZ), v(minX, 0, minZ)
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
       	);
 
       	//==|| The Outline
-<<<<<<< HEAD
       	theXZ_PlaneOutline = new THREE.Line(theXZ_PlaneOutlineGeo, theXZ_PlaneOutlineMaterial);
       	theXZ_PlaneOutline.type = THREE.Lines;
-=======
-      	theY_PlaneOutline = new THREE.Line(theY_PlaneOutlineGeo, theY_PlaneOutlineMaterial);
-      	theY_PlaneOutline.type = THREE.Lines;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
       	
 
 
       	//==|| Checking how many grids are there in width, lenght and height
-<<<<<<< HEAD
       	var noOfGridsInBreadth = ((-1 * minX) + maxX) / theUnit;
       	var noOfGridsInHeight = (theZ / theUnit)
 
@@ -2097,50 +1684,17 @@ function registerDonePathButton() {
 	      		if(value > 0 && value < theZ){
 	      			theXZ_PlaneGridLinesGeo.vertices.push(
 	      				v(minX, minY, value), v(maxX, minY, value)
-=======
-      	var noOfGridsInBreadth = ((-1 * minZ) + maxZ) / theUnit;
-      	var noOfGridsInHeight = (theY / theUnit)
-
-      	//==|| The Gridlines Geometry
-		theY_PlaneGridLinesGeo = new THREE.Geometry();
-
-      	//==|| If more than 2 grids we need to draw additional lines
-      	if(noOfGridsInBreadth > 1){		      		
-	      	for(var value = (minZ + theUnit); value <= (maxZ - theUnit); value += theUnit) {
-	      		if(value != 0) {
-	      			theY_PlaneGridLinesGeo.vertices.push(
-	      				v(minX, 0, value), v(minX, theY, value)
-	      			);
-	      		}	
-	      	}
-	   	}
-
-		//==|| If more than 2 grids we need to draw additional lines
-      	if(noOfGridsInHeight > 1){		      		
-	      	//for(var value = (theUnit); value <= (theY - theUnit); value += theUnit) {
-	      	for(var value = 0; value <= theY; value += theUnit) {
-	      		if(value > 0 && value < theY){
-	      			theY_PlaneGridLinesGeo.vertices.push(
-	      				v(minX, value, minZ), v(minX, value, maxZ)
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 	      			);
 	      		}
 
 			   	var gridValue = createText2D(value + '', "#000000", "Arial", 60);
-<<<<<<< HEAD
 		     	gridValue.position.x = minX - labelMargin;
 		     	gridValue.position.y = minY;
 		     	gridValue.position.z = value;
-=======
-		     	gridValue.position.x = minX;
-		     	gridValue.position.y = value;
-		     	gridValue.position.z = minZ - labelMargin;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		      //	theMainObject.add(gridValue);
 
 
 		      	//==|| Rotating the text/label/value to level it with the Y-Plane
-<<<<<<< HEAD
 		      	//	gridValue.rotation.set(Math.PI, Math.PI/2, 0);
 
 				gridValue.rotation.set(Math.PI/2, Math.PI, Math.PI);
@@ -2154,24 +1708,11 @@ function registerDonePathButton() {
 
 	      	}
 	   //	}
-=======
-		      	gridValue.rotation.set(Math.PI, Math.PI/2, 0);
-
-		      	theY_PlaneLabels.add(gridValue);
-		      	
-		      	//var axis = new THREE.Vector3(0.5,0.5,0);
-
-		      	//theY_PlaneLabels.rotation.set(0, Math.PI, 0);
-
-	      	}
-	   	}
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 
 
       	//==|| the Gridlines
-<<<<<<< HEAD
       	theXZ_PlaneGridLines = new THREE.Line(theXZ_PlaneGridLinesGeo, theXZ_PlaneGridLinesMaterial);
       	theXZ_PlaneGridLines.type = THREE.Lines;
 
@@ -2184,26 +1725,11 @@ function registerDonePathButton() {
       	//==|| The AxisLine
       	theXZ_PlaneAxisLine = new THREE.Line(theXZ_PlaneAxisLineGeo, theXZ_PlaneAxisLineMaterial);
       	theXZ_PlaneAxisLine.type = THREE.Lines;
-=======
-      	theY_PlaneGridLines = new THREE.Line(theY_PlaneGridLinesGeo, theY_PlaneGridLinesMaterial);
-      	theY_PlaneGridLines.type = THREE.Lines;
-
-	   	//==|| The AxisLine Geometry
-		theY_PlaneAxisLineGeo = new THREE.Geometry();
-      	theY_PlaneAxisLineGeo.vertices.push(
-      		v(minX, 0, 0), v(minX, theY, 0)
-      	);
-
-      	//==|| The AxisLine
-      	theY_PlaneAxisLine = new THREE.Line(theY_PlaneAxisLineGeo, theY_PlaneAxisLineMaterial);
-      	theY_PlaneAxisLine.type = THREE.Lines;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 
 
       	//==|| Adding axis line to the Plane Grids object  	
-<<<<<<< HEAD
       	theXZ_PlaneGrids.add(theXZ_PlaneGridLines);		      	
       	theXZ_PlaneGrids.add(theXZ_PlaneAxisLine);
 
@@ -2217,27 +1743,11 @@ function registerDonePathButton() {
 
 		//==|| Adding the X-Plane to the MainObject
       	theMainObject.add(theXZ_Plane);
-=======
-      	theY_PlaneGrids.add(theY_PlaneGridLines);		      	
-      	theY_PlaneGrids.add(theY_PlaneAxisLine);
-
-      	//==|| Adding different lines in the Y-Plane
-      	theY_Plane.add(theY_PlaneOutline);
-      	theY_Plane.add(theY_PlaneGrids);
-
-
-      	//==|| Adding the labels/values in the Y-Plane
-		theY_Plane.add(theY_PlaneLabels);
-
-		//==|| Adding the X-Plane to the MainObject
-      	theMainObject.add(theY_Plane);
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 	}
 
 
 
-<<<<<<< HEAD
 	function drawXY_Plane() {
 
       	//==|| The Z Plane
@@ -2249,51 +1759,25 @@ function registerDonePathButton() {
       	theXY_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
       			color: theXY_PlaneOutlineMaterialColor, 
       			lineWidth: theXY_PlaneOutlineMaterialLineWidth
-=======
-	function drawZ_Plane() {
-
-      	//==|| The Z Plane
-     	var theZ_PlaneOutline, 		theZ_PlaneOutlineGeo, 	theZ_PlaneOutlineMaterial;
-     	var theZ_PlaneGridLines, 	theZ_PlaneGridLinesGeo, theZ_PlaneGridLinesMaterial;
-     	var theZ_PlaneAxisLine, 	theZ_PlaneAxisLineGeo, 	theZ_PlaneAxisLineMaterial;
-
-     	//==|| The Outline Material
-      	theZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
-      			color: theZ_PlaneOutlineMaterialColor, 
-      			lineWidth: theZ_PlaneOutlineMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
       	//==|| The Gridline Material
-<<<<<<< HEAD
 		theXY_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
       			color: theXY_PlaneGridLinesMaterialColor, 
       			lineWidth: theXY_PlaneGridLinesMaterialLineWidth
-=======
-		theZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
-      			color: theZ_PlaneGridLinesMaterialColor, 
-      			lineWidth: theZ_PlaneGridLinesMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
 		//==|| the AxisLine Material
-<<<<<<< HEAD
 		theXY_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
       			color: theXY_PlaneAxisLineMaterialColor, 
       			lineWidth: theXY_PlaneAxisLineMaterialLineWidth
-=======
-		theZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
-      			color: theZ_PlaneAxisLineMaterialColor, 
-      			lineWidth: theZ_PlaneAxisLineMaterialLineWidth
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
       		}
       	);
 
 
      	//==|| The Outline Geometry
-<<<<<<< HEAD
       	theXY_PlaneOutlineGeo = new THREE.Geometry();
       	theXY_PlaneOutlineGeo.vertices.push(
 
@@ -2301,27 +1785,13 @@ function registerDonePathButton() {
       		v(maxX, maxY, theZ), v(minX, maxY, theZ),
       		v(minX, maxY, theZ), v(minX, minY, theZ),
       		v(minX, minY, theZ), v(maxX, minY, theZ)
-=======
-      	theZ_PlaneOutlineGeo = new THREE.Geometry();
-      	theZ_PlaneOutlineGeo.vertices.push(
-
-      		v(minX, theY, minZ), v(minX, theY, maxZ),
-      		v(minX, theY, maxZ), v(maxX, theY, maxZ),
-      		v(maxX, theY, maxZ), v(maxX, theY, minZ),
-      		v(maxX, theY, minZ), v(minX, theY, minZ)
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
       	);
 
       	//==|| The Outline
-<<<<<<< HEAD
       	theXY_PlaneOutline = new THREE.Line(theXY_PlaneOutlineGeo, theXY_PlaneOutlineMaterial);
       	theXY_PlaneOutline.type = THREE.Lines;
-=======
-      	theZ_PlaneOutline = new THREE.Line(theZ_PlaneOutlineGeo, theZ_PlaneOutlineMaterial);
-      	theZ_PlaneOutline.type = THREE.Lines;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 
@@ -2329,7 +1799,6 @@ function registerDonePathButton() {
 
 
       	//==|| Checking how many grids are there in width, lenght and height
-<<<<<<< HEAD
       	var noOfGridsInBreadth = ((-1 * minX) + maxX) / theUnit;
       	var noOfGridsInLength = ((-1 * minY) + maxY) / theUnit;
 
@@ -2344,28 +1813,11 @@ function registerDonePathButton() {
 		      		if(value != 0) {
 		      			theXY_PlaneGridLinesGeo.vertices.push(
 		      				v(value, minY, theZ), v(value, maxY, theZ)
-=======
-      	var noOfGridsInBreadth = ((-1 * minZ) + maxZ) / theUnit;
-      	var noOfGridsInLength = ((-1 * minX) + maxX) / theUnit;
-
-      	//==|| The Gridlines Geometry
-		theZ_PlaneGridLinesGeo = new THREE.Geometry();
-
-      	//==|| If more than 2 grids we need to draw additional lines
-      	if(noOfGridsInBreadth > 1){		      		
-	      	//for(var value = (minZ + theUnit); value <= (maxZ - theUnit); value += theUnit) {
-	      	for(var value = minZ; value <= maxZ; value += theUnit) {
-	      		if(value > minZ && value < maxZ) {
-		      		if(value != 0) {
-		      			theZ_PlaneGridLinesGeo.vertices.push(
-		      				v(minX, theY, value), v(maxX, theY, value)
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		      			);
 		      		}
 		      	}
 
 		      	var gridValue = createText2D(value + '', "#000000", "Arial", 60);
-<<<<<<< HEAD
 		     	gridValue.position.x = value;
 		     	gridValue.position.y = maxY + labelMargin;
 		     	gridValue.position.z = theZ;
@@ -2419,68 +1871,12 @@ function registerDonePathButton() {
       	//==|| The AxisLine
       	theXY_PlaneAxisLine = new THREE.Line(theXY_PlaneAxisLineGeo, theXY_PlaneAxisLineMaterial);
       	theXY_PlaneAxisLine.type = THREE.Lines;
-=======
-		     	gridValue.position.x = maxX + labelMargin;
-		     	gridValue.position.y = theY;
-		     	gridValue.position.z = value;
-
-		      	//==|| Rotating the text/label/value to level it with the Y-Plane
-		      	gridValue.rotation.set(Math.PI/2, 0, 0);
-
-		      	theZ_PlaneLabels.add(gridValue);
-
-	      	}
-	   	}
-
-		//==|| If more than 2 grids we need to draw additional lines
-      	if(noOfGridsInLength > 1){		      		
-	      	//for(var value = (minX + theUnit); value <= (maxX - theUnit); value += theUnit) {
-	      	for(var value = minX + theUnit; value <= maxX; value += theUnit) {
-	      		if(value > minX && value < maxX){
-		      		if(value != 0) {
-		      			theZ_PlaneGridLinesGeo.vertices.push(
-		      				v(value, theY, maxZ), v(value, theY, minZ)
-		      			);
-		      		}
-	      		}
-
-	      		var gridValue = createText2D(value + '', "#000000", "Arial", 60);
-		     	gridValue.position.x = value;
-		     	gridValue.position.y = theY;
-		     	gridValue.position.z = minZ - labelMargin;
-
-		      	//==|| Rotating the text/label/value to level it with the Y-Plane
-		      	gridValue.rotation.set(Math.PI/2, 0, 0);
-
-		      	theY_PlaneLabels.add(gridValue);
-
-
-	      	}
-	   	}
-
-
-      	//==|| the Gridlines
-      	theZ_PlaneGridLines = new THREE.Line(theZ_PlaneGridLinesGeo, theZ_PlaneGridLinesMaterial);
-      	theZ_PlaneGridLines.type = THREE.Lines;
-
-	   	//==|| The AxisLine Geometry
-		theZ_PlaneAxisLineGeo = new THREE.Geometry();
-      	theZ_PlaneAxisLineGeo.vertices.push(
-      		v(minX, theY, 0), v(maxX, theY, 0),
-      		v(0, theY, maxZ), v(0, theY, minZ)
-      	);
-
-      	//==|| The AxisLine
-      	theZ_PlaneAxisLine = new THREE.Line(theZ_PlaneAxisLineGeo, theZ_PlaneAxisLineMaterial);
-      	theZ_PlaneAxisLine.type = THREE.Lines;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 
 
 
 
       	//==|| Adding axis line to the Plane Grids object  	
-<<<<<<< HEAD
       	theXY_PlaneGrids.add(theXY_PlaneGridLines);		      	
       	theXY_PlaneGrids.add(theXY_PlaneAxisLine);
 
@@ -2495,35 +1891,13 @@ function registerDonePathButton() {
 
       	//==|| Adding the X-Plane to the MainObject
       	theMainObject.add(theXY_Plane);
-=======
-      	theZ_PlaneGrids.add(theZ_PlaneGridLines);		      	
-      	theZ_PlaneGrids.add(theZ_PlaneAxisLine);
-
-      	//==|| Adding different lines in the Z-Plane
-      	theZ_Plane.add(theZ_PlaneOutline);
-      	theZ_Plane.add(theZ_PlaneGrids);
-
-
-		//==|| Adding the labels/values in the Z-Plane
-      	theZ_Plane.add(theZ_PlaneLabels);
-
-
-      	//==|| Adding the X-Plane to the MainObject
-      	theMainObject.add(theZ_Plane);
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 	}
 
 
-<<<<<<< HEAD
 	function drawArrowNorth() {
 
 		
-=======
-	function drawArrowAxisZ() {
-
-		var arrowAxisZ, arrowAxisZmaterial, arrowAxisZgeo;
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 		//==|| The Outline Material
       	arrowAxisZmaterial = new THREE.LineBasicMaterial( {
@@ -2533,7 +1907,6 @@ function registerDonePathButton() {
       	);
 
 
-<<<<<<< HEAD
       	var midX = (maxX + minX) / 2; 
       	var arrowAxisZ_Margin = 50;
 
@@ -2546,29 +1919,15 @@ function registerDonePathButton() {
       	colorTrace("midX = " +  midX + "  halfLength = " + halfLength + " minX = " + minX + " maxX = " + maxX + "Green");
       	//halfLength = theUnit
 
-=======
-      	var midZ = maxZ + minZ; 
-      	var arrowAxisZ_Margin = 50;
-
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		//==|| The Outline Geometry
       	var arrowAxisZgeo = new THREE.Geometry();
       	arrowAxisZgeo.vertices.push(
 
-<<<<<<< HEAD
       		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX - halfLength,  maxY + arrowAxisZ_Margin, theZ),
       		v(midX - halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX - halfLength,  maxY + arrowAxisZ_Margin - 10, theZ),
       		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ),
       		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin - 10, theZ),
       		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin + 10, theZ)
-=======
-      		v(maxX + arrowAxisZ_Margin, theY, midZ), v(maxX + arrowAxisZ_Margin, theY, midZ - 30),
-      		v(maxX + arrowAxisZ_Margin, theY, midZ - 30), v(maxX + arrowAxisZ_Margin - 10, theY, midZ - 30),
-      		v(maxX + arrowAxisZ_Margin, theY, midZ), v(maxX + arrowAxisZ_Margin, theY, midZ + 30),
-      		v(maxX + arrowAxisZ_Margin, theY, midZ + 30), v(maxX + arrowAxisZ_Margin - 10, theY, midZ + 10),
-      		v(maxX + arrowAxisZ_Margin, theY, midZ + 30), v(maxX + arrowAxisZ_Margin + 10, theY, midZ + 10)
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
-
 
       	);
 
@@ -2582,7 +1941,6 @@ function registerDonePathButton() {
 	}
 
 
-<<<<<<< HEAD
 	function drawLinesToOrigin() {
 
 		//==|| The Lines to Origin Material
@@ -2613,8 +1971,6 @@ function registerDonePathButton() {
 
 	}
 
-=======
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
 	function createScreenCenter(x, y, z, centerSignLength) {
 
@@ -2665,9 +2021,4 @@ function registerDonePathButton() {
 
 
 
-<<<<<<< HEAD
-
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59

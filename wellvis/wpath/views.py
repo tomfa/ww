@@ -12,8 +12,8 @@ def home(request):
     }
 
     generate_sidepanel(context, request)
+    context['headline'] = "wPath"
 
-<<<<<<< HEAD
     return render(request, 'wellvis/home.html', context)
 
 
@@ -26,8 +26,6 @@ def test(request):
         'thisDataFormat':'THIS IS WPATH',
         'cake':'THIS IS WPATH'
     }
-=======
     context['headline'] = "wPath"
->>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
     return render(request, 'wpath/3D_View.html', context)

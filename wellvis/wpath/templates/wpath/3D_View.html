@@ -1,6 +1,7 @@
 {% extends "base/main.html" %}
 
 {% block content %}
+
 	
 	<div id="theMainContainer">
 
@@ -62,11 +63,13 @@
 	</div>
 
 
+
 {% endblock %}
 
 {% block styles %}
-
+	
 		<style>
+
 #theMainContainer {
 	color: #000;
 	font-family:Monospace;
@@ -86,7 +89,7 @@
 #theContainer {
 	float: left;
 	
-	border: 1px solid #aaa;
+	border: 1px solid #000000;
 }
 
 
@@ -200,7 +203,7 @@
 				
 #theControlButtonsContainer {
 	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
-	height: 40px;
+	height: 34px;
 	border: 1px solid #000;
 	padding: 5px 10px 1px 10px;
 }
@@ -209,7 +212,6 @@
 	border-radius: 3px;
 	height: 27px;
 	float: left;
-	padding: 0px 12px;
 }
 	.activeBtn {
 		background: #ccc;
@@ -288,6 +290,8 @@
 		<!--<script src="{{ STATIC_URL }}/js/jquery-2.0.3.min.js"></script>-->
 		<script src="{{ STATIC_URL }}/js/jquery-ui.js"></script>
 
+
+
 <script type="text/javascript">
 	//==< for browser logs >===
 	function colorTrace(msg, color) {
@@ -304,43 +308,33 @@
 
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
+	//==|| The Main Variables
 	var theContainer = $('#theContainer');
 	var stats;
 
-	var theCamera, theControls, theScene, theRenderer;
+	var theCamera;
 	var theCameraTarget;
 
-	var theWidth = window.innerWidth;
-  	var theHeight = window.innerHeight;
+	var theControls;
+
+	var theScene;
+	var theSceneColor = "#eee";//"Black"; //0x000000;
+
+	var theRenderer;
+
+	//==|| The Browser window/screen dimension
+	var theScreenWidth = window.innerWidth;
+  	var theScreenHeight = window.innerHeight;
   	
-
-
-/*
-
-		userWindowWidth = $(window).width();
-		userWindowHeight = $(window).height();
-		
-		//colorTrace("userWindowHeight = " + userWindowHeight, "Red");
-		
-		var topPanelHeight = $("#topPanel").height();
-		
-		var newWidth = userWindowWidth - 40;
-		
-		$("#mainDIV").css({ "height" : userWindowHeight});
-		$("#mainMapContainer").css({ "height" : userWindowHeight - topPanelHeight - 30});
-		
-		//===|| The popout big container should be at the top of the screen
-		$("#thePoppedOutContainer").css({"top" : "-" + userWindowHeight + "px" });
-		
-	*/
+  	colorTrace("theScreen Dimension = " + theScreenWidth + " X " + theScreenHeight, "Green");
 
   	//=========================================================
    	//==|| The Default Values ||===============================
    	//=========================================================
 
-   	colorTrace("The width is " +  theWidth, "Blue");
-   	theWidth = theWidth - 787//435; //581
-   //	theHeight = 500;
+   	var theWidth 	= theScreenWidth - 435; //418
+   	var theHeight 	= theScreenHeight - 59; 
+  	//theHeight = theHeight - 40;
 
 	//==|| The Axes-Plane Ranges
    	var minY = -100, 
@@ -491,7 +485,11 @@ $(document).ready(function() {
 	//render();
 	//animate();
 
-	$("#thePathsDetailContainer").css({"height" : theHeight});
+	$("#thePathsDetailContainer").css({"height" : theHeight + 2});
+
+	$("#theContainer").css({"width" :  theWidth });
+	$("#theContainer").css({"height" :  theHeight});
+
 
 
 	//===< turn them into jQuery buttons >===
@@ -579,7 +577,7 @@ $(document).ready(function() {
 
 		//==|| The World / The Scene
 		theScene = new THREE.Scene();
-		theScene.fog = new THREE.FogExp2( 0xEEEEEE, 0.0002 );
+		theScene.fog = new THREE.FogExp2( theSceneColor, 0.0002 );
 
 
 		//==|| Create a sign at the center of the screen
@@ -1195,6 +1193,8 @@ function registerDonePathButton() {
     }
 
 
+
+
     //==|| Add Track ball controls
     function addTrackballControls() {
     	theControls = new THREE.TrackballControls(theCamera, theCameraTarget,  theRenderer.domElement);
@@ -1225,13 +1225,18 @@ function registerDonePathButton() {
 		colorTrace("On Window Resize", "Blue");
 
 
-		theWidth = window.innerWidth;
-  		theHeight = window.innerHeight;
-  	
-  		$("#theContainer").css({"width" :  theWidth - 787});
-  		$("#theContainer").css({"height" :  theHeight - 180});
+		theScreenWidth = window.innerWidth;
+  		theScreenHeight = window.innerHeight;
 
-  		$("#thePathsDetailContainer").css({"height" : theHeight - 120});
+   		theWidth 	= theScreenWidth - 435;
+   		theHeight 	= theScreenHeight - 59; 
+  	
+
+  		$("#thePathsDetailContainer").css({"height" : theHeight + 2});
+
+  		$("#theContainer").css({"width" :  theWidth});
+  		$("#theContainer").css({"height" :  theHeight});
+
 
 		theCamera.aspect = theWidth / theHeight;
 		theCamera.updateProjectionMatrix();
@@ -1928,6 +1933,7 @@ function registerDonePathButton() {
       		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ),
       		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin - 10, theZ),
       		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin + 10, theZ)
+
 
       	);
 

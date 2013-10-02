@@ -42,10 +42,12 @@ THREE.TrackballControls = function ( object, target, domElement) {
 
 	this.target = target; //new THREE.Vector3(-45, 80, -20);
 
+
 	//==|| The deviation in the target
 	this.targetXdev = this.target.x;
 	this.targetYdev = this.target.y;
 	this.targetZdev = this.target.z;
+
 
 	var lastPosition = new THREE.Vector3();
 
@@ -255,15 +257,20 @@ THREE.TrackballControls = function ( object, target, domElement) {
 			}
 
 			//colorTrace("panning", "Red");
-			colorTrace("x = " +  _this.target.x, "Red");
-			colorTrace("y = " +  _this.target.y, "Green");
-			colorTrace("z = " +  _this.target.z, "Blue");
+			//colorTrace("x = " +  _this.target.x, "Red");
+			//colorTrace("y = " +  _this.target.y, "Green");
+			//colorTrace("z = " +  _this.target.z, "Blue");
 
 			//==|| Update the Screen Center
+
 			//updateScreenCenter( _this.target.x + 45,  _this.target.y - 80,  _this.target.z + 20);
 
 			//==|| Fixing the deviation in the target 
 			updateScreenCenter( _this.target.x - this.targetXdev,  _this.target.y - this.targetYdev,  _this.target.z - this.targetZdev);
+
+			//updateScreenCenter( _this.target.x + 45,  _this.target.y - 80,  _this.target.z + 20);
+
+
 
 		}
 
@@ -446,12 +453,17 @@ THREE.TrackballControls = function ( object, target, domElement) {
 
 		}
 
-
+/*
+>>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 		//colorTrace("Mouse Moved", "Green");
 		colorTrace("x : " +  theCamera.position.x, "Blue");
 		colorTrace("y : " +  theCamera.position.y, "Green");
 		colorTrace("z : " +  theCamera.position.z, "Red");
 		colorTrace("-----------", "Black");
+<<<<<<< HEAD
+
+=======
+*/
 
 
 

@@ -9,6 +9,7 @@ def home(request):
     showing a demo of the software, contact info and such.
     """
     context = {
+<<<<<<< HEAD
         'thisDataFormat':'JSON',
         'cake':'is Always Good',
         'page_title': "Homesweethome",
@@ -18,6 +19,13 @@ def home(request):
         add_sidepanel_to_context(context, request.COOKIES.get('sidepanel_type'), request.COOKIES.get('sidepanel_id'), hidden=request.COOKIES.get('sidepanel_hidden'))
     except:
         pass
+=======
+    }
+
+    generate_sidepanel(context, request)
+
+    context['page_title'] = "Drilling made simply secure"
+>>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
     return render(request, 'wellvis/home.html', context)
 
@@ -30,10 +38,17 @@ def view_country(request, countryid):
     add_sidepanel_to_context(context, "country", countryid, hidden=request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/country.html', context)
+<<<<<<< HEAD
 
     response.set_cookie("sidepanel_type", value='country', max_age=None, expires=None, path='/', domain=None, secure=None, httponly=False)
     response.set_cookie("sidepanel_id", value=countryid, max_age=None, expires=None, path='/', domain=None, secure=None, httponly=False)
 
+=======
+
+    response.set_cookie("sidepanel_type", value='country', max_age=None, expires=None, path='/', domain=None, secure=None, httponly=False)
+    response.set_cookie("sidepanel_id", value=countryid, max_age=None, expires=None, path='/', domain=None, secure=None, httponly=False)
+
+>>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
     return response
 
 
@@ -66,7 +81,10 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
     Adds sidepanel with selected project based on cookies.
     Issue: Will give 404-page if you delete a project saved in cookies
     '''
+<<<<<<< HEAD
 
+=======
+>>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
     
 
     if type == None:

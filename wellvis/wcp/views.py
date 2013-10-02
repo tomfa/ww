@@ -15,5 +15,9 @@ def home(request):
     
     generate_sidepanel(context, request)
 
+<<<<<<< HEAD
+=======
+    context['headline'] = "wControlPanel"
+>>>>>>> 90e178fd6a0a25a35cce64da586c75eb2408fd59
 
     return render(request, 'wellvis/home.html', context)

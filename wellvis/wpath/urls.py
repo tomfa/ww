@@ -7,10 +7,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'wpath.views.home', name='home'),
-	url(r'^test/', 'wpath.views.test', name='test'),
-
-
-
 )
 
 urlpatterns += staticfiles_urlpatterns()

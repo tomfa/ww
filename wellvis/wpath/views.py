@@ -11,21 +11,7 @@ def home(request):
     context = {
     }
 
-    generate_sidepanel(context, request)
-    context['headline'] = "wPath"
-
-    return render(request, 'wellvis/home.html', context)
-
-
-def test(request):
-    """
-    Test
-    """
-    context = {
-        # This dataformat is JSON
-        'thisDataFormat':'THIS IS WPATH',
-        'cake':'THIS IS WPATH'
-    }
+    context['sidepanel_hidden'] = "1"
     context['headline'] = "wPath"
 
     return render(request, 'wpath/3D_View.html', context)

@@ -1,4 +1,4 @@
-{% extends "base/main.html" %}
+{% extends "base/full_view.html" %}
 
 {% block content %}
 
@@ -1232,16 +1232,16 @@ function registerDonePathButton() {
 		theScreenWidth = window.innerWidth;
   		theScreenHeight = window.innerHeight;
 
-		theOtherPortion = 25/100*theScreenWidth;
+		theOtherPortion = 0; //25/100*theScreenWidth;
    		
-   		theWidth 	= theScreenWidth - 435 - theOtherPortion - 8;
-   		theHeight 	= theScreenHeight - 59 - 128; 
+   		theWidth 	= theScreenWidth - 435 - 12;
+   		theHeight 	= theScreenHeight - 59 - 111; 
   	
 
   		$("#thePathsDetailContainer").css({"height" : theHeight + 2});
 
   		$("#theContainer").css({"width" :  theWidth});
-  		$("#theContainer").css({"height" :  theHeight});
+  		$("#theContainer").css({"height" :  theHeight -2 });
 
 
 		theCamera.aspect = theWidth / theHeight;

@@ -75,6 +75,7 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         selected_country = Country.objects.filter(pk=id)
         if not selected_country:
             return add_sidepanel_to_context(context)
+        selected_country = selected_country[0]
         fields = Field.objects.filter(country=selected_country)
 
         newcontext = {
@@ -87,6 +88,7 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         selected_field = Field.objects.filter(pk=id)
         if not selected_field:
             return add_sidepanel_to_context(context)
+        selected_field = selected_field[0]
         selected_country = selected_field.country
         platforms = Platform.objects.filter(field=selected_field)
 
@@ -101,6 +103,7 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         selected_platform = Platform.objects.filter(pk=id)
         if not selected_platform:
             return add_sidepanel_to_context(context)
+        selected_platform = selected_platform[0]
         selected_field = selected_platform.field
         selected_country = selected_field.country
         wells = Well.objects.filter(platform=selected_platform)
@@ -117,6 +120,7 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         selected_well = Well.objects.filter(pk=id)
         if not selected_well:
             return add_sidepanel_to_context(context)
+        selected_well = selected_well[0]
         selected_platform = selected_well.platform
         selected_field = selected_platform.field
         selected_country = selected_field.country

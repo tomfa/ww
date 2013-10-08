@@ -65,10 +65,6 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
     Issue: Will give 404-page if you delete a project saved in cookies
     '''
     
-    print type
-    print id
-    print hidden    
-
     if type == None:
         countries = Country.objects.all()
         newcontext = {

@@ -49,9 +49,12 @@ def view_field(request, fieldid):
 
 def generate_sidepanel(context, request):
     if (request):
-        type = request.COOKIES.get('sidepanel_type')
-        id = request.COOKIES.get('sidepanel_id')
-        hidden = request.COOKIES.get('sidepanel_hidden')
+        try:
+            type = request.COOKIES.get('sidepanel_type')
+            id = request.COOKIES.get('sidepanel_id')
+            hidden = request.COOKIES.get('sidepanel_hidden')
+        except:
+            type = id = hidden = None
     return add_sidepanel_to_context(context, type, id, hidden)
 
 
@@ -62,6 +65,9 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
     Issue: Will give 404-page if you delete a project saved in cookies
     '''
     
+    print type
+    print id
+    print hidden    
 
     if type == None:
         countries = Country.objects.all()
@@ -70,7 +76,9 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         }
 
     elif type == "country":
-        selected_country = get_object_or_404(Country, pk=id)
+        selected_country = Country.objects.filter(pk=id)
+        if not selected_country:
+            return add_sidepanel_to_context(context)
         fields = Field.objects.filter(country=selected_country)
 
         newcontext = {
@@ -80,7 +88,9 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         }
         
     elif type == "field":
-        selected_field = get_object_or_404(Field, pk=id)
+        selected_field = Field.objects.filter(pk=id)
+        if not selected_field:
+            return add_sidepanel_to_context(context)
         selected_country = selected_field.country
         platforms = Platform.objects.filter(field=selected_field)
 
@@ -92,7 +102,9 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         }
 
     elif type == "platform":
-        selected_platform = get_object_or_404(Platform, pk=id)
+        selected_platform = Platform.objects.filter(pk=id)
+        if not selected_platform:
+            return add_sidepanel_to_context(context)
         selected_field = selected_platform.field
         selected_country = selected_field.country
         wells = Well.objects.filter(platform=selected_platform)
@@ -106,7 +118,9 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
         }
 
     elif type == "well":
-        selected_well = get_object_or_404(Well, pk=id)
+        selected_well = Well.objects.filter(pk=id)
+        if not selected_well:
+            return add_sidepanel_to_context(context)
         selected_platform = selected_well.platform
         selected_field = selected_platform.field
         selected_country = selected_field.country

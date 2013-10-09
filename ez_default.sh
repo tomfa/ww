@@ -6,9 +6,11 @@
 #  require some code changes. git has to have set default upstream
 #
 #  HOW TO CONFIGURE:
+#  0. If this is ez_default, copy this file to one called ez.sh. 
+#     Configure that one instead of this one.
 #  1. in terminal, write
-#  alias ez="sh <path to this file>" 
-#  2. change port variable to your port   
+#     alias ez="sh <path to this file>" 
+#  2. change port variable to your port (82: tintin, 83: pawan, 84: tina)
 port=81
 #  3. set configured to 1
 configured=0
@@ -39,14 +41,14 @@ if [ "$configured" = "0" ]; then
     exit 0;
 fi
 
-if [ -f "$1" ]; then
-    echo "argument 1 exists";
+if [ "$1" = "start" ]; then
+    sudo python wellvis/manage.py runserver 0.0.0.0:$port
+    exit 0;
 fi
 
 if [ "$1" = "commit" ]; then
     if [ "$2" ]; then
-        #git commit -a -m $commit_msg
-        echo "I TRIGGERED COMMIT with msg $2";    
+        git commit -a -m "$2"
         exit 0;
     fi
     echo "Please provide a message with your commit. Remember to include [#TASKID]";
@@ -54,7 +56,8 @@ if [ "$1" = "commit" ]; then
 fi
 
 if [ "$1" = "env" ]; then
-    source env/bin/activate
+    echo "To activate env, please type source env/bin/activate when standing in:"
+    pwd
     exit 0;
 fi
 
@@ -69,21 +72,21 @@ if [ "$1" = "pull" ]; then
 fi
 
 if [ "$1" = "sync" ]; then
-    #python wellvis/manage.py syncdb
-    echo "I TRIGGERED sync";
+    python wellvis/manage.py syncdb
     exit 0;
 fi
 
 echo  "HOW TO USE:";
 echo  "ez commit <message>";
-echo  "     will commit to repository";
-echo  "ez pull ";
-echo  "     will get latest version from repository";
-echo  "ez push";
-echo  "     will push your commits to server";
+echo  "     will commit to repository. Remember to include [#TASKID] in message";
+echo  "ez pull [repository] [branch]";
+echo  "     will get latest version from repository. If repository and branch is omitted, it will use default stream.";
+echo  "ez push [repository] [branch]";
+echo  "     will push your commits to origin master. If repository and branch is omitted, it will use default stream.";
 echo  "ez env";
-echo  "     will activate environment if not activated";
+echo  "     will tell you how to activate env (cannot be simplified properly)";
 echo  "ez sync";
-echo  "     will sync datamodel changes to database. ";
-echo  "     This might still be buggy";
+echo  "     will sync datamodel changes to database.";
+echo  "ez start";
+echo  "     will start the server.";
 exit 0;

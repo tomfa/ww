@@ -15,45 +15,66 @@
 
 		</div>
 
+		<div id="theLeftPanel">
+			<div id="theTabs">
+				<ul>
+					<li><a href="#theTabs-1">Well Paths</a></li>
+					<li><a href="#theTabs-2">Configuration</a></li>
+				</ul>
+				<div id="theTabs-1">   
+					<div id="thePathsDetailContainer">
+						<div id="theAddPathHeader">
+							<div class="divMD headerMD">X</div>
+							<div class="divINC headerINC">Y</div>
+							<div class="divAZI headerAZI">Z</div>
+							<div class="divEmpty headerEmpty"></div>
+						</div>
+						<div id="theAddPathContainer">
 
-		<div id="thePathsDetailContainer">
-			<div id="theAddPathHeader">
-				<div class="divMD headerMD">X</div>
-				<div class="divINC headerINC">Y</div>
-				<div class="divAZI headerAZI">Z</div>
-				<div class="divEmpty headerEmpty"></div>
+							<div id="wellPathInfoBoxContainer_000" class="wellPathInfoBoxContainer">
+								<div class="wellPathInputBoxContainer divMD">
+									<input id="valueMD_000" type="text" name="valueMD" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divINC">
+									<input id="valueINC_000" type="text" name="valueINC" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divAZI">
+									<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divAddPathBtn">
+									<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
+										<span class"">Add</span>
+									</button>
+								</div>
+								<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">
+									<button id="editPathBtn_000" class="btn addEditPathBtn editPathBtn">
+										<span class"">Edit</span>
+									</button>
+								</div>
+								<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">
+									<button id="donePathBtn_000" class="btn addEditPathBtn donePathBtn">
+										<span class"">Done</span>
+									</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div id="theTabs-2">
+					<div id="theConfigurationPanel">
+
+					</div>
+				</div>
 			</div>
-			<div id="theAddPathContainer">
-
-			 	<div id="wellPathInfoBoxContainer_000" class="wellPathInfoBoxContainer">
-					<div class="wellPathInputBoxContainer divMD">
-						<input id="valueMD_000" type="text" name="valueMD" size="10"/>
-					</div>
-					<div class="wellPathInputBoxContainer divINC">
-						<input id="valueINC_000" type="text" name="valueINC" size="10"/>
-					</div>
-					<div class="wellPathInputBoxContainer divAZI">
-						<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
-					</div>
-					<div class="wellPathInputBoxContainer divAddPathBtn">
-						<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
-							<span class"">Add</span>
-						</button>
-					</div>
-					<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">
-						<button id="editPathBtn_000" class="btn addEditPathBtn editPathBtn">
-							<span class"">Edit</span>
-						</button>
-					</div>
-					<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">
-						<button id="donePathBtn_000" class="btn addEditPathBtn donePathBtn">
-							<span class"">Done</span>
-						</button>
-					</div>
-			 	</div>
-
+			
+			<div id="showHideLeftPanelButtonContainer">
+				<button id="showHideLeftPanelBtn" class="btn" >Hide</button>
 			</div>
-		</div>
+	
+
+	 	</div>
+		
 
 		
 		<!-- The Container  -->
@@ -62,13 +83,13 @@
 
 	</div>
 
-
-
 {% endblock %}
 
 {% block styles %}
-	
-		<style>
+
+<link type="text/css" rel="stylesheet"  href="{{ STATIC_URL }}/css/dark-hive/jquery-ui-1.10.3.custom.min.css" />
+
+	<style>
 
 #theMainContainer {
 	color: #000;
@@ -86,11 +107,108 @@
 	width: 100%;
 }
 
-#theContainer {
-	float: left;
-	
-	border: 1px solid #000000;
+
+#theControlButtonsContainer {
+	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
+	height: 40px;
+	border: 1px solid #000;
+	padding: 5px 10px 1px 10px;
 }
+
+	.btn {
+		border-radius: 3px;
+		height: 30px;
+		float: left;
+	}
+		.activeBtn {
+			background: #ccc;
+			background: -webkit-gradient(linear, center bottom, center top, from(#FDFDFD), to(#C7C7C7) );
+			background: -moz-linear-gradient(90deg, #FDFDFD, #C7C7C7);
+			color: #000;
+		    cursor: pointer;
+		    border-top: solid 2px #eaeaea;
+		    border-left: solid 2px #eaeaea;
+		    border-bottom: solid 2px #777;
+		    border-right: solid 2px #777;
+		}
+
+		.inactiveBtn {
+			color:#888;
+		    background: #bbb;
+		    border-top: solid 2px #777;
+		    border-left: solid 2px #777;
+		    border-bottom:solid 2px  #eaeaea;
+		    border-right: solid 2px #eaeaea;		
+		}
+
+
+
+
+		.addEditPathBtn {
+			width: 70px;
+			height: 30px;
+			margin: 3px;
+			padding: 0;
+			background: #A0A2F3;
+			font-weight: bold;
+			color: #ddd;
+
+			background: #2e68f2; /* Old browsers */
+			background: -moz-linear-gradient(top,  #2e68f2 0%, #7db9e8 0%, #8195ef 0%, #1e5799 100%, #207cca 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e68f2), color-stop(0%,#7db9e8), color-stop(0%,#8195ef), color-stop(100%,#1e5799), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* IE10+ */
+			background: linear-gradient(to bottom,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e68f2', endColorstr='#207cca',GradientType=0 ); /* IE6-9 */
+
+
+			border-top: 1px solid #6C7292;
+			border-right: 1px solid #333333;
+			border-bottom: 2px solid #333;
+			border-left: 1px solid #5255AA;
+			
+		}
+
+		.pressedBtn {
+
+			border-top: 2px solid #4F5785;
+			border-right: 1px solid #708DDA;
+			border-bottom: 1px solid #6F6363;
+			border-left: 1px solid #1d1d1d;
+
+			
+		}
+
+#theLeftPanel {
+	float: left;
+}
+
+#showHideLeftPanelButtonContainer {
+	float: left;
+	position: absolute;
+	left: 418px;
+	margin-top: 7px;
+}
+
+	#showHideLeftPanelBtn {
+		border-radius: 0px 5px 5px 0px;
+		background: #0972a5;
+		border: 1px solid #000;
+	}
+
+
+#theTabs {
+	float: left;
+	border: 0px;
+	border-radius: 0;
+	background: #000;
+}	
+	
+	#theTabs-1, #theTabs-2 { 
+		padding: 0;
+	}
+
 
 
 #thePathsDetailContainer {
@@ -200,79 +318,36 @@
 					.divDonePathBtn {
 						width: 75px;
 					}
-				
-#theControlButtonsContainer {
-	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
-	height: 40px;
-	border: 1px solid #000;
-	padding: 5px 10px 1px 10px;
-}
+	
 
-.btn {
-	border-radius: 3px;
-	height: 27px;
+#theConfigurationPanel {
+	height: 100px;
+	width: 400px;
 	float: left;
-	padding: 0px 8px;
+	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
+	overflow: auto;
+
+	border-top: 1px solid #000;
 }
-	.activeBtn {
-		background: #ccc;
-		background: -webkit-gradient(linear, center bottom, center top, from(#FDFDFD), to(#C7C7C7) );
-		background: -moz-linear-gradient(90deg, #FDFDFD, #C7C7C7);
-		color: #000;
-	    cursor: pointer;
-	    border-top: solid 2px #eaeaea;
-	    border-left: solid 2px #eaeaea;
-	    border-bottom: solid 2px #777;
-	    border-right: solid 2px #777;
-	}
 
-	.inactiveBtn {
-		color:#888;
-	    background: #bbb;
-	    border-top: solid 2px #777;
-	    border-left: solid 2px #777;
-	    border-bottom:solid 2px  #eaeaea;
-	    border-right: solid 2px #eaeaea;		
-	}
+
+#theContainer {
+	float: left;
+	
+	border: 1px solid #000000;
+}
 
 
 
 
-	.addEditPathBtn {
-		width: 70px;
-		height: 30px;
-		margin: 3px;
-		padding: 5px 0;
-		background: #A0A2F3;
-		font-weight: bold;
-		color: #ddd;
 
-		background: #2e68f2; /* Old browsers */
-		background: -moz-linear-gradient(top,  #2e68f2 0%, #7db9e8 0%, #8195ef 0%, #1e5799 100%, #207cca 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e68f2), color-stop(0%,#7db9e8), color-stop(0%,#8195ef), color-stop(100%,#1e5799), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* W3C */
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e68f2', endColorstr='#207cca',GradientType=0 ); /* IE6-9 */
+/*#######################################################*/
+/*############ modifying jQuery UI ######################*/
+/*#######################################################*/
 
-
-		border-top: 1px solid #6C7292;
-		border-right: 1px solid #333333;
-		border-bottom: 2px solid #333;
-		border-left: 1px solid #5255AA;
-		
-	}
-
-	.pressedBtn {
-
-		border-top: 2px solid #4F5785;
-		border-right: 1px solid #708DDA;
-		border-bottom: 1px solid #6F6363;
-		border-left: 1px solid #1d1d1d;
-
-		
-	}
+.ui-state.focus {
+	border: 0px solid #000;
+}
 
 
 		</style>
@@ -304,6 +379,7 @@
 
 
 </script>
+
 <script type="text/javascript">
 
 
@@ -319,7 +395,7 @@
 	var theControls;
 
 	var theScene;
-	var theSceneColor = "#eee";//"Black"; //0x000000;
+	var theSceneColor = "#000";//"Black"; //0x000000;
 
 	var theRenderer;
 
@@ -333,9 +409,63 @@
    	//==|| The Default Values ||===============================
    	//=========================================================
 
-   	var theOtherPortion = 30/100*theScreenWidth;
-   	var theWidth 	= theScreenWidth - 435; //418
-   	var theHeight 	= theScreenHeight - 59; 
+
+	var theJSONobject = {
+		minX	: -100,
+		maxX	: 100,
+		minY	: -100,
+		maxY	: 100,
+		theZ 	: 150,
+		theUnit : 50,
+		theValues : [
+			{
+				theMD 	: 100,
+				theINC 	: 0.1,
+				theAZI	: 0.1,
+				theX 	: 10,
+				theY 	: 10,
+				theZ 	: 10,
+				thePoints :[
+					{
+						x 	: 10,
+						y 	: 10,
+						z 	: 10
+					},
+					{
+						x 	: 20,
+						y 	: 20,
+						z 	: 20
+					}
+
+				]
+			},
+			{
+				theMD 	: 200,
+				theINC 	: 0.1,
+				theAZI	: 0.1,
+				theX 	: 20,
+				theY 	: 20,
+				theZ 	: 20,
+				thePoints :[
+					{
+						x 	: 30,
+						y 	: 30,
+						z 	: 30
+					},
+					{
+						x 	: 40,
+						y 	: 40,
+						z 	: 40
+					}
+
+				]
+			}
+
+		] 
+	};
+
+   	var theWidth 	= theScreenWidth - 446 - 8; //418
+   	var theHeight 	= theScreenHeight - 60 - 100; 
   	//theHeight = theHeight - 40;
 
 	//==|| The Axes-Plane Ranges
@@ -428,6 +558,8 @@
    	//==|| The state of the well paths 
    	var wellPathIsVisible = true;
 
+   	//==|| The state of the Left Panel
+   	var leftPanelIsVisible = true;
 
 
    	//==|| The center cursor/sign 
@@ -487,7 +619,8 @@ $(document).ready(function() {
 	//render();
 	//animate();
 
-	$("#thePathsDetailContainer").css({"height" : theHeight + 2});
+	$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
+	$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
 
 	$("#theContainer").css({"width" :  theWidth });
 	$("#theContainer").css({"height" :  theHeight});
@@ -499,6 +632,11 @@ $(document).ready(function() {
 		$(this).button({});
 	});
 
+
+
+	$(function() {
+		$( "#theTabs" ).tabs();
+	});
 
 	//=========================
 	//==|| Toggle Buttons ||===
@@ -521,7 +659,11 @@ $(document).ready(function() {
 	registerToggleWellPath();
 
 
+	//==|| Register the Toggle button event listener
+	registerToggleShowHideLeftPanel();
 
+
+	//==|| Register the button press and release effect
 	registerButtonPressReleaseEffects();
 
 	//==|| Register the Add path button event listener
@@ -612,8 +754,6 @@ $(document).ready(function() {
 		stats.domElement.style.zIndex = 100;
 		//theContainer.append( stats.domElement ); //==|| Not showing the stats for now
 
-
-		onWindowResize();
 
 		//==|| On window resize
 		window.addEventListener( 'resize', onWindowResize, false );
@@ -732,6 +872,34 @@ $(document).ready(function() {
 
 
 	}
+
+
+function registerToggleShowHideLeftPanel(){
+	$("#showHideLeftPanelBtn").click(function (){
+			if(leftPanelIsVisible) {
+				leftPanelIsVisible = false;
+
+				$("#theTabs").css({"display":"none"});
+				$("#showHideLeftPanelButtonContainer").css({"left":"15px"});
+				$("#showHideLeftPanelBtn").find(".ui-button-text").text("Show");
+
+			}
+			else {
+				leftPanelIsVisible = true;
+				$("#theTabs").css({"display":"block"});
+				$("#showHideLeftPanelButtonContainer").css({"left":"418px"});
+				$("#showHideLeftPanelBtn").find(".ui-button-text").text("Hide");
+
+
+
+			}
+
+			onWindowResize();
+
+	});
+
+}
+
 
 
 function registerTogglePlanes(){	
@@ -1225,6 +1393,7 @@ function registerDonePathButton() {
 
     }	
 
+
 	function onWindowResize() {
 		colorTrace("On Window Resize", "Blue");
 
@@ -1232,16 +1401,20 @@ function registerDonePathButton() {
 		theScreenWidth = window.innerWidth;
   		theScreenHeight = window.innerHeight;
 
-		theOtherPortion = 0; //25/100*theScreenWidth;
-   		
-   		theWidth 	= theScreenWidth - 435 - 12;
-   		theHeight 	= theScreenHeight - 59 - 111; 
-  	
+  		theHeight 	= theScreenHeight - 60 - 100; 
 
-  		$("#thePathsDetailContainer").css({"height" : theHeight + 2});
+  		if(leftPanelIsVisible){
+   			theWidth 	= theScreenWidth - 446 - 8;   		
+  		}
+  		else {
+  			theWidth 	= theScreenWidth - 8;
+  		}
+
+  		$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
+  		$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
 
   		$("#theContainer").css({"width" :  theWidth});
-  		$("#theContainer").css({"height" :  theHeight -2 });
+  		$("#theContainer").css({"height" :  theHeight});
 
 
 		theCamera.aspect = theWidth / theHeight;

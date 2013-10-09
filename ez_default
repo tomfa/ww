@@ -1,0 +1,89 @@
+
+# ---------------------------------------- #
+#
+#  REQUIREMENTS:
+#  This script will only work inside this repo. For other repos, it might
+#  require some code changes. git has to have set default upstream
+#
+#  HOW TO CONFIGURE:
+#  1. in terminal, write
+#  alias ez="sh <path to this file>" 
+#  2. change port variable to your port   
+port=81
+#  3. set configured to 1
+configured=0
+#
+#  HOW TO USE:
+#  ez commit <message>
+#       will commit to repository
+#  ez pull 
+#       will get latest version from repository
+#  ez push
+#       will push your commits to server
+#  ez env
+#       will activate environment if not activated
+#  ez sync
+#       will sync datamodel changes to database. 
+#       This might still be buggy
+#
+# ---------------------------------------- #
+
+
+# If not configured, don't run
+if [ "$configured" = "0" ]; then
+    echo ""
+    echo "Please configure this file using a text editor.";
+    echo "It can be found in: "
+    pwd
+    echo ""
+    exit 0;
+fi
+
+if [ -f "$1" ]; then
+    echo "argument 1 exists";
+fi
+
+if [ "$1" = "commit" ]; then
+    if [ "$2" ]; then
+        #git commit -a -m $commit_msg
+        echo "I TRIGGERED COMMIT with msg $2";    
+        exit 0;
+    fi
+    echo "Please provide a message with your commit. Remember to include [#TASKID]";
+    exit 0;
+fi
+
+if [ "$1" = "env" ]; then
+    source env/bin/activate
+    exit 0;
+fi
+
+if [ "$1" = "push" ]; then
+    git push
+    exit 0;
+fi
+
+if [ "$1" = "pull" ]; then
+    git pull
+    exit 0;
+fi
+
+if [ "$1" = "sync" ]; then
+    #python wellvis/manage.py syncdb
+    echo "I TRIGGERED sync";
+    exit 0;
+fi
+
+echo  "HOW TO USE:";
+echo  "ez commit <message>";
+echo  "     will commit to repository";
+echo  "ez pull ";
+echo  "     will get latest version from repository";
+echo  "ez push";
+echo  "     will push your commits to server";
+echo  "ez env";
+echo  "     will activate environment if not activated";
+echo  "ez sync";
+echo  "     will sync datamodel changes to database. ";
+echo  "     This might still be buggy";
+exit 0;

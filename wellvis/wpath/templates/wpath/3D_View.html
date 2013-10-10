@@ -410,7 +410,7 @@
    	//=========================================================
 
 
-	var theJSONobject = {
+	var theWellJSONdata = {
 		minX	: -100,
 		maxX	: 100,
 		minY	: -100,
@@ -419,11 +419,11 @@
 		theUnit : 50,
 		theValues : [
 			{
-				theMD 	: 100,
-				theINC 	: 0.1,
-				theAZI	: 0.1,
+				theMD 	: 20,
+				theINC 	: 10,
+				theAZI	: 10,
 				theX 	: 10,
-				theY 	: 10,
+				theY 	: 30,
 				theZ 	: 10,
 				thePoints :[
 					{
@@ -440,12 +440,12 @@
 				]
 			},
 			{
-				theMD 	: 200,
-				theINC 	: 0.1,
-				theAZI	: 0.1,
+				theMD 	: 50,
+				theINC 	: 50,
+				theAZI	: 20,
 				theX 	: 20,
-				theY 	: 20,
-				theZ 	: 20,
+				theY 	: 50,
+				theZ 	: 40,
 				thePoints :[
 					{
 						x 	: 30,
@@ -463,6 +463,8 @@
 
 		] 
 	};
+
+
 
    	var theWidth 	= theScreenWidth - 446 - 8; //418
    	var theHeight 	= theScreenHeight - 60 - 100; 
@@ -492,7 +494,8 @@
    	var theXY_Plane = new THREE.Object3D();
 
    	//==|| The Arrow to North
-	var arrowAxisZ, arrowAxisZmaterial, arrowAxisZgeo;
+	var theArrowNorth, theArrowNorthmaterial, theArrowNorthgeo;
+	var theArrowNorthColor = "#FFFFFF";
 
 	//==|| The Lines to the Origin
 	var linesToOrigin, linesToOriginMaterial, linesToOriginGeo;
@@ -507,9 +510,9 @@
 	 	var theYZ_PlaneAxisLine, 	theYZ_PlaneAxisLineGeo, 	theYZ_PlaneAxisLineMaterial;
 	 	var theYZ_PlaneOutlineMaterialColor 		= colorGreen;
 	 	var theYZ_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
+	 	var theYZ_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theYZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneAxisLineMaterialColor 		= 0x333333;
+	 	var theYZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theYZ_PlaneAxisLineMaterialLineWidth 	= 1;
 	 	//==|| The YZ-Plane Grids
 	 	var theYZ_PlaneGrids =  new THREE.Object3D();
@@ -521,9 +524,9 @@
      	var theXZ_PlaneAxisLine, 	theXZ_PlaneAxisLineGeo, 	theXZ_PlaneAxisLineMaterial;
 	 	var theXZ_PlaneOutlineMaterialColor 		= colorRed;
 	 	var theXZ_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
+	 	var theXZ_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theXZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneAxisLineMaterialColor 		= 0x333333;
+	 	var theXZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theXZ_PlaneAxisLineMaterialLineWidth 	= 1;
 	 	//==|| The XZ-Plane Grids
 	 	var theXZ_PlaneGrids =  new THREE.Object3D();
@@ -535,9 +538,9 @@
      	var theXY_PlaneAxisLine, 	theXY_PlaneAxisLineGeo, 	theXY_PlaneAxisLineMaterial;
 	 	var theXY_PlaneOutlineMaterialColor 		= colorBlue;
 	 	var theXY_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theXY_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
+	 	var theXY_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theXY_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theXY_PlaneAxisLineMaterialColor 		= 0x333333;
+	 	var theXY_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theXY_PlaneAxisLineMaterialLineWidth 	= 1;
 	 	//==|| The XY-Plane Grids
 	 	var theXY_PlaneGrids =  new THREE.Object3D();
@@ -569,16 +572,20 @@
    	//==|| The visibility status of the screen center sign
    	var screenCenterIsVisible = true;
    	//==|| The Color of the Screen Center Sign
-   	var screenCenterSignColor = 0x000000;
+   	var screenCenterSignColor = 0xEEEEEE;
 
 
-   	//==|| Stores the values/labes for the grids
+   	//==|| Stores the values/labels for the grids
    	var theXZ_PlaneLabels = new THREE.Object3D();
    	var theXY_PlaneLabels = new THREE.Object3D();
 
+   	var theLabelColor = "#FFFFFF";
+   	var theLabelFont = "Arial";
 
    	//==|| The distance between the Axes-Plane outline and the grid value/label
    	var labelMargin = 20;
+
+
 
    	//==|| The Previous point - initially at the origin
    	var thePreviousPoint = new THREE.Vector3(0,0,0); 
@@ -633,7 +640,7 @@ $(document).ready(function() {
 	});
 
 
-
+	//==|| Left Panel will be Tabbed
 	$(function() {
 		$( "#theTabs" ).tabs();
 	});
@@ -642,37 +649,46 @@ $(document).ready(function() {
 	//==|| Toggle Buttons ||===
 	//=========================
 	//==|| Register the Toggle button event listener
+	//==|| for the Axes planes
 	registerTogglePlanes();
 
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Grids in each of the Axes planes
 	registerToggleGrids();
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Central Rotation Point/Icon/Symbol
 	registerToggleRotationPoint();
 
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Labels in each of the Axes Planes
 	registerToggleLabels();
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Well path
 	registerToggleWellPath();
 
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Left Panel
 	registerToggleShowHideLeftPanel();
 
 
-	//==|| Register the button press and release effect
+	//==|| Register the button press and release effect event listener
 	registerButtonPressReleaseEffects();
 
 	//==|| Register the Add path button event listener
+	//==|| for the Add button in the Well Paths Tab in Left Panel
 	registerAddPathButton();
 
 	//==|| Register the Edit Path button event listener
+	//==|| for the Edit button in the Well Paths Tab in Left Panel
 	registerEditPathButton();
 
 	//==|| Register the Done Path button event listener
+	//==|| for the Done button in the Well Paths Tab in Left Panel
 	registerDonePathButton();
 	
 
@@ -755,24 +771,56 @@ $(document).ready(function() {
 		//theContainer.append( stats.domElement ); //==|| Not showing the stats for now
 
 
-		//==|| On window resize
+		//==|| On window resize call the function onWindowResize()
 		window.addEventListener( 'resize', onWindowResize, false );
 
 	}
 
 
- function registerButtonPressReleaseEffects() {
 
- 	$(".btn").mousedown(function(){
-		$(this).addClass("pressedBtn");
+function readWellJSONdata(theWellJSONdata) {
+	var data = theWellJSONdata;
+
+	$.each(data, function(index){
+
+		minX 	= data[index].minX;
+		maxX 	= data[index].maxX;
+		minY 	= data[index].minY;
+		maxY	= data[index].maxY;
+		theZ 	= data[index].theZ;
+		theUnit = data[index].theUnit;
+
+		var theValues = data[index].theValues;
+
+		$.each(theValues, function(valuesIndex) {
+				
+				var theMD 		= theValues[valuesIndex].theMD;
+				var theINC 		= theValues[valuesIndex].theINC;
+				var theAZI		= theValues[valuesIndex].theAZI;
+				var theX 		= theValues[valuesIndex].theX;
+				var theY 		= theValues[valuesIndex].theY;
+				var theZ 		= theValues[valuesIndex].theZ;
+				var thePoints 	= theValues[valuesIndex].thePoints;
+
+				$.each(thePoints, function(pointsIndex) {
+					var thePointX = thePoints[pointsIndex].x;
+					var thePointY = thePoints[pointsIndex].y;
+					var thePointZ = thePoints[pointsIndex].z;
+					//==|| Need to do something with these points later ||==
+					// ****
+					// ****
+					// ****
+					// ****
+				});
+
+
+
+		});
+
 	});
 
-	$(".btn").mouseup(function(){
-		$(this).removeClass("pressedBtn");
-	});
 
- }
-
+}
 
 
 	function addWellPath(x, y, z) {
@@ -874,7 +922,22 @@ $(document).ready(function() {
 	}
 
 
-function registerToggleShowHideLeftPanel(){
+
+ function registerButtonPressReleaseEffects() {
+
+ 	$(".btn").mousedown(function(){
+		$(this).addClass("pressedBtn");
+	});
+
+	$(".btn").mouseup(function(){
+		$(this).removeClass("pressedBtn");
+	});
+
+ }
+
+
+
+function registerToggleShowHideLeftPanel() {
 	$("#showHideLeftPanelBtn").click(function (){
 			if(leftPanelIsVisible) {
 				leftPanelIsVisible = false;
@@ -902,7 +965,7 @@ function registerToggleShowHideLeftPanel(){
 
 
 
-function registerTogglePlanes(){	
+function registerTogglePlanes() {	
 
 	//==|| Add the click event ||===
 	$("#toggleAxesPlanes").click(function(){
@@ -918,7 +981,7 @@ function registerTogglePlanes(){
 			theMainObject.remove(theYZ_Plane);
 			theMainObject.remove(theXZ_Plane);
 
-			theMainObject.remove(arrowAxisZ);
+			theMainObject.remove(theArrowNorth);
 
 			theMainObject.remove(linesToOrigin);
 
@@ -932,7 +995,7 @@ function registerTogglePlanes(){
 			theMainObject.add(theYZ_Plane);
 			theMainObject.add(theXZ_Plane);
 
-			theMainObject.add(arrowAxisZ);
+			theMainObject.add(theArrowNorth);
 
 			theMainObject.add(linesToOrigin);
 
@@ -947,7 +1010,7 @@ function registerTogglePlanes(){
 
 
 
-function registerToggleGrids(){
+function registerToggleGrids() {
 
 	//==|| Add the click event ||===
 	$("#toggleGridBtn").click(function(){
@@ -1036,7 +1099,7 @@ function registerToggleRotationPoint() {
 
 
 
-function registerToggleLabels(){
+function registerToggleLabels() {
 
 	//==|| Add the click event ||===
 	$("#toggleLabels").click(function(){
@@ -1360,7 +1423,7 @@ function registerDonePathButton() {
 //###################################################################################################################################### #
 //######################################################################################################################################
 	//==|| The Vector3
-    function v(x,y,z){ 
+    function v(x,y,z) { 
     	return new THREE.Vector3(x,y,z); 
     }
 
@@ -1570,7 +1633,7 @@ function registerDonePathButton() {
 
 			
 
-			theMainObject.remove(arrowAxisZ);
+			theMainObject.remove(theArrowNorth);
 
 			drawArrowNorth();
 
@@ -1580,7 +1643,7 @@ function registerDonePathButton() {
    	}
 
 
-   	function redrawWellPath(){
+   	function redrawWellPath() {
 
    		//==|| First of all lets remove the current well path
 		theMainObject.remove(theWellPath);
@@ -1871,7 +1934,7 @@ function registerDonePathButton() {
 	      			);
 	      		}
 
-			   	var gridValue = createText2D(value + '', "#000000", "Arial", 60);
+			   	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, 60);
 		     	gridValue.position.x = minX - labelMargin;
 		     	gridValue.position.y = minY;
 		     	gridValue.position.z = value;
@@ -2001,7 +2064,7 @@ function registerDonePathButton() {
 		      		}
 		      	}
 
-		      	var gridValue = createText2D(value + '', "#000000", "Arial", 60);
+		      	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, 60);
 		     	gridValue.position.x = value;
 		     	gridValue.position.y = maxY + labelMargin;
 		     	gridValue.position.z = theZ;
@@ -2026,7 +2089,7 @@ function registerDonePathButton() {
 		      		}
 		      	}
 
-	      		var gridValue = createText2D(value + '', "#000000", "Arial", 60);
+	      		var gridValue = createText2D(value + '', theLabelColor, theLabelFont, 60);
 		     	gridValue.position.x = minX  - labelMargin;
 		     	gridValue.position.y = value;
 		     	gridValue.position.z = theZ;
@@ -2084,15 +2147,15 @@ function registerDonePathButton() {
 		
 
 		//==|| The Outline Material
-      	arrowAxisZmaterial = new THREE.LineBasicMaterial( {
-      			color: 0x000000, 
+      	theArrowNorthmaterial = new THREE.LineBasicMaterial( {
+      			color: theArrowNorthColor, 
       			lineWidth: 2
       		}
       	);
 
 
       	var midX = (maxX + minX) / 2; 
-      	var arrowAxisZ_Margin = 50;
+      	var theArrowNorth_Margin = 50;
 
       	var halfLength = (maxX - minX) / 2 - theUnit;
 
@@ -2104,24 +2167,24 @@ function registerDonePathButton() {
       	//halfLength = theUnit
 
 		//==|| The Outline Geometry
-      	var arrowAxisZgeo = new THREE.Geometry();
-      	arrowAxisZgeo.vertices.push(
+      	var theArrowNorthgeo = new THREE.Geometry();
+      	theArrowNorthgeo.vertices.push(
 
-      		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX - halfLength,  maxY + arrowAxisZ_Margin, theZ),
-      		v(midX - halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX - halfLength,  maxY + arrowAxisZ_Margin - 10, theZ),
-      		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ),
-      		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin - 10, theZ),
-      		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin + 10, theZ)
+      		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ),
+      		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX - halfLength,  maxY + theArrowNorth_Margin - 10, theZ),
+      		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ),
+      		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + 10,  maxY + theArrowNorth_Margin - 10, theZ),
+      		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + 10,  maxY + theArrowNorth_Margin + 10, theZ)
 
 
       	);
 
 
 		//==|| The Outline
-      	arrowAxisZ = new THREE.Line(arrowAxisZgeo, arrowAxisZmaterial);
-      	arrowAxisZ.type = THREE.Lines;
+      	theArrowNorth = new THREE.Line(theArrowNorthgeo, theArrowNorthmaterial);
+      	theArrowNorth.type = THREE.Lines;
 
-		theMainObject.add(arrowAxisZ);
+		theMainObject.add(theArrowNorth);
 
 	}
 

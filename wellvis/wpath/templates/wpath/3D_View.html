@@ -15,45 +15,66 @@
 
 		</div>
 
+		<div id="theLeftPanel">
+			<div id="theTabs">
+				<ul>
+					<li><a href="#theTabs-1">Well Paths</a></li>
+					<li><a href="#theTabs-2">Configuration</a></li>
+				</ul>
+				<div id="theTabs-1">   
+					<div id="thePathsDetailContainer">
+						<div id="theAddPathHeader">
+							<div class="divMD headerMD">X</div>
+							<div class="divINC headerINC">Y</div>
+							<div class="divAZI headerAZI">Z</div>
+							<div class="divEmpty headerEmpty"></div>
+						</div>
+						<div id="theAddPathContainer">
 
-		<div id="thePathsDetailContainer">
-			<div id="theAddPathHeader">
-				<div class="divMD headerMD">X</div>
-				<div class="divINC headerINC">Y</div>
-				<div class="divAZI headerAZI">Z</div>
-				<div class="divEmpty headerEmpty"></div>
+							<div id="wellPathInfoBoxContainer_000" class="wellPathInfoBoxContainer">
+								<div class="wellPathInputBoxContainer divMD">
+									<input id="valueMD_000" type="text" name="valueMD" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divINC">
+									<input id="valueINC_000" type="text" name="valueINC" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divAZI">
+									<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divAddPathBtn">
+									<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
+										<span class"">Add</span>
+									</button>
+								</div>
+								<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">
+									<button id="editPathBtn_000" class="btn addEditPathBtn editPathBtn">
+										<span class"">Edit</span>
+									</button>
+								</div>
+								<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">
+									<button id="donePathBtn_000" class="btn addEditPathBtn donePathBtn">
+										<span class"">Done</span>
+									</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div id="theTabs-2">
+					<div id="theConfigurationPanel">
+
+					</div>
+				</div>
 			</div>
-			<div id="theAddPathContainer">
-
-			 	<div id="wellPathInfoBoxContainer_000" class="wellPathInfoBoxContainer">
-					<div class="wellPathInputBoxContainer divMD">
-						<input id="valueMD_000" type="text" name="valueMD" size="10"/>
-					</div>
-					<div class="wellPathInputBoxContainer divINC">
-						<input id="valueINC_000" type="text" name="valueINC" size="10"/>
-					</div>
-					<div class="wellPathInputBoxContainer divAZI">
-						<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
-					</div>
-					<div class="wellPathInputBoxContainer divAddPathBtn">
-						<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
-							<span class"">Add</span>
-						</button>
-					</div>
-					<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">
-						<button id="editPathBtn_000" class="btn addEditPathBtn editPathBtn">
-							<span class"">Edit</span>
-						</button>
-					</div>
-					<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">
-						<button id="donePathBtn_000" class="btn addEditPathBtn donePathBtn">
-							<span class"">Done</span>
-						</button>
-					</div>
-			 	</div>
-
+			
+			<div id="showHideLeftPanelButtonContainer">
+				<button id="showHideLeftPanelBtn" class="btn" >Hide</button>
 			</div>
-		</div>
+	
+
+	 	</div>
+		
 
 		
 		<!-- The Container  -->
@@ -62,13 +83,13 @@
 
 	</div>
 
-
-
 {% endblock %}
 
 {% block styles %}
-	
-		<style>
+
+<link type="text/css" rel="stylesheet"  href="{{ STATIC_URL }}/css/dark-hive/jquery-ui-1.10.3.custom.min.css" />
+
+	<style>
 
 #theMainContainer {
 	color: #000;
@@ -86,11 +107,108 @@
 	width: 100%;
 }
 
-#theContainer {
-	float: left;
-	
-	border: 1px solid #000000;
+
+#theControlButtonsContainer {
+	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
+	height: 40px;
+	border: 1px solid #000;
+	padding: 5px 10px 1px 10px;
 }
+
+	.btn {
+		border-radius: 3px;
+		height: 30px;
+		float: left;
+	}
+		.activeBtn {
+			background: #ccc;
+			background: -webkit-gradient(linear, center bottom, center top, from(#FDFDFD), to(#C7C7C7) );
+			background: -moz-linear-gradient(90deg, #FDFDFD, #C7C7C7);
+			color: #000;
+		    cursor: pointer;
+		    border-top: solid 2px #eaeaea;
+		    border-left: solid 2px #eaeaea;
+		    border-bottom: solid 2px #777;
+		    border-right: solid 2px #777;
+		}
+
+		.inactiveBtn {
+			color:#888;
+		    background: #bbb;
+		    border-top: solid 2px #777;
+		    border-left: solid 2px #777;
+		    border-bottom:solid 2px  #eaeaea;
+		    border-right: solid 2px #eaeaea;		
+		}
+
+
+
+
+		.addEditPathBtn {
+			width: 70px;
+			height: 30px;
+			margin: 3px;
+			padding: 0;
+			background: #A0A2F3;
+			font-weight: bold;
+			color: #ddd;
+
+			background: #2e68f2; /* Old browsers */
+			background: -moz-linear-gradient(top,  #2e68f2 0%, #7db9e8 0%, #8195ef 0%, #1e5799 100%, #207cca 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e68f2), color-stop(0%,#7db9e8), color-stop(0%,#8195ef), color-stop(100%,#1e5799), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* IE10+ */
+			background: linear-gradient(to bottom,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e68f2', endColorstr='#207cca',GradientType=0 ); /* IE6-9 */
+
+
+			border-top: 1px solid #6C7292;
+			border-right: 1px solid #333333;
+			border-bottom: 2px solid #333;
+			border-left: 1px solid #5255AA;
+			
+		}
+
+		.pressedBtn {
+
+			border-top: 2px solid #4F5785;
+			border-right: 1px solid #708DDA;
+			border-bottom: 1px solid #6F6363;
+			border-left: 1px solid #1d1d1d;
+
+			
+		}
+
+#theLeftPanel {
+	float: left;
+}
+
+#showHideLeftPanelButtonContainer {
+	float: left;
+	position: absolute;
+	left: 418px;
+	margin-top: 7px;
+}
+
+	#showHideLeftPanelBtn {
+		border-radius: 0px 5px 5px 0px;
+		background: #0972a5;
+		border: 1px solid #000;
+	}
+
+
+#theTabs {
+	float: left;
+	border: 0px;
+	border-radius: 0;
+	background: #000;
+}	
+	
+	#theTabs-1, #theTabs-2 { 
+		padding: 0;
+	}
+
 
 
 #thePathsDetailContainer {
@@ -200,79 +318,36 @@
 					.divDonePathBtn {
 						width: 75px;
 					}
-				
-#theControlButtonsContainer {
-	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
-	height: 40px;
-	border: 1px solid #000;
-	padding: 5px 10px 1px 10px;
-}
+	
 
-.btn {
-	border-radius: 3px;
-	height: 27px;
+#theConfigurationPanel {
+	height: 100px;
+	width: 400px;
 	float: left;
-	padding: 0px 8px;
+	background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
+	overflow: auto;
+
+	border-top: 1px solid #000;
 }
-	.activeBtn {
-		background: #ccc;
-		background: -webkit-gradient(linear, center bottom, center top, from(#FDFDFD), to(#C7C7C7) );
-		background: -moz-linear-gradient(90deg, #FDFDFD, #C7C7C7);
-		color: #000;
-	    cursor: pointer;
-	    border-top: solid 2px #eaeaea;
-	    border-left: solid 2px #eaeaea;
-	    border-bottom: solid 2px #777;
-	    border-right: solid 2px #777;
-	}
 
-	.inactiveBtn {
-		color:#888;
-	    background: #bbb;
-	    border-top: solid 2px #777;
-	    border-left: solid 2px #777;
-	    border-bottom:solid 2px  #eaeaea;
-	    border-right: solid 2px #eaeaea;		
-	}
+
+#theContainer {
+	float: left;
+	
+	border: 1px solid #000000;
+}
 
 
 
 
-	.addEditPathBtn {
-		width: 70px;
-		height: 30px;
-		margin: 3px;
-		padding: 5px 0;
-		background: #A0A2F3;
-		font-weight: bold;
-		color: #ddd;
 
-		background: #2e68f2; /* Old browsers */
-		background: -moz-linear-gradient(top,  #2e68f2 0%, #7db9e8 0%, #8195ef 0%, #1e5799 100%, #207cca 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e68f2), color-stop(0%,#7db9e8), color-stop(0%,#8195ef), color-stop(100%,#1e5799), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  #2e68f2 0%,#7db9e8 0%,#8195ef 0%,#1e5799 100%,#207cca 100%); /* W3C */
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e68f2', endColorstr='#207cca',GradientType=0 ); /* IE6-9 */
+/*#######################################################*/
+/*############ modifying jQuery UI ######################*/
+/*#######################################################*/
 
-
-		border-top: 1px solid #6C7292;
-		border-right: 1px solid #333333;
-		border-bottom: 2px solid #333;
-		border-left: 1px solid #5255AA;
-		
-	}
-
-	.pressedBtn {
-
-		border-top: 2px solid #4F5785;
-		border-right: 1px solid #708DDA;
-		border-bottom: 1px solid #6F6363;
-		border-left: 1px solid #1d1d1d;
-
-		
-	}
+.ui-state.focus {
+	border: 0px solid #000;
+}
 
 
 		</style>
@@ -304,6 +379,7 @@
 
 
 </script>
+
 <script type="text/javascript">
 
 
@@ -319,7 +395,7 @@
 	var theControls;
 
 	var theScene;
-	var theSceneColor = "#eee";//"Black"; //0x000000;
+	var theSceneColor = "#000";//"Black"; //0x000000;
 
 	var theRenderer;
 
@@ -333,9 +409,65 @@
    	//==|| The Default Values ||===============================
    	//=========================================================
 
-   	var theOtherPortion = 30/100*theScreenWidth;
-   	var theWidth 	= theScreenWidth - 435; //418
-   	var theHeight 	= theScreenHeight - 59; 
+
+	var theWellJSONdata = {
+		minX	: -100,
+		maxX	: 100,
+		minY	: -100,
+		maxY	: 100,
+		theZ 	: 150,
+		theUnit : 50,
+		theValues : [
+			{
+				theMD 	: 20,
+				theINC 	: 10,
+				theAZI	: 10,
+				theX 	: 10,
+				theY 	: 30,
+				theZ 	: 10,
+				thePoints :[
+					{
+						x 	: 10,
+						y 	: 10,
+						z 	: 10
+					},
+					{
+						x 	: 20,
+						y 	: 20,
+						z 	: 20
+					}
+
+				]
+			},
+			{
+				theMD 	: 50,
+				theINC 	: 50,
+				theAZI	: 20,
+				theX 	: 20,
+				theY 	: 50,
+				theZ 	: 40,
+				thePoints :[
+					{
+						x 	: 30,
+						y 	: 30,
+						z 	: 30
+					},
+					{
+						x 	: 40,
+						y 	: 40,
+						z 	: 40
+					}
+
+				]
+			}
+
+		] 
+	};
+
+
+
+   	var theWidth 	= theScreenWidth - 446 - 8; //418
+   	var theHeight 	= theScreenHeight - 60 - 100; 
   	//theHeight = theHeight - 40;
 
 	//==|| The Axes-Plane Ranges
@@ -362,7 +494,8 @@
    	var theXY_Plane = new THREE.Object3D();
 
    	//==|| The Arrow to North
-	var arrowAxisZ, arrowAxisZmaterial, arrowAxisZgeo;
+	var theArrowNorth, theArrowNorthmaterial, theArrowNorthgeo;
+	var theArrowNorthColor = "#FFFFFF";
 
 	//==|| The Lines to the Origin
 	var linesToOrigin, linesToOriginMaterial, linesToOriginGeo;
@@ -377,9 +510,9 @@
 	 	var theYZ_PlaneAxisLine, 	theYZ_PlaneAxisLineGeo, 	theYZ_PlaneAxisLineMaterial;
 	 	var theYZ_PlaneOutlineMaterialColor 		= colorGreen;
 	 	var theYZ_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
+	 	var theYZ_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theYZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneAxisLineMaterialColor 		= 0x333333;
+	 	var theYZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theYZ_PlaneAxisLineMaterialLineWidth 	= 1;
 	 	//==|| The YZ-Plane Grids
 	 	var theYZ_PlaneGrids =  new THREE.Object3D();
@@ -391,9 +524,9 @@
      	var theXZ_PlaneAxisLine, 	theXZ_PlaneAxisLineGeo, 	theXZ_PlaneAxisLineMaterial;
 	 	var theXZ_PlaneOutlineMaterialColor 		= colorRed;
 	 	var theXZ_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
+	 	var theXZ_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theXZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneAxisLineMaterialColor 		= 0x333333;
+	 	var theXZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theXZ_PlaneAxisLineMaterialLineWidth 	= 1;
 	 	//==|| The XZ-Plane Grids
 	 	var theXZ_PlaneGrids =  new THREE.Object3D();
@@ -405,9 +538,9 @@
      	var theXY_PlaneAxisLine, 	theXY_PlaneAxisLineGeo, 	theXY_PlaneAxisLineMaterial;
 	 	var theXY_PlaneOutlineMaterialColor 		= colorBlue;
 	 	var theXY_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theXY_PlaneGridLinesMaterialColor 		= 0xAAAAAA;
+	 	var theXY_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theXY_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theXY_PlaneAxisLineMaterialColor 		= 0x333333;
+	 	var theXY_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theXY_PlaneAxisLineMaterialLineWidth 	= 1;
 	 	//==|| The XY-Plane Grids
 	 	var theXY_PlaneGrids =  new THREE.Object3D();
@@ -428,6 +561,8 @@
    	//==|| The state of the well paths 
    	var wellPathIsVisible = true;
 
+   	//==|| The state of the Left Panel
+   	var leftPanelIsVisible = true;
 
 
    	//==|| The center cursor/sign 
@@ -437,16 +572,20 @@
    	//==|| The visibility status of the screen center sign
    	var screenCenterIsVisible = true;
    	//==|| The Color of the Screen Center Sign
-   	var screenCenterSignColor = 0x000000;
+   	var screenCenterSignColor = 0xEEEEEE;
 
 
-   	//==|| Stores the values/labes for the grids
+   	//==|| Stores the values/labels for the grids
    	var theXZ_PlaneLabels = new THREE.Object3D();
    	var theXY_PlaneLabels = new THREE.Object3D();
 
+   	var theLabelColor = "#FFFFFF";
+   	var theLabelFont = "Arial";
 
    	//==|| The distance between the Axes-Plane outline and the grid value/label
    	var labelMargin = 20;
+
+
 
    	//==|| The Previous point - initially at the origin
    	var thePreviousPoint = new THREE.Vector3(0,0,0); 
@@ -487,7 +626,8 @@ $(document).ready(function() {
 	//render();
 	//animate();
 
-	$("#thePathsDetailContainer").css({"height" : theHeight + 2});
+	$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
+	$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
 
 	$("#theContainer").css({"width" :  theWidth });
 	$("#theContainer").css({"height" :  theHeight});
@@ -500,37 +640,55 @@ $(document).ready(function() {
 	});
 
 
+	//==|| Left Panel will be Tabbed
+	$(function() {
+		$( "#theTabs" ).tabs();
+	});
+
 	//=========================
 	//==|| Toggle Buttons ||===
 	//=========================
 	//==|| Register the Toggle button event listener
+	//==|| for the Axes planes
 	registerTogglePlanes();
 
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Grids in each of the Axes planes
 	registerToggleGrids();
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Central Rotation Point/Icon/Symbol
 	registerToggleRotationPoint();
 
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Labels in each of the Axes Planes
 	registerToggleLabels();
 
 	//==|| Register the Toggle button event listener
+	//==|| for the Well path
 	registerToggleWellPath();
 
 
+	//==|| Register the Toggle button event listener
+	//==|| for the Left Panel
+	registerToggleShowHideLeftPanel();
 
+
+	//==|| Register the button press and release effect event listener
 	registerButtonPressReleaseEffects();
 
 	//==|| Register the Add path button event listener
+	//==|| for the Add button in the Well Paths Tab in Left Panel
 	registerAddPathButton();
 
 	//==|| Register the Edit Path button event listener
+	//==|| for the Edit button in the Well Paths Tab in Left Panel
 	registerEditPathButton();
 
 	//==|| Register the Done Path button event listener
+	//==|| for the Done button in the Well Paths Tab in Left Panel
 	registerDonePathButton();
 	
 
@@ -613,26 +771,56 @@ $(document).ready(function() {
 		//theContainer.append( stats.domElement ); //==|| Not showing the stats for now
 
 
-		onWindowResize();
-
-		//==|| On window resize
+		//==|| On window resize call the function onWindowResize()
 		window.addEventListener( 'resize', onWindowResize, false );
 
 	}
 
 
- function registerButtonPressReleaseEffects() {
 
- 	$(".btn").mousedown(function(){
-		$(this).addClass("pressedBtn");
+function readWellJSONdata(theWellJSONdata) {
+	var data = theWellJSONdata;
+
+	$.each(data, function(index){
+
+		minX 	= data[index].minX;
+		maxX 	= data[index].maxX;
+		minY 	= data[index].minY;
+		maxY	= data[index].maxY;
+		theZ 	= data[index].theZ;
+		theUnit = data[index].theUnit;
+
+		var theValues = data[index].theValues;
+
+		$.each(theValues, function(valuesIndex) {
+				
+				var theMD 		= theValues[valuesIndex].theMD;
+				var theINC 		= theValues[valuesIndex].theINC;
+				var theAZI		= theValues[valuesIndex].theAZI;
+				var theX 		= theValues[valuesIndex].theX;
+				var theY 		= theValues[valuesIndex].theY;
+				var theZ 		= theValues[valuesIndex].theZ;
+				var thePoints 	= theValues[valuesIndex].thePoints;
+
+				$.each(thePoints, function(pointsIndex) {
+					var thePointX = thePoints[pointsIndex].x;
+					var thePointY = thePoints[pointsIndex].y;
+					var thePointZ = thePoints[pointsIndex].z;
+					//==|| Need to do something with these points later ||==
+					// ****
+					// ****
+					// ****
+					// ****
+				});
+
+
+
+		});
+
 	});
 
-	$(".btn").mouseup(function(){
-		$(this).removeClass("pressedBtn");
-	});
 
- }
-
+}
 
 
 	function addWellPath(x, y, z) {
@@ -734,7 +922,50 @@ $(document).ready(function() {
 	}
 
 
-function registerTogglePlanes(){	
+
+ function registerButtonPressReleaseEffects() {
+
+ 	$(".btn").mousedown(function(){
+		$(this).addClass("pressedBtn");
+	});
+
+	$(".btn").mouseup(function(){
+		$(this).removeClass("pressedBtn");
+	});
+
+ }
+
+
+
+function registerToggleShowHideLeftPanel() {
+	$("#showHideLeftPanelBtn").click(function (){
+			if(leftPanelIsVisible) {
+				leftPanelIsVisible = false;
+
+				$("#theTabs").css({"display":"none"});
+				$("#showHideLeftPanelButtonContainer").css({"left":"15px"});
+				$("#showHideLeftPanelBtn").find(".ui-button-text").text("Show");
+
+			}
+			else {
+				leftPanelIsVisible = true;
+				$("#theTabs").css({"display":"block"});
+				$("#showHideLeftPanelButtonContainer").css({"left":"418px"});
+				$("#showHideLeftPanelBtn").find(".ui-button-text").text("Hide");
+
+
+
+			}
+
+			onWindowResize();
+
+	});
+
+}
+
+
+
+function registerTogglePlanes() {	
 
 	//==|| Add the click event ||===
 	$("#toggleAxesPlanes").click(function(){
@@ -750,7 +981,7 @@ function registerTogglePlanes(){
 			theMainObject.remove(theYZ_Plane);
 			theMainObject.remove(theXZ_Plane);
 
-			theMainObject.remove(arrowAxisZ);
+			theMainObject.remove(theArrowNorth);
 
 			theMainObject.remove(linesToOrigin);
 
@@ -764,7 +995,7 @@ function registerTogglePlanes(){
 			theMainObject.add(theYZ_Plane);
 			theMainObject.add(theXZ_Plane);
 
-			theMainObject.add(arrowAxisZ);
+			theMainObject.add(theArrowNorth);
 
 			theMainObject.add(linesToOrigin);
 
@@ -779,7 +1010,7 @@ function registerTogglePlanes(){
 
 
 
-function registerToggleGrids(){
+function registerToggleGrids() {
 
 	//==|| Add the click event ||===
 	$("#toggleGridBtn").click(function(){
@@ -868,7 +1099,7 @@ function registerToggleRotationPoint() {
 
 
 
-function registerToggleLabels(){
+function registerToggleLabels() {
 
 	//==|| Add the click event ||===
 	$("#toggleLabels").click(function(){
@@ -1192,7 +1423,7 @@ function registerDonePathButton() {
 //###################################################################################################################################### #
 //######################################################################################################################################
 	//==|| The Vector3
-    function v(x,y,z){ 
+    function v(x,y,z) { 
     	return new THREE.Vector3(x,y,z); 
     }
 
@@ -1225,6 +1456,7 @@ function registerDonePathButton() {
 
     }	
 
+
 	function onWindowResize() {
 		colorTrace("On Window Resize", "Blue");
 
@@ -1232,16 +1464,20 @@ function registerDonePathButton() {
 		theScreenWidth = window.innerWidth;
   		theScreenHeight = window.innerHeight;
 
-		theOtherPortion = 0; //25/100*theScreenWidth;
-   		
-   		theWidth 	= theScreenWidth - 435 - 12;
-   		theHeight 	= theScreenHeight - 59 - 111; 
-  	
+  		theHeight 	= theScreenHeight - 60 - 100; 
 
-  		$("#thePathsDetailContainer").css({"height" : theHeight + 2});
+  		if(leftPanelIsVisible){
+   			theWidth 	= theScreenWidth - 446 - 8;   		
+  		}
+  		else {
+  			theWidth 	= theScreenWidth - 8;
+  		}
+
+  		$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
+  		$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
 
   		$("#theContainer").css({"width" :  theWidth});
-  		$("#theContainer").css({"height" :  theHeight -2 });
+  		$("#theContainer").css({"height" :  theHeight});
 
 
 		theCamera.aspect = theWidth / theHeight;
@@ -1397,7 +1633,7 @@ function registerDonePathButton() {
 
 			
 
-			theMainObject.remove(arrowAxisZ);
+			theMainObject.remove(theArrowNorth);
 
 			drawArrowNorth();
 
@@ -1407,7 +1643,7 @@ function registerDonePathButton() {
    	}
 
 
-   	function redrawWellPath(){
+   	function redrawWellPath() {
 
    		//==|| First of all lets remove the current well path
 		theMainObject.remove(theWellPath);
@@ -1698,7 +1934,7 @@ function registerDonePathButton() {
 	      			);
 	      		}
 
-			   	var gridValue = createText2D(value + '', "#000000", "Arial", 60);
+			   	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, 60);
 		     	gridValue.position.x = minX - labelMargin;
 		     	gridValue.position.y = minY;
 		     	gridValue.position.z = value;
@@ -1828,7 +2064,7 @@ function registerDonePathButton() {
 		      		}
 		      	}
 
-		      	var gridValue = createText2D(value + '', "#000000", "Arial", 60);
+		      	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, 60);
 		     	gridValue.position.x = value;
 		     	gridValue.position.y = maxY + labelMargin;
 		     	gridValue.position.z = theZ;
@@ -1853,7 +2089,7 @@ function registerDonePathButton() {
 		      		}
 		      	}
 
-	      		var gridValue = createText2D(value + '', "#000000", "Arial", 60);
+	      		var gridValue = createText2D(value + '', theLabelColor, theLabelFont, 60);
 		     	gridValue.position.x = minX  - labelMargin;
 		     	gridValue.position.y = value;
 		     	gridValue.position.z = theZ;
@@ -1911,15 +2147,15 @@ function registerDonePathButton() {
 		
 
 		//==|| The Outline Material
-      	arrowAxisZmaterial = new THREE.LineBasicMaterial( {
-      			color: 0x000000, 
+      	theArrowNorthmaterial = new THREE.LineBasicMaterial( {
+      			color: theArrowNorthColor, 
       			lineWidth: 2
       		}
       	);
 
 
       	var midX = (maxX + minX) / 2; 
-      	var arrowAxisZ_Margin = 50;
+      	var theArrowNorth_Margin = 50;
 
       	var halfLength = (maxX - minX) / 2 - theUnit;
 
@@ -1931,24 +2167,24 @@ function registerDonePathButton() {
       	//halfLength = theUnit
 
 		//==|| The Outline Geometry
-      	var arrowAxisZgeo = new THREE.Geometry();
-      	arrowAxisZgeo.vertices.push(
+      	var theArrowNorthgeo = new THREE.Geometry();
+      	theArrowNorthgeo.vertices.push(
 
-      		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX - halfLength,  maxY + arrowAxisZ_Margin, theZ),
-      		v(midX - halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX - halfLength,  maxY + arrowAxisZ_Margin - 10, theZ),
-      		v(midX,  maxY + arrowAxisZ_Margin, theZ), 		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ),
-      		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin - 10, theZ),
-      		v(midX + halfLength,  maxY + arrowAxisZ_Margin, theZ), 	v(midX + 10,  maxY + arrowAxisZ_Margin + 10, theZ)
+      		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ),
+      		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX - halfLength,  maxY + theArrowNorth_Margin - 10, theZ),
+      		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ),
+      		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + 10,  maxY + theArrowNorth_Margin - 10, theZ),
+      		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + 10,  maxY + theArrowNorth_Margin + 10, theZ)
 
 
       	);
 
 
 		//==|| The Outline
-      	arrowAxisZ = new THREE.Line(arrowAxisZgeo, arrowAxisZmaterial);
-      	arrowAxisZ.type = THREE.Lines;
+      	theArrowNorth = new THREE.Line(theArrowNorthgeo, theArrowNorthmaterial);
+      	theArrowNorth.type = THREE.Lines;
 
-		theMainObject.add(arrowAxisZ);
+		theMainObject.add(theArrowNorth);
 
 	}
 

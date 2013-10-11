@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from main.models import Country, Field, Platform, Well
-
 
 def home(request):
     """
@@ -9,15 +9,18 @@ def home(request):
     showing a demo of the software, contact info and such.
     """
     context = {
+        'page_title': 'Drilling made simply secure',
     }
 
-    generate_sidepanel(context, request)
+    if not request.user.is_authenticated():
+        return render(request, 'wellvis/showoff.html', context)
 
-    context['page_title'] = "Drilling made simply secure"
+    generate_sidepanel(context, request)
 
     return render(request, 'wellvis/home.html', context)
 
 
+@login_required(login_url='/')
 def view_country(request, countryid):
     """
     View for country.
@@ -31,7 +34,7 @@ def view_country(request, countryid):
 
     return response
 
-
+@login_required(login_url='/')
 def view_field(request, fieldid):
     """
     View for field.
@@ -143,6 +146,8 @@ def add_sidepanel_to_context(context, type=None, id=1, hidden=0):
     context.update(newcontext)
     return context
 
+
+@login_required(login_url='/')
 def view_platform(request, platformid):
     """
     View for platform.
@@ -158,6 +163,7 @@ def view_platform(request, platformid):
     return response
 
 
+@login_required(login_url='/')
 def view_well(request, wellid):
     """
     View for well.
@@ -172,6 +178,8 @@ def view_well(request, wellid):
 
     return response
 
+
+@login_required(login_url='/')
 def dashboard(request):
     """
     Dashboard view for logged in users. Should show the hierarchy of 

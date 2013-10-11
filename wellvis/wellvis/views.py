@@ -162,13 +162,25 @@ def view_platform(request, platformid):
 
     return response
 
+class message():
+    def __init__(text, tags):
+        self.text = text
+        self.tags = tags
+
+
+
 
 @login_required(login_url='/')
 def view_well(request, wellid):
     """
     View for well.
     """
-    context = {}
+
+    messages = []
+    message = message("my message", "test")
+    messages.append(message)
+
+    context = {"messages":messages,}
     add_sidepanel_to_context(context, "well", wellid, request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/well.html', context)

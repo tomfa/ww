@@ -279,7 +279,6 @@
 
 	#theAddPathContainer {
 		width: 100%;
-		overflow: auto;
 		background: #ddd;
 	}
 		.wellPathInfoBoxContainer {
@@ -410,52 +409,73 @@
    	//=========================================================
 
 
-	var theWellJSONdata = {
-		minX	: -100,
-		maxX	: 100,
-		minY	: -100,
-		maxY	: 100,
-		theZ 	: 150,
-		theUnit : 50,
-		theValues : [
+	var theWellJSONdata =	{
+		"minX"	: -100,
+		"maxX"	: 100,
+		"minY"	: -100,
+		"maxY"	: 100,
+		"theZ" 	: 150,
+		"theUnit" : 50,
+		"theValues" : [
 			{
-				theMD 	: 20,
-				theINC 	: 10,
-				theAZI	: 10,
-				theX 	: 10,
-				theY 	: 30,
-				theZ 	: 10,
-				thePoints :[
+				"theMD" 	: 20,
+				"theINC" 	: 10,
+				"theAZI"	: 10,
+				"itsX" 	: 10,
+				"itsY" 	: 30,
+				"itsZ" 	: 10,
+				"thePoints" :[
 					{
-						x 	: 10,
-						y 	: 10,
-						z 	: 10
+						"x" 	: 10,
+						"y" 	: 10,
+						"z" 	: 10
 					},
 					{
-						x 	: 20,
-						y 	: 20,
-						z 	: 20
+						"x" 	: 20,
+						"y" 	: 20,
+						"z" 	: 20
 					}
 
 				]
 			},
 			{
-				theMD 	: 50,
-				theINC 	: 50,
-				theAZI	: 20,
-				theX 	: 20,
-				theY 	: 50,
-				theZ 	: 40,
-				thePoints :[
+				"theMD" 	: 50,
+				"theINC" 	: 50,
+				"theAZI"	: 20,
+				"itsX" 	: 20,
+				"itsY" 	: 50,
+				"itsZ" 	: 40,
+				"thePoints" :[
 					{
-						x 	: 30,
-						y 	: 30,
-						z 	: 30
+						"x" 	: 30,
+						"y" 	: 30,
+						"z" 	: 30
 					},
 					{
-						x 	: 40,
-						y 	: 40,
-						z 	: 40
+						"x" 	: 40,
+						"y" 	: 40,
+						"z" 	: 40
+					}
+
+				]
+			},
+			{
+				"theMD" 	: 50,
+				"theINC" 	: 50,
+				"theAZI"	: 20,
+				"itsX" 	: 30,
+				"itsY" 	: -50,
+				"itsZ" 	: 120,
+				"thePoints" :[
+					{
+						"x" 	: 40,
+						"y" 	: 40,
+						"z" 	: 50
+					},
+					{
+						"x" 	: 60,
+						"y" 	: 60,
+						"z" 	: 60
 					}
 
 				]
@@ -618,6 +638,10 @@ $(document).ready(function() {
 	init();
 	animate();
 
+
+	//==|| Read the well JSON data and construct the well path from it.
+	readWellJSONdata(theWellJSONdata);
+
 	//theCamera.target.x = 0; //(new THREE.Vector3(0, 150, 0));
 	//theCamera.target.y = 150; 
 	//theCamera.target.z = 0; 
@@ -644,6 +668,7 @@ $(document).ready(function() {
 	$(function() {
 		$( "#theTabs" ).tabs();
 	});
+
 
 	//=========================
 	//==|| Toggle Buttons ||===
@@ -779,33 +804,76 @@ $(document).ready(function() {
 
 
 function readWellJSONdata(theWellJSONdata) {
+
+	//==|| Resetting the Previous point to be Origin
+	thePreviousPoint = new THREE.Vector3(0,0,0); 
+
+	//==|| Resetting the No. of well Path lines to be 0
+   	noOfWellPathLines = 0;
+
+
+	//theWellPathArray
+
 	var data = theWellJSONdata;
 
-	$.each(data, function(index){
+	
+		minX 	= data.minX;
+		maxX 	= data.maxX;
+		minY 	= data.minY;
+		maxY	= data.maxY;
+		theZ 	= data.theZ;
+		theUnit = data.theUnit;
 
-		minX 	= data[index].minX;
-		maxX 	= data[index].maxX;
-		minY 	= data[index].minY;
-		maxY	= data[index].maxY;
-		theZ 	= data[index].theZ;
-		theUnit = data[index].theUnit;
+		colorTrace("minX : " + minX, "Green");
+		colorTrace("maxX : " + maxX, "Blue");
+		colorTrace("minY : " + minY, "Green");
+		colorTrace("maxY : " + maxY, "Blue");
+		colorTrace("theZ : " + theZ, "Green");
+		colorTrace("theUnit : " + theUnit, "Blue");
 
-		var theValues = data[index].theValues;
 
+
+
+
+		var theValues = data.theValues;
+
+		
 		$.each(theValues, function(valuesIndex) {
 				
 				var theMD 		= theValues[valuesIndex].theMD;
 				var theINC 		= theValues[valuesIndex].theINC;
 				var theAZI		= theValues[valuesIndex].theAZI;
-				var theX 		= theValues[valuesIndex].theX;
-				var theY 		= theValues[valuesIndex].theY;
-				var theZ 		= theValues[valuesIndex].theZ;
+				var itsX 		= theValues[valuesIndex].itsX;
+				var itsY 		= theValues[valuesIndex].itsY;
+				var itsZ 		= theValues[valuesIndex].itsZ;
+
 				var thePoints 	= theValues[valuesIndex].thePoints;
+						
+
+				colorTrace("theMD : " + theMD, "Green");
+				colorTrace("theINC : " + theINC, "Blue");
+				colorTrace("theAZI : " + theAZI, "Green");
+				colorTrace("itsX : " + itsX, "Blue");
+				colorTrace("itsY : " + itsY, "Green");
+				colorTrace("itsZ : " + itsZ, "Blue");
+
+				//==|| Add this to the well path
+				addWellPath(itsX, itsY, itsZ);
+
+				//==|| Check the Ranges for the Axes planes
+				checkRangesForPlanes(itsX, itsY, itsZ);
+
+
 
 				$.each(thePoints, function(pointsIndex) {
-					var thePointX = thePoints[pointsIndex].x;
-					var thePointY = thePoints[pointsIndex].y;
-					var thePointZ = thePoints[pointsIndex].z;
+					var x = thePoints[pointsIndex].x;
+					var y = thePoints[pointsIndex].y;
+					var z = thePoints[pointsIndex].z;
+					
+					colorTrace("x : " + x, "Green");
+					colorTrace("y : " + y, "Blue");
+					colorTrace("z : " + z, "Green");
+
 					//==|| Need to do something with these points later ||==
 					// ****
 					// ****
@@ -813,11 +881,13 @@ function readWellJSONdata(theWellJSONdata) {
 					// ****
 				});
 
-
+				
 
 		});
 
-	});
+
+	//==|| Render the changes
+	render();	
 
 
 }
@@ -861,17 +931,18 @@ function readWellJSONdata(theWellJSONdata) {
 			thePreviousPoint = newPoint;
 
 
-			//==|| Check if the well is inside the ranges of the Planes
-			checkRangesForPlanes(x, y, z);
-
-			render();
 
 
 	}
 
 
 
-	//==|| Check if the point entered in the text-boxes is fine
+	//==|| This checks if the point entered in the text-boxes is fine
+	//==|| This receives the current active row no (by active row it means the row in the table
+	//==|| in which the text input is active ) which is used to check each of the inputs
+	//==|| Currently it only checks if the inputs are non-empty or not.
+	//==|| later need to add the features like adding 0 automatically when nothing is there
+	//==|| when there are non-numbers, change them to 0 or show some message saying false input
 	function isPointOkToAdd(noOfWellPathLines) {
 
 
@@ -922,10 +993,10 @@ function readWellJSONdata(theWellJSONdata) {
 	}
 
 
+//==|| for the toggle buttons, add/remove the pressedBtn class for the Pressed or Released effect
+function registerButtonPressReleaseEffects() {
 
- function registerButtonPressReleaseEffects() {
-
- 	$(".btn").mousedown(function(){
+	$(".btn").mousedown(function(){
 		$(this).addClass("pressedBtn");
 	});
 
@@ -933,31 +1004,27 @@ function readWellJSONdata(theWellJSONdata) {
 		$(this).removeClass("pressedBtn");
 	});
 
- }
+}
 
 
 
 function registerToggleShowHideLeftPanel() {
 	$("#showHideLeftPanelBtn").click(function (){
-			if(leftPanelIsVisible) {
-				leftPanelIsVisible = false;
+		if(leftPanelIsVisible) {
+			leftPanelIsVisible = false;
+			$("#theTabs").css({"display":"none"});
+			$("#showHideLeftPanelButtonContainer").css({"left":"15px"});
+			$("#showHideLeftPanelBtn").find(".ui-button-text").text("Show");
 
-				$("#theTabs").css({"display":"none"});
-				$("#showHideLeftPanelButtonContainer").css({"left":"15px"});
-				$("#showHideLeftPanelBtn").find(".ui-button-text").text("Show");
+		}
+		else {
+			leftPanelIsVisible = true;
+			$("#theTabs").css({"display":"block"});
+			$("#showHideLeftPanelButtonContainer").css({"left":"418px"});
+			$("#showHideLeftPanelBtn").find(".ui-button-text").text("Hide");
+		}
 
-			}
-			else {
-				leftPanelIsVisible = true;
-				$("#theTabs").css({"display":"block"});
-				$("#showHideLeftPanelButtonContainer").css({"left":"418px"});
-				$("#showHideLeftPanelBtn").find(".ui-button-text").text("Hide");
-
-
-
-			}
-
-			onWindowResize();
+		onWindowResize();
 
 	});
 
@@ -985,8 +1052,6 @@ function registerTogglePlanes() {
 
 			theMainObject.remove(linesToOrigin);
 
-			//==|| Lets see the changes
-			render();
 		}
 		else {
 			planesAreVisible = true;			
@@ -999,9 +1064,10 @@ function registerTogglePlanes() {
 
 			theMainObject.add(linesToOrigin);
 
+		}
+
 			//==|| Lets see the changes
 			render();
-		}
 
 	});
 
@@ -1035,9 +1101,6 @@ function registerToggleGrids() {
 			theXY_PlaneGrids.remove(theXY_PlaneGridLines);
 
 
-
-			//==|| Lets see the changes
-			render();
 		}
 		else {
 			colorTrace("Grid is going to be visible","green");
@@ -1053,9 +1116,10 @@ function registerToggleGrids() {
 			theXZ_PlaneGrids.add(theXZ_PlaneGridLines);
 			theXY_PlaneGrids.add(theXY_PlaneGridLines);
 
-			//==|| Lets see the changes
-			render();
 		}
+
+		//==|| Lets see the changes
+		render();
 
 	});
 
@@ -1078,8 +1142,6 @@ function registerToggleRotationPoint() {
 
 			theMainObject.remove(theScreenCenter);
 
-			//==|| Lets see the changes
-			render();
 		}
 		else {
 			colorTrace("Rotation Point is going to be visible","green");
@@ -1087,9 +1149,10 @@ function registerToggleRotationPoint() {
 			
 			theMainObject.add(theScreenCenter);
 
+		}
+
 			//==|| Lets see the changes
 			render();
-		}
 
 	});
 
@@ -1116,8 +1179,6 @@ function registerToggleLabels() {
 
 			//theMainObject.remove(theScreenCenter);
 
-			//==|| Lets see the changes
-			render();
 		}
 		else {
 			labelsAreVisible = true;
@@ -1127,9 +1188,11 @@ function registerToggleLabels() {
 
 			//theMainObject.add(theScreenCenter);
 
-			//==|| Lets see the changes
-			render();
 		}
+
+		//==|| Lets see the changes
+		render();
+
 
 	});
 
@@ -1152,18 +1215,17 @@ function registerToggleWellPath() {
 			
 			theMainObject.remove(theWellPath);
 
-
-			//==|| Lets see the changes
-			render();
 		}
 		else {
 			wellPathIsVisible = true;
 			
 			theMainObject.add(theWellPath);
 
-			//==|| Lets see the changes
-			render();
 		}
+
+
+		//==|| Lets see the changes
+		render();
 
 	});
 
@@ -1190,6 +1252,12 @@ function registerAddPathButton() {
 
 			//==|| Add a new line
 			addWellPath(x, y, z);
+
+			//==|| Check if the well is inside the ranges of the Planes
+			checkRangesForPlanes(x, y, z);
+
+			//==|| Render the changes
+			render();
 
 
 			//==|| Add the inactive row effect for the current wor
@@ -1311,10 +1379,6 @@ function registerEditPathButton() {
 			$(this).parent().parent().find(".divAZI").find("input").prop('disabled', false);
 
 
-
-
-
-
 	});
 
 
@@ -1348,7 +1412,7 @@ function registerDonePathButton() {
 			//$.each(data, function(index){
 
 			var theNewPoint = v(x,y,z);
-			//==|| the new poin would be the new end point for this line
+			//==|| the new point would be the new end point for the current line
 			theWellPathArray[currentLineCountIs].theEndPoint = theNewPoint;
 
 			if(currentLineCountIs == noOfWellPathLines - 1){

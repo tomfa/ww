@@ -49,19 +49,21 @@
 <!-- Date picker would be nice at some point-->
 
 {% if messages %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.growl.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.growl.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function() {
-	{% for message in messages %}
+	<script type="text/javascript">
+	$(document).ready(function() {
+		{% for message in messages %}
 			// Konfigurasjon av design og innhold ligger i jqery.growl.js
-			message = "{{ message|linebreaksbr }}";
-			image = "{{ STATIC_URL }}images/icons/{{ message.tags }}.png";
+
+			message = "{{ message.text|linebreaksbr }}";
+			image = "{{ STATIC_URL }}img/icons/{{ message.tags }}.png";
 			$.growl("", message, image);
 			{% endfor %}
-		});
-</script>
+	});
+	</script>
 {% endif %}
+
 {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from wellvis.views import generate_sidepanel
 
 

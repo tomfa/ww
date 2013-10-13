@@ -1,10 +1,32 @@
 {% extends "base/main.html" %}
 
 {% block content %}
-<p>The content of this page should show the status of the selected well.</p>
-<h3></h3>
-<ul>
-    <li>short_name: {{ selected_well.short_name }}</li>
-    <li>description: {{ selected_well.description }}</li>
-</ul>
+<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{ selected_well.name }}</h3>
+        </div>
+        <div class="panel-body">
+            <p><span class="strong">Country</span>: {{ selected_country.name }}<br />
+            <span class="strong">Field</span>: {{ selected_field.name }}<br />
+            <span class="strong">Platform</span>: {{ selected_platform.name }}<br />
+            <span class="strong">Operator</span>: Conoco Phillips<br />
+            <span class="strong">Description</span>: {{ selected_well.description }}</p>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Current work plan</h3>
+        </div>
+        <div class="panel-body">
+            <p><span class="strong">Version</span>: 1.2<br />
+            <span class="strong">Owner</span>: Rune Larsen<br />
+            <span class="strong">Start date</span>: 2013-09-04<br />
+            <span class="strong">Operation start</span>: 2014-10-05<br />
+            <span class="strong">End date</span>: 2015-02-19</p>
+        </div>
+    </div>
+</div>
 {% endblock %}

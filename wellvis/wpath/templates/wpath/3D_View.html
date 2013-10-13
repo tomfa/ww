@@ -485,6 +485,16 @@
 	};
 
 
+	var theDefaultWellJSONdata =	{
+		"minX"	: -100,
+		"maxX"	: 100,
+		"minY"	: -100,
+		"maxY"	: 100,
+		"theZ" 	: 150,
+		"theUnit" : 50,
+		"theValues" : []
+	};
+
 
    	var theWidth 	= theScreenWidth - 446 - 8; //418
    	var theHeight 	= theScreenHeight - 60 - 100; 
@@ -641,6 +651,7 @@ $(document).ready(function() {
 
 	//==|| Read the well JSON data and construct the well path from it.
 	readWellJSONdata(theWellJSONdata);
+	//readWellJSONdata(theDefaultWellJSONdata); //==|| The Default empty 3D Well Module
 
 	//theCamera.target.x = 0; //(new THREE.Vector3(0, 150, 0));
 	//theCamera.target.y = 150; 
@@ -701,6 +712,8 @@ $(document).ready(function() {
 	registerToggleShowHideLeftPanel();
 
 
+
+/*
 	//==|| Register the button press and release effect event listener
 	registerButtonPressReleaseEffects();
 
@@ -715,7 +728,9 @@ $(document).ready(function() {
 	//==|| Register the Done Path button event listener
 	//==|| for the Done button in the Well Paths Tab in Left Panel
 	registerDonePathButton();
-	
+*/
+
+
 
 }); //==|| dom ready ||========
 //################################################################################################################################################
@@ -802,7 +817,7 @@ $(document).ready(function() {
 	}
 
 
-
+//==|| Reads theWellJSONdata JSON object and constructs the well according to it
 function readWellJSONdata(theWellJSONdata) {
 
 	//==|| Resetting the Previous point to be Origin
@@ -811,12 +826,14 @@ function readWellJSONdata(theWellJSONdata) {
 	//==|| Resetting the No. of well Path lines to be 0
    	noOfWellPathLines = 0;
 
+   	//==|| Emptying the Tables of values
+   	 $("#theAddPathContainer").empty();
 
 	//theWellPathArray
 
 	var data = theWellJSONdata;
 
-	
+		//==|| Read the ranges for the Axes Plane
 		minX 	= data.minX;
 		maxX 	= data.maxX;
 		minY 	= data.minY;
@@ -824,22 +841,27 @@ function readWellJSONdata(theWellJSONdata) {
 		theZ 	= data.theZ;
 		theUnit = data.theUnit;
 
+		/*
+		//==|| Let's check the values
 		colorTrace("minX : " + minX, "Green");
 		colorTrace("maxX : " + maxX, "Blue");
 		colorTrace("minY : " + minY, "Green");
 		colorTrace("maxY : " + maxY, "Blue");
 		colorTrace("theZ : " + theZ, "Green");
 		colorTrace("theUnit : " + theUnit, "Blue");
+		*/
+
+		//==|| Redraw the Axes planes according to the new ranges
+		redrawAxesPlanes();
 
 
-
-
-
+		//==|| These are the values User inputted
 		var theValues = data.theValues;
 
-		
+		//==|| Iterate through the values
 		$.each(theValues, function(valuesIndex) {
 				
+				//==|| The values 
 				var theMD 		= theValues[valuesIndex].theMD;
 				var theINC 		= theValues[valuesIndex].theINC;
 				var theAZI		= theValues[valuesIndex].theAZI;
@@ -847,22 +869,33 @@ function readWellJSONdata(theWellJSONdata) {
 				var itsY 		= theValues[valuesIndex].itsY;
 				var itsZ 		= theValues[valuesIndex].itsZ;
 
+				//==|| These are the points that make up the line
+				//==|| NOTE: currently not doing anything with them...
 				var thePoints 	= theValues[valuesIndex].thePoints;
 						
-
+				/*		
+				//==|| Let's check the values
 				colorTrace("theMD : " + theMD, "Green");
 				colorTrace("theINC : " + theINC, "Blue");
 				colorTrace("theAZI : " + theAZI, "Green");
 				colorTrace("itsX : " + itsX, "Blue");
 				colorTrace("itsY : " + itsY, "Green");
 				colorTrace("itsZ : " + itsZ, "Blue");
+				*/
 
-				//==|| Add this to the well path
+				//==|| Add this to our main Well path object
 				addWellPath(itsX, itsY, itsZ);
 
-				//==|| Check the Ranges for the Axes planes
-				checkRangesForPlanes(itsX, itsY, itsZ);
+				//==|| Add a new Row in the table with the values shown
+				addNewRowInTable(noOfWellPathLines, itsX, itsY, itsZ, "Edit" );
+				noOfWellPathLines++;
+				colorTrace("inside readWllJSONdata  no.of well path lines " + noOfWellPathLines, "Green");
 
+				//registerAddPathButton();
+				//registerEditPathButton();
+				//registerDonePathButton();
+
+				registerButtonPressReleaseEffects();
 
 
 				$.each(thePoints, function(pointsIndex) {
@@ -870,9 +903,12 @@ function readWellJSONdata(theWellJSONdata) {
 					var y = thePoints[pointsIndex].y;
 					var z = thePoints[pointsIndex].z;
 					
+					/*
+					//==|| Let's check the values
 					colorTrace("x : " + x, "Green");
 					colorTrace("y : " + y, "Blue");
 					colorTrace("z : " + z, "Green");
+					*/
 
 					//==|| Need to do something with these points later ||==
 					// ****
@@ -885,6 +921,17 @@ function readWellJSONdata(theWellJSONdata) {
 
 		});
 
+	//==|| Adding a new row
+	addNewRowInTable(noOfWellPathLines, 0, 0, 0, "Add");	
+
+	colorTrace("inside readWllJSONdata 2 no.of well path lines " + noOfWellPathLines, "Green");
+
+	//==|| Register the event listeners for the Buttons
+	registerAddPathButton();
+	registerEditPathButton();
+	registerDonePathButton();
+
+	registerButtonPressReleaseEffects();
 
 	//==|| Render the changes
 	render();	
@@ -1239,12 +1286,16 @@ function registerAddPathButton() {
 		colorTrace("Add the well", "green");
 
 
+
+		//==|| If the Point is okay to add
 		if(isPointOkToAdd(noOfWellPathLines)) {
 			colorTrace("Point is okay to add", "Green");
 
+			//==|| Find the current table row no
 			var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
 			colorTrace("noOfWellPathLinesStr = " + noOfWellPathLinesStr, "Blue");
 
+			//==|| Read the inputted values
 			var x = $("#valueMD_"  + noOfWellPathLinesStr).val() - 0;
 			var y = $("#valueINC_" + noOfWellPathLinesStr).val() - 0;
 			var z = $("#valueAZI_" + noOfWellPathLinesStr).val() - 0;
@@ -1277,7 +1328,12 @@ function registerAddPathButton() {
 			$(this).parent().parent().find(".divINC").find("input").prop('disabled', true);
 			$(this).parent().parent().find(".divAZI").find("input").prop('disabled', true);
 
-			//==|| No. of well path line increments
+
+			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, "Add");
+			noOfWellPathLines++;
+
+			/*
+			//==|| Increment the No. of well path lines (also denotes how many ROWS of value are inputted by the User)
 			noOfWellPathLines++;
 
 			var newNoOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
@@ -1315,6 +1371,10 @@ function registerAddPathButton() {
 			 //==|| Append in the Add Path Container
 			 $("#theAddPathContainer").append(newWellPathInfoBoxContainerStr);
 
+
+			*/
+
+
 			 //==|| Now register yourself for the new buttons
 			 registerAddPathButton();
 			 registerEditPathButton();
@@ -1348,11 +1408,77 @@ function registerAddPathButton() {
 }
 
 
+function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
+
+			//==|| No. of well path line increments
+			//currentRow++;
+
+			var newNoOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(currentRow);
+
+			//==|| Now let's add new row of inputs and buttons
+			var newWellPathInfoBoxContainerStr = 
+			 	'<div id="wellPathInfoBoxContainer_' + newNoOfWellPathLinesStr + '" class="wellPathInfoBoxContainer">' +
+					'<div class="wellPathInputBoxContainer divMD">' +
+						'<input id="valueMD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueMD" value="' + value1 + '" size="10"/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divINC">' +
+						'<input id="valueINC_' + newNoOfWellPathLinesStr+ '" type="text" name="valueINC" value="' + value2 + '" size="10"/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divAZI">' +
+						'<input id="valueAZI_' + newNoOfWellPathLinesStr+ '" type="text" name="valueAZI" value="' + value3 + '" size="10"/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divAddPathBtn">' +
+						'<button id="addPathBtn_' + newNoOfWellPathLinesStr+ '" class="btn addEditPathBtn addPathBtn">' +
+							'<span class""> Add</span>' +
+						'</button>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">' +
+						'<button id="editPathBtn_' + newNoOfWellPathLinesStr +'" class="btn addEditPathBtn editPathBtn">' +
+							'<span class"">Edit</span>' +
+						'</button>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">' + 
+						'<button id="donePathBtn_' + newNoOfWellPathLinesStr + '" class="btn addEditPathBtn donePathBtn">' + 
+							'<span class"">Done</span>' + 
+						'</button>' + 
+					'</div>' + 
+			 	'</div>';
+
+
+			 //==|| Append in the Add Path Container
+			 $("#theAddPathContainer").append(newWellPathInfoBoxContainerStr);
+
+			 if(activeButton == "Add") {
+			 	$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"block"});
+			 	$("#editPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"none"});
+			 	$("#donePathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"none"});
+			 }
+			 else if(activeButton == "Edit") {
+			 	$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"none"});
+			 	$("#editPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"block"});
+			 	$("#donePathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"none"});
+
+				//==|| Disable all the inputs
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divMD").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divINC").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divAZI").find("input").prop('disabled', true);
+
+			 }
+			 else if(activeButton == "Done") {
+			 	$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"none"});
+			 	$("#editPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"none"});
+			 	$("#donePathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"block"});
+			 }
+
+}
+
 
 
 function registerEditPathButton() {
 	$(".editPathBtn").click(function() {
 		colorTrace("Edit button Pressed", "Green");
+
+		//colorTrace("Edit path Btn", "RED");
 
 		//==|| Remove the inactive color for this row
 		$(this).parent().parent().removeClass("inactiveRowWellPathContainer");
@@ -1397,7 +1523,8 @@ function registerDonePathButton() {
 		//colorTrace("noOfWellPathLinesStr = " + noOfWellPathLinesStr, "Blue");
 
 		colorTrace("ID =" + currentDivName, "Blue");
-		colorTrace("No = " + currentLineCountIs, "Green");
+		colorTrace("currentLineCountIs = " + currentLineCountIs, "Green");
+		colorTrace("noOfWellPathLines = " + noOfWellPathLines, "Blue")
 
 		if(isPointOkToAdd(currentLineCountIs)) {
 			colorTrace("The line is OK to add", "Green");	
@@ -1608,182 +1735,198 @@ function registerDonePathButton() {
    	}
 
 
-   	function checkRangesForPlanes(x, y, z) {
 
-   		var redraw = false;
+//==|| Check if the current point fall under the current Axes plane ranges
+//==|| if not adjust the ranges again and redraw the Axes planes again
+function checkRangesForPlanes(x, y, z) {
 
-   		if(x > maxX) { 
-   			maxX = parseInt(x / theUnit) * theUnit + theUnit;
-   			redraw = true;
-   		}
+	var redraw = false;
 
-   		if(x < minX) {
-   			minX = parseInt(x / theUnit) * theUnit - theUnit;
-   			redraw = true;
-   		}
+	if(x > maxX) { 
+		maxX = parseInt(x / theUnit) * theUnit + theUnit;
+		redraw = true;
+	}
 
-   		if(y > maxY) {
-   			maxY =parseInt(y / theUnit) * theUnit + theUnit;
-   			redraw = true;
-   		}
+	if(x < minX) {
+		minX = parseInt(x / theUnit) * theUnit - theUnit;
+		redraw = true;
+	}
 
-   		if(y < minY) {
-   			minY = parseInt(y / theUnit) * theUnit - theUnit;
-   			redraw = true;
-   		}
+	if(y > maxY) {
+		maxY =parseInt(y / theUnit) * theUnit + theUnit;
+		redraw = true;
+	}
 
-   		if(z > theZ) {
-   			theZ = parseInt(z / theUnit) * theUnit + theUnit;
-   			redraw = true;
-   		}
+	if(y < minY) {
+		minY = parseInt(y / theUnit) * theUnit - theUnit;
+		redraw = true;
+	}
 
-
-   		if(redraw) {
-
-
-	      	//==|| Removing the outlines and grids 
-	      	theYZ_Plane.remove(theYZ_PlaneOutline);
-	      	theYZ_Plane.remove(theYZ_PlaneGrids);
-
-	      	//==|| Removing the grid line and the axis line from the plane grids
-	      	theYZ_PlaneGrids.remove(theYZ_PlaneGridLines);		      	
-      		theYZ_PlaneGrids.remove(theYZ_PlaneAxisLine);
+	if(z > theZ) {
+		theZ = parseInt(z / theUnit) * theUnit + theUnit;
+		redraw = true;
+	}
 
 
-	      	//==|| Redraw the YZ Plane
-			drawYZ_Plane();
+	if(redraw) {
+		redrawAxesPlanes();
+	}
 
 
-	      	//==|| Removing the outline and the grids
-	      	theXZ_Plane.remove(theXZ_PlaneOutline);
-	      	theXZ_Plane.remove(theXZ_PlaneGrids);
+}
 
-			//==|| Removing the grid line and the axis line from the plane grids
-	      	theXZ_PlaneGrids.remove(theXZ_PlaneGridLines);		      	
-      		theXZ_PlaneGrids.remove(theXZ_PlaneAxisLine);
-
-	      	//==|| Removing the labels
-			theXZ_Plane.remove(theXZ_PlaneLabels);
-
-			//==|| Remove all the children of theXZ_PlaneLabels
-			for ( var i = theXZ_PlaneLabels.children.length - 1; i >= 0 ; i-- ) {
-			  	theXZ_PlaneLabels.remove(theXZ_PlaneLabels.children[ i ]);
-			}
-
-			//==|| Redwaring the XZ Plane
-			drawXZ_Plane();
+//==|| Redraw the Axes plane
+function redrawAxesPlanes() {
 
 
-	      	//==|| Removing the Outline and the grids 
-	      	theXY_Plane.remove(theXY_PlaneOutline);
-	      	theXY_Plane.remove(theXY_PlaneGrids);
+  	//==|| Removing the outlines and grids of YZ Plane
+  	theYZ_Plane.remove(theYZ_PlaneOutline);
+  	theYZ_Plane.remove(theYZ_PlaneGrids);
 
-	      	//==|| Removing the grid line and the axis line from the plane grids
-	      	theXY_PlaneGrids.remove(theXY_PlaneGridLines);		      	
-      		theXY_PlaneGrids.remove(theXY_PlaneAxisLine);
-
-
-			//==|| Removing the labels from XY Plane
-	      	theXY_Plane.remove(theXY_PlaneLabels);
-
-	      	
-	      	//==|| Remove all the children of theXY_PlaneLabels
-			for ( var i = theXY_PlaneLabels.children.length - 1; i >= 0 ; i-- ) {
-			  	theXY_PlaneLabels.remove(theXY_PlaneLabels.children[ i ]);
-			}
+  	//==|| Removing the grid line and the axis line from the plane grids
+  	theYZ_PlaneGrids.remove(theYZ_PlaneGridLines);		      	
+		theYZ_PlaneGrids.remove(theYZ_PlaneAxisLine);
 
 
-			drawXY_Plane();
-
-			
-
-			theMainObject.remove(theArrowNorth);
-
-			drawArrowNorth();
-
-   		}
+  	//==|| Redrawing the YZ Plane
+	drawYZ_Plane();
 
 
-   	}
+
+  	//==|| Removing the outline and the grids of XZ Plane
+  	theXZ_Plane.remove(theXZ_PlaneOutline);
+  	theXZ_Plane.remove(theXZ_PlaneGrids);
+
+	//==|| Removing the grid line and the axis line from the plane grids
+  	theXZ_PlaneGrids.remove(theXZ_PlaneGridLines);		      	
+		theXZ_PlaneGrids.remove(theXZ_PlaneAxisLine);
+
+  	//==|| Removing the labels
+	theXZ_Plane.remove(theXZ_PlaneLabels);
+
+	//==|| Remove all the children of theXZ_PlaneLabels
+	for ( var i = theXZ_PlaneLabels.children.length - 1; i >= 0 ; i-- ) {
+	  	theXZ_PlaneLabels.remove(theXZ_PlaneLabels.children[ i ]);
+	}
+
+	//==|| Redrawing the XZ Plane
+	drawXZ_Plane();
 
 
-   	function redrawWellPath() {
 
-   		//==|| First of all lets remove the current well path
-		theMainObject.remove(theWellPath);
+  	//==|| Removing the Outline and the grids of XY Plane
+  	theXY_Plane.remove(theXY_PlaneOutline);
+  	theXY_Plane.remove(theXY_PlaneGrids);
 
-		//==|| Empty the well path object as well
-		//theWellPath.length = 0;
-
-		//theWellPathList
-		//==|| Empty the well path object3D
-		$.each(theWellPathList, function(index){
-			//colorTrace("object is "+ theObject, "Green");
-			theWellPath.remove(theWellPathList[index]);
-		});
+  	//==|| Removing the grid line and the axis line from the plane grids
+  	theXY_PlaneGrids.remove(theXY_PlaneGridLines);		      	
+		theXY_PlaneGrids.remove(theXY_PlaneAxisLine);
 
 
-		//colorTrace("theWellPath = " +  theWellPath.length, "Green");
+	//==|| Removing the labels from XY Plane
+  	theXY_Plane.remove(theXY_PlaneLabels);
 
-		//==|| empty the well path list
-		theWellPathList.length = 0;
+  	
+  	//==|| Remove all the children of theXY_PlaneLabels
+	for ( var i = theXY_PlaneLabels.children.length - 1; i >= 0 ; i-- ) {
+	  	theXY_PlaneLabels.remove(theXY_PlaneLabels.children[ i ]);
+	}
 
-		//theWellPath.forEach(function(object) {
-		//	theWellPath.remove(object);
-		//});
-
-		//theWellPath.remove(theLine);
-
-		//theWellPath = new THREE.Object3D();
-		//colorTrace("Emptied the Well Path Object. Now ready for inserting new ones", "Green");
+	//==|| Redrawing the XY Plane
+	drawXY_Plane();	
 
 
-   		var data = theWellPathArray;
-		$.each(data, function(index){
 
-			var theStartPoint 	= data[index].theStartPoint;
-			var theEndPoint 	= data[index].theEndPoint;
-			var theColor 		= data[index].theColor;
-			var theLineWidth 	= data[index].theLineWidth;
+	//==|| remove the previous North Arrow 
+	theMainObject.remove(theArrowNorth);
 
-
-				var theNewLineMaterial = new THREE.LineBasicMaterial( {
-		      			color: theColor, 
-		      			lineWidth: theLineWidth
-		      		}
-		      	);
+	//==|| Now redraw the North Arrow
+	drawArrowNorth();
 
 
-				//==|| The New Line Geometry
-		      	var theNewLineGeo = new THREE.Geometry();
-		      	theNewLineGeo.vertices.push(
-		      		theStartPoint, theEndPoint
-		      	);
+
+}
 
 
-		      	//==|| The New Line
-		      	var theNewLine = new THREE.Line(theNewLineGeo, theNewLineMaterial);
-		      	theNewLine.type = THREE.Lines;
+//==|| Redraw the well path
+function redrawWellPath() {
 
-		      	//==|| Add the new line to the Well Path object in the scene
-				theWellPath.add(theNewLine);
+	//==|| First of all lets remove the current well path
+	theMainObject.remove(theWellPath);
 
-				//==|| Pushing in the New lines it the well path
-				theWellPathList.push(theNewLine);
+	//==|| Empty the well path object as well
+	//theWellPath.length = 0;
 
-		});
+	//theWellPathList
+	//==|| Empty the well path object3D
+	$.each(theWellPathList, function(index){
+		//colorTrace("object is "+ theObject, "Green");
+		theWellPath.remove(theWellPathList[index]);
+	});
 
 
-   		//==||Let's add the well path back to the main object
-		theMainObject.add(theWellPath);
+	//colorTrace("theWellPath = " +  theWellPath.length, "Green");
+
+	//==|| empty the well path list
+	theWellPathList.length = 0;
+
+	//theWellPath.forEach(function(object) {
+	//	theWellPath.remove(object);
+	//});
+
+	//theWellPath.remove(theLine);
+
+	//theWellPath = new THREE.Object3D();
+	//colorTrace("Emptied the Well Path Object. Now ready for inserting new ones", "Green");
 
 
-		//colorTrace("theWellPathList length = " + theWellPathList.length, "Blue");
+	var data = theWellPathArray;
+	
+	$.each(data, function(index){
 
-		//==|| Let's render the changes
-		render();
+		var theStartPoint 	= data[index].theStartPoint;
+		var theEndPoint 	= data[index].theEndPoint;
+		var theColor 		= data[index].theColor;
+		var theLineWidth 	= data[index].theLineWidth;
 
-   	}
+
+		var theNewLineMaterial = new THREE.LineBasicMaterial( {
+      			color: theColor, 
+      			lineWidth: theLineWidth
+      		}
+      	);
+
+
+		//==|| The New Line Geometry
+      	var theNewLineGeo = new THREE.Geometry();
+      	theNewLineGeo.vertices.push(
+      		theStartPoint, theEndPoint
+      	);
+
+
+      	//==|| The New Line
+      	var theNewLine = new THREE.Line(theNewLineGeo, theNewLineMaterial);
+      	theNewLine.type = THREE.Lines;
+
+      	//==|| Add the new line to the Well Path object in the scene
+		theWellPath.add(theNewLine);
+
+		//==|| Pushing in the New lines it the well path
+		theWellPathList.push(theNewLine);
+
+	});
+
+
+		//==||Let's add the well path back to the main object
+	theMainObject.add(theWellPath);
+
+
+	//colorTrace("theWellPathList length = " + theWellPathList.length, "Blue");
+
+	//==|| Let's render the changes
+	render();
+
+}
 
 
 

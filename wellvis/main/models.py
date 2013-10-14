@@ -73,6 +73,7 @@ class Project(models.Model):
     users = models.ManyToManyField(User, related_name="project_users")
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    well = models.ForeignKey(Well)
     # below: to be implemented
     # path = models.ForeignKey(Path, null=True, blank=True)
     # force = models.ForeignKey(wForce)

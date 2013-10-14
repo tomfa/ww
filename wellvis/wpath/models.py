@@ -1,6 +1,7 @@
 from django.db import models
 from main.models import Project
 
+
 class Algorithm(models.Model):
     """
     An algorithm for calculating path between :model:`wpath.HelpPoint`. 
@@ -11,6 +12,7 @@ class Algorithm(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class HelpPointType(models.Model):
     """
@@ -25,6 +27,7 @@ class HelpPointType(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Path(models.Model):
     """
     Path is the main class containing all the necessary objects to construct
@@ -33,6 +36,13 @@ class Path(models.Model):
     version = models.PositiveIntegerField()
     algorithm = models.ForeignKey(Algorithm)
     project = models.ForeignKey(Project)
+    minX = models.IntegerField()
+    maxX = models.IntegerField()
+    minY = models.IntegerField()
+    maxY = models.IntegerField()
+    theZ = models.IntegerField()
+    theUnit = models.IntegerField()
+
 
     def __unicode__(self):
         return self.project.name + "_" + self.version
@@ -43,9 +53,12 @@ class HelpPoint(models.Model):
     A HelpPoint is a place in space guiding the wells path. It could be a
     box that one would want to go through, or one to avoid. 
     """
-    depth = models.PositiveIntegerField()
-    direction = models.IntegerField()
-    inclination = models.IntegerField()
+    depth = models.PositiveIntegerField()   # theMD
+    direction = models.IntegerField()       # theAZI
+    inclination = models.IntegerField()     # theINC
+    x = models.IntegerField()               
+    y = models.IntegerField()
+    z = models.IntegerField()
     radius = models.PositiveIntegerField(null=True)
     type = models.ForeignKey(HelpPointType)
     wpath = models.ForeignKey(Path)
@@ -54,3 +67,17 @@ class HelpPoint(models.Model):
     next_point = models.ForeignKey('self', null=True, blank=True,
         related_name="next_helppoint")
 
+
+class IntermediatePoint(models.Model):
+    """
+    IntermediatePoints are points between helppoints. They are the points
+    after the HelpPoint they are linked to.
+    """
+    parentPoint = models.ForeignKey(HelpPoint)
+    x = models.IntegerField()               
+    y = models.IntegerField()
+    z = models.IntegerField()
+    previous_point = models.ForeignKey('self', null=True, blank=True,
+        related_name="previous_intermediatepoint")
+    next_point = models.ForeignKey('self', null=True, blank=True,
+        related_name="next_intermediatepoint")

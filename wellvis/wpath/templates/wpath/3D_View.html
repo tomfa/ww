@@ -68,15 +68,12 @@
 							<span >The Scene</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >The Scene Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span>Color</span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="theSceneColorInput" type="text" name="theSceneColorInput" size="10"/>
 							</div>
-							<button id="theSceneColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
 						</div>
 
 
@@ -88,16 +85,18 @@
 							<span >The Well Path</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Well Path Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span>Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="theWellPathColorInput" type="text" name="theWellPathColorInput" size="10"/>
 							</div>
-							<button id="theWellPathColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="theWellPathLineOpacity" class="theSlider"></div>
 						</div>
+							
 
 
 						<div class="settingSeparatorLine"></div>
@@ -107,38 +106,50 @@
 						<div class="settingsLargerDIVforTitle">
 							<span >The XY Plane</span>
 						</div>
+						<div class="settingsMediumDIV">
+							<span >Outline</span>
+						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Outline Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="XYplaneOutlineColorInput" type="text" name="valueXYplaneOutlineColorInput" size="10"/>
 							</div>
-							<button id="XYplaneOutlineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span>Opacity </span>
+							</div>
+							<div id="XYplaneOutlineLineOpacity" class="theSlider"></div>
+						</div>
+						<div class="settingsMediumDIV">
+							<span >Grid-lines</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Grid-lines Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="XYplaneGridlineColorInput" type="text" name="valueXYplaneGridlineColorInput" size="10"/>
 							</div>
-							<button id="XYplaneGridlineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="XYplaneGridlineLineOpacity" class="theSlider"></div>
+						</div>
+						<div class="settingsMediumDIV">
+							<span >Axis-Line</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Axis-line Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="XYplaneAxislineColorInput" type="text" name="valueXYplaneAxislineColorInput" size="10"/>
 							</div>
-							<button id="XYplaneAxislineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="XYplaneAxislineLineOpacity" class="theSlider"></div>
 						</div>
 						
 
@@ -149,38 +160,50 @@
 						<div class="settingsLargerDIVforTitle">
 							<span >The XZ Plane</span>
 						</div>
+						<div class="settingsMediumDIV">
+							<span >Outline</span>
+						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Outline Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="XZplaneOutlineColorInput" type="text" name="valueXZplaneOutlineColorInput" size="10"/>
 							</div>
-							<button id="XZplaneOutlineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="XZplaneOutlineLineOpacity" class="theSlider"></div>
+						</div>
+						<div class="settingsMediumDIV">
+							<span >Grid-Lines</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Grid-lines Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="XZplaneGridlineColorInput" type="text" name="valueXZplaneGridlineColorInput" size="10"/>
 							</div>
-							<button id="XZplaneGridlineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="XZplaneGridlineLineOpacity" class="theSlider"></div>
+						</div>
+						<div class="settingsMediumDIV">
+							<span >Axis-Line</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Axis-line Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="XZplaneAxislineColorInput" type="text" name="valueXZplaneAxislineColorInput" size="10"/>
 							</div>
-							<button id="XZplaneAxislineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="XZplaneAxislineLineOpacity" class="theSlider"></div>
 						</div>
 
 						
@@ -191,38 +214,50 @@
 						<div class="settingsLargerDIVforTitle">
 							<span >The YZ Plane</span>
 						</div>
+						<div class="settingsMediumDIV">
+							<span >Outline</span>
+						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Outline Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="YZplaneOutlineColorInput" type="text" name="valueYZplaneOutlineColorInput" size="10"/>
 							</div>
-							<button id="YZplaneOutlineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
-						</div>						
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="YZplaneOutlineLineOpacity" class="theSlider"></div>
+						</div>
+						<div class="settingsMediumDIV">
+							<span >Grid-Lines</span>
+						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Grid-lines Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="YZplaneGridlineColorInput" type="text" name="valueYZplaneGridlineColorInput" size="10"/>
 							</div>
-							<button id="YZplaneGridlineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
-						</div>						
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="YZplaneGridlineLineOpacity" class="theSlider"></div>
+						</div>
+						<div class="settingsMediumDIV">
+							<span >Axis-Line</span>
+						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Axis-line Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="YZplaneAxislineColorInput" type="text" name="valueYZplaneAxislineColorInput" size="10"/>
 							</div>
-							<button id="YZplaneAxislineColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Color </span>
+							</div>
+							<div id="YZplaneAxislineLineOpacity" class="theSlider"></div>
 						</div>
 
 
@@ -234,26 +269,21 @@
 							<span >Labels</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Label Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="labelColorInput" type="text" name="labelColorInput" size="10"/>
 							</div>
-							<button id="labelColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
 						</div>
-						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Label Size </span>
-							</div>						
+						<div class="settingsLargerDIV ">
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Size </span>
+							</div>
+							<div id="labelSizeSlider" class="theSlider"></div>
 							<div class="settingsInputContainerDIV" style="">
 								<input id="labelSizeInput" type="text" name="labelSizeInput" size="10"/>
 							</div>
-							<button id="labelSizeInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
 						</div>
 
 
@@ -265,15 +295,16 @@
 							<span >North Arrow</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Arrow Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="arrowColorInput" type="text" name="arrowColorInput" size="10"/>
 							</div>
-							<button id="arrowColorInputOkBtn" class="btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="arrowOpacity" class="theSlider"></div>
 						</div>
 
 
@@ -285,16 +316,17 @@
 							<span >Center of Rotation</span>
 						</div>
 						<div class="settingsLargerDIV">
-							<div class="settingsSmallerDIV" style="">
-								<span >Sign Color </span>
+							<div class="settingsSmallerDIV settingColorText" style="">
+								<span >Color </span>
 							</div>						
 							<div class="settingsInputContainerDIV" style="">
 								<input id="rotationSignColorInput" type="text" name="rotationSignColorInput" size="10"/>
 							</div>
-							<button id="rotationSignColorInputOkBtn" class=" btn settingColorOkBtn ">
-								<span class"">OK</span>
-							</button>
-						</div>	
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="rotationSignOpacity" class="theSlider"></div>
+						</div>
 
 
 						<div id="someFooterSpace" style="height: 30px; width: 200px;"></div>
@@ -326,6 +358,9 @@
 
 <!-- The ColorPicker -->
 <link rel='stylesheet' href='{{ STATIC_URL }}/css/spectrum.css' />
+
+<!-- The Slider -->
+<link rel="stylesheet" href="{{ STATIC_URL }}/css/jquery.nouislider.min.css" >
 
 	<style>
 
@@ -581,25 +616,40 @@
 
 	.settingsLargerDIV {
 		clear: both;
-		width: 370px;
+		width: 357px;
+		height: 35px;
+		margin: 5px 0px 0px 25px;
+		
+		padding: 3px 0px 0px 0px;		
+	}
+
+	.settingsMediumDIV {
+		clear: both;
+		width: 357px;
 		height: 35px;
 		margin: 5px 0px 0px 10px;
 		
-		padding: 3px 0px 0px 0px;		
+		padding: 25px 0px 0px 0px;
 	}
 
 	.settingsSmallerDIV {
 		float: left;
-		width: 160px;
 		height: 26px;
-		margin: 3px 0px 0px 30px;
+		margin: 3px 0px 0px 3px;
 		
 		padding: 3px 0px 0px 0px;		
 	}
+		.settingColorText {
+			width: 47px;
+		}
+
+		.settingOpacityText {
+			width: 65px;
+		}
 
 	.settingsInputContainerDIV {
 		float: left;
-		width: 108px;
+		width: 60px;
 		height: 26px;
 		margin: 3px 0px 0px 10px;
 		
@@ -621,6 +671,36 @@
 
 
 		}
+
+		.theSlider {
+			width: 140px;
+			height: 10px;
+			float: left;
+			margin-left: 20px;
+			margin-top: 12px;
+
+		}
+			.opacityValue {
+				position: relative;
+				top: -24px;
+				left: -20px;
+				color: #000;
+				font-size: 10px;
+				z-index: -1;
+			}
+
+			/* Customizing the Slider Look and feel*/
+			
+			.noUi-handle {
+				height: 30px;
+				width: 30px;
+				margin-top: -10px;
+				font-size: 10px;
+				color: #000;
+
+				padding: 6px 0 0 4px;
+			}
+			
 
 	.settingSeparatorLine {
 		height: 0px;
@@ -672,7 +752,9 @@
 
 		<!-- The Color Picker -->
 		<script src='{{ STATIC_URL }}/js/spectrum.js'></script>
-
+		
+		<!-- The Slider-->
+		<script src="{{ STATIC_URL }}/js/jquery.nouislider.min.js"></script>
 
 <script type="text/javascript">
 	//==< for browser logs >===
@@ -774,22 +856,35 @@ var theDefaultWellJSONdata =	{
 
 
 //==|| For Default Settings
+//==|| These are the setting different components of our 3D Module
 var theDefaultSettingsJSONdata =	{
-	"theSceneColor"						: "#000000",
-	"theWellLineColor"					: "#FFFF00",
-	"theXY_PlaneOutlineMaterialColor"	: "#FF0000",
-	"theXY_PlaneGridLinesMaterialColor"	: "#777777",
-	"theXY_PlaneAxisLineMaterialColor"	: "#FFFFFF",
-	"theXZ_PlaneOutlineMaterialColor"	: "#0000FF",
-	"theXZ_PlaneGridLinesMaterialColor"	: "#777777",
-	"theXZ_PlaneAxisLineMaterialColor"	: "#FFFFFF",
-	"theYZ_PlaneOutlineMaterialColor" 	: "#00FF00",
-	"theYZ_PlaneGridLinesMaterialColor" : "#777777",
-	"theYZ_PlaneAxisLineMaterialColor"	: "#FFFFFF",
-	"theLabelColor" 					: "#FFFFFF",
-	"theLabelFontSize"					: 70,
-	"theArrowNorthColor" 				: "#FFFFFF",
-	"screenCenterSignColor" 			: "#FFFFFF"
+	"theSceneColor"								: "#000000",
+	"theWellLineColor"							: "#FFFF00",
+	"theWellLineOpacity"						: 1,
+	"theXY_PlaneOutlineMaterialColor"			: "#FF0000",
+	"theXY_PlaneOutlineMaterialLineOpacity"		: 1,
+	"theXY_PlaneGridLinesMaterialColor"			: "#777777",
+	"theXY_PlaneGridLinesMaterialLineOpacity"	: 1,
+	"theXY_PlaneAxisLineMaterialColor"			: "#FFFFFF",
+	"theXY_PlaneAxisLineMaterialLineOpacity"	: 1,
+	"theXZ_PlaneOutlineMaterialColor"			: "#0000FF",
+	"theXZ_PlaneOutlineMaterialLineOpacity"		: 1,
+	"theXZ_PlaneGridLinesMaterialColor"			: "#777777",
+	"theXZ_PlaneGridLinesMaterialLineOpacity"	: 1,
+	"theXZ_PlaneAxisLineMaterialColor"			: "#FFFFFF",
+	"theXZ_PlaneAxisLineMaterialLineOpacity"	: 1,
+	"theYZ_PlaneOutlineMaterialColor" 			: "#00FF00",
+	"theYZ_PlaneOutlineMaterialLineOpacity"		: 1,
+	"theYZ_PlaneGridLinesMaterialColor" 		: "#777777",
+	"theYZ_PlaneGridLinesMaterialLineOpacity"	: 1,
+	"theYZ_PlaneAxisLineMaterialColor"			: "#FFFFFF",
+	"theYZ_PlaneAxisLineMaterialLineOpacity"	: 1,
+	"theLabelColor" 							: "#FFFFFF",
+	"theLabelFontSize"							: 70,
+	"theArrowNorthColor" 						: "#FFFFFF",
+	"theArrowNorthOpacity"						: 1,
+	"screenCenterSignColor" 					: "#FFFFFF",
+	"screenCenterSignOpacity" 					: 1
 };
 
 
@@ -864,6 +959,7 @@ var theDefaultSettingsJSONdata =	{
    	//==|| The Arrow to North
 	var theArrowNorth, theArrowNorthmaterial, theArrowNorthgeo;
 	var theArrowNorthColor = "#FFFFFF";
+	var theArrowNorthOpacity = 1;
 
 	//==|| The Lines to the Origin
 	var linesToOrigin, linesToOriginMaterial, linesToOriginGeo;
@@ -878,10 +974,13 @@ var theDefaultSettingsJSONdata =	{
 	 	var theYZ_PlaneAxisLine, 	theYZ_PlaneAxisLineGeo, 	theYZ_PlaneAxisLineMaterial;
 	 	var theYZ_PlaneOutlineMaterialColor 		= colorGreen;
 	 	var theYZ_PlaneOutlineMaterialLineWidth 	= 1;
+	 	var theYZ_PlaneOutlineMaterialLineOpacity 	= 1;
 	 	var theYZ_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theYZ_PlaneGridLinesMaterialLineWidth 	= 1;
+	 	var theYZ_PlaneGridLinesMaterialLineOpacity	= 1;
 	 	var theYZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theYZ_PlaneAxisLineMaterialLineWidth 	= 1;
+	 	var theYZ_PlaneAxisLineMaterialLineOpacity 	= 1;
 	 	//==|| The YZ-Plane Grids
 	 	var theYZ_PlaneGrids =  new THREE.Object3D();
 
@@ -892,10 +991,13 @@ var theDefaultSettingsJSONdata =	{
      	var theXZ_PlaneAxisLine, 	theXZ_PlaneAxisLineGeo, 	theXZ_PlaneAxisLineMaterial;
 	 	var theXZ_PlaneOutlineMaterialColor 		= colorRed;
 	 	var theXZ_PlaneOutlineMaterialLineWidth 	= 1;
+	 	var theXZ_PlaneOutlineMaterialLineOpacity 	= 1;
 	 	var theXZ_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theXZ_PlaneGridLinesMaterialLineWidth 	= 1;
+	 	var theXZ_PlaneGridLinesMaterialLineOpacity	= 1;
 	 	var theXZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theXZ_PlaneAxisLineMaterialLineWidth 	= 1;
+	 	var theXZ_PlaneAxisLineMaterialLineOpacity 	= 1;
 	 	//==|| The XZ-Plane Grids
 	 	var theXZ_PlaneGrids =  new THREE.Object3D();
 
@@ -906,10 +1008,13 @@ var theDefaultSettingsJSONdata =	{
      	var theXY_PlaneAxisLine, 	theXY_PlaneAxisLineGeo, 	theXY_PlaneAxisLineMaterial;
 	 	var theXY_PlaneOutlineMaterialColor 		= colorBlue;
 	 	var theXY_PlaneOutlineMaterialLineWidth 	= 1;
+	 	var theXY_PlaneOutlineMaterialLineOpacity 	= 1;
 	 	var theXY_PlaneGridLinesMaterialColor 		= 0x333333;
 	 	var theXY_PlaneGridLinesMaterialLineWidth 	= 1;
+	 	var theXY_PlaneGridLinesMaterialLineOpacity = 1;
 	 	var theXY_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
 	 	var theXY_PlaneAxisLineMaterialLineWidth 	= 1;
+	 	var theXY_PlaneAxisLineMaterialLineOpacity 	= 1;
 	 	//==|| The XY-Plane Grids
 	 	var theXY_PlaneGrids =  new THREE.Object3D();
 
@@ -941,6 +1046,8 @@ var theDefaultSettingsJSONdata =	{
    	var screenCenterIsVisible = true;
    	//==|| The Color of the Screen Center Sign
    	var screenCenterSignColor = 0xEEEEEE;
+   	//==|| The Opacity of the Screen Center / The center of Rotation
+   	var screenCenterSignOpacity = 1;
 
 
    	//==|| Stores the values/labels for the grids
@@ -963,16 +1070,18 @@ var theDefaultSettingsJSONdata =	{
    	var noOfWellPathLines = 0;
 
    	var theWellLineColor = 0x4045ff;
+   	var theWellLineOpacity = 1;
 
 	var theWellPathArray = new Array();
 
 
 
-var theLine = function(theStartPoint, theEndPoint, theColor, theLineWidth) {
+var theLine = function(theStartPoint, theEndPoint, theColor, theLineWidth, theLineOpacity) {
 	this.theStartPoint 	= theStartPoint;
 	this.theEndPoint 	= theEndPoint;
 	this.theColor 		= theColor;
 	this.theLineWidth 	= theLineWidth;
+	this.theLineOpacity = theLineOpacity;
 
 };
 
@@ -1129,7 +1238,7 @@ $(document).ready(function() {
 
 
 		//==|| Create a sign at the center of the screen
-		createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor);
+		createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
     	
 
 		//==|| Add Axes Planes to the scene
@@ -1299,23 +1408,36 @@ function readSettings(data) {
  	//==|| Get the Values from the JSON object
  	theSceneColor					  	= data.theSceneColor;
  	theWellLineColor				  	= data.theWellLineColor;
+ 	theWellPathLineOpacity				= data.theWellLineOpacity;
 
- 	theXY_PlaneOutlineMaterialColor	  	= data.theXY_PlaneOutlineMaterialColor;
-	theXY_PlaneGridLinesMaterialColor 	= data.theXY_PlaneGridLinesMaterialColor;
-	theXY_PlaneAxisLineMaterialColor  	= data.theXY_PlaneAxisLineMaterialColor;
+ 	theXY_PlaneOutlineMaterialColor	  			= data.theXY_PlaneOutlineMaterialColor;
+ 	theXY_PlaneOutlineMaterialLineOpacity	  	= data.theXY_PlaneOutlineMaterialLineOpacity;
+	theXY_PlaneGridLinesMaterialColor 			= data.theXY_PlaneGridLinesMaterialColor;
+	theXY_PlaneGridLinesMaterialLineOpacity 	= data.theXY_PlaneGridLinesMaterialLineOpacity;
+	theXY_PlaneAxisLineMaterialColor  			= data.theXY_PlaneAxisLineMaterialColor;
+	theXY_PlaneAxisLineMaterialLineOpacity  	= data.theXY_PlaneAxisLineMaterialLineOpacity;
 
-	theXZ_PlaneOutlineMaterialColor	  	= data.theXZ_PlaneOutlineMaterialColor;
-	theXZ_PlaneGridLinesMaterialColor 	= data.theXZ_PlaneGridLinesMaterialColor;
-	theXZ_PlaneAxisLineMaterialColor  	= data.theXZ_PlaneAxisLineMaterialColor;
+	theXZ_PlaneOutlineMaterialColor	  			= data.theXZ_PlaneOutlineMaterialColor;
+	theXZ_PlaneOutlineMaterialLineOpacity		= data.theXZ_PlaneOutlineMaterialLineOpacity;
+	theXZ_PlaneGridLinesMaterialColor 			= data.theXZ_PlaneGridLinesMaterialColor;
+	theXZ_PlaneGridLinesMaterialLineOpacity 	= data.theXZ_PlaneGridLinesMaterialLineOpacity;
+	theXZ_PlaneAxisLineMaterialColor  			= data.theXZ_PlaneAxisLineMaterialColor;
+	theXZ_PlaneAxisLineMaterialLineOpacity  	= data.theXZ_PlaneAxisLineMaterialLineOpacity;
 
-	theYZ_PlaneOutlineMaterialColor   	= data.theYZ_PlaneOutlineMaterialColor;
-	theYZ_PlaneGridLinesMaterialColor 	= data.theYZ_PlaneGridLinesMaterialColor;
-	theYZ_PlaneAxisLineMaterialColor  	= data.theYZ_PlaneAxisLineMaterialColor;
+	theYZ_PlaneOutlineMaterialColor   			= data.theYZ_PlaneOutlineMaterialColor;
+	theYZ_PlaneOutlineMaterialLineOpacity		= data.theYZ_PlaneOutlineMaterialLineOpacity;
+	theYZ_PlaneGridLinesMaterialColor 			= data.theYZ_PlaneGridLinesMaterialColor;
+	theYZ_PlaneGridLinesMaterialLineOpacity		= data.theYZ_PlaneGridLinesMaterialLineOpacity;
+	theYZ_PlaneAxisLineMaterialColor  			= data.theYZ_PlaneAxisLineMaterialColor;
+	theYZ_PlaneAxisLineMaterialLineOpacity		= data.theYZ_PlaneAxisLineMaterialLineOpacity;
 
-	theLabelColor 					  	= data.theLabelColor;
-	theLabelFontSize				  	= data.theLabelFontSize;
-	theArrowNorthColor 				  	= data.theArrowNorthColor;
-	screenCenterSignColor 			  	= data.screenCenterSignColor;
+	theLabelColor				= data.theLabelColor;
+	theLabelFontSize			= data.theLabelFontSize;
+
+	theArrowNorthColor			= data.theArrowNorthColor;
+	theArrowNorthOpacity		= data.theArrowNorthOpacity;
+	screenCenterSignColor		= data.screenCenterSignColor;
+	screenCenterSignOpacity		= data.screenCenterSignOpacity;
 
 
 	//==|| Show the values in their respective Input boxes in the Configuration Tab in the Left Panel
@@ -1341,8 +1463,12 @@ function readSettings(data) {
 	$("#rotationSignColorInput").val(screenCenterSignColor);
 
 
-	//==|| The Palettes ||===
 
+
+	//###############################################################################################################
+	//##########################################[ The Color Pickers ]################################################
+	//###############################################################################################################
+	
 	//==|| For the Scene
 	$("#theSceneColorInput").spectrum({
 	    preferredFormat: "hex",
@@ -1744,7 +1870,7 @@ function readSettings(data) {
 			//==|| remove the previous Screen Center		
 			theMainObject.remove(theScreenCenter);
 			//==|| Now create a new Screen Center
-			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor);
+			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
 			
 			render();
@@ -1757,7 +1883,7 @@ function readSettings(data) {
 	    	//==|| remove the previous Screen Center
 	    	theMainObject.remove(theScreenCenter);			
 			//==|| Now create a new Screen Center		
-			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor);
+			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
 			render();
         }
@@ -1765,10 +1891,430 @@ function readSettings(data) {
 
 
 
+	//###########################################################################################################
+	//##########################################[ Opactiy Sliders]###############################################
+	//###########################################################################################################
+
+	//==|| Opacity Slider for the Well Path
+	$("#theWellPathLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theWellLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			//colorTrace("Current Slide value is = " + values, "Green");
+			var displayValue = parseFloat(values);
+
+			//==|| new opacity value
+			theWellLineOpacity = displayValue;
+			
+			//==|| Redraw the well path with new changed features
+			redrawWellPath(true);
+			render();
+
+			//$(this).find(".noUi-origin-lower").html('<div class="noUi-handle noUi-handle-lower"></div>' + '<span class="opacityValue">' + values + "</span>");
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			colorTrace("Slide Stopped", "Red");
+
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+	//==|| Opacity Slider for the XY Plane Outline
+	$("#XYplaneOutlineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theXY_PlaneOutlineMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theXY_PlaneOutlineMaterialLineOpacity = displayValue;
+
+			emptyXY_Plane();
+			drawXY_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+	//==|| Opacity Slider for the XY Plane Outline
+	$("#XYplaneGridlineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theXY_PlaneGridLinesMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theXY_PlaneGridLinesMaterialLineOpacity = displayValue;
+
+			emptyXY_Plane();
+			drawXY_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+	//==|| Opacity Slider for the XY Plane Outline
+	$("#XYplaneAxislineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theXY_PlaneAxisLineMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theXY_PlaneAxisLineMaterialLineOpacity = displayValue;
+
+			emptyXY_Plane();
+			drawXY_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+
+
+
+	//==|| Opacity Slider for the XZ Plane Outline
+	$("#XZplaneOutlineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theXZ_PlaneOutlineMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theXZ_PlaneOutlineMaterialLineOpacity = displayValue;
+
+			emptyXZ_Plane();
+			drawXZ_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+	//==|| Opacity Slider for the XZ Plane Gridline
+	$("#XZplaneGridlineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theXZ_PlaneGridLinesMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theXZ_PlaneGridLinesMaterialLineOpacity = displayValue;
+
+			emptyXZ_Plane();
+			drawXZ_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+	//==|| Opacity Slider for the XZ Plane Axisline
+	$("#XZplaneAxislineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theXZ_PlaneAxisLineMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theXZ_PlaneAxisLineMaterialLineOpacity = displayValue;
+
+			emptyXZ_Plane();
+			drawXZ_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+
+
+
+	//==|| Opacity Slider for the YZ Plane Outline
+	$("#YZplaneOutlineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theYZ_PlaneOutlineMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theYZ_PlaneOutlineMaterialLineOpacity = displayValue;
+
+			emptyYZ_Plane();
+			drawYZ_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+	//==|| Opacity Slider for the YZ Plane Gridlines
+	$("#YZplaneGridlineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theYZ_PlaneGridLinesMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theYZ_PlaneGridLinesMaterialLineOpacity = displayValue;
+
+			emptyYZ_Plane();
+			drawYZ_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+	//==|| Opacity Slider for the YZ Plane Axis Line
+	$("#YZplaneAxislineLineOpacity").noUiSlider({
+		range: [0,1],
+		start: theYZ_PlaneAxisLineMaterialLineOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theYZ_PlaneAxisLineMaterialLineOpacity = displayValue;
+
+			emptyYZ_Plane();
+			drawYZ_Plane();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+
+	//==|| Opacity Slider for the North Arrow 
+	$("#arrowOpacity").noUiSlider({
+		range: [0,1],
+		start: theArrowNorthOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theArrowNorthOpacity = displayValue;
+
+			//==|| remove the previous North Arrow 
+			theMainObject.remove(theArrowNorth);
+
+			//==|| Now redraw the North Arrow
+			drawArrowNorth();
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+
+
+	//==|| Opacity Slider for the Center of Rotation Sign
+	$("#rotationSignOpacity").noUiSlider({
+		range: [0,1],
+		start: screenCenterSignOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			screenCenterSignOpacity = displayValue;
+
+	    	//==|| remove the previous Screen Center
+	    	theMainObject.remove(theScreenCenter);			
+			//==|| Now create a new Screen Center
+			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+
+
+	//==|| Opacity Slider for the Center of Rotation Sign
+	$("#labelSizeSlider").noUiSlider({
+		range: [5,150],
+		start: theLabelFontSize,
+		steps: 1,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseInt(values);
+
+			theLabelFontSize = displayValue;
+
+			//==|| Empty all Axes Planes first
+			emptyYZ_Plane();
+			emptyXY_Plane();
+			emptyXZ_Plane();
+
+			//==|| Redrawing all Axes Planes
+			drawYZ_Plane();
+			drawXY_Plane();
+			drawXZ_Plane();
+
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue);
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
+
+
+//############################################
+//######[ Finally Redrawing everything ]######
+//############################################
+
 	//==|| remove the previous Screen Center
 	theMainObject.remove(theScreenCenter);	
 	//==|| Now create a new Screen Center		
-	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor);
+	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
 
 	//==|| Read the Settings 
@@ -1790,7 +2336,9 @@ function addWellPath(x, y, z) {
 
 			//==|| The New Line material
 	      	var theNewLineMaterial = new THREE.LineBasicMaterial( {
-	      			color: theWellLineColor, 
+	      			transparent: true,
+	      			color: theWellLineColor,
+	      			opacity: theWellLineOpacity, 
 	      			lineWidth: 1
 	      		}
 	      	);
@@ -1809,7 +2357,7 @@ function addWellPath(x, y, z) {
 
 
       	//==|| Add the line to the list of wellPath Lines
-      	theWellPathArray.push(new theLine(thePreviousPoint, newPoint, theWellLineColor, 1) );
+      	theWellPathArray.push(new theLine(thePreviousPoint, newPoint, theWellLineColor, 1, theWellLineOpacity) );
 
       	//==|| Add the new line to the Well Path object in the scene
 		theWellPath.add(theNewLine);
@@ -2724,7 +3272,7 @@ function emptyXY_Plane() {
 
 
 //==|| Redraw the well path
-function redrawWellPath(newColors) {
+function redrawWellPath(changedFeatures) {
 
 	//==|| First of all lets remove the current well path
 	theMainObject.remove(theWellPath);
@@ -2763,15 +3311,17 @@ function redrawWellPath(newColors) {
 		var theEndPoint 	= data[index].theEndPoint;
 		var theColor 		= data[index].theColor;
 		var theLineWidth 	= data[index].theLineWidth;
+		var theLineOpacity  = data[index].theLineOpacity;
 
 		//==|| The Well Line must have the new Colors SO
-		if(newColors) {
-			theColor = theWellLineColor;	
+		if(changedFeatures) {
+			theColor = theWellLineColor;
+			theLineOpacity = theWellLineOpacity;
 		}
 
 		var theNewLineMaterial = new THREE.LineBasicMaterial( {
 				transparent: true,
-				opacity: 1,
+				opacity: theLineOpacity,
       			color: theColor, 
       			lineWidth: 1
       		}
@@ -2845,21 +3395,27 @@ function drawYZ_Plane() {
 	//==|| The Outline Material
   	theYZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
   			color: theYZ_PlaneOutlineMaterialColor, 
-  			lineWidth: theYZ_PlaneOutlineMaterialLineWidth
+  			lineWidth: theYZ_PlaneOutlineMaterialLineWidth,
+  			transparent: true,
+  			opacity: theYZ_PlaneOutlineMaterialLineOpacity
   		}
   	);
 
   	//==|| The Gridline Material
 	theYZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
   			color: theYZ_PlaneGridLinesMaterialColor, 
-  			lineWidth: theYZ_PlaneGridLinesMaterialLineWidth
+  			lineWidth: theYZ_PlaneGridLinesMaterialLineWidth,
+  			transparent: true,
+  			opacity: theYZ_PlaneGridLinesMaterialLineOpacity
   		}
   	);
 
 	//==|| the AxisLine Material
 	theYZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
   			color: theYZ_PlaneAxisLineMaterialColor, 
-  			lineWidth: theYZ_PlaneAxisLineMaterialLineWidth
+  			lineWidth: theYZ_PlaneAxisLineMaterialLineWidth,
+  			transparent: true,
+  			opacity: theYZ_PlaneAxisLineMaterialLineOpacity
   		}
   	);
 
@@ -2952,21 +3508,27 @@ function drawXZ_Plane() {
  	//==|| The Outline Material
   	theXZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
   			color: theXZ_PlaneOutlineMaterialColor, 
-  			lineWidth: theXZ_PlaneOutlineMaterialLineWidth
+  			lineWidth: theXZ_PlaneOutlineMaterialLineWidth,
+  			transparent: true,
+  			opacity: theXZ_PlaneOutlineMaterialLineOpacity
   		}
   	);
 
   	//==|| The Gridline Material
 	theXZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
   			color: theXZ_PlaneGridLinesMaterialColor, 
-  			lineWidth: theXZ_PlaneGridLinesMaterialLineWidth
+  			lineWidth: theXZ_PlaneGridLinesMaterialLineWidth,
+  			transparent: true,
+  			opacity: theXZ_PlaneGridLinesMaterialLineOpacity
   		}
   	);
 
 	//==|| the AxisLine Material
 	theXZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
   			color: theXZ_PlaneAxisLineMaterialColor, 
-  			lineWidth: theXZ_PlaneAxisLineMaterialLineWidth
+  			lineWidth: theXZ_PlaneAxisLineMaterialLineWidth,
+  			transparent: true,
+  			opacity: theXZ_PlaneAxisLineMaterialLineOpacity
   		}
   	);
 
@@ -3084,21 +3646,27 @@ function drawXY_Plane() {
  	//==|| The Outline Material
   	theXY_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
   			color: theXY_PlaneOutlineMaterialColor, 
-  			lineWidth: theXY_PlaneOutlineMaterialLineWidth
+  			lineWidth: theXY_PlaneOutlineMaterialLineWidth,
+  			transparent: true,
+  			opacity: theXY_PlaneOutlineMaterialLineOpacity
   		}
   	);
 
   	//==|| The Gridline Material
 	theXY_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
   			color: theXY_PlaneGridLinesMaterialColor, 
-  			lineWidth: theXY_PlaneGridLinesMaterialLineWidth
+  			lineWidth: theXY_PlaneGridLinesMaterialLineWidth,
+  			transparent: true,
+  			opacity: theXY_PlaneGridLinesMaterialLineOpacity
   		}
   	);
 
 	//==|| the AxisLine Material
 	theXY_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
   			color: theXY_PlaneAxisLineMaterialColor, 
-  			lineWidth: theXY_PlaneAxisLineMaterialLineWidth
+  			lineWidth: theXY_PlaneAxisLineMaterialLineWidth,
+  			transparent: true,
+  			opacity: theXY_PlaneAxisLineMaterialLineOpacity
   		}
   	);
 
@@ -3230,7 +3798,9 @@ function drawArrowNorth() {
 	//==|| The Outline Material
   	theArrowNorthmaterial = new THREE.LineBasicMaterial( {
   			color: theArrowNorthColor, 
-  			lineWidth: 2
+  			lineWidth: 1,
+  			transparent: true,
+  			opacity: theArrowNorthOpacity
   		}
   	);
 
@@ -3305,12 +3875,14 @@ function drawLinesToOrigin() {
 
 //==|| Creates the sign at the center of the screen
 //==|| which is the center of rotation for object in our 3D Module
-function createScreenCenter(x, y, z, centerSignLength, screenCenterSignColor ) {
+function createScreenCenter(x, y, z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity ) {
 
 	//==|| The Screen Center
   	var theScreenCenterMaterial = new THREE.LineBasicMaterial( {
   			color: screenCenterSignColor, 
-  			lineWidth: 1
+  			lineWidth: 1,
+  			transparent: true,
+  			opacity: screenCenterSignOpacity
   		}
   	);
 

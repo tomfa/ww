@@ -169,7 +169,7 @@ def view_well(request, wellid):
     View for well. Should provide frontend with JSON-variable containing stuff.
     """
 
-    context = {"messages":messages,}
+    context = {}
     add_sidepanel_to_context(context, "well", wellid, request.COOKIES.get('sidepanel_hidden'))
 
     response = render(request, 'wellvis/well.html', context)

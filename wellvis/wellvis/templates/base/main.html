@@ -11,6 +11,7 @@
 	<link href="{{ STATIC_URL }}css/basestyle.css" rel="stylesheet">
 	<link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet">
 	<link href="{{ STATIC_URL }}css/bootstrap-theme.css" rel="stylesheet">
+	<link href="{{ STATIC_URL }}css/notice.css" rel="stylesheet">
 
 	{% block styles %}{% endblock %}
 
@@ -42,19 +43,20 @@
 <!-- Date picker would be nice at some point-->
 
 {% if messages %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.growl.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.growl.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function() {
-	{% for message in messages %}
-			// Konfigurasjon av design og innhold ligger i jqery.growl.js
-			message = "{{ message|linebreaksbr }}";
-			image = "{{ STATIC_URL }}images/icons/{{ message.tags }}.png";
-			$.growl("", message, image);
-			{% endfor %}
-		});
-</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		{% for message in messages %}
+			title = "{{ message.title|linebreaksbr }}";
+			msg = "{{ message.msg|linebreaksbr }}";
+			image = "{{ STATIC_URL }}img/icons/{{ message.image }}.png";
+			$.growl(title, msg, image);
+		{% endfor %}
+	});
+	</script>
 {% endif %}
+
 {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -163,12 +163,12 @@ def view_platform(request, platformid):
 
     return response
 
-
 @login_required(login_url='/')
 def view_well(request, wellid):
     """
     View for well. Should provide frontend with JSON-variable containing stuff.
     """
+
     context = {}
     add_sidepanel_to_context(context, "well", wellid, request.COOKIES.get('sidepanel_hidden'))
 

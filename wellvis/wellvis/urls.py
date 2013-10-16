@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     # Modules
     (r'^wpath/', include('wpath.urls')),
     (r'^wcp/', include('wcp.urls')),
+    (r'^ajax/', include('wellvis.ajaxurls')),
     (r'^wdesign/', include('wdesign.urls')),
     (r'^wplan/', include('wplan.urls')),
     (r'^wreport/', include('wreport.urls')),

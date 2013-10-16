@@ -155,6 +155,7 @@ def view_platform(request, platformid):
     context = {}
     add_sidepanel_to_context(context, "platform", platformid, request.COOKIES.get('sidepanel_hidden'))
 
+
     response = render(request, 'wellvis/platform.html', context)
 
     response.set_cookie("sidepanel_type", value='platform', max_age=None, expires=None, path='/', domain=None, secure=None, httponly=False)
@@ -165,7 +166,7 @@ def view_platform(request, platformid):
 @login_required(login_url='/')
 def view_well(request, wellid):
     """
-    View for well.
+    View for well. Should provide frontend with JSON-variable containing stuff.
     """
 
     context = {"messages":messages,}
@@ -185,10 +186,6 @@ def dashboard(request):
     Dashboard view for logged in users. Should show the hierarchy of 
     well projects, with the ability to click and view simple things
     """
-
-    # if user is not logged in, return the home function
-    if not request.user.is_authenticated():
-        return redirect('/')
 
     countries = Country.objects.all()
     fields = Field.objects.all()

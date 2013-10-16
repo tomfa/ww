@@ -11,6 +11,7 @@
 	<link href="{{ STATIC_URL }}css/basestyle.css" rel="stylesheet">
 	<link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet">
 	<link href="{{ STATIC_URL }}css/bootstrap-theme.css" rel="stylesheet">
+	<link href="{{ STATIC_URL }}css/notice.css" rel="stylesheet">
 
 	{% block styles %}{% endblock %}
 
@@ -54,12 +55,11 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		{% for message in messages %}
-			// Konfigurasjon av design og innhold ligger i jqery.growl.js
-
-			message = "{{ message.text|linebreaksbr }}";
-			image = "{{ STATIC_URL }}img/icons/{{ message.tags }}.png";
-			$.growl("", message, image);
-			{% endfor %}
+			title = "{{ message.title|linebreaksbr }}";
+			msg = "{{ message.msg|linebreaksbr }}";
+			image = "{{ STATIC_URL }}img/icons/{{ message.image }}.png";
+			$.growl(title, msg, image);
+		{% endfor %}
 	});
 	</script>
 {% endif %}

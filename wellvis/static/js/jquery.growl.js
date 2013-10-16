@@ -104,11 +104,18 @@ function notify(title,message,image,priority) {
 	notice.hide();
 	notice.fadeIn(jQuery.growl.settings.notice);
     instance.append(notice);
-//    setTimeout(function() {
-//	  jQuery.growl.settings.noticeRemove(notice, function() {
-//        this.parentNode.removeChild(this);
-//      });
-//    }, jQuery.growl.settings.displayTimeout);
+
+    // ADDED ON CLICK REMOVE
+    $('.gouter').click(function() {
+   		$(this).fadeOut(100);
+    });
+    // END
+
+	setTimeout(function() {
+	  jQuery.growl.settings.noticeRemove(notice, function() {
+	   this.parentNode.removeChild(this);
+	 });
+	}, jQuery.growl.settings.displayTimeout);
 };
 
   
@@ -149,19 +156,23 @@ $.growl.settings = {
 })(jQuery);
 
 
-// Legger inn template for growlboksene her
 
+// MODIFIED TIMEOUT AND TEMPLATE
+$.growl.settings.displayTimeout = 10000;
 $.growl.settings.noticeTemplate = ''
-	+ '<div class="%priority%">'
-	+ '<div style="float: right; position: relative; width: 259px; height: 16px; margin: 0pt; background-image: url(/static/images/growl/normalTop.png)"></div>'
-	+ '<div style="float: right; position: relative; font-family: Arial; font-size: 12px; line-height: 14px; width: 259px; margin: 0pt; background-image: url(/static/images/growl/normalBackground.png)">'
-	+ '  <img style="margin: 14px; margin-top: 0px; float: left;" src="%image%" />'
-//	+ '  <h3 style="margin: 0pt; margin-left: 77px; padding: 0px; padding-bottom: 10px; font-size: 13px;">%title%</h3>'
-	+ '  <p style="margin: 0pt 14px; font-size: 12px; color: #ccc;">%message%</p>'
-	+ '<p style="margin: 0pt 14px; font-size: 12px; color: #ccc; text-align: center;"><a style="color: #ccc;" href="#" onclick="jQuery.growl.settings.noticeRemove($(this.parentNode.parentNode.parentNode), function() { this.parentNode.parentNode.removeChild(this.parentNode) }); return false;">Lukk</a></p>'
-	+ '</div>'
-	+ '<div style="float: right; position: relative; width: 259px; height: 24px; margin-bottom: 10px; background-image: url(/static/images/growl/normalBottom.png)"></div>'
-	+ '</div>';
-$.growl.settings.noticeCss = {
-	position: 'relative'
-};
++ '<div class="gouter">'
++ 	'<div id="gcontainer">'
++ 		'<div id="%priority%">'
++ 			'<div id="gtop"></div>'
++ 			'<div id="gcontent">'
++ 				'<div id="gicon">'
++ 					'<img src="%image%" alt="icon" />'
++ 				'</div>'
++ 				'<div id="gtitle">%title%</div>'
++ 				'<div id="gtext">%message%</div>'
++ 				'<div class="gclear"></div>'
++ 			'</div>'
++ 			'<div id="gbottom"></div>'
++ 		'</div>'
++ 	'</div>'
++ '</div>'

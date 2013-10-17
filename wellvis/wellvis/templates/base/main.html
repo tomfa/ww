@@ -40,11 +40,13 @@
 <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
 <script src="{{ STATIC_URL }}js/jquery-cookie.js"></script>
 <script src="{{ STATIC_URL }}js/sidepanel.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.growl.js"></script>
+<script src="{{ STATIC_URL }}js/ajax-proxy.js"></script>
 <!-- Date picker would be nice at some point-->
 
-{% if messages %}
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.growl.js"></script>
 
+	
+{% if messages %}
 	<script type="text/javascript">
 	$(document).ready(function() {
 		{% for message in messages %}

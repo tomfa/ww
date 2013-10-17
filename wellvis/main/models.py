@@ -53,6 +53,15 @@ class JSONField(models.TextField):
                     setattr(kwargs['instance'], self.attname, None)
 
 
+class Custom_fields(models.Model):
+    """
+    Simple extention to django user model.
+    Adds JSON-storage for 3D-config.
+    """
+    user = models.OneToOneField(User)
+    config = JSONField()
+
+
 class Country(models.Model):
     """
     A country is a top level model that contains oil :model:`main.Field`, 

@@ -275,15 +275,16 @@
 							<div class="settingsInputContainerDIV" style="">
 								<input id="labelColorInput" type="text" name="labelColorInput" size="10"/>
 							</div>
+							<div class="settingsSmallerDIV settingOpacityText" style="">
+								<span >Opacity </span>
+							</div>
+							<div id="labelOpacity" class="theSlider"></div>
 						</div>
 						<div class="settingsLargerDIV ">
 							<div class="settingsSmallerDIV settingColorText" style="">
 								<span >Size </span>
 							</div>
-							<div id="labelSizeSlider" class="theSlider"></div>
-							<div class="settingsInputContainerDIV" style="">
-								<input id="labelSizeInput" type="text" name="labelSizeInput" size="10"/>
-							</div>
+							<div id="labelSizeSlider" class="theSlider" style="width: 278px;"></div>
 						</div>
 
 
@@ -765,7 +766,7 @@
 <script type="text/javascript">
  
 
-
+//var theWellJSONdata = getWellJSON();
 var theWellJSONdata =	{
 	"minX"	: -100,
 	"maxX"	: 100,
@@ -881,6 +882,7 @@ var theDefaultSettingsJSONdata =	{
 	"theYZ_PlaneAxisLineMaterialLineOpacity"	: 1,
 	"theLabelColor" 							: "#FFFFFF",
 	"theLabelFontSize"							: 70,
+	"theLabelOpacity"							: 1,	
 	"theArrowNorthColor" 						: "#FFFFFF",
 	"theArrowNorthOpacity"						: 1,
 	"screenCenterSignColor" 					: "#FFFFFF",
@@ -1056,6 +1058,7 @@ var theDefaultSettingsJSONdata =	{
 
    	var theLabelColor = "#FFFFFF";
    	var theLabelFont = "Arial";
+   	var theLabelOpacity = 1.0;
    	var theLabelFontSize = 60;
 
    	//==|| The distance between the Axes-Plane outline and the grid value/label
@@ -1433,6 +1436,7 @@ function readSettings(data) {
 
 	theLabelColor				= data.theLabelColor;
 	theLabelFontSize			= data.theLabelFontSize;
+	theLabelOpacity				= data.theLabelOpacity;
 
 	theArrowNorthColor			= data.theArrowNorthColor;
 	theArrowNorthOpacity		= data.theArrowNorthOpacity;
@@ -1457,7 +1461,7 @@ function readSettings(data) {
 	$("#YZplaneAxislineColorInput").val(theYZ_PlaneAxisLineMaterialColor);
 
 	$("#labelColorInput").val(theLabelColor);
-	$("#labelSizeInput").val(theLabelFontSize);
+	//$("#labelSizeInput").val(theLabelFontSize);
 
 	$("#arrowColorInput").val(theArrowNorthColor);
 	$("#rotationSignColorInput").val(screenCenterSignColor);
@@ -2307,6 +2311,44 @@ function readSettings(data) {
 
 
 
+
+
+	//==|| Opacity Slider for the Center of Rotation Sign
+	$("#labelOpacity").noUiSlider({
+		range: [0,1],
+		start: theLabelOpacity,
+		steps: 0.01,
+		handles: 1,
+
+		slide: function(){
+			var values = $(this).val();
+			var displayValue = parseFloat(values);
+
+			theLabelOpacity = displayValue;
+
+			//==|| Empty all Axes Planes first
+			emptyYZ_Plane();
+			emptyXY_Plane();
+			emptyXZ_Plane();
+
+			//==|| Redrawing all Axes Planes
+			drawYZ_Plane();
+			drawXY_Plane();
+			drawXZ_Plane();
+
+			render();
+
+			//==|| Display the current Opacity value in the Slide handle
+			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1));
+
+   		},
+   		set: function() {
+   			//==|| Lets Empty Slider handle 
+   			$(this).find(".noUi-handle-lower").html("");
+   		}
+	});
+
+
 //############################################
 //######[ Finally Redrawing everything ]######
 //############################################
@@ -3109,35 +3151,45 @@ function render() {
 function createTextCanvas(text, color, font, size) {
     size = size || 24;
     var canvas = document.createElement('canvas');
+    
     var ctx = canvas.getContext('2d');
+    
     var fontStr = (size + 'px ') + (font || 'Arial');
     ctx.font = fontStr;
+    
     var w = ctx.measureText(text).width;
     var h = Math.ceil(size);
+    
     canvas.width = w;
     canvas.height = h;
+    
     ctx.font = fontStr;
     ctx.fillStyle = color || 'black';
     ctx.fillText(text, 0, Math.ceil(size*0.8));
+    
     return canvas;
-	}
+}
 
-	function createText2D(text, color, font, size, segW, segH) {
+function createText2D(text, color, font, size, theLabelOpacity, segW, segH) {
     var canvas = createTextCanvas(text, color, font, size);
     var plane = new THREE.PlaneGeometry(canvas.width, canvas.height, segW, segH);
+    
     var tex = new THREE.Texture(canvas);
     tex.needsUpdate = true;
+
     var planeMat = new THREE.MeshBasicMaterial({
         map: tex, 
         color: 0xffffff, 
         transparent: true, 
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        opacity: theLabelOpacity
     });
+
     var mesh = new THREE.Mesh(plane, planeMat);
     mesh.scale.set(0.25, 0.25, 0.25);
     mesh.doubleSided = true;
     return mesh;
-	}
+}
 
 
 
@@ -3580,7 +3632,7 @@ function drawXZ_Plane() {
       			);
       		}
 
-		   	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize);
+		   	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize, theLabelOpacity);
 	     	gridValue.position.x = minX - labelMargin;
 	     	gridValue.position.y = minY;
 	     	gridValue.position.z = value;
@@ -3711,7 +3763,7 @@ function drawXY_Plane() {
 	      		}
 	      	}
 
-	      	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize);
+	      	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize, theLabelOpacity);
 	     	gridValue.position.x = value;
 	     	gridValue.position.y = maxY + labelMargin;
 	     	gridValue.position.z = theZ;
@@ -3736,7 +3788,7 @@ function drawXY_Plane() {
 	      		}
 	      	}
 
-      		var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize);
+      		var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize, theLabelOpacity);
 	     	gridValue.position.x = minX  - labelMargin;
 	     	gridValue.position.y = value;
 	     	gridValue.position.z = theZ;

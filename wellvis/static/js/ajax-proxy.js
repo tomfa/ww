@@ -77,3 +77,49 @@ function get_wellpath (well_pk) {
     });
     return JSON.parse(result.responseText)['path'];
 }
+
+function save_3dconfig (jsonconfig) {
+    /*
+    *   Takes in well primary key, json object of graph
+    *  
+    *   if none exists: returns null
+    *   if error occurs: returns null and growls a message
+    */
+     $.ajax({
+        url: ("/ajax/update/3dconfig"),
+        type: "POST",
+        datatype: "json",
+        data: { config : JSON.stringify(jsonconfig) }
+    }).done(function(data) {
+        if (data['message'] !== null)
+            $.growl(data['message']);
+        return true;
+    }).fail(function() {
+        $.growl("Failure", "Server did not respond accordingly when " +
+        "attempting to update 3d configuration");
+        return false;
+    });
+}
+
+
+function get_3dconfig () {
+    /*
+    *   Takes in well primary key and returns JSON object
+    *  
+    *   if none exists: returns null
+    *   if error occurs: returns null and growls a message
+    */
+    result = $.ajax({
+        url: ("/ajax/get/3dconfig"),
+        type: "POST",
+        async: false,
+        datatype: "json"
+    }).done(function(data) {
+        if (data['message'] !== null)
+            $.growl("Get path", data['message']);
+    }).fail(function() {
+        $.growl("Failure", "Server did not respond accordingly when " +
+        "attempting to read user configuration");
+    });
+    return JSON.parse(result.responseText)['config'];
+}

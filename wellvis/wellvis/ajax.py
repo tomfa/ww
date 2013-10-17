@@ -1,13 +1,16 @@
 from django.shortcuts import render_to_response, render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from main.models import Country, Field, Platform, Well, Project, WellPath
+from main.models import Country, Field, Platform, Well, Project, WellPath, Custom_fields
 from wpath.models import Path, HelpPoint, IntermediatePoint, HelpPointType, Algorithm
 from datetime import datetime
 import json
 
 
 def get_wellJSON(request, wellpk):
+    """
+    AJAX receiving and sending end for getting well path.
+    """
     response_data = {}
 
     if not request.user.is_authenticated():
@@ -40,6 +43,11 @@ def get_wellJSON(request, wellpk):
 
 
 def update_wellJSON(request, wellpk):
+    """
+    AJAX receiving end for updating well path.
+    Will create a new version if previous is older variable time_threshold,
+    else it will update the latest one.
+    """
     response_data = {}
     time_threshold = 300  # Minimum number of seconds before making new restorepoint
 
@@ -63,7 +71,7 @@ def update_wellJSON(request, wellpk):
     project = project[0]
     if request.method == 'POST':
         if request.POST.has_key('graph'):
-            json_dump = request.POST.get('graph')
+            json_dump = json.JSONDecoder("utf-8").decode(request.POST.get('graph'))
         else:
             response_data['message'] = "500 Error: Missing key graph"
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -88,20 +96,61 @@ def update_wellJSON(request, wellpk):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def userconfig(request, userpk):
+def get_3dconfig(request):
     """
-    Dump/read of user 3d configuration
+    AJAX receiving end for reading the users configuration for 3d-view. 
+    This includes colors, opacity and such.
     """
     response_data = {}
-        # if user is not logged in, return the home function
+
+    if not request.user.is_authenticated():
+        response_data['message'] = "403 Error: You are not authenticated"
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    
+    try:
+        config = request.user.custom_fields.config
+    except:
+        cf = Custom_fields.objects.create(user=request.user, config=get_default_3dconfig())
+        cf.save()
+        config = cf.config
+
+    response_data['message'] = "200: Config retrieved successfully"
+    response_data['config'] = config
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def update_3dconfig(request):
+    """
+    Updates the users configuration for 3d-view.
+    """
+    response_data = {}
+
     if not request.user.is_authenticated():
         response_data['message'] = "403 Error: You are not authenticated"
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-    # TODO: Implement update from POST object
-    response_data['message'] = "500 Error: Not implemented functionality"
+    if request.method == 'POST':
+        if request.POST.has_key('config'):
+            json_dump = json.JSONDecoder("utf-8").decode(request.POST.get('config'))
+        else:
+            response_data['message'] = "500 Error: Missing key config"
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+    try:
+        a = Custom_fields.objects.filter(user=request.user)[0]
+    except:
+        a = Custom_fields.objects.create(user=request.user, config=get_default_3dconfig())
+        a.save()
+    a.config = json_dump
+    a.save()
+    print "json_dump"
+    print json_dump
+    print "std json"
+    print get_default_3dconfig()
+    response_data['message'] = "200: Config saved successfully"
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 
 
 def seconds_since(date):
@@ -110,6 +159,37 @@ def seconds_since(date):
     """
     return (datetime.now(date.tzinfo) - date).seconds
 
+
+def get_default_3dconfig():
+    return ('{ ' +
+    '"theSceneColor"                             : "#000000", ' +
+    '"theWellLineColor"                          : "#FFFF00", ' +
+    '"theWellLineOpacity"                        : 1, ' +
+    '"theXY_PlaneOutlineMaterialColor"           : "#FF0000", ' +
+    '"theXY_PlaneOutlineMaterialLineOpacity"     : 1, ' +
+    '"theXY_PlaneGridLinesMaterialColor"         : "#777777", ' +
+    '"theXY_PlaneGridLinesMaterialLineOpacity"   : 1, ' +
+    '"theXY_PlaneAxisLineMaterialColor"          : "#FFFFFF", ' +
+    '"theXY_PlaneAxisLineMaterialLineOpacity"    : 1, ' +
+    '"theXZ_PlaneOutlineMaterialColor"           : "#0000FF", ' +
+    '"theXZ_PlaneOutlineMaterialLineOpacity"     : 1, ' +
+    '"theXZ_PlaneGridLinesMaterialColor"         : "#777777", ' +
+    '"theXZ_PlaneGridLinesMaterialLineOpacity"   : 1, ' +
+    '"theXZ_PlaneAxisLineMaterialColor"          : "#FFFFFF", ' +
+    '"theXZ_PlaneAxisLineMaterialLineOpacity"    : 1, ' +
+    '"theYZ_PlaneOutlineMaterialColor"           : "#00FF00", ' +
+    '"theYZ_PlaneOutlineMaterialLineOpacity"     : 1, ' +
+    '"theYZ_PlaneGridLinesMaterialColor"         : "#777777", ' +
+    '"theYZ_PlaneGridLinesMaterialLineOpacity"   : 1, ' +
+    '"theYZ_PlaneAxisLineMaterialColor"          : "#FFFFFF", ' +
+    '"theYZ_PlaneAxisLineMaterialLineOpacity"    : 1, ' +
+    '"theLabelColor"                             : "#FFFFFF", ' +
+    '"theLabelFontSize"                          : 70, ' +
+    '"theLabelOpacity"                           : 1,     ' +
+    '"theArrowNorthColor"                        : "#FFFFFF", ' +
+    '"theArrowNorthOpacity"                      : 1, ' +
+    '"screenCenterSignColor"                     : "#FFFFFF", ' +
+    '"screenCenterSignOpacity"                   : 1}')
 
 '''
 # LEGACY CODE FOR DB-AWARE GET AND UPDATE

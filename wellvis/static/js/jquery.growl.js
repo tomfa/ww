@@ -14,9 +14,9 @@
 
 USAGE:
 
-	$.growl(title, msg);
-	$.growl(title, msg, image);
-	$.growl(title, msg, image, priority);
+  $.growl(title, msg);
+  $.growl(title, msg, image);
+  $.growl(title, msg, image, priority);
 
 THEME/SKIN:
 
@@ -58,42 +58,42 @@ if (/1\.(0|1|2)\.(0|1|2)/.test($.fn.jquery)) {
     return;
 }
 
-$.growl = function(title,message,image,priority) { notify(title,message,image,priority); }
+$.growl = function(title,message,image,priority) { notify(title,message,image,priority); };
 $.growl.version = "1.0.0-b1";
 
 function create(rebuild) {
-	var instance = document.getElementById('growlDock');
-	if(!instance || rebuild) {
-	  instance = $(jQuery.growl.settings.dockTemplate).attr('id', 'growlDock').addClass('growl');
-	  
-	  if(jQuery.growl.settings.defaultStylesheet) {
-	    $('head').append('<link rel="stylesheet" type="text/css" href="' + jQuery.growl.settings.defaultStylesheet + '" />');
-	  }
-	  
-	} else {
-	  instance = $(instance);
-	}
-	instance.css(jQuery.growl.settings.dockCss);
-	
-	$('body').append(instance);
-	
-	return instance;
-};
+  var instance = document.getElementById('growlDock');
+  if(!instance || rebuild) {
+    instance = $(jQuery.growl.settings.dockTemplate).attr('id', 'growlDock').addClass('growl');
+    
+    if(jQuery.growl.settings.defaultStylesheet) {
+      $('head').append('<link rel="stylesheet" type="text/css" href="' + jQuery.growl.settings.defaultStylesheet + '" />');
+    }
+    
+  } else {
+    instance = $(instance);
+  }
+  instance.css(jQuery.growl.settings.dockCss);
+  
+  $('body').append(instance);
+  
+  return instance;
+}
   
 function r(text, expr, val) {
     while(expr.test(text)) {
       text = text.replace(expr, val);
     }
     return text;
-};
+}
   
 function notify(title,message,image,priority) {
     var instance = create();
     var html = jQuery.growl.settings.noticeTemplate;
-	if(typeof(html) == 'object') {
-		// assume jQuery object, or DOM Element
-		html = $(html).html();
-	}
+  if(typeof(html) == 'object') {
+    // assume jQuery object, or DOM Element
+    html = $(html).html();
+  }
     html = r(html, /%message%/, (message?message:''));
     html = r(html, /%title%/, (title?title:''));
     html = r(html, /%image%/, (image?image:jQuery.growl.settings.defaultImage));
@@ -101,22 +101,22 @@ function notify(title,message,image,priority) {
     var notice = $(html);
     notice.css(jQuery.growl.settings.noticeCss);
     
-	notice.hide();
-	notice.fadeIn(jQuery.growl.settings.notice);
+  notice.hide();
+  notice.fadeIn(jQuery.growl.settings.notice);
     instance.append(notice);
 
     // ADDED ON CLICK REMOVE
     $('.gouter').click(function() {
-   		$(this).fadeOut(100);
+       $(this).fadeOut(100);
     });
     // END
 
-	setTimeout(function() {
-	  jQuery.growl.settings.noticeRemove(notice, function() {
-	   this.parentNode.removeChild(this);
-	 });
-	}, jQuery.growl.settings.displayTimeout);
-};
+  setTimeout(function() {
+    jQuery.growl.settings.noticeRemove(notice, function() {
+     this.parentNode.removeChild(this);
+   });
+  }, jQuery.growl.settings.displayTimeout);
+}
 
   
 // default settings
@@ -127,30 +127,30 @@ $.growl.settings = {
     bottom: '10px',
     right: '10px',
     width: '300px',
-	zIndex: 50000
+  zIndex: 50000
   },
-  noticeTemplate: 
+  noticeTemplate:
     '<div class="notice">' +
     ' <h3 style="margin-top: 15px">%title%</h3>' +
     ' <p>%message%</p>' +
     '</div>',
   noticeCss: {
-    opacity: .75,
+    opacity: 0.75,
     backgroundColor: '#333333',
     color: '#ffffff'
   },
   noticeDisplay: function(notice) {
-  	notice.fadeIn(jQuery.growl.settings.noticeFadeTimeout);
+    notice.fadeIn(jQuery.growl.settings.noticeFadeTimeout);
   },
   noticeRemove: function(notice, callback) {
-  	notice.animate({opacity: '0', height: '0px'}, {duration:jQuery.growl.settings.noticeFadeTimeout, complete: callback});
+    notice.animate({opacity: '0', height: '0px'}, {duration:jQuery.growl.settings.noticeFadeTimeout, complete: callback});
   },
   noticeFadeTimeout: 'slow',
   displayTimeout: 3500,
-  defaultImage: 'growl.jpg',
+  defaultImage: '/static/img/icons/information.png',
   defaultStylesheet: null,
   noticeElement: function(el) {
-  	$.growl.settings.noticeTemplate = $(el);
+    $.growl.settings.noticeTemplate = $(el);
   }
 };
 })(jQuery);
@@ -159,20 +159,20 @@ $.growl.settings = {
 
 // MODIFIED TIMEOUT AND TEMPLATE
 $.growl.settings.displayTimeout = 10000;
-$.growl.settings.noticeTemplate = ''
-+ '<div class="gouter">'
-+ 	'<div id="gcontainer">'
-+ 		'<div id="%priority%">'
-+ 			'<div id="gtop"></div>'
-+ 			'<div id="gcontent">'
-+ 				'<div id="gicon">'
-+ 					'<img src="%image%" alt="icon" />'
-+ 				'</div>'
-+ 				'<div id="gtitle">%title%</div>'
-+ 				'<div id="gtext">%message%</div>'
-+ 				'<div class="gclear"></div>'
-+ 			'</div>'
-+ 			'<div id="gbottom"></div>'
-+ 		'</div>'
-+ 	'</div>'
-+ '</div>'
+$.growl.settings.noticeTemplate = '' +
+'<div class="gouter">' +
+  '<div id="gcontainer">' +
+    '<div id="%priority%">' +
+      '<div id="gtop"></div>' +
+      '<div id="gcontent">' +
+        '<div id="gicon">' +
+          '<img src="%image%" alt="icon" />' +
+        '</div>' +
+        '<div id="gtitle">%title%</div>' +
+        '<div id="gtext">%message%</div>' +
+        '<div class="gclear"></div>' +
+      '</div>' +
+      '<div id="gbottom"></div>' +
+    '</div>' +
+  '</div>' +
+'</div>';

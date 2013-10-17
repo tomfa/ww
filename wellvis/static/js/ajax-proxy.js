@@ -63,21 +63,17 @@ function get_wellpath (well_pk) {
     *   if none exists: returns null
     *   if error occurs: returns null and growls a message
     */
-    $.ajax({
+    result = $.ajax({
         url: ("/ajax/get/well/" + well_pk),
         type: "POST",
+        async: false,
         datatype: "json"
     }).done(function(data) {
         if (data['message'] !== null)
             $.growl("Get path", data['message']);
-        if (data['path'] !== null) {
-            console.log(data['path']);
-            return data['path'];
-        }
-        return null;
     }).fail(function() {
         $.growl("Failure", "Server did not respond accordingly when " +
         "attempting to read well path with id " + well_pk);
-        return null;
     });
+    return JSON.parse(result.responseText)['path'];
 }

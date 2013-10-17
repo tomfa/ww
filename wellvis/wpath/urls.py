@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'wpath.views.home', name='home'),
+    url(r'^edit/(?P<wellpk>[0-9]+)$', 'wpath.views.edit_well', name='view-wellpath'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

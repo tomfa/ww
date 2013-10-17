@@ -1,8 +1,7 @@
 {% extends "base/full_view.html" %}
 
 {% block content %}
-
-	
+{{path }}
 	<div id="theMainContainer">
 
 		<div id="theControlButtonsContainer">
@@ -355,13 +354,13 @@
 
 {% block styles %}
 
-<link type="text/css" rel="stylesheet"  href="{{ STATIC_URL }}/css/dark-hive/jquery-ui-1.10.3.custom.min.css" />
+<link type="text/css" rel="stylesheet"  href="{{ STATIC_URL }}css/dark-hive/jquery-ui-1.10.3.custom.min.css" />
 
 <!-- The ColorPicker -->
-<link rel='stylesheet' href='{{ STATIC_URL }}/css/spectrum.css' />
+<link rel='stylesheet' href='{{ STATIC_URL }}css/spectrum.css' />
 
 <!-- The Slider -->
-<link rel="stylesheet" href="{{ STATIC_URL }}/css/jquery.nouislider.min.css" >
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.nouislider.min.css" >
 
 	<style>
 
@@ -741,7 +740,6 @@
 {% endblock %}
 
 {% block scripts %}
-
 		<script src="{{ STATIC_URL }}/js/3D/three.min.js"></script>
 
 		<script src="{{ STATIC_URL }}/js/3D/TrackballControls-Modified.js"></script>
@@ -768,83 +766,8 @@
 	}
 </script>
 <script type="text/javascript">
- 
-
-//var theWellJSONdata = getWellJSON();
-var theWellJSONdata =	{
-	"minX"	: -100,
-	"maxX"	: 100,
-	"minY"	: -100,
-	"maxY"	: 100,
-	"theZ" 	: 150,
-	"theUnit" : 50,
-	"theValues" : [
-		{
-			"theMD" 	: 20,
-			"theINC" 	: 10,
-			"theAZI"	: 10,
-			"itsX" 	: 10,
-			"itsY" 	: 30,
-			"itsZ" 	: 10,
-			"thePoints" :[
-				{
-					"x" 	: 10,
-					"y" 	: 10,
-					"z" 	: 10
-				},
-				{
-					"x" 	: 20,
-					"y" 	: 20,
-					"z" 	: 20
-				}
-
-			]
-		},
-		{
-			"theMD" 	: 50,
-			"theINC" 	: 50,
-			"theAZI"	: 20,
-			"itsX" 	: 20,
-			"itsY" 	: 50,
-			"itsZ" 	: 40,
-			"thePoints" :[
-				{
-					"x" 	: 30,
-					"y" 	: 30,
-					"z" 	: 30
-				},
-				{
-					"x" 	: 40,
-					"y" 	: 40,
-					"z" 	: 40
-				}
-
-			]
-		},
-		{
-			"theMD" 	: 50,
-			"theINC" 	: 50,
-			"theAZI"	: 20,
-			"itsX" 	: 30,
-			"itsY" 	: -50,
-			"itsZ" 	: 120,
-			"thePoints" :[
-				{
-					"x" 	: 40,
-					"y" 	: 40,
-					"z" 	: 50
-				},
-				{
-					"x" 	: 60,
-					"y" 	: 60,
-					"z" 	: 60
-				}
-
-			]
-		}
-
-	] 
-};
+var well_pk = {{ wellpk }}
+var theWellJSONdata = get_wellpath({{ wellpk }});
 
 
 //==|| For the empty 3D module 

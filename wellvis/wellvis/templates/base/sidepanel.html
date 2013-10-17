@@ -68,10 +68,10 @@
       {% endfor %}
     {% endif %}
   {% else %}
-    <li><a href="/wplan/">wPlan</a></li>
-    <li><a href="/wpath/">wPath</a></li>
-    <li><a href="/wdesign/">wDesign</a></li>
-    <li><a href="/wreport/">wReport</a></li>
+    <li><a href="/wplan/{{ selected_well.pk }}">wPlan</a></li>
+    <li><a href="/wpath/edit/{{ selected_well.pk }}">wPath</a></li>
+    <li><a href="/wdesign/{{ selected_well.pk }}">wDesign</a></li>
+    <li><a href="/wreport/{{ selected_well.pk }}">wReport</a></li>
   {% endif %}{% endif %}{% endif %}{% endif %}
 </ul>
 </div>

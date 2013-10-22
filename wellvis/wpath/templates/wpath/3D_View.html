@@ -766,8 +766,27 @@
 	}
 </script>
 <script type="text/javascript">
+
 var well_pk = {{ wellpk }}
 var theWellJSONdata = get_wellpath({{ wellpk }});
+
+
+colorTrace("theWellJSONdata = " +  JSON.stringify(theWellJSONdata), "Green");
+
+var newWellJSONdata = {
+	"maxX"		: 	1000,
+	"maxY"		: 	1000,
+	"minX"		:	-1000,
+	"minY"		:	-1000,
+	"theZ"		: 	1500,
+	"theUnit"	: 	500,
+	"theValues"	: 	[]
+};
+
+theWellJSONdata = newWellJSONdata;
+
+//save_wellpath(well_pk, newWellJSONdata);
+
 
 
 //==|| For the empty 3D module 
@@ -782,41 +801,45 @@ var theWellJSONdata = get_wellpath({{ wellpk }});
 // };
 
 
-var theDefaultSettingsJSONdata = get_3dconfig();
+//var theDefaultSettingsJSONdata = get_3dconfig();
 
 //==|| For Default Settings
 //==|| These are the setting different components of our 3D Module
 
-// var theDefaultSettingsJSONdata =	{
-// 	"theSceneColor"								: "#000000",
-// 	"theWellLineColor"							: "#FFFF00",
-// 	"theWellLineOpacity"						: 1,
-// 	"theXY_PlaneOutlineMaterialColor"			: "#FF0000",
-// 	"theXY_PlaneOutlineMaterialLineOpacity"		: 1,
-// 	"theXY_PlaneGridLinesMaterialColor"			: "#777777",
-// 	"theXY_PlaneGridLinesMaterialLineOpacity"	: 1,
-// 	"theXY_PlaneAxisLineMaterialColor"			: "#FFFFFF",
-// 	"theXY_PlaneAxisLineMaterialLineOpacity"	: 1,
-// 	"theXZ_PlaneOutlineMaterialColor"			: "#0000FF",
-// 	"theXZ_PlaneOutlineMaterialLineOpacity"		: 1,
-// 	"theXZ_PlaneGridLinesMaterialColor"			: "#777777",
-// 	"theXZ_PlaneGridLinesMaterialLineOpacity"	: 1,
-// 	"theXZ_PlaneAxisLineMaterialColor"			: "#FFFFFF",
-// 	"theXZ_PlaneAxisLineMaterialLineOpacity"	: 1,
-// 	"theYZ_PlaneOutlineMaterialColor" 			: "#00FF00",
-// 	"theYZ_PlaneOutlineMaterialLineOpacity"		: 1,
-// 	"theYZ_PlaneGridLinesMaterialColor" 		: "#777777",
-// 	"theYZ_PlaneGridLinesMaterialLineOpacity"	: 1,
-// 	"theYZ_PlaneAxisLineMaterialColor"			: "#FFFFFF",
-// 	"theYZ_PlaneAxisLineMaterialLineOpacity"	: 1,
-// 	"theLabelColor" 							: "#FFFFFF",
-// 	"theLabelFontSize"							: 70,
-// 	"theLabelOpacity"							: 1,	
-// 	"theArrowNorthColor" 						: "#FFFFFF",
-// 	"theArrowNorthOpacity"						: 1,
-// 	"screenCenterSignColor" 					: "#FFFFFF",
-// 	"screenCenterSignOpacity" 					: 1
-// };
+var theDefaultSettingsJSONdata =	{
+	"theSceneColor"								: "#000000",
+	"theWellLineColor"							: "#FFFF00",
+	"theWellLineOpacity"						: 1,
+	"theXY_PlaneOutlineMaterialColor"			: "#FF0000",
+	"theXY_PlaneOutlineMaterialLineOpacity"		: 1,
+	"theXY_PlaneGridLinesMaterialColor"			: "#777777",
+	"theXY_PlaneGridLinesMaterialLineOpacity"	: 1,
+	"theXY_PlaneAxisLineMaterialColor"			: "#FFFFFF",
+	"theXY_PlaneAxisLineMaterialLineOpacity"	: 1,
+	"theXZ_PlaneOutlineMaterialColor"			: "#0000FF",
+	"theXZ_PlaneOutlineMaterialLineOpacity"		: 1,
+	"theXZ_PlaneGridLinesMaterialColor"			: "#777777",
+	"theXZ_PlaneGridLinesMaterialLineOpacity"	: 1,
+	"theXZ_PlaneAxisLineMaterialColor"			: "#FFFFFF",
+	"theXZ_PlaneAxisLineMaterialLineOpacity"	: 1,
+	"theYZ_PlaneOutlineMaterialColor" 			: "#00FF00",
+	"theYZ_PlaneOutlineMaterialLineOpacity"		: 1,
+	"theYZ_PlaneGridLinesMaterialColor" 		: "#777777",
+	"theYZ_PlaneGridLinesMaterialLineOpacity"	: 1,
+	"theYZ_PlaneAxisLineMaterialColor"			: "#FFFFFF",
+	"theYZ_PlaneAxisLineMaterialLineOpacity"	: 1,
+	"theLabelColor" 							: "#FFFFFF",
+	"theLabelFontSize"							: 500,
+	"theLabelOpacity"							: 1,	
+	"theArrowNorthColor" 						: "#FFFFFF",
+	"theArrowNorthOpacity"						: 1,
+	"screenCenterSignColor" 					: "#FFFFFF",
+	"screenCenterSignOpacity" 					: 1
+};
+
+
+//==|| Save the Configuration Setting
+save_3dconfig(theDefaultSettingsJSONdata);
 
 
 
@@ -890,7 +913,9 @@ var theDefaultSettingsJSONdata = get_3dconfig();
    	//==|| The Arrow to North
 	var theArrowNorth, theArrowNorthmaterial, theArrowNorthgeo;
 	var theArrowNorthColor = "#FFFFFF";
-	var theArrowNorthOpacity = 1;
+	var theArrowNorthOpacity = 1;	
+  	var theArrowNorth_Margin = 450; //==|| How far it is from the XY-Plane
+  	var theArrowNorth_Width = 50;	//==|| How wide is it spread NOT length
 
 	//==|| The Lines to the Origin
 	var linesToOrigin, linesToOriginMaterial, linesToOriginGeo;
@@ -972,7 +997,7 @@ var theDefaultSettingsJSONdata = get_3dconfig();
    	//==|| The center cursor/sign 
 	var theScreenCenter;
 	//==|| The length of each arm of the sign
-   	var centerSignLength = 10;
+   	var centerSignLength = 100;
    	//==|| The visibility status of the screen center sign
    	var screenCenterIsVisible = true;
    	//==|| The Color of the Screen Center Sign
@@ -991,7 +1016,7 @@ var theDefaultSettingsJSONdata = get_3dconfig();
    	var theLabelFontSize = 60;
 
    	//==|| The distance between the Axes-Plane outline and the grid value/label
-   	var labelMargin = 20;
+   	var labelMargin = 200;
 
 
 
@@ -1143,9 +1168,9 @@ $(document).ready(function() {
 	    theCamera.position.z = -248; //==|| Zoom
 		*/
 
-	    theCamera.position.x = -350; //==|| This is our zoom now
-	    theCamera.position.y = 285;
-		theCamera.position.z = -55;
+	    theCamera.position.x = -3350; //350; //==|| This is our zoom now
+	    theCamera.position.y = 1285;//285;
+		theCamera.position.z = -1055;//-55;
 
 	    //==| Flip the camera so that the Z is pointing downwards rather than upwards
 	    theCamera.up.set(0, 0, -1 ); 
@@ -1158,7 +1183,7 @@ $(document).ready(function() {
 
 	   	//==|| The Target for camera to rotate on
 	   				//	theCameraTarget = new THREE.Vector3(-45, 80, -20);
-	   	theCameraTarget = new THREE.Vector3(28, -28, 110);
+	   	theCameraTarget = new THREE.Vector3(0, -28, 810);
 
 		//==|| The World / The Scene
 		theScene = new THREE.Scene();
@@ -2204,9 +2229,9 @@ function readSettings(data) {
 
 	//==|| Opacity Slider for the Center of Rotation Sign
 	$("#labelSizeSlider").noUiSlider({
-		range: [5,150],
+		range: [300,950],
 		start: theLabelFontSize,
-		steps: 1,
+		steps: 50,
 		handles: 1,
 
 		slide: function(){
@@ -2986,7 +3011,7 @@ function v(x,y,z) {
 
 //==|| Change the Color of the scene (whole 3D module)
 function changeSceneColor(color) {	
-	theScene.fog = new THREE.FogExp2( color, 0.0002 );
+	theScene.fog = new THREE.FogExp2( color, 0.00001 );
 	theRenderer.setClearColor( theScene.fog.color, 1 );
 	theSceneColor = color;
 	colorTrace("The Scene color is changed " + color, "Blue");
@@ -3786,8 +3811,8 @@ function drawArrowNorth() {
   	);
 
 
+
   	var midX = (maxX + minX) / 2; 
-  	var theArrowNorth_Margin = 50;
 
   	var halfLength = (maxX - minX) / 2 - theUnit;
 
@@ -3803,10 +3828,10 @@ function drawArrowNorth() {
   	theArrowNorthgeo.vertices.push(
 
   		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ),
-  		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX - halfLength,  maxY + theArrowNorth_Margin - 10, theZ),
+  		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX - halfLength,  maxY + theArrowNorth_Margin - theArrowNorth_Width, theZ),
   		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ),
-  		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + 10,  maxY + theArrowNorth_Margin - 10, theZ),
-  		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + 10,  maxY + theArrowNorth_Margin + 10, theZ)
+  		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + theArrowNorth_Width,  maxY + theArrowNorth_Margin - theArrowNorth_Width, theZ),
+  		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + theArrowNorth_Width,  maxY + theArrowNorth_Margin + theArrowNorth_Width, theZ)
 
 
   	);

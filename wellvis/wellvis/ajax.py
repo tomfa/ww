@@ -1,6 +1,8 @@
+# coding: utf-8
 from django.shortcuts import render_to_response, render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
 from main.models import Country, Field, Platform, Well, Project, WellPath, Custom_fields
 from wpath.models import Path, HelpPoint, IntermediatePoint, HelpPointType, Algorithm
 from datetime import datetime
@@ -71,7 +73,7 @@ def update_wellJSON(request, wellpk):
     project = project[0]
     if request.method == 'POST':
         if request.POST.has_key('graph'):
-            json_dump = json.JSONDecoder("utf-8").decode(request.POST.get('graph'))
+            json_dump = json.JSONDecoder(settings.DEFAULT_CHARSET).decode(request.POST.get('graph'))
         else:
             response_data['message'] = "500 Error: Missing key graph"
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -131,7 +133,7 @@ def update_3dconfig(request):
 
     if request.method == 'POST':
         if request.POST.has_key('config'):
-            json_dump = json.JSONDecoder("utf-8").decode(request.POST.get('config'))
+            json_dump = json.JSONDecoder(settings.DEFAULT_CHARSET).decode(request.POST.get('config'))
         else:
             response_data['message'] = "500 Error: Missing key config"
             return HttpResponse(json.dumps(response_data), content_type="application/json")

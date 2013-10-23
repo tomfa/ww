@@ -785,6 +785,7 @@ var newWellJSONdata = {
 
 theWellJSONdata = newWellJSONdata;
 
+//==|| Save the wellpath
 save_wellpath(well_pk, newWellJSONdata);
 
 
@@ -801,11 +802,11 @@ save_wellpath(well_pk, newWellJSONdata);
 // };
 
 
-//var theDefaultSettingsJSONdata = get_3dconfig();
+var theDefaultSettingsJSONdata = get_3dconfig();
 
 //==|| For Default Settings
 //==|| These are the setting different components of our 3D Module
-
+/*
 var theDefaultSettingsJSONdata =	{
 	"theSceneColor"								: "#000000",
 	"theWellLineColor"							: "#FFFF00",
@@ -837,9 +838,9 @@ var theDefaultSettingsJSONdata =	{
 	"screenCenterSignOpacity" 					: 1
 };
 
-
+*/
 //==|| Save the Configuration Setting
-save_3dconfig(theDefaultSettingsJSONdata);
+//save_3dconfig(theDefaultSettingsJSONdata);
 
 
 

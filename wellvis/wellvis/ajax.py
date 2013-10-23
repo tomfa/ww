@@ -71,12 +71,11 @@ def update_wellJSON(request, wellpk):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     
     project = project[0]
-    if request.method == 'POST':
-        if request.POST.has_key('graph'):
-            json_dump = json.JSONDecoder(settings.DEFAULT_CHARSET).decode(request.POST.get('graph'))
-        else:
-            response_data['message'] = "500 Error: Missing key graph"
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+    if request.method != 'POST' or not request.POST.has_key('graph'):
+        response_data['message'] = "500 Error: Missing key graph"
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+    json_dump = json.JSONDecoder(settings.DEFAULT_CHARSET).decode(request.POST.get('graph'))
 
     # TODO: LOG
     previous_path = WellPath.objects.filter(project=project).order_by('-date')
@@ -88,8 +87,9 @@ def update_wellJSON(request, wellpk):
             response_data['message'] = "New wellpath should be saved"
         else:
             previous_path.path = json_dump
+            response_data['message'] = "Existing wellpath should be updated"
             previous_path.updated = datetime.now(previous_path.date.tzinfo)
-            response_data['message'] = "Existing wellpath is updated"
+            previous_path.save()
     else:
         path = WellPath.objects.create(project=project, path=json_dump, creator=request.user)
         path.save()
@@ -131,24 +131,22 @@ def update_3dconfig(request):
         response_data['message'] = "403 Error: You are not authenticated"
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-    if request.method == 'POST':
-        if request.POST.has_key('config'):
-            json_dump = json.JSONDecoder(settings.DEFAULT_CHARSET).decode(request.POST.get('config'))
-        else:
-            response_data['message'] = "500 Error: Missing key config"
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+    if request.method != 'POST' and not request.POST.has_key('config'):
+        response_data['message'] = "500 Error: Missing key config"
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-    try:
-        a = Custom_fields.objects.filter(user=request.user)[0]
-    except:
-        a = Custom_fields.objects.create(user=request.user, config=get_default_3dconfig())
-        a.save()
-    a.config = json_dump
-    a.save()
-    print "json_dump"
-    print json_dump
-    print "std json"
-    print get_default_3dconfig()
+    json_dump = json.JSONDecoder(settings.DEFAULT_CHARSET).decode(request.POST.get('config'))
+
+    
+    config = Custom_fields.objects.filter(user=request.user)
+    if not config:
+        config = Custom_fields.objects.create(user=request.user, config=get_default_3dconfig())
+        config.save()
+    else:
+        config = config[0]
+
+    config.config = json_dump
+    config.save()
     response_data['message'] = "200: Config saved successfully"
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")

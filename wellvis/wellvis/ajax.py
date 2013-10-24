@@ -82,8 +82,12 @@ def update_wellJSON(request, wellpk):
     if (previous_path and previous_path[0].creator == request.user):
         previous_path = previous_path[0]
         if seconds_since(previous_path.date) > time_threshold:
-            path = WellPath.objects.create(project=project, path=json_dump, creator=request.user)
+            path = WellPath.objects.create(project=project, path="{test: 1}", creator=request.user)
             path.save()
+            print "BUGFIX: Now we've saved some dummy data"
+            path.path = json_dump
+            path.save()
+            print "BUGFIX: Now we've saved properly"
             response_data['message'] = "New wellpath should be saved"
         else:
             previous_path.path = json_dump

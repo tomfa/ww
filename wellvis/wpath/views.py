@@ -46,11 +46,12 @@ def edit_well(request, wellpk):
     project = Project.objects.filter(well=well).order_by('-created_date')
 
     if not project:
-        context['messages'].append("404 Error: Project not found attached to well " + str(well.pk))
+        project = Project.objects.create( name = "Untitled", responsible = request.user, start_date = "2011-09-01T13:20:30+03:00", end_date = "2014-09-01T13:20:30+03:00", well = well )
+        # context['messages'].append("404 Error: Project not found attached to well " + str(well.pk))
         # TODO: Send to create-project page
-        return render(request, 'wellvis/home.html', generate_sidepanel(context, request))
-    
-    project = project[0]
+        # return render(request, 'wellvis/home.html', generate_sidepanel(context, request))
+    else:
+        project = project[0]
     path = WellPath.objects.filter(project=project).order_by('-date')
     if not path:
         path = WellPath.objects.create(project=project, creator=request.user, path=get_default_path())

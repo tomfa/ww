@@ -51,7 +51,7 @@ def update_wellJSON(request, wellpk):
     else it will update the latest one.
     """
     response_data = {}
-    time_threshold = 300  # Minimum number of seconds before making new restorepoint
+    time_threshold = 3  # Minimum number of seconds before making new restorepoint
 
     if not request.user.is_authenticated():
         response_data['message'] = "403 Error: You are not authenticated"
@@ -81,20 +81,15 @@ def update_wellJSON(request, wellpk):
     previous_path = WellPath.objects.filter(project=project).order_by('-date')
     if (previous_path and previous_path[0].creator == request.user):
         previous_path = previous_path[0]
-        if seconds_since(previous_path.date) > time_threshold:
-            path = WellPath.objects.create(project=project, path="{test: 1}", creator=request.user)
-            path.save()
-            print "BUGFIX: Now we've saved some dummy data"
-            path.path = json_dump
-            path.save()
-            print "BUGFIX: Now we've saved properly"
-            response_data['message'] = "New wellpath should be saved"
-        else:
-            previous_path.path = json_dump
-            response_data['message'] = "Existing wellpath should be updated"
-            previous_path.updated = datetime.now(previous_path.date.tzinfo)
-            previous_path.save()
+        print "Update current version"
+        previous_path.path = json_dump
+        response_data['message'] = "Existing wellpath should be updated"
+        previous_path.updated = datetime.now(previous_path.date.tzinfo)
+        previous_path.save()
     else:
+        print "Making new Path"  
+        print type(json_dump)
+        print json_dump	
         path = WellPath.objects.create(project=project, path=json_dump, creator=request.user)
         path.save()
         response_data['message'] = "New wellpath should be saved"

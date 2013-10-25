@@ -23,6 +23,9 @@
 				<div id="theTabs-1">   
 					<div id="thePathsDetailContainer">
 						<div id="theAddPathHeader">
+							<div class="divMD headerMD">MD</div>
+							<div class="divINC headerINC">INC</div>
+							<div class="divAZI headerAZI">AZI</div>
 							<div class="divMD headerMD">X</div>
 							<div class="divINC headerINC">Y</div>
 							<div class="divAZI headerAZI">Z</div>
@@ -39,6 +42,15 @@
 								</div>
 								<div class="wellPathInputBoxContainer divAZI">
 									<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divMD">
+									<input id="valueNS_000" type="text" name="valueMD" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divINC">
+									<input id="valueEW_000" type="text" name="valueINC" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divAZI">
+									<input id="valueVSec_000" type="text" name="valueAZI" size="10"/>
 								</div>
 								<div class="wellPathInputBoxContainer divAddPathBtn">
 									<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
@@ -496,7 +508,7 @@
 	
 }
 	#theAddPathHeader {
-		width: 100%;
+		width: 685px;
 		height: 26px;
 		color: #fff;
 		background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
@@ -520,6 +532,27 @@
 		}
 
 		.divAZI {
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
+		.divNS { 
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
+		.divEW { 
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
+		.divVsec { 
 			float: left;
 			width: 100px;
 
@@ -560,7 +593,7 @@
 		.wellPathInfoBoxContainer {
 			float: left;
 			height: 36px;
-			width: 100%;
+			width: 685px;
 			border-top: 1px solid #000;
 			border-bottom: 1px solid #666;
 			
@@ -773,6 +806,7 @@ var theWellJSONdata = get_wellpath({{ wellpk }});
 
 colorTrace("theWellJSONdata = " +  JSON.stringify(theWellJSONdata), "Green");
 
+/*
 
 var newWellJSONdata = {
 	"maxX"		: 	1000,
@@ -789,7 +823,7 @@ theWellJSONdata = newWellJSONdata;
 //==|| Save the wellpath
 save_wellpath(well_pk, newWellJSONdata);
 
-
+*/
 
 //==|| For the empty 3D module 
 // var theDefaultWellJSONdata =	{
@@ -1305,7 +1339,7 @@ function readWellJSONdata(theWellJSONdata) {
 				addWellPath(itsX, itsY, itsZ);
 
 				//==|| Add a new Row in the table with the values shown
-				addNewRowInTable(noOfWellPathLines, itsX, itsY, itsZ, "Edit" );
+				addNewRowInTable(noOfWellPathLines, theMD, theINC, itsX, theAZI, itsY, itsZ, "Edit" );
 				noOfWellPathLines++;
 				colorTrace("inside readWllJSONdata  no.of well path lines " + noOfWellPathLines, "Green");
 
@@ -1340,7 +1374,7 @@ function readWellJSONdata(theWellJSONdata) {
 		});
 
 	//==|| Adding a new row
-	addNewRowInTable(noOfWellPathLines, 0, 0, 0, "Add");	
+	addNewRowInTable(noOfWellPathLines, 0,0,0, 0, 0, 0, "Add");	
 
 	colorTrace("inside readWllJSONdata 2 no.of well path lines " + noOfWellPathLines, "Green");
 
@@ -2685,16 +2719,65 @@ function registerAddPathButton() {
 			colorTrace("noOfWellPathLinesStr = " + noOfWellPathLinesStr, "Blue");
 
 			//==|| Read the inputted values
-			var x = $("#valueMD_"  + noOfWellPathLinesStr).val() - 0;
-			var y = $("#valueINC_" + noOfWellPathLinesStr).val() - 0;
-			var z = $("#valueAZI_" + noOfWellPathLinesStr).val() - 0;
+			var md = $("#valueMD_"  + noOfWellPathLinesStr).val() - 0;
+			var inc = $("#valueINC_"  + noOfWellPathLinesStr).val() - 0;
+			var azi = $("#valueAZI_"  + noOfWellPathLinesStr).val() - 0;
+			var x = $("#valueNS_"  + noOfWellPathLinesStr).val() - 0;
+			var y = $("#valueEW_" + noOfWellPathLinesStr).val() - 0;
+			var z = $("#valueVsec_" + noOfWellPathLinesStr).val() - 0;
 
+			colorTrace("md = "+ md + " inc = " + inc + " azi = " + azi , "RED");
+
+			var preMD = 0;
+			var preINC = 0;
+			var preAZI = 0;
+			var preX = 0;
+			var preY = 0;
+			var preZ = 0;
+			
+			if(noOfWellPathLines != 0){
+				var preRowNo = 	noOfWellPathLines - 1;
+				var preRowNoStr = changeNoOfWellPathLinesIntoString(preRowNo);
+				colorTrace("preRowNoStr = " + preRowNoStr, "Green");
+
+				preMD  = $("#valueMD_"  + preRowNoStr).val() - 0;
+				preINC = $("#valueINC_"  + preRowNoStr).val() - 0;
+				preAZI = $("#valueAZI_"  + preRowNoStr).val() - 0;
+				preX = $("#valueNS_"  + preRowNoStr).val() - 0;
+				preY = $("#valueEW_"  + preRowNoStr).val() - 0;
+				preZ = $("#valueVsec_"  + preRowNoStr).val() - 0;
+
+			}
+
+			colorTrace("preMD = "+ preMD + " preINC = " + preINC + " preAZI = " + preAZI , "RED");
+			//colorTrace("preX = "+ preX + " preY = " + preY + " preZ = " + preZ , "RED");
+
+			//==|| Calculate x, y, z by tangent method
+			var dMD = md - preMD;
+			var dN = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.cos(azi * (Math.PI / 180)));
+			var dE = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.sin(azi * (Math.PI / 180)));
+			var dZ = dMD * (Math.cos(inc * (Math.PI / 180)));
+
+			colorTrace("dMD = " + dMD, "Green");
+			colorTrace("dN = " + dN, "Blue");
+			colorTrace("dE = " + dE, "Green");
+			colorTrace("dZ = " + dZ, "Blue");
+
+			//==|| Calculating new x,y, z
+			var newX = preX + dN;
+			var newY = preY + dE;
+			var newZ = preZ + dZ;
+
+			//==|| Putting new x, y, z in the row
+			$("#valueNS_"  + noOfWellPathLinesStr).val(newX.toFixed(2)) - 0;
+			$("#valueEW_" + noOfWellPathLinesStr).val(newY.toFixed(2)) - 0;
+			$("#valueVsec_" + noOfWellPathLinesStr).val(newZ.toFixed(2)) - 0;
 
 			//==|| Add a new line
-			addWellPath(x, y, z);
+			addWellPath(newX, newY, newZ);
 
 			//==|| Check if the well is inside the ranges of the Planes
-			checkRangesForPlanes(x, y, z);
+			checkRangesForPlanes(newX, newY, newZ);
 
 			//==|| Render the changes
 			render();
@@ -2719,7 +2802,7 @@ function registerAddPathButton() {
 
 
 			//==|| Add an empty Row in the Table so that User can enter a new point
-			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, "Add");
+			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, 0, 0, 0, "Add");
 			noOfWellPathLines++;
 
 			/*
@@ -2798,7 +2881,7 @@ function registerAddPathButton() {
 }
 
 
-function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
+function addNewRowInTable(currentRow, valueMD, valueINC, valueAZI, valueNS, valueEW, valueVsec, activeButton) {
 
 			//==|| No. of well path line increments
 			//currentRow++;
@@ -2809,13 +2892,22 @@ function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
 			var newWellPathInfoBoxContainerStr = 
 			 	'<div id="wellPathInfoBoxContainer_' + newNoOfWellPathLinesStr + '" class="wellPathInfoBoxContainer">' +
 					'<div class="wellPathInputBoxContainer divMD">' +
-						'<input id="valueMD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueMD" value="' + value1 + '" size="10"/>' +
+						'<input id="valueMD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueMD" value="' + valueMD + '" size="10"/>' +
 					'</div>' +
 					'<div class="wellPathInputBoxContainer divINC">' +
-						'<input id="valueINC_' + newNoOfWellPathLinesStr+ '" type="text" name="valueINC" value="' + value2 + '" size="10"/>' +
+						'<input id="valueINC_' + newNoOfWellPathLinesStr+ '" type="text" name="valueINC" value="' + valueINC + '" size="10"/>' +
 					'</div>' +
 					'<div class="wellPathInputBoxContainer divAZI">' +
-						'<input id="valueAZI_' + newNoOfWellPathLinesStr+ '" type="text" name="valueAZI" value="' + value3 + '" size="10"/>' +
+						'<input id="valueAZI_' + newNoOfWellPathLinesStr+ '" type="text" name="valueAZI" value="' + valueAZI + '" size="10"/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divNS">' +
+						'<input id="valueNS_'+ newNoOfWellPathLinesStr +'" type="text" name="valueNS" value="' + valueNS + '" size="10"  disabled/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divEW">' +
+						'<input id="valueEW_' + newNoOfWellPathLinesStr+ '" type="text" name="valueEW" value="' + valueEW + '" size="10"  disabled/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divVsec">' +
+						'<input id="valueVsec_' + newNoOfWellPathLinesStr+ '" type="text" name="valueVsec" value="' + valueVsec + '" size="10"  disabled/>' +
 					'</div>' +
 					'<div class="wellPathInputBoxContainer divAddPathBtn">' +
 						'<button id="addPathBtn_' + newNoOfWellPathLinesStr+ '" class="btn addEditPathBtn addPathBtn">' +
@@ -2852,6 +2944,9 @@ function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
 				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divMD").find("input").prop('disabled', true);
 				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divINC").find("input").prop('disabled', true);
 				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divAZI").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divNS").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divEW").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divVsec").find("input").prop('disabled', true);
 
 			 }
 			 else if(activeButton == "Done") {

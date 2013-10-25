@@ -1226,7 +1226,7 @@ $(document).ready(function() {
 		theRenderer = new THREE.WebGLRenderer( { antialias: true } );
 				//theScene.fog = new THREE.FogExp2( theSceneColor, 0.0002 );
 		//==|| Change the Scene Color
-		changeSceneColor(theSceneColor);
+		//changeSceneColor(theSceneColor);
 
 
 
@@ -1240,7 +1240,7 @@ $(document).ready(function() {
 
 		//==|| The Renderer
 		
-		theRenderer.setClearColor( theScene.fog.color, 1 );
+		//theRenderer.setClearColor( theScene.fog.color, 1 );
 		theRenderer.setSize( theWidth, theHeight );
 
 
@@ -1401,7 +1401,7 @@ function readSettings(data) {
  	//==|| Get the Values from the JSON object
  	theSceneColor					  	= data.theSceneColor;
  	theWellLineColor				  	= data.theWellLineColor;
- 	theWellPathLineOpacity				= data.theWellLineOpacity;
+ 	theWellLineOpacity					= data.theWellLineOpacity;
 
  	theXY_PlaneOutlineMaterialColor	  			= data.theXY_PlaneOutlineMaterialColor;
  	theXY_PlaneOutlineMaterialLineOpacity	  	= data.theXY_PlaneOutlineMaterialLineOpacity;
@@ -1478,6 +1478,9 @@ function readSettings(data) {
 	    	//theWellLineColor = tinycolor;
 	    	changeSceneColor(tinycolor);
 	    	theSceneColor = tinycolor;
+
+			saveSettings();
+
 			render();
         }
 	});
@@ -1500,6 +1503,8 @@ function readSettings(data) {
 	    	theWellLineColor = tinycolor;
 	    	redrawWellPath(true);
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1530,6 +1535,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXY_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1561,6 +1568,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXY_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1590,6 +1599,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXY_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1621,6 +1632,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1652,6 +1665,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1681,6 +1696,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1712,6 +1729,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawYZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1743,6 +1762,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawYZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1772,6 +1793,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawYZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1813,6 +1836,8 @@ function readSettings(data) {
 			drawXY_Plane();
 			drawXZ_Plane();
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1847,6 +1872,8 @@ function readSettings(data) {
 			drawArrowNorth();
 
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1880,6 +1907,9 @@ function readSettings(data) {
 			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
 			render();
+
+
+			saveSettings();
         }
 	});
 
@@ -1918,6 +1948,8 @@ function readSettings(data) {
 
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -1947,6 +1979,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -1975,6 +2009,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2005,6 +2041,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2038,6 +2076,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2066,6 +2106,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2096,6 +2138,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2129,6 +2173,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2157,6 +2203,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2187,6 +2235,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2221,6 +2271,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2255,6 +2307,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2295,6 +2349,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2335,6 +2391,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2343,18 +2401,60 @@ function readSettings(data) {
 //######[ Finally Redrawing everything ]######
 //############################################
 
+
+	//==|| Change the Scene color
+	changeSceneColor(theSceneColor);
+
 	//==|| remove the previous Screen Center
 	theMainObject.remove(theScreenCenter);	
 	//==|| Now create a new Screen Center		
 	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
-
 	//==|| Read the Settings 
 	redrawAxesPlanes();
 	redrawWellPath(true);
 
-}
 
+
+
+
+} //==||################################################# readSettings() //#########################################
+
+function saveSettings() {
+		
+
+	theDefaultSettingsJSONdata.theSceneColor = theSceneColor;
+	theDefaultSettingsJSONdata.theWellLineColor = theWellLineColor;
+	theDefaultSettingsJSONdata.theWellLineOpacity = theWellLineOpacity;
+	theDefaultSettingsJSONdata.theXY_PlaneOutlineMaterialColor = theXY_PlaneOutlineMaterialColor;
+	theDefaultSettingsJSONdata.theXY_PlaneOutlineMaterialLineOpacity = theXY_PlaneOutlineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXY_PlaneGridLinesMaterialColor = theXY_PlaneGridLinesMaterialColor;
+	theDefaultSettingsJSONdata.theXY_PlaneGridLinesMaterialLineOpacity = theXY_PlaneGridLinesMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXY_PlaneAxisLineMaterialColor = theXY_PlaneAxisLineMaterialColor;
+	theDefaultSettingsJSONdata.theXY_PlaneAxisLineMaterialLineOpacity = theXY_PlaneAxisLineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXZ_PlaneOutlineMaterialColor = theXZ_PlaneOutlineMaterialColor;
+	theDefaultSettingsJSONdata.theXZ_PlaneOutlineMaterialLineOpacity = theXZ_PlaneOutlineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXZ_PlaneGridLinesMaterialColor = theXZ_PlaneGridLinesMaterialColor;
+	theDefaultSettingsJSONdata.theXZ_PlaneGridLinesMaterialLineOpacity = theXZ_PlaneGridLinesMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXZ_PlaneAxisLineMaterialColor = theXZ_PlaneAxisLineMaterialColor;
+	theDefaultSettingsJSONdata.theXZ_PlaneAxisLineMaterialLineOpacity = theXZ_PlaneAxisLineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theYZ_PlaneOutlineMaterialColor = theYZ_PlaneOutlineMaterialColor;
+	theDefaultSettingsJSONdata.theYZ_PlaneOutlineMaterialLineOpacity = theYZ_PlaneOutlineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theYZ_PlaneGridLinesMaterialColor = theYZ_PlaneGridLinesMaterialColor;
+	theDefaultSettingsJSONdata.theYZ_PlaneGridLinesMaterialLineOpacity = theYZ_PlaneGridLinesMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theYZ_PlaneAxisLineMaterialColor = theYZ_PlaneAxisLineMaterialColor;
+	theDefaultSettingsJSONdata.theYZ_PlaneAxisLineMaterialLineOpacity = theYZ_PlaneAxisLineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theLabelColor = theLabelColor;
+	theDefaultSettingsJSONdata.theLabelFontSize = theLabelFontSize;
+	theDefaultSettingsJSONdata.theLabelOpacity = theLabelOpacity;
+	theDefaultSettingsJSONdata.theArrowNorthColor = theArrowNorthColor;
+	theDefaultSettingsJSONdata.theArrowNorthOpacity = theArrowNorthOpacity;
+	theDefaultSettingsJSONdata.screenCenterSignColor = screenCenterSignColor;
+	theDefaultSettingsJSONdata.screenCenterSignOpacity = screenCenterSignOpacity;
+
+	save_3dconfig(theDefaultSettingsJSONdata);
+
+}
 
 
 
@@ -3014,16 +3114,69 @@ function registerDonePathButton() {
 		if(isPointOkToAdd(currentLineCountIs)) {
 			colorTrace("The line is OK to add", "Green");	
 
-			var x = $("#valueMD_"  + currentLineCountIsStr).val() - 0;
-			var y = $("#valueINC_" + currentLineCountIsStr).val() - 0;
-			var z = $("#valueAZI_" + currentLineCountIsStr).val() - 0;
+			var md = $("#valueMD_"  + currentLineCountIsStr).val() - 0;
+			var inc = $("#valueINC_" + currentLineCountIsStr).val() - 0;
+			var azi = $("#valueAZI_" + currentLineCountIsStr).val() - 0;
+			
+			var x = $("#valueNS_"  + currentLineCountIsStr).val() - 0;
+			var y = $("#valueEW_" + currentLineCountIsStr).val() - 0;
+			var z = $("#valueVsec_" + currentLineCountIsStr).val() - 0;
 
+			colorTrace("md = "+ md + " inc = " + inc + " azi = " + azi , "RED");
+
+			var preMD = 0;
+			var preINC = 0;
+			var preAZI = 0;
+			var preX = 0;
+			var preY = 0;
+			var preZ = 0;
+			
+			if(currentLineCountIs != 0){
+				var preRowNo = 	currentLineCountIs - 1;
+				var preRowNoStr = changeNoOfWellPathLinesIntoString(preRowNo);
+				colorTrace("preRowNoStr = " + preRowNoStr, "Green");
+
+				preMD  = $("#valueMD_"  + preRowNoStr).val() - 0;
+				preINC = $("#valueINC_"  + preRowNoStr).val() - 0;
+				preAZI = $("#valueAZI_"  + preRowNoStr).val() - 0;
+				preX = $("#valueNS_"  + preRowNoStr).val() - 0;
+				preY = $("#valueEW_"  + preRowNoStr).val() - 0;
+				preZ = $("#valueVsec_"  + preRowNoStr).val() - 0;
+
+			}
+
+			colorTrace("preMD = "+ preMD + " preINC = " + preINC + " preAZI = " + preAZI , "RED");
+			//colorTrace("preX = "+ preX + " preY = " + preY + " preZ = " + preZ , "RED");
+
+			//==|| Calculate x, y, z by tangent method
+			var dMD = md - preMD;
+			var dN = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.cos(azi * (Math.PI / 180)));
+			var dE = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.sin(azi * (Math.PI / 180)));
+			var dZ = dMD * (Math.cos(inc * (Math.PI / 180)));
+
+			colorTrace("dMD = " + dMD, "Green");
+			colorTrace("dN = " + dN, "Blue");
+			colorTrace("dE = " + dE, "Green");
+			colorTrace("dZ = " + dZ, "Blue");
+
+			//==|| Calculating new x,y, z
+			var newX = preX + dN;
+			var newY = preY + dE;
+			var newZ = preZ + dZ;
+
+			//==|| Putting new x, y, z in the row
+			$("#valueNS_"  + currentLineCountIsStr).val(newX.toFixed(2)) - 0;
+			$("#valueEW_" + currentLineCountIsStr).val(newY.toFixed(2)) - 0;
+			$("#valueVsec_" + currentLineCountIsStr).val(newZ.toFixed(2)) - 0;
+
+			
 			//colorTrace("New Values are x = " + x + " y = " +  y + " z = " +  z,"Blue");
 
 			//var data = theWellPathArray;
 			//$.each(data, function(index){
 
-			var theNewPoint = v(x,y,z);
+			var theNewPoint = v(newX, newY, newZ);
+
 			//==|| the new point would be the new end point for the current line
 			theWellPathArray[currentLineCountIs].theEndPoint = theNewPoint;
 
@@ -3070,7 +3223,7 @@ function registerDonePathButton() {
 
 
 			//==|| Check if the well is inside the ranges of the Planes
-			checkRangesForPlanes(x, y, z);
+			checkRangesForPlanes(newX, newY, newZ);
 
 
 

@@ -3205,6 +3205,10 @@ function addNewRowInTable(	currentRow,
 				selectedOptionIs = "secTypeM1TVD";
 			}
 
+
+			
+
+
 			//==|| Selecting the option in the Select box
 			$("#valueSecType_" + newNoOfWellPathLinesStr + "").val(selectedOptionIs);
 
@@ -3217,6 +3221,9 @@ function addNewRowInTable(	currentRow,
 
 				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find("#valueSecType_" + newNoOfWellPathLinesStr).prop('disabled', true);
 			}
+
+			//==|| Registering the event handler for Section Type Selection Option
+			registerSelectSectionType(newNoOfWellPathLinesStr);
 
 
 			 if(activeButton == "Add") {
@@ -3429,6 +3436,59 @@ function registerDonePathButton() {
 }
 
 
+function registerSelectSectionType(newNoOfWellPathLinesStr){
+
+	$("#valueSecType_" + newNoOfWellPathLinesStr).change(function (){
+		var optionSelected = $("option:selected", this);
+    	var valueSelected = this.value;
+		//colorTrace("optionSelected = " + optionSelected + " valueSelected = " + valueSelected, "Green");
+
+		if(valueSelected == "secTypeTangent"){
+			colorTrace("valueSelected = Tangent", "Green");
+
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divMD").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divINC").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divAZI").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTVD").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divBuild").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTurn").find("input").prop('disabled', true);
+
+		}
+		else if(valueSelected == "secTypeM1INC"){
+			colorTrace("valueSelected = M1 - Inc", "Green");
+
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divMD").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divINC").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divAZI").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTVD").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divBuild").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTurn").find("input").prop('disabled', false);
+
+		}
+		else if(valueSelected == "secTypeM1AZI"){
+			colorTrace("valueSelected = M1 - Azi", "Green");
+
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divMD").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divINC").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divAZI").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTVD").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divBuild").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTurn").find("input").prop('disabled', false);
+		}
+		else if(valueSelected == "secTypeM1TVD"){
+			colorTrace("valueSelected = M1 - TVD", "Green");
+
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divMD").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divINC").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divAZI").find("input").prop('disabled', true);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTVD").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divBuild").find("input").prop('disabled', false);
+			$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTurn").find("input").prop('disabled', false);
+		}
+
+	});
+
+}
 
 
 //######################################################################################################################################

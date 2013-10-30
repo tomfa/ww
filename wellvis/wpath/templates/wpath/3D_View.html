@@ -23,9 +23,18 @@
 				<div id="theTabs-1">   
 					<div id="thePathsDetailContainer">
 						<div id="theAddPathHeader">
-							<div class="divMD headerMD">X</div>
-							<div class="divINC headerINC">Y</div>
-							<div class="divAZI headerAZI">Z</div>
+							<div class="divMD headerMD">MD <br /> (m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">CL <br /> (m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">INC  <br />  (&#176;)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">AZI  <br />  (&#176;)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">TVD  <br />  (m) </div>
+							<div class="divMiddleBoxes headerMiddleOnes">NS  <br />  (m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">EW  <br /> (m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">V.Sec  <br /> (m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">Dogleg  <br />  (&#176;/30m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">Build <br />  (&#176;/30m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes">Turn  <br />  (&#176;/30m)</div>
+							<div class="divMethodType headerMiddleOnes">Method   <br /> Type</div>
 							<div class="divEmpty headerEmpty"></div>
 						</div>
 						<div id="theAddPathContainer">
@@ -39,6 +48,15 @@
 								</div>
 								<div class="wellPathInputBoxContainer divAZI">
 									<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divMD">
+									<input id="valueNS_000" type="text" name="valueMD" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divINC">
+									<input id="valueEW_000" type="text" name="valueINC" size="10"/>
+								</div>
+								<div class="wellPathInputBoxContainer divAZI">
+									<input id="valueVSec_000" type="text" name="valueAZI" size="10"/>
 								</div>
 								<div class="wellPathInputBoxContainer divAddPathBtn">
 									<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
@@ -496,8 +514,8 @@
 	
 }
 	#theAddPathHeader {
-		width: 100%;
-		height: 26px;
+		width: 1350px;
+		height: 51px;
 		color: #fff;
 		background: -webkit-gradient(linear, center bottom, center top, from(#141414), to(#5A5A5A) );
 		border-top: 1px solid #000;
@@ -512,6 +530,21 @@
 			padding: 5px 0px;
 		}
 	
+		.divMiddleBoxes {
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
+		.divMethodType {
+			float: left;
+			width: 150px;
+
+			padding: 5px 0px;
+
+		}
+		
 		.divINC {
 			float: left;
 			width: 100px;
@@ -526,6 +559,27 @@
 			padding: 5px 0px;
 		}
 
+		.divNS { 
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
+		.divEW { 
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
+		.divVsec { 
+			float: left;
+			width: 100px;
+
+			padding: 5px 0px;
+		}
+
 		.divEmpty {
 			float: left;
 			width: 10px;
@@ -533,13 +587,14 @@
 
 		}
 
-		.headerMD {
-			
+		.headerMD {			
 			border-right: 1px solid #000;
 			border-left: 1px solid #0a0a0a;
 		}
+
 	
-		.headerINC {
+		.headerMiddleOnes {
+			float: left;
 			border-right: 1px solid #000;
 			border-left: 1px solid #646464;
 		}
@@ -560,7 +615,7 @@
 		.wellPathInfoBoxContainer {
 			float: left;
 			height: 36px;
-			width: 100%;
+			width: 1350px;
 			border-top: 1px solid #000;
 			border-bottom: 1px solid #666;
 			
@@ -774,6 +829,7 @@ var theWellJSONdata = get_wellpath({{ wellpk }});
 colorTrace("theWellJSONdata = " +  JSON.stringify(theWellJSONdata), "Green");
 
 
+
 var newWellJSONdata = {
 	"maxX"		: 	1000,
 	"maxY"		: 	1000,
@@ -783,6 +839,80 @@ var newWellJSONdata = {
 	"theUnit"	: 	500,
 	"theValues"	: 	[]
 };
+
+
+
+var someWellJSONdata = {
+	"maxX"		: 	1000,
+	"maxY"		: 	1000,
+	"minX"		:	-1000,
+	"minY"		:	-1000,
+	"theZ"		: 	1500,
+	"theUnit"	: 	500,
+	"theValues"	: 	[
+		{
+			"theMD" 	: 100,
+			"theCL"		: 100,
+			"theINC" 	: 0,
+			"theAZI"	: 0,
+			"theTVD"	: 100,
+			"itsX" 	: 0,
+			"itsY" 	: 0,
+			"itsZ" 	: 100,
+			"itsDX"	: 0,
+			"itsDY"	: 0,
+			"itsDZ"	: 0,
+			"theDogleg" : 0,
+			"theBuild"	: 0,
+			"theTurn"	: 0,
+			"theSecType": "Tangent",
+			"thePoints" :[
+				{
+					"x" 	: 10,
+					"y" 	: 10,
+					"z" 	: 10
+				},
+				{
+					"x" 	: 20,
+					"y" 	: 20,
+					"z" 	: 20
+				}
+
+			]
+		},
+		{
+			"theMD" 	: 200,
+			"theCL"		: 100,
+			"theINC" 	: 12,
+			"theAZI"	: 0,
+			"theTVD"	: 197.81,
+			"itsX" 	: 20.79,
+			"itsY" 	: 0,
+			"itsZ" 	: 197.81,
+			"itsDX"	: 20.79,
+			"itsDY"	: 0,
+			"itsDZ"	: 97.81,
+			"theDogleg" : 0,
+			"theBuild"	: 0,
+			"theTurn"	: 0,
+			"theSecType": "M1 - Inc",
+			"thePoints" :[
+				{
+					"x" 	: 10,
+					"y" 	: 10,
+					"z" 	: 10
+				},
+				{
+					"x" 	: 20,
+					"y" 	: 20,
+					"z" 	: 20
+				}
+
+			]
+		}
+	]
+};
+
 
 theWellJSONdata = newWellJSONdata;
 
@@ -1192,7 +1322,7 @@ $(document).ready(function() {
 		theRenderer = new THREE.WebGLRenderer( { antialias: true } );
 				//theScene.fog = new THREE.FogExp2( theSceneColor, 0.0002 );
 		//==|| Change the Scene Color
-		changeSceneColor(theSceneColor);
+		//changeSceneColor(theSceneColor);
 
 
 
@@ -1206,7 +1336,7 @@ $(document).ready(function() {
 
 		//==|| The Renderer
 		
-		theRenderer.setClearColor( theScene.fog.color, 1 );
+		//theRenderer.setClearColor( theScene.fog.color, 1 );
 		theRenderer.setSize( theWidth, theHeight );
 
 
@@ -1281,11 +1411,21 @@ function readWellJSONdata(theWellJSONdata) {
 				
 				//==|| The values 
 				var theMD 		= theValues[valuesIndex].theMD;
+				var theCL 		= theValues[valuesIndex].theCL;
 				var theINC 		= theValues[valuesIndex].theINC;
 				var theAZI		= theValues[valuesIndex].theAZI;
+				var theTVD		= theValues[valuesIndex].theTVD;
 				var itsX 		= theValues[valuesIndex].itsX;
 				var itsY 		= theValues[valuesIndex].itsY;
 				var itsZ 		= theValues[valuesIndex].itsZ;
+				var itsDX		= theValues[valuesIndex].itsDX;
+				var itsDY		= theValues[valuesIndex].itsDY;
+				var itsDZ		= theValues[valuesIndex].itsDZ;
+				var theDogleg	= theValues[valuesIndex].theDogleg;
+				var theBuild	= theValues[valuesIndex].theBuild;
+				var theTurn		= theValues[valuesIndex].theTurn;
+				var theSecType	= theValues[valuesIndex].theSecType;
+
 
 				//==|| These are the points that make up the line
 				//==|| NOTE: currently not doing anything with them...
@@ -1305,7 +1445,13 @@ function readWellJSONdata(theWellJSONdata) {
 				addWellPath(itsX, itsY, itsZ);
 
 				//==|| Add a new Row in the table with the values shown
-				addNewRowInTable(noOfWellPathLines, itsX, itsY, itsZ, "Edit" );
+				addNewRowInTable(	noOfWellPathLines, 
+									theMD, theCL, 
+									theINC, theAZI, theTVD, 
+									itsX, itsY, itsZ, itsDX, itsDY, itsDZ, 
+									theDogleg, theBuild, theTurn, 
+									theSecType, "Edit" , false
+								);
 				noOfWellPathLines++;
 				colorTrace("inside readWllJSONdata  no.of well path lines " + noOfWellPathLines, "Green");
 
@@ -1340,7 +1486,7 @@ function readWellJSONdata(theWellJSONdata) {
 		});
 
 	//==|| Adding a new row
-	addNewRowInTable(noOfWellPathLines, 0, 0, 0, "Add");	
+	addNewRowInTable(noOfWellPathLines, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);	
 
 	colorTrace("inside readWllJSONdata 2 no.of well path lines " + noOfWellPathLines, "Green");
 
@@ -1367,7 +1513,7 @@ function readSettings(data) {
  	//==|| Get the Values from the JSON object
  	theSceneColor					  	= data.theSceneColor;
  	theWellLineColor				  	= data.theWellLineColor;
- 	theWellPathLineOpacity				= data.theWellLineOpacity;
+ 	theWellLineOpacity					= data.theWellLineOpacity;
 
  	theXY_PlaneOutlineMaterialColor	  			= data.theXY_PlaneOutlineMaterialColor;
  	theXY_PlaneOutlineMaterialLineOpacity	  	= data.theXY_PlaneOutlineMaterialLineOpacity;
@@ -1444,6 +1590,9 @@ function readSettings(data) {
 	    	//theWellLineColor = tinycolor;
 	    	changeSceneColor(tinycolor);
 	    	theSceneColor = tinycolor;
+
+			saveSettings();
+
 			render();
         }
 	});
@@ -1466,6 +1615,8 @@ function readSettings(data) {
 	    	theWellLineColor = tinycolor;
 	    	redrawWellPath(true);
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1496,6 +1647,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXY_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1527,6 +1680,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXY_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1556,6 +1711,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXY_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1587,6 +1744,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1618,6 +1777,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1647,6 +1808,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawXZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1678,6 +1841,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawYZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1709,6 +1874,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawYZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1738,6 +1905,8 @@ function readSettings(data) {
 			//==|| Redrawing the XY Plane
 			drawYZ_Plane();	
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1779,6 +1948,8 @@ function readSettings(data) {
 			drawXY_Plane();
 			drawXZ_Plane();
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1813,6 +1984,8 @@ function readSettings(data) {
 			drawArrowNorth();
 
 			render();
+
+			saveSettings();
         }
 	});
 
@@ -1846,6 +2019,9 @@ function readSettings(data) {
 			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
 			render();
+
+
+			saveSettings();
         }
 	});
 
@@ -1884,6 +2060,8 @@ function readSettings(data) {
 
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -1913,6 +2091,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -1941,6 +2121,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -1971,6 +2153,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2004,6 +2188,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2032,6 +2218,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2062,6 +2250,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2095,6 +2285,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2123,6 +2315,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2153,6 +2347,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2187,6 +2383,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2221,6 +2419,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2261,6 +2461,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2301,6 +2503,8 @@ function readSettings(data) {
    		set: function() {
    			//==|| Lets Empty Slider handle 
    			$(this).find(".noUi-handle-lower").html("");
+
+   			saveSettings();
    		}
 	});
 
@@ -2309,18 +2513,62 @@ function readSettings(data) {
 //######[ Finally Redrawing everything ]######
 //############################################
 
+
+	//==|| Change the Scene color
+	changeSceneColor(theSceneColor);
+
 	//==|| remove the previous Screen Center
 	theMainObject.remove(theScreenCenter);	
 	//==|| Now create a new Screen Center		
 	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
-
 	//==|| Read the Settings 
 	redrawAxesPlanes();
 	redrawWellPath(true);
 
-}
 
+
+
+
+} //==||################################################# readSettings() //#########################################
+
+
+//==|| Save the Settings 
+function saveSettings() {
+		
+
+	theDefaultSettingsJSONdata.theSceneColor = theSceneColor;
+	theDefaultSettingsJSONdata.theWellLineColor = theWellLineColor;
+	theDefaultSettingsJSONdata.theWellLineOpacity = theWellLineOpacity;
+	theDefaultSettingsJSONdata.theXY_PlaneOutlineMaterialColor = theXY_PlaneOutlineMaterialColor;
+	theDefaultSettingsJSONdata.theXY_PlaneOutlineMaterialLineOpacity = theXY_PlaneOutlineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXY_PlaneGridLinesMaterialColor = theXY_PlaneGridLinesMaterialColor;
+	theDefaultSettingsJSONdata.theXY_PlaneGridLinesMaterialLineOpacity = theXY_PlaneGridLinesMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXY_PlaneAxisLineMaterialColor = theXY_PlaneAxisLineMaterialColor;
+	theDefaultSettingsJSONdata.theXY_PlaneAxisLineMaterialLineOpacity = theXY_PlaneAxisLineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXZ_PlaneOutlineMaterialColor = theXZ_PlaneOutlineMaterialColor;
+	theDefaultSettingsJSONdata.theXZ_PlaneOutlineMaterialLineOpacity = theXZ_PlaneOutlineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXZ_PlaneGridLinesMaterialColor = theXZ_PlaneGridLinesMaterialColor;
+	theDefaultSettingsJSONdata.theXZ_PlaneGridLinesMaterialLineOpacity = theXZ_PlaneGridLinesMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theXZ_PlaneAxisLineMaterialColor = theXZ_PlaneAxisLineMaterialColor;
+	theDefaultSettingsJSONdata.theXZ_PlaneAxisLineMaterialLineOpacity = theXZ_PlaneAxisLineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theYZ_PlaneOutlineMaterialColor = theYZ_PlaneOutlineMaterialColor;
+	theDefaultSettingsJSONdata.theYZ_PlaneOutlineMaterialLineOpacity = theYZ_PlaneOutlineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theYZ_PlaneGridLinesMaterialColor = theYZ_PlaneGridLinesMaterialColor;
+	theDefaultSettingsJSONdata.theYZ_PlaneGridLinesMaterialLineOpacity = theYZ_PlaneGridLinesMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theYZ_PlaneAxisLineMaterialColor = theYZ_PlaneAxisLineMaterialColor;
+	theDefaultSettingsJSONdata.theYZ_PlaneAxisLineMaterialLineOpacity = theYZ_PlaneAxisLineMaterialLineOpacity;
+	theDefaultSettingsJSONdata.theLabelColor = theLabelColor;
+	theDefaultSettingsJSONdata.theLabelFontSize = theLabelFontSize;
+	theDefaultSettingsJSONdata.theLabelOpacity = theLabelOpacity;
+	theDefaultSettingsJSONdata.theArrowNorthColor = theArrowNorthColor;
+	theDefaultSettingsJSONdata.theArrowNorthOpacity = theArrowNorthOpacity;
+	theDefaultSettingsJSONdata.screenCenterSignColor = screenCenterSignColor;
+	theDefaultSettingsJSONdata.screenCenterSignOpacity = screenCenterSignOpacity;
+
+	save_3dconfig(theDefaultSettingsJSONdata);
+
+}
 
 
 
@@ -2685,16 +2933,77 @@ function registerAddPathButton() {
 			colorTrace("noOfWellPathLinesStr = " + noOfWellPathLinesStr, "Blue");
 
 			//==|| Read the inputted values
-			var x = $("#valueMD_"  + noOfWellPathLinesStr).val() - 0;
-			var y = $("#valueINC_" + noOfWellPathLinesStr).val() - 0;
-			var z = $("#valueAZI_" + noOfWellPathLinesStr).val() - 0;
+			var md = $("#valueMD_"  + noOfWellPathLinesStr).val() - 0;
+			var inc = $("#valueINC_"  + noOfWellPathLinesStr).val() - 0;
+			var azi = $("#valueAZI_"  + noOfWellPathLinesStr).val() - 0;
+			//var x = $("#valueNS_"  + noOfWellPathLinesStr).val() - 0;
+			//var y = $("#valueEW_" + noOfWellPathLinesStr).val() - 0;
+			//var z = $("#valueVsec_" + noOfWellPathLinesStr).val() - 0;
+
+			colorTrace("md = "+ md + " inc = " + inc + " azi = " + azi , "RED");
+
+			var preMD = 0;
+			var preINC = 0;
+			var preAZI = 0;
+			var preX = 0;
+			var preY = 0;
+			var preZ = 0;
+			
+			if(noOfWellPathLines != 0){
+				var preRowNo = 	noOfWellPathLines - 1;
+				var preRowNoStr = changeNoOfWellPathLinesIntoString(preRowNo);
+				colorTrace("preRowNoStr = " + preRowNoStr, "Green");
+
+				preMD  = $("#valueMD_"  + preRowNoStr).val() - 0;
+				preINC = $("#valueINC_"  + preRowNoStr).val() - 0;
+				preAZI = $("#valueAZI_"  + preRowNoStr).val() - 0;
+				preX = $("#valueX_"  + preRowNoStr).val() - 0;
+				preY = $("#valueY_"  + preRowNoStr).val() - 0;
+				preZ = $("#valueZ_"  + preRowNoStr).val() - 0;
+
+			}
+
+			colorTrace("preMD = "+ preMD + " preINC = " + preINC + " preAZI = " + preAZI , "RED");
+			//colorTrace("preX = "+ preX + " preY = " + preY + " preZ = " + preZ , "RED");
+
+			//==|| Calculate x, y, z by tangent method
+			var dMD = md - preMD;
+			var dN = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.cos(azi * (Math.PI / 180)));
+			var dE = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.sin(azi * (Math.PI / 180)));
+			var dZ = dMD * (Math.cos(inc * (Math.PI / 180)));
+
+
+			//==|| Putting new dN, dE, dZ in the row
+			$("#valueNS_"  + noOfWellPathLinesStr).val(dN.toFixed(2)) - 0;
+			$("#valueEW_" + noOfWellPathLinesStr).val(dE.toFixed(2)) - 0;
+			$("#valueVsec_" + noOfWellPathLinesStr).val(dZ.toFixed(2)) - 0;
+
+
+			//==|| Calculating new x,y, z
+			var newX = preX + dN;
+			var newY = preY + dE;
+			var newZ = preZ + dZ;
+
+			//==|| Putting new X, Y, Z in the hidden DIVs in the row
+			$("#valueX_"  + noOfWellPathLinesStr).val(newX.toFixed(2)) - 0;
+			$("#valueY_"  + noOfWellPathLinesStr).val(newY.toFixed(2)) - 0;
+			$("#valueZ_"  + noOfWellPathLinesStr).val(newZ.toFixed(2)) - 0;
+
+			colorTrace("dMD = " + dMD, "Green");
+			colorTrace("dN = " + dN, "Blue");
+			colorTrace("dE = " + dE, "Green");
+			colorTrace("dZ = " + dZ, "Blue");
+			colorTrace("newX = " + newX, "Green");
+			colorTrace("newY = " + newY, "Blue");
+			colorTrace("newZ = " + newZ, "Green");
+
 
 
 			//==|| Add a new line
-			addWellPath(x, y, z);
+			addWellPath(newX, newY, newZ);
 
 			//==|| Check if the well is inside the ranges of the Planes
-			checkRangesForPlanes(x, y, z);
+			checkRangesForPlanes(newX, newY, newZ);
 
 			//==|| Render the changes
 			render();
@@ -2719,7 +3028,7 @@ function registerAddPathButton() {
 
 
 			//==|| Add an empty Row in the Table so that User can enter a new point
-			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, "Add");
+			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);
 			noOfWellPathLines++;
 
 			/*
@@ -2798,7 +3107,13 @@ function registerAddPathButton() {
 }
 
 
-function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
+function addNewRowInTable(	currentRow, 
+							valueMD, valueCL, 
+							valueINC, valueAZI, valueTVD,
+							valueX, valueY,	valueZ, valueNS, valueEW, valueVsec, 
+							valueDogleg, valueBuild, valueTurn,
+							valueSecType, activeButton, isActive
+						) {
 
 			//==|| No. of well path line increments
 			//currentRow++;
@@ -2809,13 +3124,48 @@ function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
 			var newWellPathInfoBoxContainerStr = 
 			 	'<div id="wellPathInfoBoxContainer_' + newNoOfWellPathLinesStr + '" class="wellPathInfoBoxContainer">' +
 					'<div class="wellPathInputBoxContainer divMD">' +
-						'<input id="valueMD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueMD" value="' + value1 + '" size="10"/>' +
+						'<input id="valueMD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueMD" value="' + valueMD + '" size="9"/>' +
 					'</div>' +
-					'<div class="wellPathInputBoxContainer divINC">' +
-						'<input id="valueINC_' + newNoOfWellPathLinesStr+ '" type="text" name="valueINC" value="' + value2 + '" size="10"/>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divCL">' +
+						'<input id="valueCL_'+ newNoOfWellPathLinesStr +'" type="text" name="valueCL" value="' + valueCL + '" size="9" disabled/>' +
 					'</div>' +
-					'<div class="wellPathInputBoxContainer divAZI">' +
-						'<input id="valueAZI_' + newNoOfWellPathLinesStr+ '" type="text" name="valueAZI" value="' + value3 + '" size="10"/>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divINC">' +
+						'<input id="valueINC_' + newNoOfWellPathLinesStr+ '" type="text" name="valueINC" value="' + valueINC + '" size="9"/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divAZI">' +
+						'<input id="valueAZI_' + newNoOfWellPathLinesStr+ '" type="text" name="valueAZI" value="' + valueAZI + '" size="9"/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divTVD">' +
+						'<input id="valueTVD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueTVD" value="' + valueTVD + '" size="9" disabled/>' +
+					'</div>' +
+					'<div id="valueX_' + newNoOfWellPathLinesStr + '" style="display: none; float: left;">' + valueX + '</div>' +
+					'<div id="valueY_' + newNoOfWellPathLinesStr + '" style="display: none; float: left;">' + valueY + '</div>' +
+					'<div id="valueZ_' + newNoOfWellPathLinesStr + '" style="display: none; float: left;">' + valueZ + '</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divNS">' +
+						'<input id="valueNS_'+ newNoOfWellPathLinesStr +'" type="text" name="valueNS" value="' + valueNS + '" size="9"  disabled/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divEW">' +
+						'<input id="valueEW_' + newNoOfWellPathLinesStr+ '" type="text" name="valueEW" value="' + valueEW + '" size="9"  disabled/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divVsec">' +
+						'<input id="valueVsec_' + newNoOfWellPathLinesStr+ '" type="text" name="valueVsec" value="' + valueVsec + '" size="9"  disabled/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divDogleg">' +
+						'<input id="valueDogleg_' + newNoOfWellPathLinesStr+ '" type="text" name="valueDogleg" value="' + valueDogleg + '" size="9"  disabled/>' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divBuild">' +
+						'<input id="valueBuild_' + newNoOfWellPathLinesStr+ '" type="text" name="valueBuild" value="' + valueBuild + '" size="9"  />' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divTurn">' +
+						'<input id="valueTurn_' + newNoOfWellPathLinesStr+ '" type="text" name="valueTurn" value="' + valueTurn + '" size="9"  />' +
+					'</div>' +
+					'<div class="wellPathInputBoxContainer divMethodType">' +
+						'<select id="valueSecType_' + newNoOfWellPathLinesStr + '" style="width: 140px;">' +
+						  	'<option value="secTypeTangent">Tangent</option>' +
+						  	'<option value="secTypeM1INC">M1 - Inc</option>' +
+						  	'<option value="secTypeM1AZI">M1 - Azi</option>' +
+						  	'<option value="secTypeM1TVD">M1 - TVD</option>' +
+						'</select>' +
 					'</div>' +
 					'<div class="wellPathInputBoxContainer divAddPathBtn">' +
 						'<button id="addPathBtn_' + newNoOfWellPathLinesStr+ '" class="btn addEditPathBtn addPathBtn">' +
@@ -2835,8 +3185,39 @@ function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
 			 	'</div>';
 
 
-			 //==|| Append in the Add Path Container
-			 $("#theAddPathContainer").append(newWellPathInfoBoxContainerStr);
+
+
+			//==|| Append in the Add Path Container
+			$("#theAddPathContainer").append(newWellPathInfoBoxContainerStr);
+
+			//==|| we could have the easier and shorter technique but i was too lazy to seach for it :D
+			var selectedOptionIs = "";
+			if(valueSecType == "Tangent") {
+				selectedOptionIs = "secTypeTangent";
+			}
+			else if(valueSecType == "M1 - Inc") {
+				selectedOptionIs = "secTypeM1INC";
+			}
+			else if(valueSecType == "M1 - Azi") {
+				selectedOptionIs = "secTypeM1AZI";
+			}
+			else if(valueSecType == "M1 - TVD") {
+				selectedOptionIs = "secTypeM1TVD";
+			}
+
+			//==|| Selecting the option in the Select box
+			$("#valueSecType_" + newNoOfWellPathLinesStr + "").val(selectedOptionIs);
+
+			if(!isActive){
+				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divMD").find("input").prop('disabled', true);
+				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divINC").find("input").prop('disabled', true);
+				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divAZI").find("input").prop('disabled', true);
+				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divBuild").find("input").prop('disabled', true);
+				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find(".divTurn").find("input").prop('disabled', true);
+
+				$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find("#valueSecType_" + newNoOfWellPathLinesStr).prop('disabled', true);
+			}
+
 
 			 if(activeButton == "Add") {
 			 	$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().css({"display":"block"});
@@ -2852,6 +3233,9 @@ function addNewRowInTable(currentRow, value1, value2, value3, activeButton) {
 				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divMD").find("input").prop('disabled', true);
 				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divINC").find("input").prop('disabled', true);
 				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divAZI").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divNS").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divEW").find("input").prop('disabled', true);
+				$("#addPathBtn_" + newNoOfWellPathLinesStr).parent().parent().find(".divVsec").find("input").prop('disabled', true);
 
 			 }
 			 else if(activeButton == "Done") {
@@ -2919,16 +3303,69 @@ function registerDonePathButton() {
 		if(isPointOkToAdd(currentLineCountIs)) {
 			colorTrace("The line is OK to add", "Green");	
 
-			var x = $("#valueMD_"  + currentLineCountIsStr).val() - 0;
-			var y = $("#valueINC_" + currentLineCountIsStr).val() - 0;
-			var z = $("#valueAZI_" + currentLineCountIsStr).val() - 0;
+			var md = $("#valueMD_"  + currentLineCountIsStr).val() - 0;
+			var inc = $("#valueINC_" + currentLineCountIsStr).val() - 0;
+			var azi = $("#valueAZI_" + currentLineCountIsStr).val() - 0;
+			
+			var x = $("#valueNS_"  + currentLineCountIsStr).val() - 0;
+			var y = $("#valueEW_" + currentLineCountIsStr).val() - 0;
+			var z = $("#valueVsec_" + currentLineCountIsStr).val() - 0;
 
+			colorTrace("md = "+ md + " inc = " + inc + " azi = " + azi , "RED");
+
+			var preMD = 0;
+			var preINC = 0;
+			var preAZI = 0;
+			var preX = 0;
+			var preY = 0;
+			var preZ = 0;
+			
+			if(currentLineCountIs != 0){
+				var preRowNo = 	currentLineCountIs - 1;
+				var preRowNoStr = changeNoOfWellPathLinesIntoString(preRowNo);
+				colorTrace("preRowNoStr = " + preRowNoStr, "Green");
+
+				preMD  = $("#valueMD_"  + preRowNoStr).val() - 0;
+				preINC = $("#valueINC_"  + preRowNoStr).val() - 0;
+				preAZI = $("#valueAZI_"  + preRowNoStr).val() - 0;
+				preX = $("#valueX_"  + preRowNoStr).val() - 0;
+				preY = $("#valueY_"  + preRowNoStr).val() - 0;
+				preZ = $("#valueZ_"  + preRowNoStr).val() - 0;
+
+			}
+
+			colorTrace("preMD = "+ preMD + " preINC = " + preINC + " preAZI = " + preAZI , "RED");
+			//colorTrace("preX = "+ preX + " preY = " + preY + " preZ = " + preZ , "RED");
+
+			//==|| Calculate x, y, z by tangent method
+			var dMD = md - preMD;
+			var dN = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.cos(azi * (Math.PI / 180)));
+			var dE = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.sin(azi * (Math.PI / 180)));
+			var dZ = dMD * (Math.cos(inc * (Math.PI / 180)));
+
+			colorTrace("dMD = " + dMD, "Green");
+			colorTrace("dN = " + dN, "Blue");
+			colorTrace("dE = " + dE, "Green");
+			colorTrace("dZ = " + dZ, "Blue");
+
+			//==|| Calculating new x,y, z
+			var newX = preX + dN;
+			var newY = preY + dE;
+			var newZ = preZ + dZ;
+
+			//==|| Putting new x, y, z in the row
+			$("#valueNS_"  + currentLineCountIsStr).val(dN.toFixed(2)) - 0;
+			$("#valueEW_" + currentLineCountIsStr).val(dE.toFixed(2)) - 0;
+			$("#valueVsec_" + currentLineCountIsStr).val(dZ.toFixed(2)) - 0;
+
+			
 			//colorTrace("New Values are x = " + x + " y = " +  y + " z = " +  z,"Blue");
 
 			//var data = theWellPathArray;
 			//$.each(data, function(index){
 
-			var theNewPoint = v(x,y,z);
+			var theNewPoint = v(newX, newY, newZ);
+
 			//==|| the new point would be the new end point for the current line
 			theWellPathArray[currentLineCountIs].theEndPoint = theNewPoint;
 
@@ -2975,7 +3412,7 @@ function registerDonePathButton() {
 
 
 			//==|| Check if the well is inside the ranges of the Planes
-			checkRangesForPlanes(x, y, z);
+			checkRangesForPlanes(newX, newY, newZ);
 
 
 

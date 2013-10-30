@@ -77,6 +77,7 @@ def update_wellJSON(request, wellpk):
 
     # TODO: LOG
     previous_path = WellPath.objects.filter(project=project).order_by('-date')
+    # UNCERTAIN PART FOR PATH SAVE START
     if (previous_path and previous_path[0].creator == request.user):
         previous_path = previous_path[0]
         if seconds_since(previous_path.date) > time_threshold:
@@ -96,6 +97,20 @@ def update_wellJSON(request, wellpk):
         path.path = json_dump
         path.save()
         response_data['message'] = "New wellpath should be saved"
+    # UNCERTAIN PART FOR PATH SAVE END
+    # SAFE ALTERNATIVE PART START
+    #if (previous_path and previous_path[0].creator == request.user):
+    #    previous_path = previous_path[0]
+    #    print "Update current version"
+    #    previous_path.path = json_dump
+    #    response_data['message'] = "Existing wellpath should be updated"
+    #    previous_path.updated = datetime.now(previous_path.date.tzinfo)
+    #    previous_path.save()
+    #else:
+    #path = WellPath.objects.create(project=project, path=json_dump, creator=request.user)
+    #path.save()
+    #response_data['message'] = "New wellpath should be saved"
+    # SAFE ALTERNATIVE PART END
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 

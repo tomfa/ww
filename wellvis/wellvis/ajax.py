@@ -29,8 +29,7 @@ def get_wellJSON(request, wellpk):
     project = Project.objects.filter(well=well).order_by('-created_date')
 
     if not project:
-        response_data['message'] = "404 Error: Project not found attached to well " + well.pk
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
+        project = Project.objects.create( name = "testproject", responsible = request.user, start_date = "2011-09-01T13:20:30+03:00", end_date = "2014-09-01T13:20:30+03:00", well = well )
     
     project = project[0]
     path = WellPath.objects.filter(project=project).order_by('-date')
@@ -67,8 +66,7 @@ def update_wellJSON(request, wellpk):
     project = Project.objects.filter(well=well).order_by('-created_date')
 
     if not project:
-        response_data['message'] = "404 Error: Project not found attached to well " + well.pk
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
+        project = Project.objects.create( name = "testproject", responsible = request.user, start_date = "2011-09-01T13:20:30+03:00", end_date = "2014-09-01T13:20:30+03:00", well = well )
     
     project = project[0]
     if request.method != 'POST' or not request.POST.has_key('graph'):
@@ -79,6 +77,28 @@ def update_wellJSON(request, wellpk):
 
     # TODO: LOG
     previous_path = WellPath.objects.filter(project=project).order_by('-date')
+    # UNCERTAIN PART FOR PATH SAVE START
+    if (previous_path and previous_path[0].creator == request.user):
+        previous_path = previous_path[0]
+        if seconds_since(previous_path.date) > time_threshold:
+            path = WellPath.objects.create(project=project, path=get_default_path(), creator=request.user)
+            path.save()
+            path.path = json_dump
+            path.save()
+            response_data['message'] = "New wellpath should be saved"
+        else:
+            previous_path.path = json_dump
+            response_data['message'] = "Existing wellpath should be updated"
+            previous_path.updated = datetime.now(previous_path.date.tzinfo)
+            previous_path.save()
+    else:
+        path = WellPath.objects.create(project=project, path=get_default_path(), creator=request.user)
+        path.save()
+        path.path = json_dump
+        path.save()
+        response_data['message'] = "New wellpath should be saved"
+    # UNCERTAIN PART FOR PATH SAVE END
+    # SAFE ALTERNATIVE PART START
     #if (previous_path and previous_path[0].creator == request.user):
     #    previous_path = previous_path[0]
     #    print "Update current version"
@@ -87,12 +107,10 @@ def update_wellJSON(request, wellpk):
     #    previous_path.updated = datetime.now(previous_path.date.tzinfo)
     #    previous_path.save()
     #else:
-    print "Making new Path"  
-    print type(json_dump)
-    print json_dump	
-    path = WellPath.objects.create(project=project, path=json_dump, creator=request.user)
-    path.save()
-    response_data['message'] = "New wellpath should be saved"
+    #path = WellPath.objects.create(project=project, path=json_dump, creator=request.user)
+    #path.save()
+    #response_data['message'] = "New wellpath should be saved"
+    # SAFE ALTERNATIVE PART END
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
@@ -189,6 +207,18 @@ def get_default_3dconfig():
     '"theArrowNorthOpacity"                      : 1, ' +
     '"screenCenterSignColor"                     : "#FFFFFF", ' +
     '"screenCenterSignOpacity"                   : 1}')
+
+def get_default_path():
+    return ('{ ' +
+        '"maxX"      :   1000, ' +
+        '"maxY"      :   1000, ' +
+        '"minX"      :   -1000, ' +
+        '"minY"      :   -1000, ' +
+        '"theZ"      :   1500, ' +
+        '"theUnit"   :   500, ' +
+        '"theValues" :   [] ' +
+    '}')
+
 
 '''
 # LEGACY CODE FOR DB-AWARE GET AND UPDATE

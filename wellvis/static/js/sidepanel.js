@@ -19,6 +19,18 @@ $(".sidePanelToggler").click(function() {
     toggleSidePanel(!($(".sidepanel").is(":visible")));
 });
 
+function showPageView(visible) {
+    if (visible) {
+        $('col-md-12').css('padding', '0 15px');
+        $('#title').show();
+        $('.navbar').show();
+    }
+    else {
+        $('col-md-12').css('padding', '0');
+        $('#title').hide();
+        $('.navbar').hide();
+    }
+}
 
 function toggleSidePanel(visible) {
     if (visible) {

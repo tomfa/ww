@@ -104,79 +104,182 @@ The team has prioritized the requirements in four categories:
 \end{itemize}
 The team has estimated the complexity for each requirement. We use the following categories:
 \begin{itemize}
-    \item High: Functionality that seems difficult and non-trivial to create.
-    \item Medium: Functionality that seems time consuming but straightforward.
+    \item High: Functionality that seems difficult or time consuming to create.
+    \item Medium: Functionality that are somewhat time consuming, but quite straightforward.
     \item Low: Requirements that are trivial to implement.
 \end{itemize}   
 
 \subsection{Functional Requirements} \label{subsec:functional_requirements}
 \begin{tabular}{| l | p{5.9cm} | l | l |} \hline
 ID & Description & Prioritiziation & Complexity \\ \hline
-F1 & Login to the web page & High & Low \\ \hline
-F2 & Choose well path software module & High & Low \\ \hline
+F1 & Login to the web page& High & Medium \\ \hline
+F2 & Select software module in web page& High & Low \\ \hline
 F3 & See a list of existing well projects & High & Low \\ \hline
 F4 & Choosing a well project from list & High & Low \\ \hline
-F5 & Insert well path data in a table & High & Low \\ \hline
-F6 & Visualize well path data in a 3d graph presentation & High & High \\ \hline
-F7 & Insert end-targets and help-targets for well paths & High & Medium \\ \hline
-F8 & Showing a simple 3D visualization of well based on end targets and help targets. Make approximately path based on end and help targets & High & High \\ \hline
-F9 & Adjust end- and help points easily (through drag and drop or similar). & Medium & High \\ \hline
-F10 & Insert geological data, along with no-go areas. & Medium & High \\ \hline
-F11 & Visualize geological data in well path view. & Medium & High \\ \hline
-F12 & Divide drilling path into segments. & Medium & Medium \\ \hline
-F13 & Choose single segments for a more detailed view of that particular segment. & Medium & Low \\ \hline
-F14 & Select offline/drilling mode during a simulated drilling event (This mode should give ability to “see next step 3d-coordinates”, every 10 meters or similar). & Low & Low \\ \hline
-F15 & Insert drilling data, along with being informed of current offset). & Optional & Low \\ \hline
+F5 & Insert well path data through website & High & Medium \\ \hline
+F6 & Visualize well path data in a 3d graph & High & High \\ \hline
+F7 & Distinction between end- and help-targets & High & Medium \\ \hline
+F8 & Divide path into segments & Medium & High \\ \hline
+F9 & Select segment for a detailed view & Medium & High\\ \hline
+F10 & Make targets adjustable through GUI & Low & Medium\\ \hline
+F11 & Go-offline mode & High & High\\ \hline
+F12 & Insert geological data, along with no-go areas. & Medium & High \\ \hline
+F13 & Insert operational data, and show offset. & Medium & High\\ \hline
+F14 & Export coordinates function & High & Medium\\ \hline
+F15 & Import path data from other existing wells into 3D GUI & Medium & Medium\\ \hline
+F16 & Warning if system detect intersecting paths & Medium & High\\ \hline
+F17 & Configurable 3D view & High & High\\ \hline
+F18 & Automatic load and store of graph & Medium & High\\ \hline
+F19 & Create curvature for paths & High & High \\ \hline
+F20 & Version control of input & Medium & High\\ \hline
+F21 & Detachable well panel & Medium & Medium\\ \hline
+F22 & Fullscreen mode & Medium & Low\\ \hline
+F23 & Evaluate and recommend future development in project & High & High\\ \hline
 \end{tabular}
 
 \subsection{Quality Requirements} \label{subsec:quality_requirements}
 \begin{tabular}{| l | p{5.9cm} | l | l |} \hline
 ID & Description & Prioritiziation & Complexity \\ \hline
 M1 & The module should be easy to integrate with other modules, and it should be easy to add more functionality. It should not take more than one working day to do this. & High & High \\ \hline
-U2 & The module should be intuitive and easy to understand and use. It should not take more than 3 hours to get through a tutorial than explain how to use it. & High & Medium \\ \hline
+U2 & The module should be intuitive and easy to understand and use. It should not take more than 3 hours to get through a tutorial or explain how to use it. & High & Medium \\ \hline
 \end{tabular}
 
 \section{Requirements Evolution} \label{sec:requirements_evolution}
-First meeting with customer (date)
-From the first meeting with the customer we got the following requirements:
+
+The customer had a very open mind on what the results of this project were to be. During meetings in the pre planning period, we got to understand why they wanted a new software, by seeing the drawbacks on the existing system. Due to the magnitude of the system in use, we had to choose spesific parts and narrow down the implementation we were to do. This was done through discussion and exchanging ideas, mostly by our team. The requirements were in other words as much defined by our group as the customer.
+
+A summary of the requirements evolution and a graph illustrating the evolution is shown in \ref{sec:requirements_evolution_summary}
+
+\subsection{Preplanning requirements} \label{sec:preplanning_requirementsevolution}
+Prior to sprint 1, we had multiple meetings with the customer. During these meetings we came up the following possible requirements: 
 \begin{itemize}
-    \item F5
-    \item F6
-    \item M1
-    \item U1
+    \item F1: Login
+    \item F2: Select module within page
+    \item F3: List well projects
+    \item F4: Choosing well
+    \item F5: Insert well path
+    \item F6: Visualize well path
+    \item F7: Distinction to end point targets
+    \item F8: Dividing path into segments
+    \item F9: Segment selection
+    \item F10: Adjustable targets
+    \item F11: Offline mode
+    \item F12: Insert geological data
+    \item F13: Insert operational data and show offset
+    \item M1: Modifiability
+    \item U1: Usability
 \end{itemize}
 
-Demonstration of current system by customer (date)
-From the demonstration of the current system in use by the oil industry we got the following requirements:
+\subsection{Sprint 1} \label{sec:sprint1_requirementsevolution}
+
+\subsubsection{Planned implementations}
+For sprint 1, we decided on the basics. Having a webpage where one could log in, select application and well, and also insert and view a well path, were what we set ourselves to do.
+
 \begin{itemize}
-    \item F2
-    \item F3
-    \item F4
-    \item F7
-    \item F8
-    \item F12
-    \item F13
-    \item F15
+    \item F1: Login
+    \item F2: Select module within page
+    \item F3: List well projects
+    \item F4: Choosing well
+    \item F5: Insert well path
+    \item F6: Visualize well path
 \end{itemize}
 
-Improvement meeting with customer (date)
-From a meeting with the customer about improvements to the system we got the following requirements:
+\subsubsection{New requirements}
+During sprint 1 as well with customer meeting post sprint 1,  we came up with some new ideas:
 \begin{itemize}
-    \item F1
-    \item F9
-    \item F10
-    \item F11
-    \item F14
+    \item F14: Export coordinates function
+    \item F15: Import path from other existing paths into GUI
+    \item F16: Warning if other paths intersects with the current one
+    \item F17: Configurable 3D view
+    \item F18: Automatic store and load of graph
+    \item F19: Create curvature for paths
+    \item F23: Recommendations and thoughts on development
 \end{itemize}
 
-Sprint 1 (9. september - 27. september)
+\subsubsection{Deliverance}
+All planned implementations were successfully implemented during sprint 1. We were lucky enough not to run into any problems that wasn't solved within very short time. The requirements were delivered just in time.
+
+\subsection{Sprint 2} \label{sec:sprint2_requirementsevolution}
+
+\subsubsection{Removed requirements}
+\begin{itemize}
+    \item F8: Dividing path into segments \\
+    After seeing the usability of the zoom function, dividing path into segments seemed more obsolete, and was removed.
+    \item F9: Detailed segment view \\
+    Dependency F8 removed.
+    \item F10: Adjustable targets \\
+    The realization that adjusting targets in a 3D space would not be very intuitive made this requirement removed.
+    \item F11: Go offline mode \\
+    The workload associated with the requirement is too large to take on during this project. Instead we wanted to focus our efforts on making a good path graph.
+\end{itemize}
+
+\subsubsection{Planned implementations}
+
+\begin{itemize}
+    \item F7: End target points
+    \item F12: Insert geological data
+    \item F15: Import existing paths into current
+    \item F16: Warning if path intersects
+    \item F17: Configurable 3D view
+    \item F18: Automatic load and store of graph
+    \item F19: Path curvature
+\end{itemize}
+
+\subsubsection{Cancelled requirements}
+Due to the underestimated complexity of implementing the high priority requirement F19: Path curvature, we had to cancel some lower priority requirements:
+\begin{itemize}
+    \item F7: Distinction to end point targets
+    \item F12: Insert geological data
+\end{itemize}
+
+\subsubsection{New requirements}
+The following requirements emerged as good ideas during sprint 2.
+\begin{itemize}
+    \item F20: Version Control of path \\
+    During the implementation of saving path to database, we realized how useful it would be with version control of wellpath compared to it's complexity.
+    \item F21: Version Control of path \\
+    Customer wish in post sprint 2 customer meeting.
+    \item F22: Fullscreen mode \\
+    Thought to be a visually beautiful feature, with low complexity.
+    
+\end{itemize}
+
+\subsubsection{Deliverance}
+At the end of sprint 2, we had only delivered 3 out of the planned 7 requirements. We had underestimated the complexity of implementing the math functions involved in making an optimal curvature, and the drawing of the points in 3D (F19). Also, struggling to implement storage of JSON-structures in the Django framework through AJAX-calls, caused further time to slip from our hands. In hindsight, estimations were closer to best case than average case scenarioes. In addition, it turned out to be a bad scenario instead of an average one.
+
+\subsection{Sprint 3} \label{sec:sprint3_requirementsevolution}
+
+\subsubsection{Planned implementations}
+
+\begin{itemize}
+    \item F19: Create curvature for paths
+    \item F20: Version Control of path
+    \item F21: Version Control of path
+    \item F22: Fullscreen mode
+    \item F23: Recommendations and thoughts on development
+\end{itemize}
+
+\subsubsection{Deliverance}
 TODO
 
-Sprint 2 (9. september - 27. september)
-TODO
+\subsection{Summary} \label{sec:requirements_evolution_summary}
 
-Sprint 3 (21. october - 10. november)
-TODO
+\par As a team, new ideas were emerging all during the project. Due to the loose bounderies on the project and agile method, we planned only one sprint at a time and allowed ourselves to throw away certain requirements and focus on other ones in collaboration with the customer.
+\par In hindsight, we realize that both sprint 1 and sprint 2 were estimated optimistically. This went fine in sprint 1, but came back to bite us once we ran into problems in sprint 2. We also noticed how not reaching goals can act as a motivational blowback, and found out how overestimating the thought time to some degree can get you closer to an realistic estimation.
+\par Of the 23 requirements defined throughout the proejct, 14 were implemented and 9 removed. Some of the removed requirements are still good ideas for the software to-be, and we have therefore included thoughts and discussion on how they can be realized in chapter \ref{sec:development}
+\par For a visual presentation of the requirements evolution, see figure \ref{fig:evolution}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{evolution}
+    \caption{Requirements evolution. Requirements comes in to the Ideas column. From there they are moved to individual sprints, or decided not to be implemented (moved to removed). The bottom of each column within a sprint row tells what requirements they contained at the end of each sprint.}
+    \label{fig:evolution}
+\end{figure}
+
+
+
+
+
 
 \section{Use Cases} \label{sec:use_cases}
 This sections contains use case diagrams for our actors, and detailed textual use cases for these diagrams. 
@@ -268,7 +371,7 @@ Implementation &  &   &  &   &  \\ \hline
 3D config & 01.10.13 & 04.10.13  & 1.1-1.7 & 32  &  \\ \hline
 Save/Load & 01.10.13 & 09.10.13  & 2.1.1-2.3.3 & 42  &  \\ \hline
 Target types & 01.10.13 & 11.10.13  & 3.1-3.5 & 42  &  \\ \hline
-XYZ > MD & 15.10.13 & 25.10.13  & 4.1-4.5 & 58  &  \\ \hline
+XYZ to MD & 15.10.13 & 25.10.13  & 4.1-4.5 & 58  &  \\ \hline
 3D curvature & 14.10.13 & 24.10.13  & 5.1-5.7 & 64  &  \\ \hline
 Meeting &  &   &  &   &  \\ \hline
 Lecture &  &   &  &  0 & 0 \\ \hline
@@ -414,6 +517,12 @@ The method of software testing with the Black box method is where you test the f
 
 \section{Non-functional requirements} \label{sec:non_func_req}
 TODO
+
+\section{Tests} \label{sec:tests}
+Since we only are making a part of a software, and because it is only a prototype, we will not do all types of testing. This is because we feel that most of the tests like: performance, acceptance and system tests is more appropriate for a finished product, and not a protottype that is not finished. \\
+\textbf{User-tests} \\
+This project is not about making a finished software for our clients, but it is a prototype for them to keep working on later.Since we will not have a completely finished product with all requirements, we do not feel the necessity of doing user-testing. We feel that this is more suitable for a finished product that we know that the customer will use later. Also we have had meetings after the first sprints, where we have gone through what the customer liked, and what they felt were missing and could be better, and we have had close contact during this project so that is why we have not had any user-testing.
+
 \section{Test Criteria} \label{sec:test_criteria}
 An item will be considered to have passed a test if the actual result from the test matches the expected result from the test. An item will be considered to have failed the test if the output varies from the expected result. If there are some specific reason why the test failed it will also be documented.
 
@@ -454,29 +563,27 @@ Since each programmer has most knowledge about their own code, they are responsi
 
 
 %REMEMBER USEABILITY - undo function
-\chapter{Architectural Description}
-There are many ways to define software architecture and we have chosen the following definision: "The software architecture of a system is the set of structures needed to reason about a system, which comprise software elements, relations among them, and properties of both" \cite[page 4]{Bass2013}.
+\chapter{Architectural Description} \label{cha:architectural_description}
+There are many ways to define software architecture and we have chosen the following definision: "The software architecture of a system is the set of structures needed to reason about a system, which comprise software elements, relations among them, and properties of both" \cite[page 4]{book:bass}.
 
-This chapter will introduce the final architecture of the product. It will describe the qualities in the system we wanted to achive and how it was structured to accomplish them.
+This chapter will introduce the final architecture of the product. It will describe the qualities in the system we wanted to achive and how it was structured to accomplish them. In section \ref{sec:architectural_drivers} we discuss which quality attributes had the biggest impact on the software structure. In section \ref{sec:architectural_tactics} we describe the tactics implemented to fulfill the architectural drivers. In section \ref{sec:architectural_patterns} we go through the architectural patterns that is included in our software. Finally, in section \ref{sec:architectural_views} we look at the architecure from different views.
 
+\section{Architectural Drivers} \label{sec:architectural_drivers}
+After the first customer meeting, we identified the main architectural drivers as modifiability and usability.
 
-\section{Architectural Drivers}
-The main architectural driver for this project was modifiablity, which was important because the project only produced a small module which was part of a much larger system. We therefore focused on making our system easy to intergrate since it would have to work with other modules. This would reduce some of the main problems with the old system, where the modules had poor co-operation and introduced redundancy. Extensibility was something else we wanted to achive. The module was only a early prototype and would have to be able expand with more functionality at a later date. Our customer also required portability since the system had to be operating system independent.
+Modifiability was important because the project only resulted in a small module which was part of a much larger system. We therefore focused on making our system easy to intergrate since it would have to work with other modules. This would reduce some of the main problems with the old system, where the modules had poor co-operation and introduced redundant work. Extensibility was something else we wanted to achive. The module was only a early prototype and would have to be able expand with more functionality at a later date. Our customer also required portability since the system had to be operating system independent.
 
-
-
-
-
-\section{Architectural Tactics}
-TODO
+Another large issue with the current system is that it has a high skill ceiling and users often struggle to complete their tasks.
 
 
 
+\section{Architectural Tactics} \label{sec:architectural_tactics}
+A tactic is a technique that can be used to achive a required quality attribute \cite[page 70]{book:bass}.
 
-\subsection{Modifiablity Tactics}
+\subsection{Modifiablity Tactics} 
 Modifiability deals with change and the cost in time or money of making a change, including the extent to which this modification affects other functions or quality attributes.
 
-Changes can be made by developers, installers, or end users, and these changes need to be prepared for. There is a cost of preparing for change as well as a cost for making a change. The modifiabbility tacitcs are designed to prepare for subsequent changes.\cite[page 128]{Bass2013}
+Changes can be made by developers, installers, or end users, and these changes need to be prepared for. There is a cost of preparing for change as well as a cost for making a change. The modifiabbility tacitcs are designed to prepare for subsequent changes.\cite[page 128]{book:bass}
 
 \subsubsection{Split Module}
 The modification costs of a module with large capability is usually high. Refining the module into several smaller modules should reduce the average cost of future changes.
@@ -500,18 +607,24 @@ Refactor is a tactic undertaken when two modules are affected by the same change
 \subsubsection{Abstract Common Services}
 In the case where two modules provide not quite the same, but similar services, it may be cost-effective to implement the services just once in a more general (abstract) form. Any modification to the common service would then need to occur in just one place, reducing modification costs.
 
-
-
 \subsubsection{Defer binding}
 
-
+\subsubsection{Portability}
 
 \subsection{Usability Tactics}
+Usability is concerned with how easy it is for the user to accomplish a desired task and the kind of user support the system provides. Over the years, a focus on usability has shown itself to be one of the cheapest and easiest ways to improve a system's quality (or more precisely, the user's perception of quality).\cite[page 175]{book:bass}
+
+\subsubsection{Version Control}
+
+
+\subsubsection{Support User Initiative}
 
 
 
-\section{Architectural Patterns}
-Architectural patterns are packages of design decisions that is found repetedly in practice, has known properties that premits reuse, and describes a class of architectures.
+
+
+\section{Architectural Patterns} \label{sec:architectural_patterns}
+Architectural patterns are packages of design decisions that is found repetedly in practice, has known properties that premits reuse, and describes a class of architectures. Patterns can be seen as "packages" of tactics.
 
 \subsection{Client-Server}
 There are shared resources and services that large numbers of distributed clients wish to access, and for which we wish to control access or quality of service.
@@ -536,7 +649,19 @@ The model-view-controller pattern seperates application functionality into three
 \end{itemize}
 
 
+\subsection{Architectural Views} \label{sec:architectural_views}
+We have chosen to use the 4+1 architectural view model. The views are used to describe the system from the viewpoint of different stakeholders, such as end-users, developers and project managers. The four views of the model are logical, development, process and physical view. In addition selected use cases or scenarios are utilized to illustrate the architecture serving as the 'plus one' view. \cite{website:kruchten}
 
+
+Logical view : The logical view is concerned with the functionality that the system provides to end-users. This view is represented by the class diagram, entity relationship diagram and sequence diagram.
+
+Development view: The development view illustrates a system from a programmer's perspective and is concerned with software management. This view is also known as the implementation view. We have chosen to not include this view because our system is only consisting of one module and does not have many dependencies.
+
+Process view: The process view deals with the dynamic aspects of the system, explains the system processes and how they communicate, and focuses on the runtime behavior of the system. The process view addresses concurrency, distribution, integrators, performance, and scalability, etc. This view is represented by the activity diagram.
+
+Physical view: The physical view depicts the system from a system engineer's point-of-view. It is concerned with the topology of software components on the physical layer, as well as the physical connections between these components. This view is also known as the deployment view. We have chosen to not include this view because our system is mainly software and does not have hardware requirements.
+
+Scenarios: The description of an architecture is illustrated using a small set of use cases, or scenarios which become a fifth view. The scenarios describe sequences of interactions between objects, and between processes. They are used to identify architectural elements and to illustrate and validate the architecture design. They also serve as a starting point for tests of an architecture prototype. This view is also known as use case view.
 
 
 
@@ -553,12 +678,12 @@ The model-view-controller pattern seperates application functionality into three
 
 \chapter{Sprint 1} \label{cha:sprint_1}
 TODO
-\section{Sprint Planning} \label{sec:sprint_planning}
+\section{Sprint Planning} \label{sec:sprint_planning1}
 In this section we will discuss how this sprint was planned. We will discuss the duration of the sprint in \ref{subsec:duration} and our goals in \ref{subsec:sprint_goal}. We discussed everything with our customer before deciding the sprints.
-\subsection{Duration} \label{subsec:duration}
+\subsection{Duration} \label{subsec:duration1}
 The first sprint has a duration from september 9th until september 27th, when the first prototype is to be revealed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
 
-\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Sprint Goal} \label{subsec:sprint_goal1}
 The goal for this sprint is that a user should be able to:
 \begin{itemize}
 \item Login to the web page 
@@ -569,16 +694,21 @@ The goal for this sprint is that a user should be able to:
 \item Show a very simple 3D visualization of well based on end and help points
 \end{itemize}
 These are things we feel that are some of the most important and basic parts of the system.
-\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
-\section{System Design} \label{sec:system:_design}
-\subsection{Preliminary Design} \label{subsec:prelim_design}
-\subsection{System Overview} \label{subsec:sys_overview}
-\subsection{User Stories} \label{subsec:user_stories}
-\section{Implementation} \label{sec:implementation}
-\section{Sprint Testing} \label{sec:sprint_testing}
-\subsection{Test Results} \label{subsec:test_results}
-\subsection{Evaluation} \label{subsec:evaluation}
-\section{Customer feedback} \label{sec:cust_feed}
+\subsection{Backlog} \label{subsec:backlog1} % from pivotal tracker?
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Sprint1_WBS}
+    \caption{Sprint 1 Work Breakdown Structure. Task 1 includes backend functionality to set up the solution environment. Task 2 corresponds to requirement F2, F3+F4 and F1 respectively. Task 3 corresponds to requirement F5 and F6.  \label{fig:sprint1_WBS}}
+\end{figure}
+\section{System Design} \label{sec:system:_design1}
+\subsection{Preliminary Design} \label{subsec:prelim_design1}
+\subsection{System Overview} \label{subsec:sys_overview1}
+\subsection{User Stories} \label{subsec:user_stories1}
+\section{Implementation} \label{sec:implementation1}
+\section{Sprint Testing} \label{sec:sprint_testing1}
+\subsection{Test Results} \label{subsec:test_results1}
+\subsection{Evaluation} \label{subsec:evaluation1}
+\section{Customer feedback} \label{sec:cust_feed1}
 The customer seemed very happy with what we had managed to do in the first sprint. They especially liked the fact that you had live-update from input data onto the 3D-model, which ran smoothly.
 \begin{itemize}
 \item “Already better than the existing tool” – Bjørn about the 3D module, 2013-09-29
@@ -588,14 +718,14 @@ The customer seemed very happy with what we had managed to do in the first sprin
 \item “Grid should be less visible. Would also be nice to change colors.” – Øyvind, 2013-09-30 
 \item “I think it would be nice with a denser well-path” – Sigbjørn, 2013-09-30
 \end{itemize}
-\section{Sprint Evaluation} \label{sec:sprint_eva}
-\subsection{Review} \label{subsec:review}
-\subsection{Positive Experiences} \label{subsec:pos_exp}
-\subsection{Negative Experiences} \label{subsec:neg_exp}
+\section{Sprint Evaluation} \label{sec:sprint_eva1}
+\subsection{Review} \label{subsec:review1}
+\subsection{Positive Experiences} \label{subsec:pos_exp1}
+\subsection{Negative Experiences} \label{subsec:neg_exp1}
 - Imprecise task specification
 - Imprecise task delegation
 - Low amount of work hours (70-100 in total vs 124 planned)
-\subsection{Planned Actions} \label{subsec:planned_act}
+\subsection{Planned Actions} \label{subsec:planned_act1}
 \textbf{Better sprint planning}\\
 TODO \\
 \textbf{Design early in the sprint}\\
@@ -604,13 +734,13 @@ TODO\\
 TODO\\
 \textbf{Split Coding and Report Writing between team members}\\
 TODO
-\subsection{Barriers} \label{subsec:barriers}
+\subsection{Barriers} \label{subsec:barriers1}
 
 \chapter{Sprint 2} \label{cha:sprint_2}
-\section{Sprint Planning} \label{sec:sprint_planning}
-\subsection{Duration} \label{subsec:duration}
+\section{Sprint Planning} \label{sec:sprint_planning2}
+\subsection{Duration} \label{subsec:duration2}
 The second sprint has a duration from September 30th until October 21th. What we will do is decided during our presentation for the customer after sprint 1 to see if some requirements might have changed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
-\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Sprint Goal} \label{subsec:sprint_goal2}
 Below are the goals for this sprint, ranged by importance:\\\\
 \textbf{Implement minimal curvature}\\
 The well graph is currently represented as straight lines between each points. The minimum curvature algorithm (as presented on customer meeting, Sunday 29.09.13) should be implemented.\\ \\
@@ -628,22 +758,22 @@ The panel should include
 \textbf{Distinction between end-, help- and nogo points}\\
 Currently all added points are considered help points, and lines are automatically drawn between them. The possibility to add help- end and no go points that are visually distinctable would make it easier for a user to see where to create a well. For sprint 2, these should be able to added, and look different. No other functionality is planned before sprint 3.
 
-\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
-\section{System Design} \label{sec:sprint_planning}
-\subsection{Preliminary Design} \label{subsec:prelim_design}
-\subsection{System Overview} \label{subsec:sys_overview}
-\subsection{User Stories} \label{subsec:user_stories}
-\section{Implementation} \label{sec:implementation}
-\section{Sprint Testing} \label{sec:sprint_testing}
-\subsection{Test Results} \label{subsec:test_results}
-\subsection{Evaluation} \label{subsec:evaluation}
-\section{Customer feedback} \label{sec:cust_feed}
-\section{Sprint Evaluation} \label{sec:sprint_eva}
-\subsection{Review} \label{subsec:review}
-\subsection{Positive Experiences} \label{subsec:pos_exp}
-\subsection{Negative Experiences} \label{subsec:neg_exp}
+\subsection{Backlog} \label{subsec:backlog2} % from pivotal tracker?
+\section{System Design} \label{sec:system_design2}
+\subsection{Preliminary Design} \label{subsec:prelim_design2}
+\subsection{System Overview} \label{subsec:sys_overview2}
+\subsection{User Stories} \label{subsec:user_stories2}
+\section{Implementation} \label{sec:implementation2}
+\section{Sprint Testing} \label{sec:sprint_testing2}
+\subsection{Test Results} \label{subsec:test_results2}
+\subsection{Evaluation} \label{subsec:evaluation2}
+\section{Customer feedback} \label{sec:cust_feed2}
+\section{Sprint Evaluation} \label{sec:sprint_eva2}
+\subsection{Review} \label{subsec:review2}
+\subsection{Positive Experiences} \label{subsec:pos_exp2}
+\subsection{Negative Experiences} \label{subsec:neg_exp2}
 One memeber has had a lot to do with UKA, and has been sick
-\subsection{Planned Actions} \label{subsec:planned_act}
+\subsection{Planned Actions} \label{subsec:planned_act2}
 \textbf{Better sprint planning}\\
 TODO\\
 \textbf{Design early in the sprint}\\
@@ -652,29 +782,29 @@ TODO\\
 TODO\\
 \textbf{Split Coding and Report Writing between team members}\\
 TODO
-\subsection{Barriers} \label{subsec:barriers}
+\subsection{Barriers} \label{subsec:barriers2}
 
 \chapter{Sprint 3} \label{cha:sprint_3}
-\section{Sprint Planning} \label{sec:sprint_planning}
-\subsection{Duration} \label{subsec:duration}
+\section{Sprint Planning} \label{sec:sprint_planning3}
+\subsection{Duration} \label{subsec:duration3}
 Our last sprint has a duration from October 24th untill November 8th.This gives us time to fix if anything is missing or not done untill delivery day. What we will do is decided during our presentation for the customer after sprint 1 and 2 to see if some requirements might have changed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
-\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Sprint Goal} \label{subsec:sprint_goal3}
 \subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
-\section{System Design} \label{sec:sprint_planning}
-\subsection{Preliminary Design} \label{subsec:prelim_design}
-\subsection{System Overview} \label{subsec:sys_overview}
-\subsection{User Stories} \label{subsec:user_stories}
-\section{Implementation} \label{sec:implementation}
-\section{Sprint Testing} \label{sec:sprint_testing}
-\subsection{Test Results} \label{subsec:test_results}
-\subsection{Evaluation} \label{subsec:evaluation}
-\section{Customer feedback} \label{sec:cust_feed}
-\section{Sprint Evaluation} \label{sec:sprint_eva}
-\subsection{Review} \label{subsec:review}
-\subsection{Positive Experiences} \label{subsec:pos_exp}
-\subsection{Negative Experiences} \label{subsec:neg_exp}
-\subsection{Planned Actions} \label{subsec:planned_act}
-\textbf{Better sprint planning}\\
+\section{System Design} \label{sec:system_design3}
+\subsection{Preliminary Design} \label{subsec:prelim_design3}
+\subsection{System Overview} \label{subsec:sys_overview3}
+\subsection{User Stories} \label{subsec:user_stories3}
+\section{Implementation} \label{sec:implementation3}
+\section{Sprint Testing} \label{sec:sprint_testing3}
+\subsection{Test Results} \label{subsec:test_results3}
+\subsection{Evaluation} \label{subsec:evaluation3}
+\section{Customer feedback} \label{sec:cust_feed3}
+\section{Sprint Evaluation} \label{sec:sprint_eva3}
+\subsection{Review} \label{subsec:review3}
+\subsection{Positive Experiences} \label{subsec:pos_exp3}
+\subsection{Negative Experiences} \label{subsec:neg_exp3}
+\subsection{Planned Actions} \label{subsec:planned_act3}
+\textbf{Better sprint planning3}\\
 TODO\\
 \textbf{Design early in the sprint}\\
 TODO\\
@@ -682,11 +812,27 @@ TODO\\
 TODO\\
 \textbf{Split Coding and Report Writing between team members}\\
 TODO
-\subsection{Barriers} \label{subsec:barriers}
+\subsection{Barriers} \label{subsec:barriers3}
 
 
 
+\part{Conclusion and Evalution}
 
+\chapter{Conclusion} \label{cha:conclusion}
+\section{System Overview} \label{sec:system_overview}
+\section{Further Development} \label{sec:further_dev}
+\section{Testing} \label{sec:testing}
+\section{Summary} \label{sec:summary_conc}
+
+\chapter{Evaluation} \label{cha:evaluation}
+\section{Group Dynamics} \label{sec:group_dynamics}
+\section{Risk Handling} \label{sec:risk_handling}
+\section{Scrum Process} \label{sec:scrum_process}
+\section{Time Estimation} \label{sec:time_est}
+\section{Quality Assurance} \label{sec:qual_ass}
+\section{Customer Relations} \label{sec:customer_relations}
+\section{Lessons Learned} \label{sec:lessons_learned}
+\section{Summary} \label{sec:summary_eva}
 
 
 
@@ -890,19 +1036,18 @@ Interactive git game & http://pcottle.github.io/learnGitBranching/ \\ \hline
 
 \section{How to: Understand Django} \label{sec:understand_django}
 \subsection{Introduction}
-Django has neatly divided the logic of the server into different parts. The url part (\ref{django:urls}) handles what urls will be accessable and redirects spesific urls to a spesific method in the views part (\ref{django:views}). The view part will extract, insert and handle applicable data available from the database. The database is defined through models (\ref{django:models}). Once the views has extracted and defined the data, it will return these to the user through a spesific html file located in templates (\ref{django:templates}). The templates will usually link to resources, such as css and javascript files that are located in the static part (\ref{django:static}). 
+Django has neatly divided the logic of the server into different parts. The url part (\ref{django:urls}) handles what urls will be accessable and redirects spesific urls to a spesific method in the views part (\ref{django:views}). The view part will extract, insert and handle applicable data available from the database. The database is defined through models (\ref{django:models}). Once the views has extracted and defined the data, it will return these to the user through different means, usually through a spesific html file located in templates (\ref{django:templates}). The templates will usually link to resources, such as css and javascript files that are located in the static part (\ref{django:static}). 
 
-\begin{center}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{django_structure}
-    \caption{Operational Well Integrity Model \label{fig:django_struct}}
+    \caption{How Django processes a request. A user requests a spesific URL (1), which django translates to a spesific method (2 \& 3). The method gathers the responding data to fullfil the request (4), and (usually) sends that data to the user through an HTML template (5 \& 6) \label{fig:django_struct}}
 \end{figure}
-\end{center}
 
-See figure \ref{fig:djangostructure} for a visual representation
+See figure \ref{fig:django_struct} for a visual representation
 
 \subsection{Urls} \label{django:urls}
+
 \subsection{Views} \label{django:views}
 \subsection{Models} \label{django:models}
 \subsection{Templates} \label{django:templates}
@@ -940,6 +1085,45 @@ Continous Integration git branching
 \section{Server OS and packages}
 \section{Virtual environment packages}
 \section{Javascript libraries}
+
+\chapter{Templates}
+\section{Meetings}
+\textbf{Meeting}\\
+\textbf{Scrum Meeting}\\
+2013-00-00\\
+00.00-00.00\\\\
+Place\\
+Present\\\\
+\textbf{What have you done?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & What I said I was going to do and what I actually did \\ \hline
+Tina & What I said I was going to do and what I actually did  \\ \hline
+Tintin & What I said I was going to do and what I actually did  \\ \hline
+Pawan & What I said I was going to do and what I actually did  \\ \hline
+\end{tabular}\\\\
+\textbf{Have you had any problems?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & \\ \hline
+Tina &  \\ \hline
+Tintin &  \\ \hline
+Pawan &  \\ \hline
+\end{tabular}\\\\
+\textbf{Do you have any questions or things you wonder about?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & \\ \hline
+Tina &  \\ \hline
+Tintin &  \\ \hline
+Pawan &  \\ \hline
+\end{tabular}\\\\
+\textbf{What are you going to do today/till next time?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & \\ \hline
+Tina &  \\ \hline
+Tintin &  \\ \hline
+Pawan &  \\ \hline
+\end{tabular}
+
+\section{Status Report}
 
 \end{document}
 

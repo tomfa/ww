@@ -1,0 +1,946 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\bibliographystyle{plain}
+
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+
+\title{Wellvis}
+\subtitle{Developing Drilling Engineering Software}
+\author{Tomas Albertsen Fagerbekk \and Tintin Trong Hoang \and Pawan Chamling Rai \and Tina Christin Syversen}
+\date{November 2013, Trondheim}
+
+\begin{document}
+
+\maketitle
+
+\section*{Preface}
+\addcontentsline{toc}{section}{Preface}
+Fill in preface here.
+
+\begin{abstract}
+\addcontentsline{toc}{section}{Abstract}
+Fill in abstract here.
+\end{abstract}
+
+\tableofcontents
+\addcontentsline{toc}{chapter}{Contents}
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+\clearpage
+
+\part{Planning and Requirements}
+
+\chapter{Project Directive} \label{cha:project_directive}
+In this chapter we will give a general introduction to our project. In section \ref{sec:project_mandate} we tell the purpose of the project and in \ref{sec:the_client} we describe our client. In \ref{sec:involved_parties} we mention all the involved parties in this project and what they want to get out of this and in \ref{sec:project_background} we explain the background for the project. In section \ref{sec:project_directive} we explain the objective and in \ref{sec:project_duration} we describe the duration.
+
+\section{Project Mandate} \label{sec:project_mandate}
+The purpose of this project was to develop a more integrated and user friendly well drilling engineering system than those that are currently on the market. Because of the large complexity of developing a system of this scale, we were given permission to choose whichever part we felt the most interested in and develop a prototype with improvements suggested by the customer. We thereby reduced the scope of the project and decided to focus on the part of the system which was responsible of planning the well path. This is numbered as 1 (Well paths) on figure \ref{fig:owim}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{operational_well_integrity_model}
+    \caption{Operational Well Integrity Model \label{fig:owim}}
+\end{figure}
+
+
+\section{The Client} \label{sec:the_client}
+Wellvis is a company under establishment. It is founded and owned equally by Bjørn Brechan, Sigbjørn Sangesland and Øyvind Pedersen. The company has the same name as their main product, Wellvis, which is a concatenation of “Well Visualisation”. This is an umbrella software that primarily modernize and improve the well integrity model available for the oil and gas industry. Well integrity is an area of focus in the industry as it reduces risk and avoids failures.
+
+\section{Involved Parties} \label{sec:involved_parties}
+These are the identified stakeholders who has an interest in our project.
+
+\begin{tabular}{|l | p{8.5cm}|} \hline
+Wellvis & They would like a new system that is more user-friendly than the old and outdated system. \\ \hline
+Project Team & We would like to do a good job for our customer and we would like to get a good grade on our project \\ \hline
+Course Staff & Wants us to do a good job and want to know how to improve the course. \\ \hline
+Users & Everyone who uses the old system would like a new and more user friendly system that is easy to use and to learn. \\ \hline
+\end{tabular}
+
+\section{Project Background} \label{sec:project_background}
+Today the oil industry worldwide suffers from the lack of experienced engineers in all professions. One of the reasons for this is the work-intensive and demanding process of planning a well for production of hydrocarbons. The current workflow to establish a fully engineered well can be modernized and thereby reduce the amount of man hours needed. The existing well integrity models are complex and there is a high user threshold, resulting in several years of training before users are skilled and experienced enough to comfortably running it and making decisions based on the result.
+
+A simplification of the work-flow can reduce required hours for engineering, but logical algorithms and integration could ensure that important tasks are not overseen, thereby increasing safety. With good visualisation of the status and remaining tasks, decisions can be made easier and sooner. This holds true for planning, but also during operations if they stray from the plan. Not only can the time required for proper engineering be reduced, but with lower threshold also the number of people involved.
+
+At this moment there is only one complete software suite for the well drilling process. It consist of individual applications that have been bought and put together in a package by a company called Landmark. The problem is that these programs have been developed by different companies over a long time frame. Consequently, the programs have none or little integration with each other and are very outdated in both graphics and programming paradigm. The programs are not very user friendly and require the user to have some tacit knowledge to operate them correctly. Because of this high user threshold, work is often delegated to external consultants.
+
+\section{Project Directive} \label{sec:project_directive}
+We have some objectives that we have set for ourselves and that the client wishes for:
+
+\begin{itemize}
+    \item Create a working prototype of the Well Paths program with all the necessary functional requirements mentioned by the client
+    \item Focus on the main areas of the client: that it is easy to use and easy to learn
+    \item Create a broad documentation of our work and the prototype
+    \item Be able to present a final product
+\end{itemize}
+
+\section{Project Duration} \label{sec:project_duration}
+This duration of this project is three months, from the 21th of August until the 21th of November. For this course, each student is expected to work 325 hours. We are four people on this team so the total effort will be 1300 hours.
+
+\chapter{Requirements} \label{cha:requirements}
+In this chapter we will discuss our requirements for the project. In \ref{sec:list_of_requirements} we list all of our requirements and our evoliution for these are in \ref{sec:requirements_evolution}. Later in the chapter we have our use cases in \ref{sec:use_cases} and the last section, \ref{sec:user_stories}, has our user stories.
+\section{List of requirements} \label{sec:list_of_requirements}
+This is where we discuss how we prioritize our requirements, \ref{subsec:prioritization_and_complexity}. After discussing how we prioritize, we list all our functional requirements in \ref{subsec:functional_requirements}. The fundtional requirements are listed after when we got them from the customer.
+\subsection{Prioritization and Complexity} \label{subsec:prioritization_and_complexity}
+The team has prioritized the requirements in four categories:
+\begin{itemize}
+    \item High: Core functionality of the utility that must be implemented.
+    \item Medium: Requirements that will improve the value of the utility.
+    \item Low: Requirements that will not add much value to the utility.
+    \item Optional: Requirement that may be implemented depending on available time.
+\end{itemize}
+The team has estimated the complexity for each requirement. We use the following categories:
+\begin{itemize}
+    \item High: Functionality that seems difficult and non-trivial to create.
+    \item Medium: Functionality that seems time consuming but straightforward.
+    \item Low: Requirements that are trivial to implement.
+\end{itemize}   
+
+\subsection{Functional Requirements} \label{subsec:functional_requirements}
+\begin{tabular}{| l | p{5.9cm} | l | l |} \hline
+ID & Description & Prioritiziation & Complexity \\ \hline
+F1 & Login to the web page & High & Low \\ \hline
+F2 & Choose well path software module & High & Low \\ \hline
+F3 & See a list of existing well projects & High & Low \\ \hline
+F4 & Choosing a well project from list & High & Low \\ \hline
+F5 & Insert well path data in a table & High & Low \\ \hline
+F6 & Visualize well path data in a 3d graph presentation & High & High \\ \hline
+F7 & Insert end-targets and help-targets for well paths & High & Medium \\ \hline
+F8 & Showing a simple 3D visualization of well based on end targets and help targets. Make approximately path based on end and help targets & High & High \\ \hline
+F9 & Adjust end- and help points easily (through drag and drop or similar). & Medium & High \\ \hline
+F10 & Insert geological data, along with no-go areas. & Medium & High \\ \hline
+F11 & Visualize geological data in well path view. & Medium & High \\ \hline
+F12 & Divide drilling path into segments. & Medium & Medium \\ \hline
+F13 & Choose single segments for a more detailed view of that particular segment. & Medium & Low \\ \hline
+F14 & Select offline/drilling mode during a simulated drilling event (This mode should give ability to “see next step 3d-coordinates”, every 10 meters or similar). & Low & Low \\ \hline
+F15 & Insert drilling data, along with being informed of current offset). & Optional & Low \\ \hline
+\end{tabular}
+
+\subsection{Quality Requirements} \label{subsec:quality_requirements}
+\begin{tabular}{| l | p{5.9cm} | l | l |} \hline
+ID & Description & Prioritiziation & Complexity \\ \hline
+M1 & The module should be easy to integrate with other modules, and it should be easy to add more functionality. It should not take more than one working day to do this. & High & High \\ \hline
+U2 & The module should be intuitive and easy to understand and use. It should not take more than 3 hours to get through a tutorial than explain how to use it. & High & Medium \\ \hline
+\end{tabular}
+
+\section{Requirements Evolution} \label{sec:requirements_evolution}
+First meeting with customer (date)
+From the first meeting with the customer we got the following requirements:
+\begin{itemize}
+    \item F5
+    \item F6
+    \item M1
+    \item U1
+\end{itemize}
+
+Demonstration of current system by customer (date)
+From the demonstration of the current system in use by the oil industry we got the following requirements:
+\begin{itemize}
+    \item F2
+    \item F3
+    \item F4
+    \item F7
+    \item F8
+    \item F12
+    \item F13
+    \item F15
+\end{itemize}
+
+Improvement meeting with customer (date)
+From a meeting with the customer about improvements to the system we got the following requirements:
+\begin{itemize}
+    \item F1
+    \item F9
+    \item F10
+    \item F11
+    \item F14
+\end{itemize}
+
+Sprint 1 (9. september - 27. september)
+TODO
+
+Sprint 2 (9. september - 27. september)
+TODO
+
+Sprint 3 (21. october - 10. november)
+TODO
+
+\section{Use Cases} \label{sec:use_cases}
+This sections contains use case diagrams for our actors, and detailed textual use cases for these diagrams. 
+\subsection{Actors} \label{subsec:actors}
+There are different kinds of users(actors) in a team: 2 - 4 drilling engineers and 2 – 4 completion engineers. There are two different access levels, one where everyone have access - read-only, and one where there is possible to edit. We have called these two user and superuser.
+Superuser:
+\begin{enumerate}
+    \item Company Representative (Advisor) – for all licences (fields). Could be a role like this per country
+    \item Coordinator of the Directional Drilling service
+    \item Drilling Engineer – super user
+    \item Drilling Engineer
+\end{enumerate}
+User:
+\begin{enumerate}
+    \item Company Representative (Advisor) – for all licences (fields). Could be a role like this per country
+    \item Coordinator of the Directional Drilling service
+    \item Drilling Engineer – super user
+    \item Drilling Engineer
+    \item Completion Engineer
+    \item Drilling Superintendent – read only access (normally) – not further described due to the low interface this role has towards the application(s)
+\end{enumerate}
+
+\subsection{Use Case Diagrams} \label{subsec:use_case_diagrams}
+TODO
+\subsection{Textual Use Cases} \label{subsec:textual_use_cases}
+TODO
+\section{User Stories} \label{sec:user_stories}
+TODO
+
+
+
+\chapter{Planning} \label{cha:planning}
+In this chapter we will go over the administrative aspect of our project. We start off in \ref{sec:project_plan} with the project plan. Later we have \ref{sec:project_organization} our project organization. In the end of this chapter we have section \ref{sec:quality_assurance} about quality assurance while \ref{sec:risk_management} has our risk management table.
+
+\section{Project Plan} \label{sec:project_plan}
+In this section we  go through our project plan. \ref{subsec:measurement_of_project_effects} discusses how we, and others, measure the success of our project. Section \ref{subsec:limitations} talks about the limitations we have in our project, both technical and non-technical, while we in \ref{subsec:schedule_of_results} have our schedule of when we should have what results.
+\subsection{Measurement of project effects} \label{subsec:measurement_of_project_effects}
+\textbf{Customer}
+
+\textbf{Functional prototype:} The customer wants a prototype with some of the most important functions too see if it is possible to make a better version of the current system
+
+\textbf{Modifiability:} Since the project team is just developing a small part of the system it has to be well documented so the customer can expand with more functionality later. The modules should be easy to integrate.
+
+\textbf{Economy:} The system should also contribute to saving money by making it more user friendly and lowering the user threshold so they can do more of the work themselves instead of relying on specialists on the software. They are also hoping to increase productivity by making the system handle repetitive manual work. 
+
+\textbf{Security}: The customer hope that by making the system more effective and user friendly less people skip or take “shortcuts” during the planning phase of the well drilling process and thereby reduce accidents or unforeseen circumstances during operation.\\ \\
+\textbf{Course staff}\\
+\textbf{Experience:} The goal with the project is to give the students practical experience in carrying all the phases in a larger customer driven IT-project. The focus is on group dynamics and customer negotiations.\\ \\
+\textbf{Project team}\\
+\textbf{Technology:} Besides learning how to work in a large project with real customers, the project team is also very interested in learning more about the technology used like 
+ 
+ %not finished
+\subsection{Limitations} \label{subsec:limitations}
+TODO
+Technical limitations
+Non-technical limitations
+
+\subsection{Schedule of Results} \label{subsec:schedule_of_results}
+21. August 2013: Project start and first meeting with the customer\\
+9. September 2013 - 30. September 2013: Sprint 1\\
+30. September 2013: Demonstration of prototype\\
+1. October 2013 - 19. October 2013: Sprint 2\\
+8. October 2013: Pre-delivery for advisor\\
+14. October 2013: Pre-delivery for examiner and writing course\\
+20. October 2013 - 10. November 2013: Sprint 3\\
+21. November 2013: Delivery of final report and demonstration of product
+
+%guessing not done maybe??
+\subsection{Concrete Work Plan} \label{subsec:concrete_work_plan}
+%GANTT DIAGRAM
+\begin{tabular}{| l | l | l | l | p{1.25 cm} | p{1.25 cm}|} \hline
+Task & Start Date & End Date & Task & Est. Effort (hours) & Act. Effort (hours) \\ \hline
+Pre-study & 21.08.13  & 08.09.13 &  &  &\\ \hline
+Research &  &   &  &  & 19 \\ \hline
+Documentation &  &   &  &  & 45.5 \\ \hline
+Implementation &  &   &  &  0 & 0 \\ \hline
+Meeting &  &   &  &   & 55.5 \\ \hline
+Lecture &  &   &  &  36 & 34 \\ \hline
+Sprint 1 & 09.09.13  & 30.09.13 &  &  &\\ \hline
+Research &  &   &  &  &  \\ \hline
+Documentation &  &   &  &  &  \\ \hline
+Implementation &  &   &  &   &  \\ \hline
+Meeting &  &   &  &   &  \\ \hline
+Lecture &  &   &  &  0 & 0 \\ \hline
+Sprint 2 & 01.10.13  & 19.10.13 &  &  &\\ \hline
+Research &  &   &  &  &  \\ \hline
+Documentation &  &   &  &  &  \\ \hline
+Implementation &  &   &  &   &  \\ \hline
+3D config & 01.10.13 & 04.10.13  & 1.1-1.7 & 32  &  \\ \hline
+Save/Load & 01.10.13 & 09.10.13  & 2.1.1-2.3.3 & 42  &  \\ \hline
+Target types & 01.10.13 & 11.10.13  & 3.1-3.5 & 42  &  \\ \hline
+XYZ > MD & 15.10.13 & 25.10.13  & 4.1-4.5 & 58  &  \\ \hline
+3D curvature & 14.10.13 & 24.10.13  & 5.1-5.7 & 64  &  \\ \hline
+Meeting &  &   &  &   &  \\ \hline
+Lecture &  &   &  &  0 & 0 \\ \hline
+Sprint 3 & 20.10.13  & 10.11.13 &  &  &\\ \hline
+Research &  &   &  &  &  \\ \hline
+Documentation &  &   &  &  &  \\ \hline
+Implementation &  &   &  &   &  \\ \hline
+Meeting &  &   &  &   &  \\ \hline
+Lecture &  &   &  &  0 & 0 \\ \hline
+Finishing report & 11.11.13  & 21.11.13 &  &  &\\ \hline
+Research &  &   &  &  &  \\ \hline
+Documentation &  &   &  &  &  \\ \hline
+Implementation &  &   &  &   &  \\ \hline
+Meeting &  &   &  &   &  \\ \hline
+Lecture &  &   &  &  0 & 0 \\ \hline
+Total &  &   &  &  1300 &  \\ \hline
+\end{tabular}
+
+\section{Project Organization} \label{sec:project_organization}
+In this section we discuss how our project shouldd be organized. In \ref{subsec:project_org} we discuss the main rspnosibilities and roles that we have chosen and we also have an overview about who has what role.
+\subsection{Project Organization} \label{subsec:project_org}
+We have identified the main responsibilities and divided them into four different roles. The roles are responsible for making sure their area is under control, and being done. They are in other words not expected to do everything within their area. The responsibility areas are as follows:
+\\ \\
+\textbf{Advisor and customer contact} \\
+This person is responsible for maintaining contact with the advisor and customer. He/she will send the advisor our agenda before each meeting, and write a short resumé afterwards. He/she have a good overview of the customers needs and wishes and is our primary contact with regards to arranging a meeting place and time. He/she will also write an agenda before, and a short resumé after, the meeting with the customer.
+\\ \\
+\textbf{Task manager}\\
+This person should have an overview over what tasks is defined, and making sure the appropriate information can be found in the project management tool. The purpose is to make it easier for others to pick up new tasks and do them with little overhead. The task manager should also have the tasks prioritized, and put in the designated sprints.\\ \\
+\textbf{Project leader}\\
+This person have overview of all important deadlines. He/she is supposed to make sure every member of the team is contributing and is on time. He/she must have knowledge of our current progress and make sure we are on schedule.
+\\ \\
+\textbf{Documentation manager}\\
+This person is responsible for that all information in the documentation is updated and conform with the current version of the product. He/she is also responsible that all necessary information is being documented. This doesn’t not mean that he/she have to write all documentation, just make sure it is getting done.\\ \\
+\textbf{Scrum master}\\
+Scrum is facilitated by a Scrum master, who is accountable for removing impediments to the ability of the team to deliver the sprint goal/deliverables. The Scrum master is not the team leader, but acts as a buffer between the team and any distracting influences. The Scrum Master ensures that the Scrum process is used as intended. The Scrum master is the enforcer of the rules of Scrum, often chairs key meetings, and challenges the team to improve.\\ \\
+\textbf{Branch master}\\
+The branch master is responsible for version control by merging different branches into the master branch. If an incompatible merging has occurred, he/she has the task to solve it.\\ \\
+\textbf{Meeting leader}\\
+The meeting leader is responsible for that the agenda for the meeting is being followed and that everyone is able to express their thoughts or concerns.\\ \\
+\textbf{Software architect}\\
+The software architect is responsible for making an architecture that satisfies both the functional and quality requirements for the software. This includes identifying architectural drivers and choosing appropriate patterns and tactics. He/she should be able to explain the rationale behind the design and make views that illustrate the structure and flow in the system.\\ \\
+\textbf{Lead programmer}\\
+The lead programmer is responsible for overseeing the work being done by the other team members working on the implementation. A lead programmer will typically also act as a mentor for new or lower-level software developers or programmers, as well as for all the members on the development team.\\ \\
+\textbf{Test manager}\\
+The test manager is responsible for making sure the tests are covering all the relevant aspects of the program. This includes both black-box and white-box testing of the software.
+\\ \\
+\begin{tabular}{| l | p{6 cm} |} \hline
+Role & Team Member \\ \hline
+Advisor and Customer Contact & Tina Christin Syversen \\ \hline
+Task Manager & Tomas Albertsen Fagerbekk \\ \hline
+Project Leader & Pawan Chamling Rai \\ \hline
+Documentation Manager & Tintin Trong Hoang \\ \hline
+Scrum Master &   \\ \hline
+Branch Master &   \\ \hline
+Meeting Leader & Tina Christin Syversen  \\ \hline
+Software Architect & Tintin Trong Hoang  \\ \hline
+Lead Programmer & Pawan Chamling Rai  \\ \hline
+Test Manager & Tomas Albertsen Fagerbekk  \\ \hline
+\end{tabular}
+
+\section{Quality Assurance} \label{sec:quality_assurance}
+In this chapter we discuss how to ensure the quality. In \ref{subsec:routines} we mention routines for ensuring the quality internally while we in \ref{subsec:phase_result} discuss how we will approve a phase. In \ref{subsec:procedure_cust_meet} and \ref{subsec:procedure_adv_meet} we discuss our procedure for customer and advisor meetings while we in \ref{subsec:doc_stand} talk about templates created and how to standardize code and file organization. In \ref{subsec:internal_reports} we talk about internal reports.
+
+\subsection{Routines for ensuring quality internally} \label{subsec:routines}
+To ensure that all phases of the project has the best quality possible we made sure to get another team member to double-check our work when we were finished. That way we could get someone to proof-read to reduce the risk of typos and get feedback about improvements. We also talked about what we were going to do today, what problems we may have faced and what we are going to do till next time during each scrum meeting to ensure that everyone had the same updated overview of the project progress.
+\\
+Each team member was also assigned at least one responsibility area where they were supposed to have a good overview of and could report the current progress.
+
+\subsection{Phase Result Approval} \label{subsec:phase_result}
+We tried to make our progress very visible to the advisor and customer by demonstrating our results at the end of each sprint. They could then point out areas where they wanted an improvement and clear misunderstandings. If the customer was satisfied with the current result we could take another look at the requirements and agree on those we were going to work on next.
+
+\subsection{Procedure for Customer Meetings} \label{subsec:procedure_cust_meet}
+The customer contact found a suitable time and place for the meeting with a customer when we found it necessary to discuss important topics. There were written a minutes of meeting after each one.
+
+\subsection{Procedure for Advisor Meetings} \label{subsec:procedure_adv_meet}
+To ensure effective and efficient meetings with the advisor, the agenda and current documentation was supplied to the advisor before 14:00 each friday. We had weekly scheduled meetings at 10:15, later 10:30, each monday. Minutes of meeting was written and supplied to both the advisor and customer on a weekly basis.
+
+% is this next finished??
+\subsection{Document Standards and Templates} \label{subsec:doc_stand}
+Templates created:
+\begin{itemize}
+    \item Template for meeting
+    \item Template for testing
+\end{itemize}
+Coding standard:
+\begin{itemize}
+    \item We will follow the Style Guide for Python Code (http://www.python.org/dev/peps/pep-0008/) when we are writing code in python.
+\end{itemize}
+File organization standard % what is supposed to be here??
+
+% is this next section necessary since it is also in another chapter???
+\subsection{Procedure for Version Control} \label{subsec:proc_vers}
+The documentation was written with Google Docs to ensure that multiple team members could work simultaneously on large documents (e.g. the final report) and have the newest version.
+\\
+After a team member had completed a code segment he/she would push it onto GitHub. Each commit had a short description of the change and only changes that would leave the program in a working state was pushed.
+
+\subsection{Internal Reports} \label{subsec:internal_reports}
+There were written a short summary after each time the the team members held an internal meeting or worked together. They also logged their hours with a short description of what area they had worked on.
+
+\newgeometry{margin=2cm}
+\begin{landscape}
+
+\section{Risk Management} \label{sec:risk_management}
+% how to get it split into two pages??
+% Tintin: Have fixed it to become landscape. If you want to split the table in two tables, check out something called "longtable".
+%tina:think it looks good now :)
+\begin{longtable}{| p{3cm} | p{4cm}| l | l | p{3cm} | p{4cm}| p{4cm} |} \hline
+Risk & Description & Likelihood & Significance & Affected Area & Avoidance Plan & Mitigation Plan \\ \hline
+Sickness or no-show & Member is not available at critical time & High & Moderate & Deadlines and/or software functions & Stay healthy, good work-environment, give status updates & Delegate to another or work from home \\ \hline
+Member quits & Member leaves before project is finished & Low & High & Deadlines and/or sofware functions & Good work-environment, encourage members & Delegate to other member \\ \hline
+Arguments among team-members & Team memebers disagree & Moderate & High & Group, deadlines, software functions & Talk about decisions & Let them work with someone else \\ \hline
+Low motivation & Members do not feel that they are learning and doing enough and that makes them lose interest and work even less & Moderate & High & Group-environment, deadlines, software functions & Be encouraging, give them manageable tasks and responsibilities & Give other tasks or do a task together\\ \hline
+Underestimating project-size & The project and the assignments are bigger than expected & High & High & Deadlines and software functions & Divide an assignment into smaller parts and expect assignements to be harder than they might be & Divide assignment into smaller parts and do the easiest parts or save the part and see if there is time in the end \\ \hline
+Missing Skills & A member does not know how to do a task they have gotten & High & Moderate & Deadline and software function & Read relevant material before starting & Google and read up and get help from other member \\ \hline
+Lost Work & Some or all of the work has been lost & Low & High & Deadline and software functions & Remember to save/load/push  & Start over and get help \\ \hline
+Customer does not involve themselves & The customer shows little interest and does not get as involved as they should & Moderate & Moderate & The outcome may not be as the customer expects & Have meetings after each sprint, keep contact, ask questions, keep them interested & Contact more or talk to the advisor \\ \hline
+Bad advisor & The advisor does not do their job which makes it harder to do the project & Low & Moderate & Result and deadlines & Weekly meetings and asking questions & Ask other advisors \\ \hline
+Wrong choice & Finding out that there has been made a wrong choice in the middle of the process & Moderate & Moderate & Deadline and software functions & Look at the drawbacks and check other possibilities & Start over \\ \hline
+Task not possible & Atask that is given is not possible to do & Low & Moderate & Cannot give what customer wants & Do not promise anything before it is checked up, and divide task into smaller doable parts & Talk to customer adn maybe change the task so it becomes possible \\ \hline
+
+\end{longtable}
+\end{landscape}
+\restoregeometry
+
+
+
+
+\chapter{Preliminary Study} \label{cha:preliminary_study}
+
+
+
+\chapter{Test Plan} \label{cha:test_plan}
+This chapter is all about testing and how we are doing it. We start off with testing methodology in section \ref{sec:testing_met} before discussing the non-functional requirements in \ref{sec:non_func_req}. We show our testing templates in \ref{sec:testing_templates} and in the end we have our changelog, \ref{sec:changelog}.
+
+\section{Testing Methodology} \label{sec:testing_met}
+When testing a software system, we have three different types of tests available. In \ref{subse:white_box} we will talk about white box tests while \ref{subsec:black_box} will talk about black box tests. There is also grey box testing, which is a combination of the other two, but we will not discuss this.
+\subsection{White box} \label{subse:white_box}
+The method of software testing with the white box method is where you test internal structures or modules of an application, as opposed to it's functions. White box testing requires the tester to have an internal perspective of the system as well as sufficient programming skills. Because of these reasons we will do the whitebox testing ourselves. This is done by using the test libraries mentioned at section ????. %preplanning 4.8 in old report
+% do we use any tools that we should explain??
+
+\subsection{Black box} \label{subsec:black_box}
+The method of software testing with the Black box method is where you test the functionality of the system, as opposed to it's internal structures. Black box testing does not generally require the tester to have an intimate knowledge about the system or any of the programming logic that went into making it. It is primarily interested in the relationship between the input and output of the system. Not having any knowledge about how the system is built can help detect errors that the developers did not foresee. We want the customers to do the black box testing since they are the ones who knows how it is supposed to be used.
+
+\section{Non-functional requirements} \label{sec:non_func_req}
+TODO
+\section{Test Criteria} \label{sec:test_criteria}
+An item will be considered to have passed a test if the actual result from the test matches the expected result from the test. An item will be considered to have failed the test if the output varies from the expected result. If there are some specific reason why the test failed it will also be documented.
+
+\section{Testing Templates} \label{sec:testing_templates}
+We have made two templates for our testing. The first template has info about the test case, what execution steps we will make and what the expected result should be. In the other template we have the test results. Here we can see when we tested what test case, and what the results are.
+Test case template ?.?:\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+ID & ID of the test \\ \hline
+Description & Description/title of the test \\ \hline
+Related Task ID & ID of related task(s) in Pivotal Tracker \\ \hline %nødvendig?
+Precondition & Precondition that needs to be fulfilled to perform the test \\ \hline
+Feature & What feature of the project does this belong to \\ \hline
+Execution & Execution steps\\ \hline
+Expected Result & Expected result\\ \hline
+\end{tabular}\\\\
+Test result template ?.?\\
+\begin{tabular}{| l | l |} \hline
+ID & ID of the test \\ \hline
+Description & Description/title of the test \\ \hline
+Tester & Name of tester \\ \hline
+Date & Date of the test\\ \hline
+Result & Result of the test\\ \hline
+\end{tabular}
+
+\section{Testing Responsibilities} \label{sec:testing_responsibilities}
+Since each programmer has most knowledge about their own code, they are responsible for making unit testing for their part. The test manager is responsible for getting feedback from the customer when they do black box testing.
+
+\section{Changelog} \label{sec:changelog}
+\subsection{Sprint 1} \label{subsec:sprint_1}
+\subsection{Sprint 2} \label{subsec:sprint_2}
+\subsection{Sprint 3} \label{subsec:sprint_3}
+
+
+
+
+
+
+
+
+%REMEMBER USEABILITY - undo function
+\chapter{Architectural Description}
+There are many ways to define software architecture and we have chosen the following definision: "The software architecture of a system is the set of structures needed to reason about a system, which comprise software elements, relations among them, and properties of both" \cite[page 4]{Bass2013}.
+
+This chapter will introduce the final architecture of the product. It will describe the qualities in the system we wanted to achive and how it was structured to accomplish them.
+
+
+\section{Architectural Drivers}
+The main architectural driver for this project was modifiablity, which was important because the project only produced a small module which was part of a much larger system. We therefore focused on making our system easy to intergrate since it would have to work with other modules. This would reduce some of the main problems with the old system, where the modules had poor co-operation and introduced redundancy. Extensibility was something else we wanted to achive. The module was only a early prototype and would have to be able expand with more functionality at a later date. Our customer also required portability since the system had to be operating system independent.
+
+
+
+
+
+\section{Architectural Tactics}
+TODO
+
+
+
+
+\subsection{Modifiablity Tactics}
+Modifiability deals with change and the cost in time or money of making a change, including the extent to which this modification affects other functions or quality attributes.
+
+Changes can be made by developers, installers, or end users, and these changes need to be prepared for. There is a cost of preparing for change as well as a cost for making a change. The modifiabbility tacitcs are designed to prepare for subsequent changes.\cite[page 128]{Bass2013}
+
+\subsubsection{Split Module}
+The modification costs of a module with large capability is usually high. Refining the module into several smaller modules should reduce the average cost of future changes.
+
+\subsubsection{Increase Semantic Coherence}
+If the responsibilites A and B in a module do not serve the same purpose, they should be placed in different modules. The purpose of moving a responsibility from one module to another is to reduce the likelihood of side effects affecting other responsibilities in the original module.
+
+\subsubsection{Encapsulate}
+Encapsulation introduces an explicit interface to a module. This interface includes an application programming interface (API) and its associated responsibilites. Encapsulation reduces the probability that a change to one module propagates to other modules.
+
+\subsubsection{Use An Intermediatry}
+
+
+\subsubsection{Restrict Dependencies}
+Restrict dependencies is tactic that restricts the modules that are given module interacts with or depends on. In practice this tactic is achieved by restricting access to only authorized modules.
+
+
+\subsubsection{Refactor}
+Refactor is a tactic undertaken when two modules are affected by the same change because they are (at least partial) duplicates of each other. Code refactoring is a mainstay practice of agile development projects, as a cleanup step to make sure that teams have not produced duplicative or overly complex code; however, the concept applies to architectural elements as well. Common responsibilities (and the code that implements them) are "factored out" of the modules where they exist and assigned an appropriate home of their own.
+
+\subsubsection{Abstract Common Services}
+In the case where two modules provide not quite the same, but similar services, it may be cost-effective to implement the services just once in a more general (abstract) form. Any modification to the common service would then need to occur in just one place, reducing modification costs.
+
+
+
+\subsubsection{Defer binding}
+
+
+
+\subsection{Usability Tactics}
+
+
+
+\section{Architectural Patterns}
+Architectural patterns are packages of design decisions that is found repetedly in practice, has known properties that premits reuse, and describes a class of architectures.
+
+\subsection{Client-Server}
+There are shared resources and services that large numbers of distributed clients wish to access, and for which we wish to control access or quality of service.
+
+By managing a set of shared resources and services, we can promote modifiability and reuse, by factoring out common services and having to modify these in a single location, or a small number of locations.
+
+The client-server pattern separates client applications from the services they use. This pattern simplifies systems by factoring out common services, which are reuseable. Because servers can be accessed by any number of clients, it is easy to add new clients to the system.
+
+Clients interact by requesting services of servers, which provide a set of services. Some components may act as both clients and servers. We have chosen to use one central server, instead of multiple distributed ones.
+
+Some disadvantages of the client-server pattern are that the server can be a performance bottleneck and it can be a single point of failure. Also, decisions about where to locate functionality (in the client or server) are often complex and costly to change after the system has been built.
+
+\subsection{Model-View-Controller}
+User interface software os typically the most frequently modified portion of an interactive application. For this reason it is important to keep modifications to the user interface software seperate from the rest of the system. Users often wish to look at data from different perspectives, which should all reflect the current state of the data.
+
+The model-view-controller pattern seperates application functionality into three kinds of components:
+
+\begin{itemize}
+    \item A model, which contains the application's data
+    \item A view, which displays some portion of the underlying data and interacts with the userr
+    \item A controller, which mediates between the model and the view and manages the notification of state changes 
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\part{Sprints}
+
+\chapter{Sprint 1} \label{cha:sprint_1}
+TODO
+\section{Sprint Planning} \label{sec:sprint_planning}
+In this section we will discuss how this sprint was planned. We will discuss the duration of the sprint in \ref{subsec:duration} and our goals in \ref{subsec:sprint_goal}. We discussed everything with our customer before deciding the sprints.
+\subsection{Duration} \label{subsec:duration}
+The first sprint has a duration from september 9th until september 27th, when the first prototype is to be revealed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
+
+\subsection{Sprint Goal} \label{subsec:sprint_goal}
+The goal for this sprint is that a user should be able to:
+\begin{itemize}
+\item Login to the web page 
+\item Choose well path software module 
+\item See a list of existing well projects
+\item Choosing a well project from list
+\item Insert end- and help targets for well paths.
+\item Show a very simple 3D visualization of well based on end and help points
+\end{itemize}
+These are things we feel that are some of the most important and basic parts of the system.
+\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
+\section{System Design} \label{sec:system:_design}
+\subsection{Preliminary Design} \label{subsec:prelim_design}
+\subsection{System Overview} \label{subsec:sys_overview}
+\subsection{User Stories} \label{subsec:user_stories}
+\section{Implementation} \label{sec:implementation}
+\section{Sprint Testing} \label{sec:sprint_testing}
+\subsection{Test Results} \label{subsec:test_results}
+\subsection{Evaluation} \label{subsec:evaluation}
+\section{Customer feedback} \label{sec:cust_feed}
+The customer seemed very happy with what we had managed to do in the first sprint. They especially liked the fact that you had live-update from input data onto the 3D-model, which ran smoothly.
+\begin{itemize}
+\item “Already better than the existing tool” – Bjørn about the 3D module, 2013-09-29
+\item “Incredible what you’ve been able to do in so short amount of time” – Bjørn, 2013-09-29
+\item “User interface is modern and snappy” – Øyvind, 2013-09-30
+\item “Useful to see each step and not only the finished path”  – Joakim, 2013-09-30
+\item “Grid should be less visible. Would also be nice to change colors.” – Øyvind, 2013-09-30 
+\item “I think it would be nice with a denser well-path” – Sigbjørn, 2013-09-30
+\end{itemize}
+\section{Sprint Evaluation} \label{sec:sprint_eva}
+\subsection{Review} \label{subsec:review}
+\subsection{Positive Experiences} \label{subsec:pos_exp}
+\subsection{Negative Experiences} \label{subsec:neg_exp}
+- Imprecise task specification
+- Imprecise task delegation
+- Low amount of work hours (70-100 in total vs 124 planned)
+\subsection{Planned Actions} \label{subsec:planned_act}
+\textbf{Better sprint planning}\\
+TODO \\
+\textbf{Design early in the sprint}\\
+TODO\\
+\textbf{Documenting in Parallell while Implementing}\\
+TODO\\
+\textbf{Split Coding and Report Writing between team members}\\
+TODO
+\subsection{Barriers} \label{subsec:barriers}
+
+\chapter{Sprint 2} \label{cha:sprint_2}
+\section{Sprint Planning} \label{sec:sprint_planning}
+\subsection{Duration} \label{subsec:duration}
+The second sprint has a duration from September 30th until October 21th. What we will do is decided during our presentation for the customer after sprint 1 to see if some requirements might have changed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
+\subsection{Sprint Goal} \label{subsec:sprint_goal}
+Below are the goals for this sprint, ranged by importance:\\\\
+\textbf{Implement minimal curvature}\\
+The well graph is currently represented as straight lines between each points. The minimum curvature algorithm (as presented on customer meeting, Sunday 29.09.13) should be implemented.\\ \\
+\textbf{Save and load a drawn well to the database}\\
+Currently the 3D graph module isn’t included or represented in the backend. This needs to be done for the user to be able to save and load graphs.\\ \\
+\textbf{Change the layout of the 3D configuration through a panel} \\
+The 3d module does today not have any easy way of configuring layout. Layout should be separated out of the JavaScript logics, and be set through settings in a webpage admin panel. This would allow the user configurability to his own wishes. \\ 
+The panel should include
+\begin{itemize}
+\item Colors of the background
+\item Colors of the grid.
+\item Colors of the well..
+\item Thickness of the well
+\end{itemize} 
+\textbf{Distinction between end-, help- and nogo points}\\
+Currently all added points are considered help points, and lines are automatically drawn between them. The possibility to add help- end and no go points that are visually distinctable would make it easier for a user to see where to create a well. For sprint 2, these should be able to added, and look different. No other functionality is planned before sprint 3.
+
+\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
+\section{System Design} \label{sec:sprint_planning}
+\subsection{Preliminary Design} \label{subsec:prelim_design}
+\subsection{System Overview} \label{subsec:sys_overview}
+\subsection{User Stories} \label{subsec:user_stories}
+\section{Implementation} \label{sec:implementation}
+\section{Sprint Testing} \label{sec:sprint_testing}
+\subsection{Test Results} \label{subsec:test_results}
+\subsection{Evaluation} \label{subsec:evaluation}
+\section{Customer feedback} \label{sec:cust_feed}
+\section{Sprint Evaluation} \label{sec:sprint_eva}
+\subsection{Review} \label{subsec:review}
+\subsection{Positive Experiences} \label{subsec:pos_exp}
+\subsection{Negative Experiences} \label{subsec:neg_exp}
+One memeber has had a lot to do with UKA, and has been sick
+\subsection{Planned Actions} \label{subsec:planned_act}
+\textbf{Better sprint planning}\\
+TODO\\
+\textbf{Design early in the sprint}\\
+TODO\\
+\textbf{Documenting in Parallell while Implementing}\\
+TODO\\
+\textbf{Split Coding and Report Writing between team members}\\
+TODO
+\subsection{Barriers} \label{subsec:barriers}
+
+\chapter{Sprint 3} \label{cha:sprint_3}
+\section{Sprint Planning} \label{sec:sprint_planning}
+\subsection{Duration} \label{subsec:duration}
+Our last sprint has a duration from October 24th untill November 8th.This gives us time to fix if anything is missing or not done untill delivery day. What we will do is decided during our presentation for the customer after sprint 1 and 2 to see if some requirements might have changed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
+\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
+\section{System Design} \label{sec:sprint_planning}
+\subsection{Preliminary Design} \label{subsec:prelim_design}
+\subsection{System Overview} \label{subsec:sys_overview}
+\subsection{User Stories} \label{subsec:user_stories}
+\section{Implementation} \label{sec:implementation}
+\section{Sprint Testing} \label{sec:sprint_testing}
+\subsection{Test Results} \label{subsec:test_results}
+\subsection{Evaluation} \label{subsec:evaluation}
+\section{Customer feedback} \label{sec:cust_feed}
+\section{Sprint Evaluation} \label{sec:sprint_eva}
+\subsection{Review} \label{subsec:review}
+\subsection{Positive Experiences} \label{subsec:pos_exp}
+\subsection{Negative Experiences} \label{subsec:neg_exp}
+\subsection{Planned Actions} \label{subsec:planned_act}
+\textbf{Better sprint planning}\\
+TODO\\
+\textbf{Design early in the sprint}\\
+TODO\\
+\textbf{Documenting in Parallell while Implementing}\\
+TODO\\
+\textbf{Split Coding and Report Writing between team members}\\
+TODO
+\subsection{Barriers} \label{subsec:barriers}
+
+
+
+
+
+
+
+
+\bibliography{references}
+
+
+
+
+
+
+
+
+\appendix
+\chapter{Welldrilling} \label{cha:welldrilling}
+In this chapter we will give an general overview of the well drilling process, which is necessary to understand the situation that our system will assist. The following sections will describe how the actual drilling is done at sea (section \ref{sec:basic_introduction_to_well_drilling}) and the three main planning parts in the software (section \ref{sec:overview_of_workflow}).
+
+
+
+\section{Basic Introduction to Well Drilling} \label{sec:basic_introduction_to_well_drilling}
+On Norwegian continental shelf, there are a large number of oil fields. Two important ones are Gullfaks and Ekofisk. There are multiple platforms in each field, and each of the platforms usually have multiple wells.
+
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{drilling1}
+    \caption{A drilling head \label{fig:drillinghead}}
+\end{wrapfigure}
+
+In Norway, there are around 300 operations where oil wells are constructed or repaired at any given time. Each operation include about 15 people, which sums up to about 4500 people. In other words, a formidable amount of Norwegian workers can be found in this part of the oil industry. It is toward these companies, and regarding these operations that this software will be targeted.
+
+Due to the big operational expenses and large financial risks linked to oil drilling, it is critical that a well is planned thoroughly before operation. The objective of the planning is to minimize the chances for unscheduled events, both under the making and the operation of the well. This is done by modelling drilling paths, materials and forces that the well must endure. Iterations on paths and materials are done to improve the plan. In addition to this planning part, corrections on offset from plan during drilling operation are the main uses of this software.
+
+When a plan is finished and approved, it will contain plans for the well during construction, operation and plugging (closing the well post-producing). The well will then be constructed as specified in the plan. Offsets from the plan needs to be identified and corrected during construction.
+
+Drilling is done in sections since the formations will cave in like sand on the beach if you drill too deep. Each section is secured by lowering a casing and cementing it in place before the next section start. This allow us to get a “fresh start” at every section, where on need not think of the formations in the previous segments. Drilling a section at a time also allows us to simplify the work process into more or less independent stages.
+
+% REMEMBER TO PUT IN REFERENCE TO BJØRN THESIS
+
+A general, simplified procedure could be as follows (taken from Bjørns thesis):
+
+\begin{enumerate}
+    \item Drill a large hole (e.g. 36”)
+    \item Run casing (e.g. 30”) – this works as a mould in addition to structural support
+    \item Cement the 30” casing in place
+    \item Drill a smaller hole through the 30” casing, e.g. 24”
+    \item Run e.g. 20” casing.
+    \item Cement the casing in place
+    \item The 3 step procedure above is repeated until the target in the reservoir has been met/achieved
+\end{enumerate}
+
+When repeating the steps, the well construction may resemble an extendable telescope. At the seabed, the top of the well is installed with a “well head”, which has different security mechanisms to prevent blowout and spill. (See figure \ref{fig:oil_well})
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{drilling2}
+    \caption{An oil well \label{fig:oil_well}}
+\end{figure}
+
+\section{Overview of Workflow} \label{sec:overview_of_workflow}
+
+\subsection{Contruct Well Path}
+\begin{wrapfigure}{R}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.28\textwidth]{drilling3}
+    \caption{A graphical representation of the planned well path in the current software \label{fig:graphical_representation_of_planned_well_path}}
+\end{wrapfigure}
+
+The first part of the planning, is constructing a path for the well to follow. The path must obviously stay clear of any previously drilled wells or paths reserved for future wells. Curvatures and inclination should be minimized to reduce wear on equipment and reduction in drilling force. The main input of the user is depth, inclination and direction at certain points in the well. The program then uses a user-selected algorithm to construct a smooth transition in the path between those points.
+
+\subsection{Work String Forces}
+The drill consists of a string that is lowered from a rig. At the end of the string, there is a drilling head (blue in figure [X]) that can be rotated to drill in a certain direction to change the direction of the well. This part of the workflow focuses on verifying that the path and equipment are compatible. Among other things, this includes making sure that the drill pipe, casings and tubing can reach the end point (called the target) and retrieved to the surface, that the work string won’t break during operation and that cementing operation can be performed.
+
+If the work string cannot make the path safely, a new path has to be considered, and/or the planned tools has to be changed. This is a process that is iterated a few times.
+
+\subsection{Casing and Tubing-Design}
+During the drilling, the work string will touch the walls, and wear on the installed casings. Heating and cooling will cause elongation and contraction, and pressure from liquids will also tear both the casings and the inner tubings. The purpose planning casing wear is to make sure that the planned material are of high enough grade for this wear, also under trying scenarios.
+
+The bullet points below show what the purpose of this part of the software is:
+\begin{itemize}
+    \item Verify that the installed casing can endure the planned operations.
+    \item Verify the maximum pressures possible from the exposed formation.
+    \item Verify that the casing can endure the pressure of the section. This is pressure-tested before each new section is drilled
+    \item Verify if cuttings injection in the annulus (if planned) will collapse the casing.
+    \item Verify that the pressure increase from heating of liquids will not collapse the casing.
+    \item Verify that the pressure increase from heating of liquids will not collapse the tubing.
+    \item Verify that the load from elongation/contraction of steel due to heating/cooling. 
+\end{itemize}
+
+
+\chapter{Guides} \label{cha:guides}
+
+\section{How to: Host solution} \label{sec:host_solution}
+This section will tell you how to set up a server to host our solution with Django. Ideally, there should be separate hosts for development, testing and production areas.
+
+\subsection{Server OS}
+The server we’ve used Debian Server 7.1, with straight forward (English) installation. Newer Debian versions and Ubuntu server versions should work perfectly fine as well. The requirements for this part are included in default installation: Python, Apache.
+\subsection{User management}
+When you installed the server, you specified a single user. This user is by default not an administrator (superuser). In order to add yourself as a superuser, run the command \verb|visudo| as a superuser
+\begin{verbatim}
+su 
+visudo
+\end{verbatim}
+This will get you in editmode to specify superusers. A simple way to make yourself user is to include the line
+\begin{verbatim}
+your_username   ALL=(ALL:ALL) ALL
+\end{verbatim}
+in the user-part. You might want to make different groups and more users, as well. For this, we reference to \cite{website:debian-sudo} and \cite{website:debian-usermanagement}. Please note that these users are the one belonging to the machine, and should not be confused with users in the Wellvis solution. 
+
+\subsection{Packages}
+The following packages were installed on our development area. While only virtualenv, pip and git are strictly required to run the solution, we recommend all of them.\\
+\begin{tabular}{| l | l | p{9cm} |} \hline
+Package name & Recommendation & Description \\ \hline
+openssh-server\cite{website:openssh} & Yes & Allows you to remotely ssh to server \\ \hline
+screen\cite{website:screen} & Yes & Allows you to keep several open ssh-tabs \\ \hline
+vim\cite{website:vim} & Yes & Better editor when editing files directly on server\\ \hline
+git\cite{website:git} & Required & Version control \\ \hline
+python-*\cite{website:buildessentatial} & Required & Required python tools \\ \hline
+pip\cite{website:pip} & Required & Provides you with better package control \\ \hline
+virtualenv\cite{website:virtualenv} & Required & Allows you to easily create different environments\\ \hline
+netatalk\cite{website:netatalk} & No & Allows you to use AppleTalk directly to server. Easier development from Mac. Could be used on development server \\ \hline
+vsftpd\cite{website:vsftpd} & Required & Secure and small package that allows (S)FTP to server. \\ \hline
+denyhosts\cite{website:denyhosts} & Yes & Prevents more than 5 failed loginattempts from same IP. \\ \hline
+\end{tabular}\\ \\
+These packages are installed via the following commands.
+
+\begin{verbatim}
+sudo apt-get install openssh-server
+sudo apt-get install screen
+sudo apt-get install vim
+sudo apt-get install git
+sudo apt-get install python-pip python-dev build-essential
+sudo pip install pip --upgrade
+sudo pip install virtualenv
+sudo apt-get install netatalk 
+sudo apt-get install vsftpd
+sudo apt-get install denyhosts 
+\end{verbatim}
+
+\subsection{Configuration}
+\subsubsection{FTP configuration}
+We want to make sure that anonymous users are not able to FTP to our server.
+\begin{verbatim}
+vim /etc/vsftpd.conf
+\end{verbatim}
+Make sure that \verb|ANONYMOUS_ENABLE| is commented out or set to \verb|NO|\\
+Make sure that \verb|LOCAL_ENABLE=YES|\\\\
+For the configuration to take effect, we need to restart the ftp module.
+\begin{verbatim}
+/etc/init.d/vsftpd restart
+\end{verbatim}
+\subsubsection{git configuration}
+You need to tell git what your Name and e-mail is, before you can start using git. This you do by\cite{website:githelp}
+\begin{verbatim}
+git config --global user.name "Your Name"
+git config --global user.email "your_email@example.com"
+\end{verbatim}
+\subsection{Get git-repository}
+The code repository should be located at main server that acts as a backup and an intersection between different developers code contributions. We have used, and recommend, Github\cite{website:github} for this.\\ 
+The repository used in our project is located at project ww with github user tomfa\cite{github_repository}. To get this down to the server, first create a designated folder for the repository
+\begin{verbatim}
+mkdir wellvis
+cd wellvis
+\end{verbatim}
+Then initate a git repository with
+\begin{verbatim}
+git init .
+\end{verbatim}
+...before you pull down the code from the server
+\begin{verbatim}
+git remote add origin https://github.com/tomfa/ww.git
+git pull origin master
+\end{verbatim}
+You will now have pulled down the master branch from our repository to your local machine. For further details on how to use git, see \ref{sec:development}
+\subsection{Virtual environment}
+In the repository, there's a folder called env. This folder contains all the required libraries in the correct versions to run the django-application. We use virtualenv to make sure there's a consistency between different servers and users when it comes to packages, versions and setup. You can think of it like the files required for a virtual operating system, except it's a virtual "project".
+In order to activate the virtual environment instead of the one located at the machine, run:
+\begin{verbatim}
+source env/bin/activate
+\end{verbatim}
+This will show \verb|(env)| at the start of every line to indicate that you're inside the virtual environment.
+\subsection{Django configuration}
+\par Before being able to run the server with the Django framework, we will also need to modify a settings-file. The settings-file is individual per server where django is deployed, so the our repository does not include it. However, it includes the file \verb|wellvis/wellvis/default_settings.py|, which has the settings used in at our testserver. It should be copied to \verb|wellvis/wellvis/settings.py| and the section DATABASES edited. Django supports Oracle, MySQL, PostgreSQL and SQLite. For more information on how to set up the database, see Django documentation\cite{website:django_install}.
+\par Once the database settings are set up. You can tell Django to create the necessary tables and fields using the command \verb|python wellvis/manage.py syncdbc|
+\par The settings file naturally include many other interesting settings for the web server. For more information on that, please see Django documentation\cite{website:django_settings}
+\subsection{Running server}
+Within the github repository, navigate to the content folder and type
+\begin{verbatim}
+python manage.py runserver 0.0.0.0:80
+\end{verbatim}
+The \verb|0.0.0.0| specifies that everyone should be able to access it (from different IPs), while the \verb|:80| specifies that it should be available on that port (80)\cite{website:django_runserver}. Note that the port 80 is by occupied by a default Apache page when you've recently installed Debian. This needs to be disabled first if you wish to use that port.
+\subsection{Resources}
+The following links can be interesting and teach you more about the section we have just finished. \\
+
+\begin{tabular}{| l | p{9cm} |} \hline
+Learn to use screen & http://www.rackaid.com/resources/linux-screen-tutorial-and-how-to/ \\ \hline
+Learn to use vim & http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/ \\ \hline
+Learn to use virtualenv & http://simononsoftware.com/virtualenv-tutorial/ \\ \hline
+Interactive git game & http://pcottle.github.io/learnGitBranching/ \\ \hline
+\end{tabular}\\ \\
+
+\section{How to: Understand Django} \label{sec:understand_django}
+\subsection{Introduction}
+Django has neatly divided the logic of the server into different parts. The url part (\ref{django:urls}) handles what urls will be accessable and redirects spesific urls to a spesific method in the views part (\ref{django:views}). The view part will extract, insert and handle applicable data available from the database. The database is defined through models (\ref{django:models}). Once the views has extracted and defined the data, it will return these to the user through a spesific html file located in templates (\ref{django:templates}). The templates will usually link to resources, such as css and javascript files that are located in the static part (\ref{django:static}). 
+
+\begin{center}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{django_structure}
+    \caption{Operational Well Integrity Model \label{fig:django_struct}}
+\end{figure}
+\end{center}
+
+See figure \ref{fig:djangostructure} for a visual representation
+
+\subsection{Urls} \label{django:urls}
+\subsection{Views} \label{django:views}
+\subsection{Models} \label{django:models}
+\subsection{Templates} \label{django:templates}
+\subsection{Statics} \label{django:static}
+\subsection{Settings.py} \label{django:settings}
+\subsection{Django shell} \label{django:shell}
+\subsection{Django admin panel} \label{django:adminpanel}
+\subsection{Resources} \label{django:resources}
+
+\section{How to: Use and change Django} \label{sec:use_and_change_django}
+\subsection{Django user management} 
+\subsection{Add applications to the solution}
+\subsection{Add elements to admin panel}
+\subsection{Make changes to the database models}
+\subsection{Change to MySQL database} \label{sec:change_database}
+\subsection{Resources}
+
+\section{How to: Use and change 3D path module} \label{sec:use_and_change_frontend}
+\subsection{Introduction}
+\subsection{Wellpath structure}
+\subsection{Settings structure}
+\subsection{Resiources}
+
+\chapter{Further development}
+\section{Development} \label{sec:development}
+Continous Integration git branching
+\section{Database solution}
+\section{Database models}
+\section{Application Frameworks}
+\section{Server-client commmunication}
+\section{Interface ideas}
+\section{Different platforms}
+
+\chapter{System documentation}
+\section{Server OS and packages}
+\section{Virtual environment packages}
+\section{Javascript libraries}
+
+\end{document}
+
+

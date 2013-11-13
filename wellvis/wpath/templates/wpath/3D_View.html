@@ -3106,7 +3106,7 @@ function registerAddPathButton() {
 				//==|| The M1-Inc Method ||==
 
 				//==|| In case the Build and Turn are not equal
-				if(newRowData.theBuild != newRowData.theTurn) {
+				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
 					colorTrace(" Turn and Build are not equal", "Green");
 					newRowData = methodM1INC(newRowData, preRowData);
 				}
@@ -3194,16 +3194,18 @@ function registerAddPathButton() {
 
 				colorTrace("preData.theMD = " + preData.theMD + ", newData.theMD = " + newData.theMD, "RED");
 
-				colorTrace("###############################", 'Black');
-				colorTrace("## Now Let's draw the curve  ##", 'Black');
-				colorTrace("###############################", 'Black');
-				colorTrace("The Diff MD = " 	+ diffMD, "Blue");
-				colorTrace("The diff INC = " 	+ diffINC + "     , diff INC unit = " + diffINCunit);
-				//colorTrace("The diff AZI = " 	+ diffAZI + "     , diff AZI unit = " + diffAZIunit);
-				//colorTrace("The diff Build = " 	+ diffB + "     , diff Build unit = " + diffBunit);
-				//colorTrace("The diff Turn = " 	+ diffT + "     , diff Turn unit = "  + diffTunit);
-
+				
 				if(diffMD > 30) { 
+
+					colorTrace("###############################", 'Black');
+					colorTrace("## Now Let's draw the curve  ##", 'Black');
+					colorTrace("###############################", 'Black');
+					colorTrace("The Diff MD = " 	+ diffMD, "Blue");
+					colorTrace("The diff INC = " 	+ diffINC + "     , diff INC unit = " + diffINCunit);
+					//colorTrace("The diff AZI = " 	+ diffAZI + "     , diff AZI unit = " + diffAZIunit);
+					//colorTrace("The diff Build = " 	+ diffB + "     , diff Build unit = " + diffBunit);
+					//colorTrace("The diff Turn = " 	+ diffT + "     , diff Turn unit = "  + diffTunit);
+
 					
 					newData.theINC = preRowData.theINC + diffINCunit;
 
@@ -3212,7 +3214,7 @@ function registerAddPathButton() {
 						//newRowData = methodTangent(newRowData, preRowData);						
 						//newData = methodTangent(newData, preData);
 						//newData = methodM1INC(newData, preData);
-						if(newData.theBuild != newData.theTurn) {
+						if(Math.abs(newData.theBuild) != Math.abs(newData.theTurn)) {
 							colorTrace(" Turn and Build are not equal", "Green");
 							newData = methodM1INC(newData, preData);
 						}
@@ -3290,6 +3292,9 @@ function registerAddPathButton() {
 
 
 				} //if diff MD > 30
+				else {
+					colorTrace("dMD not enough to draw point in between", "RED");
+				}
 
 
 
@@ -3303,7 +3308,7 @@ function registerAddPathButton() {
 
 
 				//==|| In case the Build and Turn are not equal
-				if(newRowData.theBuild != newRowData.theTurn) {
+				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
 					colorTrace(" Turn and Build are not equal", "Green");
 					newRowData = methodM1AZI(newRowData, preRowData);
 				}
@@ -3391,16 +3396,17 @@ function registerAddPathButton() {
 
 				colorTrace("preData.theMD = " + preData.theMD + ", newData.theMD = " + newData.theMD, "RED");
 
-				colorTrace("###############################", 'Black');
-				colorTrace("## Now Let's draw the curve  ##", 'Black');
-				colorTrace("###############################", 'Black');
-				colorTrace("The Diff MD = " 	+ diffMD, "Blue");
-				//colorTrace("The diff INC = " 	+ diffINC + "     , diff INC unit = " + diffINCunit);
-				colorTrace("The diff AZI = " 	+ diffAZI + "     , diff AZI unit = " + diffAZIunit);
-				//colorTrace("The diff Build = " 	+ diffB + "     , diff Build unit = " + diffBunit);
-				//colorTrace("The diff Turn = " 	+ diffT + "     , diff Turn unit = "  + diffTunit);
-
 				if(diffMD > 30) { 
+
+					colorTrace("###############################", 'Black');
+					colorTrace("## Now Let's draw the curve  ##", 'Black');
+					colorTrace("###############################", 'Black');
+					colorTrace("The Diff MD = " 	+ diffMD, "Blue");
+					//colorTrace("The diff INC = " 	+ diffINC + "     , diff INC unit = " + diffINCunit);
+					colorTrace("The diff AZI = " 	+ diffAZI + "     , diff AZI unit = " + diffAZIunit);
+					//colorTrace("The diff Build = " 	+ diffB + "     , diff Build unit = " + diffBunit);
+					//colorTrace("The diff Turn = " 	+ diffT + "     , diff Turn unit = "  + diffTunit);
+
 					
 					//newData.theINC = preRowData.theINC + diffINCunit;
 					newData.theAZI = preRowData.theAZI + diffAZIunit;
@@ -3410,7 +3416,7 @@ function registerAddPathButton() {
 						//newRowData = methodTangent(newRowData, preRowData);						
 						//newData = methodTangent(newData, preData);
 						//newData = methodM1AZI(newData, preData);
-						if(newData.theBuild != newData.theTurn) {
+						if(Math.abs(newData.theBuild) != Math.abs(newData.theTurn)) {
 							colorTrace(" Turn and Build are not equal", "Green");
 							newData = methodM1AZI(newData, preData);
 						}
@@ -3490,8 +3496,221 @@ function registerAddPathButton() {
 
 
 				} //if diff MD > 30
+				else {
+					colorTrace("dMD not enough to draw point in between", "RED");
+				}
 
 
+
+
+
+
+			}
+			else if(selectedOption == "secTypeM1TVD") {
+				//==|| The M1-Azi Method ||==
+
+				colorTrace("### Section type : M1 - TVD ###", "Green");
+
+
+				//==|| In case the Build and Turn are not equal
+				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
+					colorTrace(" Turn and Build are not equal", "Green");
+					newRowData = methodM1TVD(newRowData, preRowData);
+				}
+				else { 
+					colorTrace("### Turn and Build ARE equal ###", "RED");
+					var n1 = duplicateThisRowData(newRowData);
+					var n2 = duplicateThisRowData(newRowData);
+
+					n1.theBuild = n1.theBuild + 0.01;
+					n2.theBuild = n2.theBuild - 0.01;
+
+
+					n1 = methodM1TVD(n1, preRowData);
+					n2 = methodM1TVD(n2, preRowData);
+
+					colorTrace("-- Taking the average values --", "Blue");
+					//==|| Now we will take the average value
+					newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
+					newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
+					newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+					newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+					newRowData.theX = (n1.theX + n2.theX) / 2;
+					newRowData.theY = (n1.theY + n2.theY) / 2;
+					newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+					newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+					newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+					newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+					logValues(newRowData, "Green");
+
+				}
+
+
+				//==|| Putting the calculated MD, AZI
+				$("#valueMD_" 	+ noOfWellPathLinesStr).val(newRowData.theMD) - 0;
+				$("#valueINC_" 	+ noOfWellPathLinesStr).val(newRowData.theINC) - 0;
+
+				$("#valueAZI_" 	+ noOfWellPathLinesStr).val(newRowData.theAZI) - 0;
+
+				//==|| Putting new dN, dE, dZ in the row				
+				$("#valueCL_" 	+ noOfWellPathLinesStr).val(newRowData.theCL) - 0;
+				$("#valueNS_"  	+ noOfWellPathLinesStr).val(newRowData.theNS) - 0;
+				$("#valueEW_" 	+ noOfWellPathLinesStr).val(newRowData.theEW) - 0;
+				$("#valueVsec_" + noOfWellPathLinesStr).val(newRowData.theVsec) - 0;
+
+				//==|| Putting new X, Y, Z in the hidden DIVs in the row
+				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
+				$("#valueY_"  + noOfWellPathLinesStr).text(newRowData.theY) - 0;
+				$("#valueZ_"  + noOfWellPathLinesStr).text(newRowData.theZ) - 0;
+
+
+
+				//==|| Now looping to make the curve
+
+				var diffMD = newRowData.theMD - preRowData.theMD;
+				var noOfPointsInBetween = parseInt(diffMD / 30); // with the difference of 30
+
+				colorTrace("diffMD = " + diffMD + ",    no of Points in between =" + noOfPointsInBetween);
+
+				var diffINC = newRowData.theINC - preRowData.theINC;
+				var diffINCunit = diffINC / noOfPointsInBetween;
+
+				var diffAZI = newRowData.theAZI - preRowData.theAZI;
+				var diffAZIunit = diffAZI / noOfPointsInBetween;
+
+
+				var diffB = newRowData.theBuild - preRowData.theBuild;
+				var diffBunit = diffB / noOfPointsInBetween;
+
+				var diffT = newRowData.theTurn - preRowData.theTurn;
+				var diffTunit = diffT / noOfPointsInBetween;
+
+				var diffTVD = newRowData.theTVD - preRowData.theTVD;
+				var diffTVDunit = diffTVD / noOfPointsInBetween;
+
+				//var preData = preRowData;
+				//var newData = newRowData;
+
+				//==|| Stores the previous point
+				var preData = duplicateThisRowData( preRowData ); 
+
+				//==|| Stores the current point
+				var newData = duplicateThisRowData(	newRowData );
+
+
+				colorTrace("preData.theMD = " + preData.theMD + ", newData.theMD = " + newData.theMD, "RED");
+
+				
+				colorTrace("The Diff MD = " 	+ diffMD, "Blue");
+				//colorTrace("The diff INC = " 	+ diffINC + "     , diff INC unit = " + diffINCunit);
+				//colorTrace("The diff AZI = " 	+ diffAZI + "     , diff AZI unit = " + diffAZIunit);
+				//colorTrace("The diff Build = " 	+ diffB + "     , diff Build unit = " + diffBunit);
+				//colorTrace("The diff Turn = " 	+ diffT + "     , diff Turn unit = "  + diffTunit);
+				colorTrace("The diff TVD = " 	+ diffTVD + "     , diff TVD unit = "  + diffTVDunit);
+
+
+				if(diffMD > 30) { 
+
+					colorTrace("###############################", 'Black');
+					colorTrace("## Now Let's draw the curve  ##", 'Black');
+					colorTrace("###############################", 'Black');
+					
+					//newData.theINC = preRowData.theINC + diffINCunit;
+					//newData.theAZI = preRowData.theAZI + diffAZIunit;
+					newData.theTVD = preRowData.theTVD + diffTVDunit;
+
+					for(var i = 1; i <= noOfPointsInBetween; i++) {
+						
+						//newRowData = methodTangent(newRowData, preRowData);						
+						//newData = methodTangent(newData, preData);
+						//newData = methodM1TVD(newData, preData);
+						if(Math.abs(newData.theBuild) != Math.abs(newData.theTurn)) {
+							colorTrace(" Turn and Build are not equal", "Green");
+							newData = methodM1TVD(newData, preData);
+						}
+						else { 
+							colorTrace("### Turn and Build ARE equal ###", "RED");
+							var n1 = duplicateThisRowData(newData);
+							var n2 = duplicateThisRowData(newData);
+
+							n1.theBuild = n1.theBuild + 0.01;
+							n2.theBuild = n2.theBuild - 0.01;
+
+							
+							n1 = methodM1TVD(n1, preData);
+							n2 = methodM1TVD(n2, preData);
+
+							colorTrace("-- Taking the average values --", "Blue");
+							//==|| Now we will take the average value
+							newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+							newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+							newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+							newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+							newData.theX 	= (n1.theX + n2.theX) / 2;
+							newData.theY 	= (n1.theY + n2.theY) / 2;
+							newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+							newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+							newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+							newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+							logValues(newData, "Green");
+
+						}
+
+
+
+						colorTrace("-- Back at the Station After M1 - AZI calculation --", "Black");
+						logValues(newData, "Black");
+
+						var theXis = newData.theX;
+						var theYis = newData.theY;
+						var theZis = newData.theZ;
+
+
+						colorTrace("About to draw for curve x = " + theXis + ", y = " + theYis + ", z = " + theZis, "Green");
+						//==|| Add a new line
+						addWellPath(theXis, theYis, theZis);
+						checkRangesForPlanes(theXis, theYis, theZis);
+
+						render();
+
+
+
+						preData.theMD 	= newData.theMD;
+						preData.theAZI 	= newData.theAZI;
+						preData.theINC 	= newData.theINC;
+						preData.theCL 	= newData.theCL;
+						preData.theTVD 	= newData.theTVD;
+						preData.theNS 	= newData.theNS;
+						preData.theEW 	= newData.theEW;
+						preData.theVsec = newData.theVsec;
+						preData.theX 	= newData.theX;
+						preData.theY 	= newData.theY;
+						preData.theZ   	= newData.theZ;
+
+
+
+						//newData.theMD = newData.theMD + 30;
+						//newData.theINC = newData.theINC + diffINCunit;
+						//newData.theAZI = newData.theAZI + diffAZIunit;
+						newData.theTVD = newData.theTVD + diffTVDunit;
+
+						//newData.theBuild = newData.theBuild + diffBunit;
+						//newData.theTurn = newData.theTurn + diffTunit;
+
+
+					}
+
+
+				} //if diff MD > 30
+				else {
+					colorTrace("dMD not enough to draw point in between", "RED");
+				}
 
 
 
@@ -3787,20 +4006,29 @@ function methodM1INC(newRowData, preRowData) {
 	colorTrace("DLTradM = " + DLTradM + "\tDLBradM = " + DLBradM );
 
 
-	//==|| Step 7: Calculate x, y, z
-	var dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-			(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
-				DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
-			);
+	//==|| Step 7: Calculate dx, dy, dz or dN, dE, dZ
+	var dN, dE, dZ;
 
-	var dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-			(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
-				 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
-			);
+	if(DLTradM != 0 && DLBradM != 0) { 
+		
+		var dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
+				(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
+					DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
+				);
 
-	var dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
+		var dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
+				(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
+					 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
+				);
 
+		var dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
 
+	}
+	else {
+		dN = 0;
+		dE = 0;
+		dZ = 0;
+	}
 
 	//==|| Trimming the decimal parts
 	//dN = parseFloat(dN.toFixed(2));
@@ -3886,11 +4114,11 @@ function methodM1AZI(newRowData, preRowData) {
 	*/
 
 
-	//==|| Step 1: Calculate RCi
+	
 	var factor = 1.016; //==|| 100 ft = 30.48m so factor = 30.48 / 30 = 1.016
 	var FtToM = 0.3048; //==|| 1 ft = 0.3048 M
 	
-
+	//==|| Step 1: Calculate RCa
 	var RCAinFt, RCAinM;
 
 	if(T != 0 ) {
@@ -3977,20 +4205,29 @@ function methodM1AZI(newRowData, preRowData) {
 
 	colorTrace("DLTradM = " + DLTradM + "\tDLBradM = " + DLBradM );
 
-
+	
 	//==|| Step 7: Calculate x, y, z
-	var dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
+	var dN, dE, dZ;
+
+	if(DLTradM != 0 && DLBradM != 0) { 
+	
+		dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
 			(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
 				DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
 			);
 
-	var dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
+		dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
 			(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
 				 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
 			);
 
-	var dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
-
+		dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
+	}
+	else {
+		dN = 0;
+		dE = 0;
+		dZ = 0;
+	}
 
 
 	//==|| Trimming the decimal parts
@@ -4042,6 +4279,226 @@ function methodM1AZI(newRowData, preRowData) {
 	//==||
 	return newRowData;
 }
+
+
+//==|| M1 - TVD method
+function methodM1TVD(newRowData, preRowData) {
+
+	colorTrace("== M1 - TVD Calculation starts ==" , "Green");
+
+
+
+	//==|| The inputs
+	var md1 = preRowData.theMD;
+	var I1 = preRowData.theINC;
+	var A1 = preRowData.theAZI;
+	var tvd1 = preRowData.theTVD;
+
+	//var I2 = newRowData.theINC;
+	//var A2 = newRowData.theAZI;
+	var tvd2 = newRowData.theTVD;
+	var T 	= newRowData.theTurn;
+	var B 	= newRowData.theBuild;
+
+
+	colorTrace("The inputs are ", "green");
+	colorTrace("md1 = " + md1 + "\t\t I1 = " + I1 + "\t\t A1 = " + A1, "Blue");
+	colorTrace("tvd2 = " + tvd2 + "\t\t T = " + T + "\t\t B = " + B, "Blue");
+	//==|| Testing the forumulas 
+	//==|| Test successful 2013-11-08-0058
+	/*
+	B = 1
+	T = -3
+	A2 = 345
+	//md1 = 
+	I1 = 5;
+	A1 = 12.51;
+	*/
+
+
+
+	
+	var factor = 1.016;  //==|| 100 ft = 30.48m so factor = 30.48 / 30 = 1.016
+	var FtToM  = 0.3048; //==|| 1 ft = 0.3048 M
+	
+
+	//==|| Step 1: Calculate RCi
+	var RCIinFt, RCIinM;
+	if (B != 0) {
+		RCIinFt = (180 * (100 / factor)) / (Math.PI * B);
+		RCIinM = RCIinFt * FtToM;
+		
+	}
+	else {
+		RCIinFt = 0;
+		RCIinM = 0;
+		CLinFt = 0;
+		CLinM = 0;
+	}
+
+	//==|| dTVD should not turn negative
+	var dTVD = 0;
+	if(tvd2 - tvd1 < 0) {
+		tvd2 =  tvd1 + 1;
+		dTVD = tvd2;
+	}
+	else {
+		dTVD = tvd2 - tvd1;
+	}
+
+
+	//==|| Step 2: Calculating I2
+	var I2 = degrees(Math.asin( dTVD / RCIinM + (Math.sin(radians(I1)))));
+
+	colorTrace("I2 = " + I2 + " dTVD = " + dTVD);
+
+	var RCAinFt, RCAinM;
+
+	if(T != 0 ) {
+		//==|| Step 3: Calcualte RCa
+		RCAinFt = 180 * (100 / factor) / (Math.PI * Math.abs(T));
+		RCAinM  = RCAinFt * FtToM;
+ 	}
+ 	else {
+ 		RCAinFt = 0;
+ 		RCAinM = 0;
+ 	}
+
+
+	//==|| Step 4: Calcualate CL
+	var	CLinFt, CLinM;
+
+	CLinFt = (RCIinFt * Math.PI * (I2 - I1) )/ 180;
+	CLinM  = CLinFt * FtToM;
+
+
+
+
+	//==|| Calculating A2
+	var A2 = 0;
+	var som = 0;
+	 
+	if(T < 0) {
+		som =	-(CLinM * 180 / (Math.PI * RCAinM));
+	}
+	else {
+		som =	(CLinM * 180 / (Math.PI * RCAinM));
+	}
+
+	if(A1 + som < 0) {
+		A2 = 360 + A1 +  som;
+	}
+	else {
+		A2 = A1 + som;
+	}
+
+
+
+
+
+
+
+	//==|| Step 5: Calculate DLS
+	var DLS = Math.sqrt(Math.pow(B, 2) + Math.pow(T, 2) * Math.pow(Math.sin(radians(I2)), 2));
+
+	
+	colorTrace("RCIinM = " + RCIinM + "\tCLinM = " + CLinM + "\tRCAinM = " + RCAinM + "\tI2 = " + I2 + "\tDLS = " + DLS);
+
+	//==|| Step 6: Calculate DLT and DLB
+
+	var DLT = T * CLinM / 30;
+	var DLB = B * CLinM / 30;
+
+	var DLTrad = radians(DLT);
+	var DLBrad = radians(DLB);
+
+	var DLTradM , DLBradM;
+	if(CLinM != 0) {
+		DLTradM = DLTrad / CLinM;	
+		DLBradM = DLBrad / CLinM;
+	}
+	else {
+		DLTradM = 0;
+		DLBradM = 0;
+	}
+
+	colorTrace("DLTradM = " + DLTradM + "\tDLBradM = " + DLBradM );
+
+
+	//==|| Step 7: Calculate x, y, z
+	var dN, dE, dZ;
+
+	if(DLTradM != 0 && DLBradM != 0) {
+
+		dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
+				(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
+					DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
+				);
+
+		dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
+				(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
+					 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
+				);
+
+		dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
+	}
+	else {
+		dN = 0;
+		dE = 0;
+		dZ = 0;
+	}
+
+
+	//==|| Trimming the decimal parts
+	//dN = parseFloat(dN.toFixed(2));
+	//dE = parseFloat(dE.toFixed(2));
+	//dZ = parseFloat(dZ.toFixed(2));
+
+	//CLinM 	= parseFloat(CLinM.toFixed(2));
+	//A2 		= parseFloat(A2.toFixed(2));
+
+
+	//colorTrace("=== M1 - Inc Calcuation ===");
+	colorTrace("dN = " + dN + "\tdE = " + dE + "\tdZ = " + dZ);
+
+
+	newRowData.theAZI 	= A2;
+	newRowData.theINC 	= I2;
+	newRowData.theCL 	= CLinM;
+	newRowData.theMD 	= preRowData.theMD 		+ CLinM;
+	newRowData.theTVD 	= preRowData.theTVD 	+ dZ;
+
+	newRowData.theNS 	= preRowData.theNS 		+ dN;
+	newRowData.theEW 	= preRowData.theEW 		+ dE;
+	newRowData.theVsec 	= preRowData.theVsec	+ dZ;
+
+	newRowData.theX 	= preRowData.theX + dN;
+	newRowData.theY 	= preRowData.theY + dE;	
+	newRowData.theZ 	= preRowData.theZ + dZ;
+
+
+
+	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
+	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
+	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
+	newRowData.theTVD 	= parseFloat(newRowData.theTVD.toFixed(2));
+	newRowData.theNS 	= parseFloat(newRowData.theNS.toFixed(2));
+	newRowData.theEW 	= parseFloat(newRowData.theEW.toFixed(2));
+	newRowData.theVsec 	= parseFloat(newRowData.theVsec.toFixed(2));
+	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
+	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
+	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
+
+
+	colorTrace("== So the new values are ==", "Blue");
+	//colorTrace("dN = " + newRowData.theNS + "\tdE = " + newRowData.theEW  + "\tdZ = " + newRowData.theVsec + "\tTVD = " + newRowData.theTVD + "\tpre TVD = " + preRowData.theTVD);
+
+	logValues(newRowData, "Green");
+
+	//==||
+	return newRowData;
+}
+
 
 
 
@@ -4515,7 +4972,7 @@ function addTrackballControls() {
 	var radius = 24; // scalar value used to determine relative zoom distances
 
 	theControls.minDistance = radius * 0.1;  //==|| Min zoom out distance
-	theControls.maxDistance = radius * 235;   //==|| Max zoom out distance
+	theControls.maxDistance = radius * 5235;   //==|| Max zoom out distance
 
 
 	theControls.keys = [ 65, 83, 68 ];
@@ -5393,7 +5850,7 @@ function createScreenCenter(x, y, z, centerSignLength, screenCenterSignColor, sc
 }
 
 function updateScreenCenter(x, y, z) {
-	colorTrace("Update Screen Center called ", "Green");
+	//colorTrace("Update Screen Center called ", "Green");
 
 	theScreenCenter.position.x = x;
 	theScreenCenter.position.y = y;

@@ -826,7 +826,7 @@
 	function logValues(obj, color) {						
 		colorTrace( "MD = " 	+ obj.theMD 	+ "\t\t CL = " 	+ obj.theCL , color );
 		colorTrace( "INC = " 	+ obj.theINC 	+ "\t\t AZI = "	+ obj.theAZI 		+ "\t\t TVD = "	+ obj.theTVD 	, color);
-		colorTrace( "X = " 	+ obj.theX		+ "\t\t Y = " 	+ obj.theY 			+ "\t\t Z = " 	+ obj.theZ 		, color);
+		colorTrace( "X = " 		+ obj.theX		+ "\t\t Y = " 	+ obj.theY 			+ "\t\t Z = " 	+ obj.theZ 		, color);
 		colorTrace( "NS = " 	+ obj.theNS 	+ "\t\t EW = " 	+ obj.theEW 		+ "\t Vsec = " + obj.theVsec 	, color);
 		colorTrace( "Dogleg = " + obj.theDogleg + "\t\t Build = " + obj.theBuild 	+ "\t\t Turn = " + obj.theTurn 	, color);
 		colorTrace( "SecType = " + obj.theSecType, color);
@@ -1000,7 +1000,11 @@ save_3dconfig(theDefaultSettingsJSONdata);
 
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-	//==|| The Main Variables
+	//=============================
+	//==|| The Main Variables ||===
+	//=============================
+
+
 	var theContainer = $('#theContainer');
 	var stats;
 
@@ -1180,7 +1184,7 @@ save_3dconfig(theDefaultSettingsJSONdata);
 	var theWellPathArray = new Array();
 
 
-
+//==|| The object that holds everything about a line
 var theLine = function(theStartPoint, theEndPoint, theColor, theLineWidth, theLineOpacity) {
 	this.theStartPoint 	= theStartPoint;
 	this.theEndPoint 	= theEndPoint;
@@ -1192,6 +1196,8 @@ var theLine = function(theStartPoint, theEndPoint, theColor, theLineWidth, theLi
 
 var theRows = new Array();
 
+//==|| The Object that would store everything that a single row in Table has
+//==|| The Table being the left-panel where user inputs values
 function RowData(theMD, theCL, theINC, theAZI, theTVD, theX, theY, theZ, theNS, theEW, theVsec, theDogleg, theBuild, theTurn, theSecType) {
 	this.theMD 		= theMD;
 	this.theCL 		= theCL;
@@ -1211,6 +1217,7 @@ function RowData(theMD, theCL, theINC, theAZI, theTVD, theX, theY, theZ, theNS, 
 }
 
 
+//==|| The function that creates a new RowData object with exactly same values that the passed argument RowData object contains
 function duplicateThisRowData(rowData) { 
 	return new RowData(	
 						rowData.theMD,		rowData.theCL, 
@@ -1227,9 +1234,10 @@ function duplicateThisRowData(rowData) {
 //####################################################################################################################################
 $(document).ready(function() {
 
-
+	//==|| initializaton 
 	init();
-	animate();
+	//==|| set up the animation
+	animate(); 
 
 
 	//==|| Read the well JSON data and construct the well path from it.
@@ -1240,13 +1248,6 @@ $(document).ready(function() {
 	//==Read the setting
 	readSettings(theDefaultSettingsJSONdata);
 
-	//theCamera.target.x = 0; //(new THREE.Vector3(0, 150, 0));
-	//theCamera.target.y = 150; 
-	//theCamera.target.z = 0; 
-
-	//theCamera.updateProjectionMatrix();
-	//render();
-	//animate();
 
 	$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
 	$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
@@ -1254,13 +1255,6 @@ $(document).ready(function() {
 	$("#theContainer").css({"width" :  theWidth });
 	$("#theContainer").css({"height" :  theHeight});
 
-
-
-	//===< turn them into jQuery buttons >===
-	/*$(".btn").each(function() {
-		$(this).button({});
-	});
-*/
 
 	//==|| Left Panel will be Tabbed
 	$(function() {
@@ -1271,6 +1265,7 @@ $(document).ready(function() {
 	//=========================
 	//==|| Toggle Buttons ||===
 	//=========================
+
 	//==|| Register the Toggle button event listener
 	//==|| for the Axes planes
 	registerTogglePlanes();
@@ -1330,88 +1325,55 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 
-	function init() {
+//==|| Initialization -  the first method that set ups the entire 3D module
+function init() {
 
-		//==|| The Camera
-		theCamera = new THREE.PerspectiveCamera( 45, theWidth / theHeight, 1, 10000 );
-	    /*
-	    //==|| just keeping them for reference ; must be deleted later
-	    theCamera.position.x = 0;
-	    theCamera.position.y = 75;
-		theCamera.position.z = 300;
+	//==|| The Camera
+	theCamera = new THREE.PerspectiveCamera( 45, theWidth / theHeight, 1, 10000 );
+   
+    theCamera.position.x = -3350; 	//350; //==|| This is our zoom now
+    theCamera.position.y = 1285;	//285;
+	theCamera.position.z = -1055;	//-55;
+
+    //==| Flip the camera so that the Z is pointing downwards rather than upwards
+    theCamera.up.set(0, 0, -1 ); 
+
+   	
+	//==|| The World / The Scene
+	theScene = new THREE.Scene();
+	
+	//==|| The Renderer
+	theRenderer = new THREE.WebGLRenderer( { antialias: true } );
+	theRenderer.setSize( theWidth, theHeight );
+
+	//==|| Add Axes Planes to the scene
+	addAxesPlanes();
+	
+
+	//==|| The Target for camera to rotate on -  this is the center of rotation - center of the screen
+   	theCameraTarget = new THREE.Vector3(0, -28, 810);
+
+	//==|| Create a sign at the center of the screen - center of rotation
+	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 		
 
-	    theCamera.position.x = 213;
-	    theCamera.position.y = -26;
-	    theCamera.position.z = -248; //==|| Zoom
-		*/
+    //==|| attach the render-supplied DOM element
+    theContainer.append(theRenderer.domElement);
 
-	    theCamera.position.x = -3350; //350; //==|| This is our zoom now
-	    theCamera.position.y = 1285;//285;
-		theCamera.position.z = -1055;//-55;
 
-	    //==| Flip the camera so that the Z is pointing downwards rather than upwards
-	    theCamera.up.set(0, 0, -1 ); 
+    //==|| Add Trackball controls	
+	addTrackballControls();
 
-	   	//theCamera.rotation.eulerOrder = 'XYZ';
-	    //theCamera.lookAt(new THREE.Vector3(100, 100, 0));
-	   	//	render();
-	   	// theCamera.target.position.copy(100, 100, 0);
-	   	// theCamera.updateProjectionMatrix();
+	//==|| On window resize call the function onWindowResize()
+	window.addEventListener( 'resize', onWindowResize, false );
 
-	   	//==|| The Target for camera to rotate on
-	   				//	theCameraTarget = new THREE.Vector3(-45, 80, -20);
-	   	theCameraTarget = new THREE.Vector3(0, -28, 810);
-
-		//==|| The World / The Scene
-		theScene = new THREE.Scene();
-		theRenderer = new THREE.WebGLRenderer( { antialias: true } );
-				//theScene.fog = new THREE.FogExp2( theSceneColor, 0.0002 );
-		//==|| Change the Scene Color
-		//changeSceneColor(theSceneColor);
+}
 
 
 
-		//==|| Create a sign at the center of the screen
-		createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
-    	
-
-		//==|| Add Axes Planes to the scene
-		addAxesPlanes();
-
-
-		//==|| The Renderer
-		
-		//theRenderer.setClearColor( theScene.fog.color, 1 );
-		theRenderer.setSize( theWidth, theHeight );
-
-
-	    //==|| attach the render-supplied DOM element
-	    theContainer.append(theRenderer.domElement);
-
-
-
-	    //==|| Add Trackball controls	
-		addTrackballControls();
-
-
-	    //==|| The Statistics
-	    //==|| Currently I have disabled them
-	    
-		stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '0px';
-		stats.domElement.style.zIndex = 100;
-		//theContainer.append( stats.domElement ); //==||  Not showing the stats for now
-		
-
-		//==|| On window resize call the function onWindowResize()
-		window.addEventListener( 'resize', onWindowResize, false );
-
-	}
-
-
+//===================================================================================
 //==|| Reads theWellJSONdata JSON object and constructs the well according to it
+//===================================================================================
 function readWellJSONdata(theWellJSONdata) {
 
 	//==|| Resetting the Previous point to be Origin
@@ -1435,16 +1397,7 @@ function readWellJSONdata(theWellJSONdata) {
 		theZ 	= data.theZ;
 		theUnit = data.theUnit;
 
-		/*
-		//==|| Let's check the values
-		colorTrace("minX : " + minX, "Green");
-		colorTrace("maxX : " + maxX, "Blue");
-		colorTrace("minY : " + minY, "Green");
-		colorTrace("maxY : " + maxY, "Blue");
-		colorTrace("theZ : " + theZ, "Green");
-		colorTrace("theUnit : " + theUnit, "Blue");
-		*/
-
+		
 		//==|| Redraw the Axes planes according to the new ranges
 		redrawAxesPlanes();
 
@@ -1482,16 +1435,7 @@ function readWellJSONdata(theWellJSONdata) {
 				//==|| NOTE: currently not doing anything with them...
 				var thePoints 	= theValues[valuesIndex].thePoints;
 						
-				/*		
-				//==|| Let's check the values
-				colorTrace("theMD : " + theMD, "Green");
-				colorTrace("theINC : " + theINC, "Blue");
-				colorTrace("theAZI : " + theAZI, "Green");
-				colorTrace("itsX : " + itsX, "Blue");
-				colorTrace("itsY : " + itsY, "Green");
-				colorTrace("itsZ : " + itsZ, "Blue");
-				*/
-
+			
 				//==|| Add this to our main Well path object
 				addWellPath(itsX, itsY, itsZ);
 
@@ -1517,13 +1461,13 @@ function readWellJSONdata(theWellJSONdata) {
 										theSecType, "Nothing" , false
 									);
 				}	
+				
+
 				noOfWellPathLines++;
+				
 				colorTrace("inside readWllJSONdata  no.of well path lines " + noOfWellPathLines, "Green");
 
-				//registerAddPathButton();
-				//registerEditPathButton();
-				//registerDonePathButton();
-
+			
 				registerButtonPressReleaseEffects();
 
 
@@ -1569,9 +1513,10 @@ function readWellJSONdata(theWellJSONdata) {
 }
 
 
-
+//============================================================
 //==|| Reading the 3D Module Setting from a JSON object
 //==|| and update the 3D Module according to it.
+//============================================================
 function readSettings(data) {
  	//var data = theDefaultSettingsJSONdata;
  	
@@ -1640,7 +1585,9 @@ function readSettings(data) {
 	//##########################################[ The Color Pickers ]################################################
 	//###############################################################################################################
 	
+	//========================
 	//==|| For the Scene
+	//========================
 	$("#theSceneColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1652,7 +1599,6 @@ function readSettings(data) {
 	    },
 	    hide: function(tinycolor) {
             tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;
 	    	changeSceneColor(tinycolor);
 	    	theSceneColor = tinycolor;
 
@@ -1663,7 +1609,9 @@ function readSettings(data) {
 	});
 
 
+	//========================
 	//==|| For the Well Path
+	//========================
 	$("#theWellPathColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1676,7 +1624,6 @@ function readSettings(data) {
 	    },
 	    hide: function(tinycolor) {
             tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
 	    	theWellLineColor = tinycolor;
 	    	redrawWellPath(true);
 			render();
@@ -1686,8 +1633,9 @@ function readSettings(data) {
 	});
 
 
-
+	//==================================
 	//==|| For the Outline of XY Plane
+	//==================================
 	$("#XYplaneOutlineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1719,8 +1667,9 @@ function readSettings(data) {
 
 
 
-
+	//=======================================
 	//==|| For the Gridlines  of XY Plane
+	//=======================================
 	$("#XYplaneGridlineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1751,7 +1700,9 @@ function readSettings(data) {
 	});
 
 
+	//=======================================
 	//==|| For the Axes lines  of XY Plane
+	//=======================================
 	$("#XYplaneAxislineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1783,8 +1734,9 @@ function readSettings(data) {
 
 
 
-
+	//=======================================
 	//==|| For the Outline of XZ Plane
+	//=======================================
 	$("#XZplaneOutlineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1816,8 +1768,9 @@ function readSettings(data) {
 
 
 
-
+	//=======================================
 	//==|| For the Gridlines  of XZ Plane
+	//=======================================
 	$("#XZplaneGridlineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1848,7 +1801,9 @@ function readSettings(data) {
 	});
 
 
+	//=======================================
 	//==|| For the Axes lines  of XZ Plane
+	//=======================================
 	$("#XZplaneAxislineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1880,8 +1835,9 @@ function readSettings(data) {
 
 
 
-
+	//=======================================
 	//==|| For the Outline of YZ Plane
+	//=======================================
 	$("#YZplaneOutlineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1913,8 +1869,9 @@ function readSettings(data) {
 
 
 
-
+	//=======================================
 	//==|| For the Gridlines  of YZ Plane
+	//=======================================
 	$("#YZplaneGridlineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1945,7 +1902,9 @@ function readSettings(data) {
 	});
 
 
+	//=======================================
 	//==|| For the Axes lines  of YZ Plane
+	//=======================================
 	$("#YZplaneAxislineColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -1976,8 +1935,9 @@ function readSettings(data) {
 	});
 
 
-
+	//=======================================
 	//==|| For the Labels
+	//=======================================
 	$("#labelColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -2019,8 +1979,9 @@ function readSettings(data) {
 	});
 
 
-
+	//=======================================
 	//==|| For the North arrow
+	//=======================================
 	$("#arrowColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -2055,8 +2016,9 @@ function readSettings(data) {
 	});
 
 
-
+	//=======================================
 	//==|| For the North arrow
+	//=======================================
 	$("#rotationSignColorInput").spectrum({
 	    preferredFormat: "hex",
 	    showInitial: true,
@@ -2093,10 +2055,12 @@ function readSettings(data) {
 
 
 	//###########################################################################################################
-	//##########################################[ Opactiy Sliders]###############################################
+	//##########################################[ Opactiy Sliders ]##############################################
 	//###########################################################################################################
 
+	//=======================================
 	//==|| Opacity Slider for the Well Path
+	//=======================================
 	$("#theWellPathLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theWellLineOpacity,
@@ -2131,8 +2095,9 @@ function readSettings(data) {
 	});
 
 
-
+	//==============================================
 	//==|| Opacity Slider for the XY Plane Outline
+	//==============================================
 	$("#XYplaneOutlineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theXY_PlaneOutlineMaterialLineOpacity,
@@ -2162,7 +2127,9 @@ function readSettings(data) {
 	});
 
 
+	//==============================================
 	//==|| Opacity Slider for the XY Plane Outline
+	//==============================================
 	$("#XYplaneGridlineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theXY_PlaneGridLinesMaterialLineOpacity,
@@ -2193,8 +2160,9 @@ function readSettings(data) {
 
 
 
-
+	//==============================================
 	//==|| Opacity Slider for the XY Plane Outline
+	//==============================================
 	$("#XYplaneAxislineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theXY_PlaneAxisLineMaterialLineOpacity,
@@ -2228,8 +2196,9 @@ function readSettings(data) {
 
 
 
-
+	//==============================================
 	//==|| Opacity Slider for the XZ Plane Outline
+	//==============================================
 	$("#XZplaneOutlineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theXZ_PlaneOutlineMaterialLineOpacity,
@@ -2259,7 +2228,9 @@ function readSettings(data) {
 	});
 
 
+	//================================================
 	//==|| Opacity Slider for the XZ Plane Gridline
+	//================================================
 	$("#XZplaneGridlineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theXZ_PlaneGridLinesMaterialLineOpacity,
@@ -2290,8 +2261,9 @@ function readSettings(data) {
 
 
 
-
+	//================================================
 	//==|| Opacity Slider for the XZ Plane Axisline
+	//================================================
 	$("#XZplaneAxislineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theXZ_PlaneAxisLineMaterialLineOpacity,
@@ -2325,8 +2297,9 @@ function readSettings(data) {
 
 
 
-
+	//================================================
 	//==|| Opacity Slider for the YZ Plane Outline
+	//================================================
 	$("#YZplaneOutlineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theYZ_PlaneOutlineMaterialLineOpacity,
@@ -2356,7 +2329,9 @@ function readSettings(data) {
 	});
 
 
+	//================================================
 	//==|| Opacity Slider for the YZ Plane Gridlines
+	//================================================
 	$("#YZplaneGridlineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theYZ_PlaneGridLinesMaterialLineOpacity,
@@ -2387,8 +2362,9 @@ function readSettings(data) {
 
 
 
-
+	//================================================
 	//==|| Opacity Slider for the YZ Plane Axis Line
+	//================================================
 	$("#YZplaneAxislineLineOpacity").noUiSlider({
 		range: [0,1],
 		start: theYZ_PlaneAxisLineMaterialLineOpacity,
@@ -2420,8 +2396,9 @@ function readSettings(data) {
 
 
 
-
+	//================================================
 	//==|| Opacity Slider for the North Arrow 
+	//================================================
 	$("#arrowOpacity").noUiSlider({
 		range: [0,1],
 		start: theArrowNorthOpacity,
@@ -2457,8 +2434,9 @@ function readSettings(data) {
 
 
 
-
+	//=====================================================
 	//==|| Opacity Slider for the Center of Rotation Sign
+	//=====================================================
 	$("#rotationSignOpacity").noUiSlider({
 		range: [0,1],
 		start: screenCenterSignOpacity,
@@ -2493,8 +2471,9 @@ function readSettings(data) {
 
 
 
-
+	//=====================================================
 	//==|| Opacity Slider for the Center of Rotation Sign
+	//=====================================================
 	$("#labelSizeSlider").noUiSlider({
 		range: [300,950],
 		start: theLabelFontSize,
@@ -2535,8 +2514,9 @@ function readSettings(data) {
 
 
 
-
+	//=====================================================
 	//==|| Opacity Slider for the Center of Rotation Sign
+	//=====================================================
 	$("#labelOpacity").noUiSlider({
 		range: [0,1],
 		start: theLabelOpacity,
@@ -2587,6 +2567,7 @@ function readSettings(data) {
 	//==|| Now create a new Screen Center		
 	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
 
+
 	//==|| Read the Settings 
 	redrawAxesPlanes();
 	redrawWellPath(true);
@@ -2597,8 +2578,9 @@ function readSettings(data) {
 
 } //==||################################################# readSettings() //#########################################
 
-
-//==|| Save the Settings 
+//=========================================
+//==|| Save the Configurations/Settings 
+//=========================================
 function saveSettings() {		
 
 	theDefaultSettingsJSONdata.theSceneColor 							= theSceneColor;
@@ -2639,46 +2621,46 @@ function saveSettings() {
 
 
 
-
+//================================================
 //==|| Add a new line to the entire well Path
+//================================================
 function addWellPath(x, y, z) {
-	//theWellPath.push( new theLine(v(0,0,0), v(10,20, 100)));
 	
-		var newPoint = v(x,y,z);
+	var newPoint = v(x,y,z);
 
-			//==|| The New Line material
-	      	var theNewLineMaterial = new THREE.LineBasicMaterial( {
-	      			transparent: true,
-	      			color: theWellLineColor,
-	      			opacity: theWellLineOpacity, 
-	      			lineWidth: 1
-	      		}
-	      	);
-
-
-			//==|| The New Line Geometry
-	      	var theNewLineGeo = new THREE.Geometry();
-	      	theNewLineGeo.vertices.push(
-	      		thePreviousPoint, newPoint
-	      	);
+	//==|| The New Line material
+  	var theNewLineMaterial = new THREE.LineBasicMaterial( {
+  			transparent: true,
+  			color: theWellLineColor,
+  			opacity: theWellLineOpacity, 
+  			lineWidth: 1
+  		}
+  	);
 
 
-	      	//==|| The New Line
-	      	var theNewLine = new THREE.Line(theNewLineGeo, theNewLineMaterial);
-	      	theNewLine.type = THREE.Lines;
+	//==|| The New Line Geometry
+  	var theNewLineGeo = new THREE.Geometry();
+  	theNewLineGeo.vertices.push(
+  		thePreviousPoint, newPoint
+  	);
 
 
-      	//==|| Add the line to the list of wellPath Lines
-      	theWellPathArray.push(new theLine(thePreviousPoint, newPoint, theWellLineColor, 1, theWellLineOpacity) );
+  	//==|| The New Line
+  	var theNewLine = new THREE.Line(theNewLineGeo, theNewLineMaterial);
+  	theNewLine.type = THREE.Lines;
 
-      	//==|| Add the new line to the Well Path object in the scene
-		theWellPath.add(theNewLine);
 
-		//==|| Keeping the list
-		theWellPathList.push(theNewLine);
+	//==|| Add the line to the list of wellPath Lines
+	theWellPathArray.push(new theLine(thePreviousPoint, newPoint, theWellLineColor, 1, theWellLineOpacity) );
 
-		//==|| Now new point becomes the previous point
-		thePreviousPoint = newPoint;
+		//==|| Add the new line to the Well Path object in the scene
+	theWellPath.add(theNewLine);
+
+	//==|| Keeping the list
+	theWellPathList.push(theNewLine);
+
+	//==|| Now new point becomes the previous point
+	thePreviousPoint = newPoint;
 
 
 
@@ -3328,7 +3310,8 @@ function registerAddPathButton() {
 					//==|| Now we will take the average value
 					newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
 					newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
-					newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+					//newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+					newRowData.theINC = (n1.theINC + n2.theINC) / 2;
 					newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
 
 					newRowData.theX = (n1.theX + n2.theX) / 2;
@@ -3339,7 +3322,9 @@ function registerAddPathButton() {
 					newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
 					newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
 
+					colorTrace("----------------------------------");
 					logValues(newRowData, "Green");
+					colorTrace("----------------------------------");
 
 				}
 
@@ -3436,7 +3421,8 @@ function registerAddPathButton() {
 							//==|| Now we will take the average value
 							newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
 							newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
-							newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+							//newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+							newRowData.theINC = (n1.theINC + n2.theINC) / 2;
 							newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
 
 							newData.theX 	= (n1.theX + n2.theX) / 2;
@@ -3534,7 +3520,8 @@ function registerAddPathButton() {
 					newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
 					newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
 					newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
-					newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+					newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+					//newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
 
 					newRowData.theX = (n1.theX + n2.theX) / 2;
 					newRowData.theY = (n1.theY + n2.theY) / 2;
@@ -3544,7 +3531,9 @@ function registerAddPathButton() {
 					newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
 					newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
 
+					colorTrace("----------------------------------");
 					logValues(newRowData, "Green");
+					colorTrace("----------------------------------");
 
 				}
 
@@ -3648,7 +3637,8 @@ function registerAddPathButton() {
 							newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
 							newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
 							newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
-							newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+							newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+							//newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
 
 							newData.theX 	= (n1.theX + n2.theX) / 2;
 							newData.theY 	= (n1.theY + n2.theY) / 2;
@@ -3658,7 +3648,9 @@ function registerAddPathButton() {
 							newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
 							newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
 
+							colorTrace("----------------------------------");
 							logValues(newData, "Green");
+							colorTrace("----------------------------------");
 
 						}
 
@@ -3754,6 +3746,7 @@ function registerAddPathButton() {
 			$(this).parent().parent().find(".divMD").find("input").prop('disabled', true);
 			$(this).parent().parent().find(".divINC").find("input").prop('disabled', true);
 			$(this).parent().parent().find(".divAZI").find("input").prop('disabled', true);
+			$(this).parent().parent().find(".divTVD").find("input").prop('disabled', true);
 			$(this).parent().parent().find(".divBuild").find("input").prop('disabled', true);
 			$(this).parent().parent().find(".divTurn").find("input").prop('disabled', true);
 
@@ -3762,48 +3755,7 @@ function registerAddPathButton() {
 			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);
 			noOfWellPathLines++;
 
-			/*
-			//==|| Increment the No. of well path lines (also denotes how many ROWS of value are inputted by the User)
-			noOfWellPathLines++;
-
-			var newNoOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
-
-			//==|| Now let's add new row of inputs and buttons
-			var newWellPathInfoBoxContainerStr = 
-			 	'<div id="wellPathInfoBoxContainer_' + newNoOfWellPathLinesStr + '" class="wellPathInfoBoxContainer">' +
-					'<div class="wellPathInputBoxContainer divMD">' +
-						'<input id="valueMD_'+ newNoOfWellPathLinesStr +'" type="text" name="valueMD" size="10"/>' +
-					'</div>' +
-					'<div class="wellPathInputBoxContainer divINC">' +
-						'<input id="valueINC_' + newNoOfWellPathLinesStr+ '" type="text" name="valueINC" size="10"/>' +
-					'</div>' +
-					'<div class="wellPathInputBoxContainer divAZI">' +
-						'<input id="valueAZI_' + newNoOfWellPathLinesStr+ '" type="text" name="valueAZI" size="10"/>' +
-					'</div>' +
-					'<div class="wellPathInputBoxContainer divAddPathBtn">' +
-						'<button id="addPathBtn_' + newNoOfWellPathLinesStr+ '" class="btn addEditPathBtn addPathBtn">' +
-							'<span class""> Add</span>' +
-						'</button>' +
-					'</div>' +
-					'<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">' +
-						'<button id="editPathBtn_' + newNoOfWellPathLinesStr +'" class="btn addEditPathBtn editPathBtn">' +
-							'<span class"">Edit</span>' +
-						'</button>' +
-					'</div>' +
-					'<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">' + 
-						'<button id="donePathBtn_' + newNoOfWellPathLinesStr + '" class="btn addEditPathBtn donePathBtn">' + 
-							'<span class"">Done</span>' + 
-						'</button>' + 
-					'</div>' + 
-			 	'</div>';
-
-
-			 //==|| Append in the Add Path Container
-			 $("#theAddPathContainer").append(newWellPathInfoBoxContainerStr);
-
-
-			*/
-
+			
 
 			 //==|| Now register yourself for the new buttons
 			 registerAddPathButton();
@@ -4009,8 +3961,8 @@ function methodM1INC(newRowData, preRowData) {
 	//==|| Step 7: Calculate dx, dy, dz or dN, dE, dZ
 	var dN, dE, dZ;
 
-	if(DLTradM != 0 && DLBradM != 0) { 
-		
+	if(DLTradM != 0 && DLBradM != 0) {
+
 		var dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
 				(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
 					DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
@@ -4946,11 +4898,10 @@ function v(x,y,z) {
 
 //==|| Change the Color of the scene (whole 3D module)
 function changeSceneColor(color) {	
-	theScene.fog = new THREE.FogExp2( color, 0.00001 );
+	theScene.fog = new THREE.FogExp2( color, 0 );
 	theRenderer.setClearColor( theScene.fog.color, 1 );
 	theSceneColor = color;
-	colorTrace("The Scene color is changed " + color, "Blue");
-
+	colorTrace("The Scene color is changed to" + color, "Blue");
 }
 
 
@@ -5021,19 +4972,14 @@ function onWindowResize() {
 
 
 function animate() {
-
 	requestAnimationFrame( animate );
 	theControls.update();
-
 }
 
 
 
 function render() {
-
 	theRenderer.render( theScene, theCamera );
-	//stats.update();
-
 }
 
 

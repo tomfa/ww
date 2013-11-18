@@ -1252,9 +1252,6 @@ $(document).ready(function() {
 	//==|| for the Add button in the Well Paths Tab in Left Panel
 	registerAddPathButton();
 
-	//==|| Register the Edit Path button event listener
-	//==|| for the Edit button in the Well Paths Tab in Left Panel
-	registerEditPathButton();
 
 */
 
@@ -3041,43 +3038,6 @@ function addNewRowInTable(	currentRow,
 
 }
 
-
-
-function registerEditPathButton() {
-	$(".editPathBtn").click(function() {
-		colorTrace("Edit button Pressed", "Green");
-
-		//colorTrace("Edit path Btn", "RED");
-
-		//==|| Remove the inactive color for this row
-		$(this).parent().parent().removeClass("inactiveRowWellPathContainer");
-
-
-		var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(WELLVIS.noOfWellPathLines);
-		
-		//==||Hide the inputs for new point/line
-		$("#wellPathInfoBoxContainer_" + noOfWellPathLinesStr).css({"display":"none"});
-
-
-			//==|| The sibling Edit button
-			var siblingDoneBtn = $(this).parent().parent().find(".divDonePathBtn");
-
-			//==|| Display the Done Button
-			$(siblingDoneBtn).css({"display": "block"});
-
-			//==|| Hide this Edit button now
-			$(this).parent().css({"display": "none"});
-
-			//==|| Enable all the inputs
-			$(this).parent().parent().find(".divMD").find("input").prop('disabled', false);
-			$(this).parent().parent().find(".divINC").find("input").prop('disabled', false);
-			$(this).parent().parent().find(".divAZI").find("input").prop('disabled', false);
-
-
-	});
-
-
-}
 
 
 //==|| Register the Event listener for the Section Type Select Option

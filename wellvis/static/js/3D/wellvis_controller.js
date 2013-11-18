@@ -149,8 +149,6 @@ function readWellJSONdata(theWellJSONdata) {
 
 	//==|| Register the event listeners for the Buttons
 	registerAddPathButton();
-	registerEditPathButton();
-	registerDonePathButton();
 
 	registerButtonPressReleaseEffects();
 

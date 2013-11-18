@@ -161,6 +161,17 @@ function readWellJSONdata(theWellJSONdata) {
 
 
 
+//===================================================================================
+//==|| Save the Well JSON data 
+//===================================================================================
+function saveWellJSONdata() {
+	
+	//save_wellpath(well_pk, theWellJSONdata);
+
+}
+
+
+
 
 //=========================================
 //==|| Save the Configurations/Settings 

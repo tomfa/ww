@@ -12,6 +12,12 @@
 			<button id="toggleRotationCenterSymbol" class="btn activeBtn">Rotation point</button>	
 			<button id="toggleWellPath" class="btn activeBtn">Well Path</button>
 
+
+			<button id="toggleWellPath" class="btn" style="float: right;">Reset</button>
+			<button id="toggleWellPath" class="btn" style="float: right;">Save</button>
+			<span style="color: #fff; float: right; margin: 0px 5px; padding: 5px 0px 0px 0px">Well Path</span>
+
+
 		</div>
 
 		<div id="theLeftPanel">
@@ -1258,9 +1264,9 @@ $(document).ready(function() {
 
 
 }); //==|| dom ready ||========
-//################################################################################################################################################
-//################################################################################################################################################
-//################################################################################################################################################
+//######################################################################################################################################################################################################
+//######################################################################################################################################################################################################
+//######################################################################################################################################################################################################
 
 
 
@@ -1704,9 +1710,9 @@ function registerAddPathButton() {
 
 
 			if(selectedOption == "secTypeTangent") {
-				//========================================================================
-				//================|| The Tangent calculation ||===========================
-				//========================================================================
+				//##############################################################################################################################
+				//================||                           The Tangent calculation                             ||===========================
+				//##############################################################################################################################
 				newRowData = methodTangent(newRowData, preRowData);
 				
 				colorTrace("After Tangent calculation - Back at the station", "Black");
@@ -1726,12 +1732,35 @@ function registerAddPathButton() {
 				$("#valueZ_"  + noOfWellPathLinesStr).text(newRowData.theZ) - 0;
 
 
+				var theNewJSONvalue = '{';
+				theNewJSONvalue += 		'	"theMD" 	: ' + newRowData.theMD 		+ ',' +
+										'	"theCL"		: ' + newRowData.theCL 		+ ',' +
+										'	"theINC" 	: ' + newRowData.theINC 	+ ',' +
+										'	"theAZI"	: ' + newRowData.theAZI 	+ ',' +
+										'	"theTVD"	: ' + newRowData.theTVD 	+ ',' +
+										'	"itsX" 		: ' + newRowData.theX 		+ ',' +
+										'	"itsY" 		: ' + newRowData.theY 		+ ',' +
+										'	"itsZ" 		: ' + newRowData.theZ 		+ ',' +
+										'	"itsNS"		: ' + newRowData.theNS 		+ ',' +
+										'	"itsEW"		: ' + newRowData.theEW 		+ ',' +
+										'	"itsVsec"	: ' + newRowData.theVsec 	+ ',' +
+										'	"theDogleg" : ' + newRowData.theDogleg 	+ ',' +
+										'	"theBuild"	: ' + newRowData.theBuild 	+ ',' +
+										'	"theTurn"	: ' + newRowData.theTurn 	+ ',' +
+										'	"theSecType": "Tangent" ,' +
+										'	"thePoints" :[]' +
+									'}';
+
+				theNewJSONvalue = JSON.parse(theNewJSONvalue);
+				//==|| update the well JSON data object
+				theWellJSONdata.theValues.push(theNewJSONvalue);
+
 			}
 			else if(selectedOption == "secTypeM1INC") {
 				
-				//========================================================================
-				//=============||   The M1-Inc Method   ||================================
-				//========================================================================
+				//##############################################################################################################################
+				//=============||                              The M1-Inc Method                              ||================================
+				//##############################################################################################################################
 
 				//==|| In case the Build and Turn are not equal
 				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
@@ -1854,6 +1883,35 @@ function registerAddPathButton() {
 				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
 				$("#valueY_"  + noOfWellPathLinesStr).text(newRowData.theY) - 0;
 				$("#valueZ_"  + noOfWellPathLinesStr).text(newRowData.theZ) - 0;
+
+
+				var theNewJSONvalue = '{';
+				theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
+										'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
+										'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
+										'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
+										'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
+										'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
+										'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
+										'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
+										'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
+										'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
+										'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
+										'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
+										'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
+										'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ ',' +
+										'	"theSecType": "M1 - INC" ,' +
+										'	"thePoints" :[]' +
+									'}';
+
+				theNewJSONvalue = JSON.parse(theNewJSONvalue);
+				//==|| update the well JSON data object
+				theWellJSONdata.theValues.push(theNewJSONvalue);
+
+				//==|| This is the index for the current theValues Object where we will push other values
+				var theCurrentValueNo = theWellJSONdata.theValues.length - 1;
+
+
 
 
 
@@ -2032,6 +2090,33 @@ function registerAddPathButton() {
 						render();
 
 
+						var theNewJSONvalue = '{';
+						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
+												'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
+												'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
+												'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
+												'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
+												'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
+												'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
+												'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
+												'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
+												'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
+												'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
+												'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
+												'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
+												'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ 
+											'}';
+
+						theNewJSONvalue = JSON.parse(theNewJSONvalue);
+						//==|| update the well JSON data object
+						theWellJSONdata.theValues[theCurrentValueNo].thePoints.push(theNewJSONvalue);
+	
+
+
+
+						//==|| update the well JSON data object
+						//theWellJSONdata.theValues.push()
+
 
 						preData.theMD 	= newData.theMD;
 						preData.theAZI 	= newData.theAZI;
@@ -2071,9 +2156,9 @@ function registerAddPathButton() {
 			}
 			else if(selectedOption == "secTypeM1AZI") {
 
-				//========================================================================
-				//==================||     The M1-Azi Method    ||========================
-				//========================================================================
+				//##############################################################################################################################
+				//==================||                                The M1-Azi Method                               ||========================
+				//##############################################################################################################################
 
 				colorTrace("## The M1- Azi method ##", "Blue");
 
@@ -2212,6 +2297,36 @@ function registerAddPathButton() {
 
 
 
+				var theNewJSONvalue = '{';
+				theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
+										'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
+										'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
+										'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
+										'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
+										'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
+										'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
+										'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
+										'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
+										'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
+										'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
+										'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
+										'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
+										'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ ',' +
+										'	"theSecType": "M1 - AZI" ,' +
+										'	"thePoints" :[]' +
+									'}';
+
+				theNewJSONvalue = JSON.parse(theNewJSONvalue);
+				//==|| update the well JSON data object
+				theWellJSONdata.theValues.push(theNewJSONvalue);
+
+
+				//==|| This is the index for the current theValues Object where we will push other values
+				var theCurrentValueNo = theWellJSONdata.theValues.length - 1;
+
+
+
+
 				//==|| Now looping to make the curve
 
 				var diffMD = newRowData.theMD - preRowData.theMD;
@@ -2311,8 +2426,8 @@ function registerAddPathButton() {
 								var n1 = duplicateThisRowData(newData);
 								var n2 = duplicateThisRowData(newData);
 
-								n1.theTurn = n1.theTurn + 0.001;
-								n2.theTurn = n2.theTurn - 0.001;
+								n1.theTurn = n1.theTurn + 0.01;
+								n2.theTurn = n2.theTurn - 0.01;
 
 								
 								n1 = methodM1AZI(n1, preData);
@@ -2391,6 +2506,29 @@ function registerAddPathButton() {
 						render();
 
 
+						var theNewJSONvalue = '{';
+						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
+												'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
+												'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
+												'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
+												'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
+												'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
+												'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
+												'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
+												'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
+												'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
+												'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
+												'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
+												'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
+												'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ 
+											'}';
+
+						theNewJSONvalue = JSON.parse(theNewJSONvalue);
+						//==|| update the well JSON data object
+						theWellJSONdata.theValues[theCurrentValueNo].thePoints.push(theNewJSONvalue);
+	
+
+
 
 						preData.theMD 	= newData.theMD;
 						preData.theAZI 	= newData.theAZI;
@@ -2431,9 +2569,9 @@ function registerAddPathButton() {
 			}
 			else if(selectedOption == "secTypeM1TVD") {
 
-				//========================================================================
-				//==================||   The M1-Azi Method   ||===========================
-				//========================================================================
+				//##############################################################################################################################
+				//==================||                                 The M1-TVD Method                           ||===========================
+				//##############################################################################################################################
 
 				colorTrace("### Section type : M1 - TVD ###", "Green");
 
@@ -2570,6 +2708,36 @@ function registerAddPathButton() {
 				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
 				$("#valueY_"  + noOfWellPathLinesStr).text(newRowData.theY) - 0;
 				$("#valueZ_"  + noOfWellPathLinesStr).text(newRowData.theZ) - 0;
+
+
+
+				var theNewJSONvalue = '{';
+				theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
+										'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
+										'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
+										'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
+										'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
+										'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
+										'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
+										'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
+										'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
+										'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
+										'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
+										'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
+										'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
+										'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ ',' +
+										'	"theSecType": "M1 - TVD" ,' +
+										'	"thePoints" :[]' +
+									'}';
+
+				theNewJSONvalue = JSON.parse(theNewJSONvalue);
+				//==|| update the well JSON data object
+				theWellJSONdata.theValues.push(theNewJSONvalue);
+
+
+				//==|| This is the index for the current theValues Object where we will push other values
+				var theCurrentValueNo = theWellJSONdata.theValues.length - 1;
+
 
 
 
@@ -2763,6 +2931,29 @@ function registerAddPathButton() {
 
 						render();
 
+
+
+						var theNewJSONvalue = '{';
+						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
+												'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
+												'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
+												'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
+												'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
+												'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
+												'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
+												'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
+												'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
+												'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
+												'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
+												'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
+												'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
+												'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ 
+											'}';
+
+						theNewJSONvalue = JSON.parse(theNewJSONvalue);
+						//==|| update the well JSON data object
+						theWellJSONdata.theValues[theCurrentValueNo].thePoints.push(theNewJSONvalue);
+	
 
 
 						preData.theMD 	= newData.theMD;

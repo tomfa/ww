@@ -72,7 +72,7 @@ function onWindowResize() {
   colorTrace("On Window Resize", "Blue");
 
 
-  theScreenWidth = window.innerWidth;
+    theScreenWidth = window.innerWidth;
     theScreenHeight = window.innerHeight;
 
     WELLVIS.theHeight   = theScreenHeight - 60 - 100; 

@@ -1256,9 +1256,6 @@ $(document).ready(function() {
 	//==|| for the Edit button in the Well Paths Tab in Left Panel
 	registerEditPathButton();
 
-	//==|| Register the Done Path button event listener
-	//==|| for the Done button in the Well Paths Tab in Left Panel
-	registerDonePathButton();
 */
 
 
@@ -1409,6 +1406,7 @@ function registerToggleShowHideLeftPanel() {
 			$("#showHideLeftPanelBtn").find(".ui-button-text").text("Hide");
 		}
 
+	
 		onWindowResize();
 
 	});
@@ -2844,8 +2842,6 @@ function registerAddPathButton() {
 
 			 //==|| Now register yourself for the new buttons
 			 registerAddPathButton();
-			 registerEditPathButton();
-			 registerDonePathButton();
 
 			 registerButtonPressReleaseEffects();
 
@@ -3084,146 +3080,6 @@ function registerEditPathButton() {
 }
 
 
-function registerDonePathButton() {
-
-	$(".donePathBtn").click(function() {
-		colorTrace("Done  button Pressed", "Green");
-
-		var currentDivName= $(this).parent().parent().attr('id');
-		var currentLineCountIsStr = currentDivName.substring(currentDivName.indexOf("_") + 1, currentDivName.length);
-		var currentLineCountIs = parseInt(currentLineCountIsStr);
-		
-		//colorTrace("noOfWellPathLinesStr = " + noOfWellPathLinesStr, "Blue");
-
-		colorTrace("ID =" + currentDivName, "Blue");
-		colorTrace("currentLineCountIs = " + currentLineCountIs, "Green");
-		colorTrace("noOfWellPathLines = " + WELLVIS.noOfWellPathLines, "Blue")
-
-		if(isPointOkToAdd(currentLineCountIs)) {
-			colorTrace("The line is OK to add", "Green");	
-
-			var md = $("#valueMD_"  + currentLineCountIsStr).val() - 0;
-			var inc = $("#valueINC_" + currentLineCountIsStr).val() - 0;
-			var azi = $("#valueAZI_" + currentLineCountIsStr).val() - 0;
-			
-			var x = $("#valueNS_"  + currentLineCountIsStr).val() - 0;
-			var y = $("#valueEW_" + currentLineCountIsStr).val() - 0;
-			var z = $("#valueVsec_" + currentLineCountIsStr).val() - 0;
-
-			colorTrace("md = "+ md + " inc = " + inc + " azi = " + azi , "RED");
-
-			var preMD = 0;
-			var preINC = 0;
-			var preAZI = 0;
-			var preX = 0;
-			var preY = 0;
-			var preZ = 0;
-			
-			if(currentLineCountIs != 0){
-				var preRowNo = 	currentLineCountIs - 1;
-				var preRowNoStr = changeNoOfWellPathLinesIntoString(preRowNo);
-				colorTrace("preRowNoStr = " + preRowNoStr, "Green");
-
-				preMD  = $("#valueMD_"  + preRowNoStr).val() - 0;
-				preINC = $("#valueINC_"  + preRowNoStr).val() - 0;
-				preAZI = $("#valueAZI_"  + preRowNoStr).val() - 0;
-				preX = $("#valueX_"  + preRowNoStr).val() - 0;
-				preY = $("#valueY_"  + preRowNoStr).val() - 0;
-				preZ = $("#valueZ_"  + preRowNoStr).val() - 0;
-
-			}
-
-			colorTrace("preMD = "+ preMD + " preINC = " + preINC + " preAZI = " + preAZI , "RED");
-			//colorTrace("preX = "+ preX + " preY = " + preY + " preZ = " + preZ , "RED");
-
-			//==|| Calculate x, y, z by tangent method
-			var dMD = md - preMD;
-			var dN = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.cos(azi * (Math.PI / 180)));
-			var dE = dMD * (Math.sin(inc * (Math.PI / 180) ) ) * (Math.sin(azi * (Math.PI / 180)));
-			var dZ = dMD * (Math.cos(inc * (Math.PI / 180)));
-
-			colorTrace("dMD = " + dMD, "Green");
-			colorTrace("dN = " + dN, "Blue");
-			colorTrace("dE = " + dE, "Green");
-			colorTrace("dZ = " + dZ, "Blue");
-
-			//==|| Calculating new x,y, z
-			var newX = preX + dN;
-			var newY = preY + dE;
-			var newZ = preZ + dZ;
-
-			//==|| Putting new x, y, z in the row
-			$("#valueNS_"  + currentLineCountIsStr).val(dN.toFixed(2)) - 0;
-			$("#valueEW_" + currentLineCountIsStr).val(dE.toFixed(2)) - 0;
-			$("#valueVsec_" + currentLineCountIsStr).val(dZ.toFixed(2)) - 0;
-
-			
-			var theNewPoint = v(newX, newY, newZ);
-
-			//==|| the new point would be the new end point for the current line
-			WELLVIS.theWellPathArray[currentLineCountIs].theEndPoint = theNewPoint;
-
-			if(currentLineCountIs == WELLVIS.noOfWellPathLines - 1){
-				//==|| our last point has changed
-				WELLVIS.thePreviousPoint = theNewPoint;
-			}
-			else {
-				//==|| The new point would be the new start point for the next line
-				WELLVIS.theWellPathArray[currentLineCountIs + 1].theStartPoint = theNewPoint;
-
-			}
-
-
-			//==|| Add the inactive color for this row
-			$(this).parent().parent().addClass("inactiveRowWellPathContainer");
-
-			//==|| Hide this Done button now
-			$(this).parent().css({"display": "none"});
-
-
-			//==|| The sibling Edit button
-			var siblingEditBtn = $(this).parent().parent().find(".divEditPathBtn");
-
-			//==|| Display the Edit Button
-			$(siblingEditBtn).css({"display": "block"});
-
-
-			//==|| Disable all the inputs
-			$(this).parent().parent().find(".divMD").find("input").prop('disabled', true);
-			$(this).parent().parent().find(".divINC").find("input").prop('disabled', true);
-			$(this).parent().parent().find(".divAZI").find("input").prop('disabled', true);
-
-
-			var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(WELLVIS.noOfWellPathLines);
-			//==||Show the inputs for new point/line
-			$("#wellPathInfoBoxContainer_" + noOfWellPathLinesStr).css({"display":"block"});
-
-
-
-
-			//==|| Redraw the well path
-			redrawWellPath(false);
-
-
-			//==|| Check if the well is inside the ranges of the Planes
-			checkRangesForPlanes(newX, newY, newZ);
-
-
-
-
-		}
-		else {
-			colorTrace("The line NOT OK to add", "RED");			
-		}
-
-
-
-	});
-
-}
-
-
-
 //==|| Register the Event listener for the Section Type Select Option
 function registerSelectSectionType(newNoOfWellPathLinesStr){
 
@@ -3282,20 +3138,6 @@ function registerSelectSectionType(newNoOfWellPathLinesStr){
 	});
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

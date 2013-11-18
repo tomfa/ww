@@ -1366,6 +1366,19 @@ function isPointOkToAdd(noOfWellPathLines) {
     }
 
 
+    if($("#valueTVD_" + noOfWellPathLinesStr).val().length == 0 ) {
+    	return false;
+    }
+
+    if($("#valueBuild_" + noOfWellPathLinesStr).val().length == 0 ) {
+    	return false;
+    }
+
+    if($("#valueTurn_" + noOfWellPathLinesStr).val().length == 0 ) {
+    	return false;
+    }
+
+
     //==|| yah it's perfectly fine to add the point
 	return true;
 }

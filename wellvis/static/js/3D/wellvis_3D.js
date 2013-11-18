@@ -96,7 +96,7 @@ function onWindowResize() {
 
   WELLVIS.theRenderer.setSize( WELLVIS.theWidth, WELLVIS.theHeight );
 
-  theControls.handleResize();
+  WELLVIS.theControls.handleResize();
 
   render();
 

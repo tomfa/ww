@@ -1696,7 +1696,9 @@ function registerAddPathButton() {
 
 
 			if(selectedOption == "secTypeTangent") {
-				//==|| The Tangent calculation
+				//========================================================================
+				//================|| The Tangent calculation ||===========================
+				//========================================================================
 				newRowData = methodTangent(newRowData, preRowData);
 				
 				colorTrace("After Tangent calculation - Back at the station", "Black");
@@ -1718,13 +1720,80 @@ function registerAddPathButton() {
 
 			}
 			else if(selectedOption == "secTypeM1INC") {
-
-				//==|| The M1-Inc Method ||==
+				
+				//========================================================================
+				//=============||   The M1-Inc Method   ||================================
+				//========================================================================
 
 				//==|| In case the Build and Turn are not equal
 				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
 					colorTrace(" Turn and Build are not equal", "Green");
-					newRowData = methodM1INC(newRowData, preRowData);
+					if(newRowData.theBuild != 0 && newRowData.theTurn != 0) {
+						colorTrace("and Turn and Build are not 0", "Blue");
+						newRowData = methodM1INC(newRowData, preRowData);
+					}
+					else if(newRowData.theBuild == 0) {
+						colorTrace("But Build = 0", "Red");
+
+						var n1 = duplicateThisRowData(newRowData);
+						var n2 = duplicateThisRowData(newRowData);
+
+						n1.theBuild = n1.theBuild + 0.001;
+						n2.theBuild = n2.theBuild - 0.001;
+
+
+						n1 = methodM1INC(n1, preRowData);
+						n2 = methodM1INC(n2, preRowData);
+
+						colorTrace("-- Taking the average values --", "Blue");
+						//==|| Now we will take the average value
+						newRowData.theMD = (n1.theMD + n2.theMD) / 2;
+						newRowData.theCL = (n1.theCL + n2.theCL) / 2;
+						newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+						newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+						newRowData.theX = (n1.theX + n2.theX) / 2;
+						newRowData.theY = (n1.theY + n2.theY) / 2;
+						newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+						newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+						newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+						newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+						newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+						logValues(newRowData, "Green");
+					}
+					else if(newRowData.theBuild == 0) {
+						colorTrace("But Turn = 0", "Red");
+						
+						var n1 = duplicateThisRowData(newRowData);
+						var n2 = duplicateThisRowData(newRowData);
+
+						n1.theTurn = n1.theTurn + 0.001;
+						n2.theTurn = n2.theTurn - 0.001;
+
+						n1 = methodM1INC(n1, preRowData);
+						n2 = methodM1INC(n2, preRowData);
+
+						colorTrace("-- Taking the average values --", "Blue");
+						//==|| Now we will take the average value
+						newRowData.theMD = (n1.theMD + n2.theMD) / 2;
+						newRowData.theCL = (n1.theCL + n2.theCL) / 2;
+						newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+						newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+						newRowData.theX = (n1.theX + n2.theX) / 2;
+						newRowData.theY = (n1.theY + n2.theY) / 2;
+						newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+						newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+						newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+						newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+						newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+					}	
 				}
 				else { 
 					colorTrace("### Turn and Build ARE equal ###", "RED");
@@ -1924,7 +1993,10 @@ function registerAddPathButton() {
 
 			}
 			else if(selectedOption == "secTypeM1AZI") {
-				//==|| The M1-Azi Method ||==
+
+				//========================================================================
+				//==================||     The M1-Azi Method    ||========================
+				//========================================================================
 
 				colorTrace("## The M1- Azi method ##", "Blue");
 
@@ -1932,7 +2004,79 @@ function registerAddPathButton() {
 				//==|| In case the Build and Turn are not equal
 				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
 					colorTrace(" Turn and Build are not equal", "Green");
-					newRowData = methodM1AZI(newRowData, preRowData);
+					if(newRowData.theBuild != 0 && newRowData.theTurn != 0) {
+						colorTrace(" and Turn and Build are not 0", "Blue");
+						newRowData = methodM1AZI(newRowData, preRowData);
+					}
+					else if(newRowData.theBuild == 0) {
+						colorTrace(" But Build = 0", "Red");
+
+						var n1 = duplicateThisRowData(newRowData);
+						var n2 = duplicateThisRowData(newRowData);
+
+						n1.theBuild = n1.theBuild + 0.001;
+						n2.theBuild = n2.theBuild - 0.001;
+
+						n1 = methodM1AZI(n1, preRowData);
+						n2 = methodM1AZI(n2, preRowData);
+
+						colorTrace("-- Taking the average values --", "Blue");
+						//==|| Now we will take the average value
+						newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
+						newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
+						//newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+						newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+						newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+						newRowData.theX = (n1.theX + n2.theX) / 2;
+						newRowData.theY = (n1.theY + n2.theY) / 2;
+						newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+						newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+						newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+						newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+						newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+						colorTrace("----------------------------------");
+						logValues(newRowData, "Green");
+						colorTrace("----------------------------------");
+					}
+					else if(newRowData.theTurn == 0 ){
+						colorTrace(" But Turn = 0", "Red");
+
+						var n1 = duplicateThisRowData(newRowData);
+						var n2 = duplicateThisRowData(newRowData);
+
+						n1.theTurn = n1.theTurn + 0.001;
+						n2.theTurn = n2.theTurn - 0.001;
+
+
+						n1 = methodM1AZI(n1, preRowData);
+						n2 = methodM1AZI(n2, preRowData);
+
+						colorTrace("-- Taking the average values --", "Blue");
+						//==|| Now we will take the average value
+						newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
+						newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
+						//newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+						newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+						newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+						newRowData.theX = (n1.theX + n2.theX) / 2;
+						newRowData.theY = (n1.theY + n2.theY) / 2;
+						newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+						newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+						newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+						newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+						newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+						colorTrace("----------------------------------");
+						logValues(newRowData, "Green");
+						colorTrace("----------------------------------");
+					}
 				}
 				else { 
 					colorTrace("### Turn and Build ARE equal ###", "RED");
@@ -2139,7 +2283,10 @@ function registerAddPathButton() {
 
 			}
 			else if(selectedOption == "secTypeM1TVD") {
-				//==|| The M1-Azi Method ||==
+
+				//========================================================================
+				//==================||   The M1-Azi Method   ||===========================
+				//========================================================================
 
 				colorTrace("### Section type : M1 - TVD ###", "Green");
 
@@ -2147,7 +2294,80 @@ function registerAddPathButton() {
 				//==|| In case the Build and Turn are not equal
 				if(Math.abs(newRowData.theBuild) != Math.abs(newRowData.theTurn)) {
 					colorTrace(" Turn and Build are not equal", "Green");
-					newRowData = methodM1TVD(newRowData, preRowData);
+					if(newRowData.theBuild != 0 && newRowData.theTurn != 0) {
+						colorTrace(" Turn and Build are not 0", "Blue");
+						newRowData = methodM1TVD(newRowData, preRowData);
+					}
+					else if(newRowData.theBuild == 0) {
+						colorTrace("But Build = 0", "RED");
+
+						var n1 = duplicateThisRowData(newRowData);
+						var n2 = duplicateThisRowData(newRowData);
+
+						n1.theBuild = n1.theBuild + 0.001;
+						n2.theBuild = n2.theBuild - 0.001;
+
+
+						n1 = methodM1TVD(n1, preRowData);
+						n2 = methodM1TVD(n2, preRowData);
+
+						colorTrace("-- Taking the average values --", "Blue");
+						//==|| Now we will take the average value
+						newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
+						newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
+						newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+						newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+						//newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+						newRowData.theX = (n1.theX + n2.theX) / 2;
+						newRowData.theY = (n1.theY + n2.theY) / 2;
+						newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+						newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+						newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+						newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+						newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+						colorTrace("----------------------------------");
+						logValues(newRowData, "Green");
+						colorTrace("----------------------------------");
+					}
+					else if(newRowData.theTurn == 0) {
+						colorTrace("But Turn = 0", "RED");
+
+						var n1 = duplicateThisRowData(newRowData);
+						var n2 = duplicateThisRowData(newRowData);
+
+						n1.theTurn = n1.theTurn + 0.001;
+						n2.theTurn = n2.theTurn - 0.001;
+
+
+						n1 = methodM1TVD(n1, preRowData);
+						n2 = methodM1TVD(n2, preRowData);
+
+						colorTrace("-- Taking the average values --", "Blue");
+						//==|| Now we will take the average value
+						newRowData.theMD  = (n1.theMD  + n2.theMD)  / 2;
+						newRowData.theCL  = (n1.theCL  + n2.theCL)  / 2;
+						newRowData.theAZI = (n1.theAZI + n2.theAZI) / 2;
+						newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+						//newRowData.theTVD = (n1.theTVD + n2.theTVD) / 2;
+
+						newRowData.theX = (n1.theX + n2.theX) / 2;
+						newRowData.theY = (n1.theY + n2.theY) / 2;
+						newRowData.theZ = (n1.theZ + n2.theZ) / 2;
+
+						newRowData.theNS 	= (n1.theNS + n2.theNS) / 2;
+						newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
+						newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
+
+						newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+						colorTrace("----------------------------------");
+						logValues(newRowData, "Green");
+						colorTrace("----------------------------------");
+					}
 				}
 				else { 
 					colorTrace("### Turn and Build ARE equal ###", "RED");
@@ -2386,10 +2606,10 @@ function registerAddPathButton() {
 			$(this).parent().parent().addClass("inactiveRowWellPathContainer");
 
 			//==|| The sibling Remove button
-			var siblingRemoveBtn = $(this).parent().parent().find(".divRemovePathBtn");
+			//var siblingRemoveBtn = $(this).parent().parent().find(".divRemovePathBtn");
 
 			//==|| Display the Remove Button
-			$(siblingRemoveBtn).css({"display": "block"});
+			//$(siblingRemoveBtn).css({"display": "block"});
 
 			//==|| Hide this Add button now
 			$(this).parent().css({"display": "none"});

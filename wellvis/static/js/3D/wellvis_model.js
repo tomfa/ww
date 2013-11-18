@@ -18,7 +18,7 @@
 //######################################################################################################################################
 
 
-//==|| The object that holds everything about a line
+//==|| The Object that holds everything about a line
 function TheLine(theStartPoint, theEndPoint, theColor, theLineWidth, theLineOpacity) {
 	this.theStartPoint 	= theStartPoint;
 	this.theEndPoint 	= theEndPoint;
@@ -48,7 +48,7 @@ function RowData(theMD, theCL, theINC, theAZI, theTVD, theX, theY, theZ, theNS, 
 }
 
 
-//==|| The function that creates a new RowData object with exactly same values that the passed argument RowData object contains
+//==|| The function that creates a new RowData Object with exactly same values that the passed argument RowData object contains
 function duplicateThisRowData(rowData) { 
 	return new RowData(	
 						rowData.theMD,		rowData.theCL, 

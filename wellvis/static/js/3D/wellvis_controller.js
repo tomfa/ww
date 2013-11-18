@@ -96,7 +96,7 @@ function readWellJSONdata(theWellJSONdata) {
 										theINC, theAZI, theTVD, 
 										itsX, itsY, itsZ, itsNS, itsEW, itsVsec, 
 										theDogleg, theBuild, theTurn, 
-										theSecType, "Remove" , false
+										theSecType, "Nothing" , false
 									);
 				}
 				else {

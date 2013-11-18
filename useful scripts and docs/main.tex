@@ -1,4 +1,5 @@
 \documentclass{report}
+\usepackage[table]{xcolor}
 \usepackage[utf8]{inputenc}
 \usepackage{titling}
 \usepackage{graphicx}
@@ -6,8 +7,19 @@
 \usepackage{pdflscape}
 \usepackage{longtable}
 \usepackage{wrapfig}
-\bibliographystyle{plain}
+\usepackage{pdfpages}
+\usepackage{float} % if you use [H] after figure, it stays in place
+\usepackage{hyperref} % this += nextline makes links and references clickable in the pdf 
+\hypersetup{ 
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{tocdepth}{1} % Only includes sections (not subsections) in table of contents
 
+\bibliographystyle{plain}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -25,14 +37,31 @@
 
 \maketitle
 
-\section*{Preface}
-\addcontentsline{toc}{section}{Preface}
-Fill in preface here.
+\newpage
+
 
 \begin{abstract}
 \addcontentsline{toc}{section}{Abstract}
-Fill in abstract here.
+The oil industry is one of Norway's largest and most important sources of income. Despite this fact, the market leading system used in well drilling consists of a suite comprised of applications collected from different developers. These applications are outdated and there is a need for creating a new system with higher degree of modifiability and useability.
+
+During the development there were major changes in the requirements as a result of the demonstrations after each sprint. The main challenge was implementing a curvature formula that bended the wells as minimal as possible.
+
+Our solution is based on using python and javascript to create a functioning prototype of the well planning part of the process. Python is mainly used to create a web interface which makes the new system more portable. This opens up the possibility to access it on all operating system, also including new technological devices such as smart phones and tablets. Javascript was used to create 3D models of the wells by using supporting libaries as the open-source three.js.
+
+
+
+
 \end{abstract}
+
+
+\section*{Preface}
+\addcontentsline{toc}{section}{Preface}
+This report describe the complete process for the project "Development of Well Engineering System" given by Wellvis for the course TDT290 Customer Driven Project at NTNU. The project lasted from 21. August to 21. November 2013. The main purpose of this course was to experience how it is to carry out a large customer driven project.
+
+We would like to thank our representatives from Wellvis: Bjørn Brechan, Øyvind Pedersen and Sigbjørn Sangesland for sharing their knowledge about the oil drilling industry, continous feedback and overall being great customers. We could never have done this without your enthusiasm and support throughout the whole process.
+
+We would also like to thank course responsible Babak A. Farshchian and all other members of the staff for arranging this course. Last but not least, we appreciate all the guidance we were given by our advisor Soudabeh Khodambashi.
+
 
 \tableofcontents
 \addcontentsline{toc}{chapter}{Contents}
@@ -47,6 +76,7 @@ Fill in abstract here.
 \chapter{Project Directive} \label{cha:project_directive}
 In this chapter we will give a general introduction to our project. In section \ref{sec:project_mandate} we tell the purpose of the project and in \ref{sec:the_client} we describe our client. In \ref{sec:involved_parties} we mention all the involved parties in this project and what they want to get out of this and in \ref{sec:project_background} we explain the background for the project. In section \ref{sec:project_directive} we explain the objective and in \ref{sec:project_duration} we describe the duration.
 
+\newpage
 \section{Project Mandate} \label{sec:project_mandate}
 The purpose of this project was to develop a more integrated and user friendly well drilling engineering system than those that are currently on the market. Because of the large complexity of developing a system of this scale, we were given permission to choose whichever part we felt the most interested in and develop a prototype with improvements suggested by the customer. We thereby reduced the scope of the project and decided to focus on the part of the system which was responsible of planning the well path. This is numbered as 1 (Well paths) on figure \ref{fig:owim}.
 
@@ -57,9 +87,11 @@ The purpose of this project was to develop a more integrated and user friendly w
 \end{figure}
 
 
+\newpage
 \section{The Client} \label{sec:the_client}
 Wellvis is a company under establishment. It is founded and owned equally by Bjørn Brechan, Sigbjørn Sangesland and Øyvind Pedersen. The company has the same name as their main product, Wellvis, which is a concatenation of “Well Visualisation”. This is an umbrella software that primarily modernize and improve the well integrity model available for the oil and gas industry. Well integrity is an area of focus in the industry as it reduces risk and avoids failures.
 
+\newpage
 \section{Involved Parties} \label{sec:involved_parties}
 These are the identified stakeholders who has an interest in our project.
 
@@ -70,6 +102,7 @@ Course Staff & Wants us to do a good job and want to know how to improve the cou
 Users & Everyone who uses the old system would like a new and more user friendly system that is easy to use and to learn. \\ \hline
 \end{tabular}
 
+\newpage
 \section{Project Background} \label{sec:project_background}
 Today the oil industry worldwide suffers from the lack of experienced engineers in all professions. One of the reasons for this is the work-intensive and demanding process of planning a well for production of hydrocarbons. The current workflow to establish a fully engineered well can be modernized and thereby reduce the amount of man hours needed. The existing well integrity models are complex and there is a high user threshold, resulting in several years of training before users are skilled and experienced enough to comfortably running it and making decisions based on the result.
 
@@ -77,6 +110,7 @@ A simplification of the work-flow can reduce required hours for engineering, but
 
 At this moment there is only one complete software suite for the well drilling process. It consist of individual applications that have been bought and put together in a package by a company called Landmark. The problem is that these programs have been developed by different companies over a long time frame. Consequently, the programs have none or little integration with each other and are very outdated in both graphics and programming paradigm. The programs are not very user friendly and require the user to have some tacit knowledge to operate them correctly. Because of this high user threshold, work is often delegated to external consultants.
 
+\newpage
 \section{Project Directive} \label{sec:project_directive}
 We have some objectives that we have set for ourselves and that the client wishes for:
 
@@ -87,11 +121,15 @@ We have some objectives that we have set for ourselves and that the client wishe
     \item Be able to present a final product
 \end{itemize}
 
+\newpage
 \section{Project Duration} \label{sec:project_duration}
 This duration of this project is three months, from the 21th of August until the 21th of November. For this course, each student is expected to work 325 hours. We are four people on this team so the total effort will be 1300 hours.
 
+
+
 \chapter{Requirements} \label{cha:requirements}
-In this chapter we will discuss our requirements for the project. In \ref{sec:list_of_requirements} we list all of our requirements and our evoliution for these are in \ref{sec:requirements_evolution}. Later in the chapter we have our use cases in \ref{sec:use_cases} and the last section, \ref{sec:user_stories}, has our user stories.
+In this chapter we will discuss our requirements for the project. In \ref{sec:list_of_requirements} we list all of our requirements and our evoliution for these are in \ref{sec:requirements_evolution}. Last in the chapter we have our use cases in \ref{sec:use_cases}, diagrams and textual.
+\newpage
 \section{List of requirements} \label{sec:list_of_requirements}
 This is where we discuss how we prioritize our requirements, \ref{subsec:prioritization_and_complexity}. After discussing how we prioritize, we list all our functional requirements in \ref{subsec:functional_requirements}. The fundtional requirements are listed after when we got them from the customer.
 \subsection{Prioritization and Complexity} \label{subsec:prioritization_and_complexity}
@@ -104,80 +142,197 @@ The team has prioritized the requirements in four categories:
 \end{itemize}
 The team has estimated the complexity for each requirement. We use the following categories:
 \begin{itemize}
-    \item High: Functionality that seems difficult and non-trivial to create.
-    \item Medium: Functionality that seems time consuming but straightforward.
+    \item High: Functionality that seems difficult or time consuming to create.
+    \item Medium: Functionality that are somewhat time consuming, but quite straightforward.
     \item Low: Requirements that are trivial to implement.
 \end{itemize}   
 
 \subsection{Functional Requirements} \label{subsec:functional_requirements}
 \begin{tabular}{| l | p{5.9cm} | l | l |} \hline
 ID & Description & Prioritiziation & Complexity \\ \hline
-F1 & Login to the web page & High & Low \\ \hline
-F2 & Choose well path software module & High & Low \\ \hline
+F1 & Login to the web page& High & Medium \\ \hline
+F2 & Select software module in web page& High & Low \\ \hline
 F3 & See a list of existing well projects & High & Low \\ \hline
 F4 & Choosing a well project from list & High & Low \\ \hline
-F5 & Insert well path data in a table & High & Low \\ \hline
-F6 & Visualize well path data in a 3d graph presentation & High & High \\ \hline
-F7 & Insert end-targets and help-targets for well paths & High & Medium \\ \hline
-F8 & Showing a simple 3D visualization of well based on end targets and help targets. Make approximately path based on end and help targets & High & High \\ \hline
-F9 & Adjust end- and help points easily (through drag and drop or similar). & Medium & High \\ \hline
-F10 & Insert geological data, along with no-go areas. & Medium & High \\ \hline
-F11 & Visualize geological data in well path view. & Medium & High \\ \hline
-F12 & Divide drilling path into segments. & Medium & Medium \\ \hline
-F13 & Choose single segments for a more detailed view of that particular segment. & Medium & Low \\ \hline
-F14 & Select offline/drilling mode during a simulated drilling event (This mode should give ability to “see next step 3d-coordinates”, every 10 meters or similar). & Low & Low \\ \hline
-F15 & Insert drilling data, along with being informed of current offset). & Optional & Low \\ \hline
-\end{tabular}
+F5 & Insert well path data through website & High & Medium \\ \hline
+F6 & Visualize well path data in a 3d graph & High & High \\ \hline
+F7 & Distinction between end- and help-targets & High & Medium \\ \hline %canceled
+F8 & Divide path into segments & Medium & High \\ \hline %removed
+F9 & Select segment for a detailed view & Medium & High\\ \hline %removed
+F10 & Make targets adjustable through GUI & Low & Medium\\ \hline %removed
+F11 & Go-offline mode & High & High\\ \hline %removed
+F12 & Insert geological data, along with no-go areas. & Medium & High \\ \hline %canceled
+F13 & Insert operational data, and show offset. & Medium & High\\ \hline %removed
+F14 & Export coordinates function & High & Medium\\ \hline %removed
+F15 & Import path data from other existing wells into 3D GUI & Medium & Medium\\ \hline %user
+F16 & Warning if system detect intersecting paths & Medium & High\\ \hline %ikke implementert
+F17 & Configurable 3D view & High & High\\ \hline %user
+F18 & Automatic load and store of graph & Medium & High\\ \hline
+F19 & Create curvature for paths & High & High \\ \hline%auto
+F20 & Version control of input & Medium & High\\ \hline% user can restore previous version
+F21 & Detachable well panel & Medium & Medium\\ \hline %removed
+F22 & Fullscreen mode & Medium & Low\\ \hline %user
+%F23 & Evaluate and recommend future development in project & High & High\\ \hline %not done by system or anything, may be better suited somewhere else
+\end{tabular} 
 
 \subsection{Quality Requirements} \label{subsec:quality_requirements}
 \begin{tabular}{| l | p{5.9cm} | l | l |} \hline
 ID & Description & Prioritiziation & Complexity \\ \hline
 M1 & The module should be easy to integrate with other modules, and it should be easy to add more functionality. It should not take more than one working day to do this. & High & High \\ \hline
-U2 & The module should be intuitive and easy to understand and use. It should not take more than 3 hours to get through a tutorial than explain how to use it. & High & Medium \\ \hline
+U2 & The module should be intuitive and easy to understand and use. It should not take more than 3 hours to get through a tutorial or explain how to use it. & High & Medium \\ \hline
 \end{tabular}
 
+\newpage
 \section{Requirements Evolution} \label{sec:requirements_evolution}
-First meeting with customer (date)
-From the first meeting with the customer we got the following requirements:
+
+The customer had a very open mind on what the results of this project were to be. During meetings in the pre planning period, we got to understand why they wanted a new software, by seeing the drawbacks on the existing system. Due to the magnitude of the system in use, we had to choose spesific parts and narrow down the implementation we were to do. This was done through discussion and exchanging ideas, mostly by our team. The requirements were in other words as much defined by our group as the customer.
+
+A summary of the requirements evolution and a graph illustrating the evolution is shown in \ref{sec:requirements_evolution_summary}
+
+\subsection{Preplanning requirements} \label{sec:preplanning_requirementsevolution}
+Prior to sprint 1, we had multiple meetings with the customer. During these meetings we came up the following possible requirements: 
 \begin{itemize}
-    \item F5
-    \item F6
-    \item M1
-    \item U1
+    \item F1: Login
+    \item F2: Select module within page
+    \item F3: List well projects
+    \item F4: Choosing well
+    \item F5: Insert well path
+    \item F6: Visualize well path
+    \item F7: Distinction to end point targets
+    \item F8: Dividing path into segments
+    \item F9: Segment selection
+    \item F10: Adjustable targets
+    \item F11: Offline mode
+    \item F12: Insert geological data
+    \item F13: Insert operational data and show offset
+    \item M1: Modifiability
+    \item U1: Usability
 \end{itemize}
 
-Demonstration of current system by customer (date)
-From the demonstration of the current system in use by the oil industry we got the following requirements:
+\subsection{Sprint 1} \label{sec:sprint1_requirementsevolution}
+
+\subsubsection{Planned implementations}
+For sprint 1, we decided on the basics. Having a webpage where one could log in, select application and well, and also insert and view a well path, were what we set ourselves to do.
+
 \begin{itemize}
-    \item F2
-    \item F3
-    \item F4
-    \item F7
-    \item F8
-    \item F12
-    \item F13
-    \item F15
+    \item F1: Login
+    \item F2: Select module within page
+    \item F3: List well projects
+    \item F4: Choosing well
+    \item F5: Insert well path
+    \item F6: Visualize well path
 \end{itemize}
 
-Improvement meeting with customer (date)
-From a meeting with the customer about improvements to the system we got the following requirements:
+\subsubsection{New requirements}
+During sprint 1 as well with customer meeting post sprint 1,  we came up with some new ideas:
 \begin{itemize}
-    \item F1
-    \item F9
-    \item F10
-    \item F11
-    \item F14
+    \item F14: Export coordinates function
+    \item F15: Import path from other existing paths into GUI
+    \item F16: Warning if other paths intersects with the current one
+    \item F17: Configurable 3D view
+    \item F18: Automatic store and load of graph
+    \item F19: Create curvature for paths
+   % \item F23: Recommendations and thoughts on development
 \end{itemize}
 
-Sprint 1 (9. september - 27. september)
+\subsubsection{Deliverance}
+All planned implementations were successfully implemented during sprint 1. We were lucky enough not to run into any problems that wasn't solved within very short time. The requirements were delivered just in time.
+
+\subsection{Sprint 2} \label{sec:sprint2_requirementsevolution}
+
+\subsubsection{Removed requirements}
+\begin{itemize}
+    \item F8: Dividing path into segments \\
+    After seeing the usability of the zoom function, dividing path into segments seemed more obsolete, and was removed.
+    \item F9: Detailed segment view \\
+    Dependency F8 removed.
+    \item F10: Adjustable targets \\
+    The realization that adjusting targets in a 3D space would not be very intuitive made this requirement removed.
+    \item F11: Go offline mode \\
+    The workload associated with the requirement is too large to take on during this project. Instead we wanted to focus our efforts on making a good path graph.
+\end{itemize}
+
+\subsubsection{Planned implementations}
+
+\begin{itemize}
+    \item F7: End target points
+    \item F12: Insert geological data
+    \item F15: Import existing paths into current
+    \item F16: Warning if path intersects
+    \item F17: Configurable 3D view
+    \item F18: Automatic load and store of graph
+    \item F19: Path curvature
+\end{itemize}
+
+\subsubsection{Cancelled requirements}
+Due to the underestimated complexity of implementing the high priority requirement F19: Path curvature, we had to cancel some lower priority requirements:
+\begin{itemize}
+    \item F7: Distinction to end point targets
+    \item F12: Insert geological data
+    \item F15: Import existing paths into current
+\end{itemize}
+
+\subsubsection{New requirements}
+The following requirements emerged as good ideas during sprint 2.
+\begin{itemize}
+    \item F20: Version Control of path \\
+    During the implementation of saving path to database, we realized how useful it would be with version control of wellpath compared to it's complexity.
+    \item F21: Detachable well panel \\
+    Customer wish in post sprint 2 customer meeting.
+    \item F22: Fullscreen mode \\
+    Thought to be a visually beautiful feature, with low complexity.
+    
+\end{itemize}
+
+\subsubsection{Deliverance}
+At the end of sprint 2, we had only delivered 3 out of the planned 7 requirements. We had underestimated the complexity of implementing the math functions involved in making an optimal curvature, and the drawing of the points in 3D (F19). Also, struggling to implement storage of JSON-structures in the Django framework through AJAX-calls, caused further time to slip from our hands. In hindsight, estimations were closer to best case than average case scenarioes. In addition, it turned out to be a bad scenario instead of an average one.
+
+\subsection{Sprint 3} \label{sec:sprint3_requirementsevolution}
+
+\subsubsection{Planned implementations}
+
+\begin{itemize}
+    \item F19: Create curvature for paths
+    \item F20: Version Control of path
+    \item F21: Detachable well panel
+    \item F22: Fullscreen mode
+    %\item F23: Recommendations and thoughts on development
+\end{itemize}
+
+\subsubsection{Cancelled requirements}
+
+\begin{itemize}
+    \item F13 \\
+    Cancelled pre planning sprint 3 due to time restrictions
+    \item F14 \\
+    Cancelled pre planning sprint 3 due to time restrictions
+    \item F21: Detachable well panel \\
+    Having two browser windows that communicates instantly is not possible with plain Javascript and non-persistant HTTP connections to the server. A workaround by polling the server every x second seemed like a half-assed solution, and the proper solutions to technically heavy to implement. Thoughts on how to implement this requirement is presented in section \ref{sec:development}
+\end{itemize}
+
+\subsubsection{Deliverance}
 TODO
 
-Sprint 2 (9. september - 27. september)
-TODO
+\subsection{Summary} \label{sec:requirements_evolution_summary}
 
-Sprint 3 (21. october - 10. november)
-TODO
+\par As a team, new ideas were emerging all during the project. Due to the loose bounderies on the project and agile method, we planned only one sprint at a time and allowed ourselves to throw away certain requirements and focus on other ones in collaboration with the customer.
+\par In hindsight, we realize that both sprint 1 and sprint 2 were estimated optimistically. This went fine in sprint 1, but came back to bite us once we ran into problems in sprint 2. We also noticed how not reaching goals can act as a motivational blowback, and found out how overestimating the thought time to some degree can get you closer to an realistic estimation.
+\par Of the 22 requirements defined throughout the proejct, 12 were implemented and 10 removed. Some of the removed requirements are still good ideas for the software to-be, and we have therefore included thoughts and discussion on how they can be realized in chapter \ref{sec:development}
+\par For a visual presentation of the requirements evolution, see figure \ref{fig:evolution}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{evolution}
+    \caption{Requirements evolution. Requirements comes in to the Ideas column. From there they are moved to individual sprints, or decided not to be implemented (moved to removed). The bottom of each column within a sprint row tells what requirements they contained at the end of each sprint.}
+    \label{fig:evolution}
+\end{figure}
+
+
+
+
+
+
+\newpage
 \section{Use Cases} \label{sec:use_cases}
 This sections contains use case diagrams for our actors, and detailed textual use cases for these diagrams. 
 \subsection{Actors} \label{subsec:actors}
@@ -198,19 +353,76 @@ User:
     \item Completion Engineer
     \item Drilling Superintendent – read only access (normally) – not further described due to the low interface this role has towards the application(s)
 \end{enumerate}
+We have not had the time to implement these two users, so in our system we only have one kind of user, and we are operating with that in the use case diagrams.
 
 \subsection{Use Case Diagrams} \label{subsec:use_case_diagrams}
-TODO
+In this section we will show all our use case diagrams. We have only made use cases for the requirements that is done by a user.\\\\
+\textbf{Use case 1: Choose Well Path Project}\\
+\includegraphics{chooseproj} \\\\
+\textbf{Use case 2: Well Path Data}\\
+\includegraphics{wellpathimport} \\\\
+\textbf{Use case 3: Choose Configurable}\\
+\includegraphics{configurable} \\\\
+\textbf{Use case 4: Choose Version Control}\\
+\includegraphics{versioncont2} \\\\
+\textbf{Use case 5: Choose Fullscreen}\\
+\includegraphics{fullscreen} \\\\
 \subsection{Textual Use Cases} \label{subsec:textual_use_cases}
-TODO
-\section{User Stories} \label{sec:user_stories}
-TODO
+In this section we have the textual use cases that comes from the use case diagrams in section \ref{subsec:use_case_diagrams}.\\\\
+\textbf{Use case 1: Choose Well Path Project}\\
+\begin{tabular}{| p{2 cm} | p{9 cm}|} \hline
+Purpose & So the user can choose a well project to see or work with \\ \hline
+Precondition & Needs to have username and password  \\ \hline
+Step 1 & Log in with user name and password  \\ \hline
+Step 2 & Choose the rght module, Well path   \\ \hline
+Step 3 & Choose to see a list of well projects   \\ \hline
+Step 4 & Choose the right well project \\ \hline
+Comments &   \\ \hline
+\end{tabular}\\\\
+\textbf{Use case 2: Well Path Data}\\
+\begin{tabular}{| p{2 cm} | p{9 cm}|} \hline
+Purpose & So the user can insert, import or visualize well path data \\ \hline
+Precondition & Needs to be logged in. There must also exist well path data to import for the import-part  \\ \hline
+Step 1 & Insert well path data \\ \hline
+Step 2 & Import well path data \\ \hline
+Step 3 & Choose "Visualize well path"  \\ \hline 
+Comments & Step 1 and 2 can both be step 1 and 2, it is not necessary with both to visualize the well path. They can also be repeated several times and must be done by someone who is able to edit. \\ \hline %is this correct??
+\end{tabular}\\\\
+\textbf{Use case 3: Choose Configurable}\\
+\begin{tabular}{| p{2 cm} | p{9 cm}|} \hline
+Purpose & So the user can choose colors and opacity themselves \\ \hline
+Precondition & Needs to be logged in and be able to edit. Must have visualized the well path and imported well path data  \\ \hline % do they need to import well path data for this?
+Step 1 & Choose Configurable \\ \hline
+Step 2 & Choose color \\ \hline
+Step 3 & Choose opacity \\ \hline
+Comments & Step 2 and 3 can both be step 2 and 3 and it is not necessary with both or any of them. Can be repeated several times \\ \hline %is this correct??
+\end{tabular}\\\\
+\textbf{Use case 4: Choose Version Control}\\
+\begin{tabular}{| p{2 cm} | p{9 cm}|} \hline
+Purpose & So the user can go back and choose an earlier verison of the well path \\ \hline
+Precondition & Needs to be logged in and be able to edit. Must also have at least one previous version. \\ \hline 
+Step 1 & Choose Version control \\ \hline
+Step 2 & Choose Version to restore \\ \hline
+Comments & Step 2 is only necessary if they want to change version \\ \hline 
+\end{tabular}\\\\
+\textbf{Use case 5: Choose Fullscreen}\\
+\begin{tabular}{| p{2 cm} | p{9 cm}|} \hline
+Purpose & So the user can choose to see in fullscreen \\ \hline
+Precondition & Needs to be logged in and see a well path \\ \hline 
+Step 1 & Choose Fullscreen \\ \hline
+Comments &   \\ \hline 
+\end{tabular}\\\\
+
+\newpage%
+\section{User Stories} \label{sec:user_stories} %not really necessary since I have put everything in the earlier subsections
+
 
 
 
 \chapter{Planning} \label{cha:planning}
 In this chapter we will go over the administrative aspect of our project. We start off in \ref{sec:project_plan} with the project plan. Later we have \ref{sec:project_organization} our project organization. In the end of this chapter we have section \ref{sec:quality_assurance} about quality assurance while \ref{sec:risk_management} has our risk management table.
 
+\newpage
 \section{Project Plan} \label{sec:project_plan}
 In this section we  go through our project plan. \ref{subsec:measurement_of_project_effects} discusses how we, and others, measure the success of our project. Section \ref{subsec:limitations} talks about the limitations we have in our project, both technical and non-technical, while we in \ref{subsec:schedule_of_results} have our schedule of when we should have what results.
 \subsection{Measurement of project effects} \label{subsec:measurement_of_project_effects}
@@ -228,11 +440,24 @@ In this section we  go through our project plan. \ref{subsec:measurement_of_proj
 \textbf{Project team}\\
 \textbf{Technology:} Besides learning how to work in a large project with real customers, the project team is also very interested in learning more about the technology used like 
  
- %not finished
+
 \subsection{Limitations} \label{subsec:limitations}
-TODO
-Technical limitations
-Non-technical limitations
+This section will describe the technical and non-technical limitations identified in the project. This are constraints that we have to work around or find solusions to help mitigate their impact.
+
+\subsubsection{Technical Limitations}
+
+\emph{Authentic Test Data: } Data about oil wells are stored in a shared database that all oil companies are able to access. The goal of this is to keep an overview over where the wells are located so they can avoid drilling collision. We have unfortunatly not access to this database or authentic test data. 
+
+
+\subsubsection{Non-technical Limitations}
+
+\emph{Language Barrier: } While all team members are able make themselves understood in English, this is not the first language for any of us. Communication within the team and with the customer may therefore be slower and harder to interpret that usual. The report could also suffer from sections where our intensions is not properly communicated to the reader.
+
+\emph{Experience: } No team member have had any prior experience with 3D modeling, writing in LaTeX or working in the petroleum industry. A significant part of the project have to be delegated to learn and obtain the skills necessary.
+
+\emph{Time Constraint: } The project last for a duriation of 3 months. This dead line is a limitation we can not influence in any other way than to put in more hours if the progress is behind schedule. 
+
+
 
 \subsection{Schedule of Results} \label{subsec:schedule_of_results}
 21. August 2013: Project start and first meeting with the customer\\
@@ -268,7 +493,7 @@ Implementation &  &   &  &   &  \\ \hline
 3D config & 01.10.13 & 04.10.13  & 1.1-1.7 & 32  &  \\ \hline
 Save/Load & 01.10.13 & 09.10.13  & 2.1.1-2.3.3 & 42  &  \\ \hline
 Target types & 01.10.13 & 11.10.13  & 3.1-3.5 & 42  &  \\ \hline
-XYZ > MD & 15.10.13 & 25.10.13  & 4.1-4.5 & 58  &  \\ \hline
+XYZ to MD & 15.10.13 & 25.10.13  & 4.1-4.5 & 58  &  \\ \hline
 3D curvature & 14.10.13 & 24.10.13  & 5.1-5.7 & 64  &  \\ \hline
 Meeting &  &   &  &   &  \\ \hline
 Lecture &  &   &  &  0 & 0 \\ \hline
@@ -287,6 +512,7 @@ Lecture &  &   &  &  0 & 0 \\ \hline
 Total &  &   &  &  1300 &  \\ \hline
 \end{tabular}
 
+\newpage
 \section{Project Organization} \label{sec:project_organization}
 In this section we discuss how our project shouldd be organized. In \ref{subsec:project_org} we discuss the main rspnosibilities and roles that we have chosen and we also have an overview about who has what role.
 \subsection{Project Organization} \label{subsec:project_org}
@@ -329,6 +555,7 @@ Lead Programmer & Pawan Chamling Rai  \\ \hline
 Test Manager & Tomas Albertsen Fagerbekk  \\ \hline
 \end{tabular}
 
+\newpage
 \section{Quality Assurance} \label{sec:quality_assurance}
 In this chapter we discuss how to ensure the quality. In \ref{subsec:routines} we mention routines for ensuring the quality internally while we in \ref{subsec:phase_result} discuss how we will approve a phase. In \ref{subsec:procedure_cust_meet} and \ref{subsec:procedure_adv_meet} we discuss our procedure for customer and advisor meetings while we in \ref{subsec:doc_stand} talk about templates created and how to standardize code and file organization. In \ref{subsec:internal_reports} we talk about internal reports.
 
@@ -371,10 +598,9 @@ There were written a short summary after each time the the team members held an 
 \newgeometry{margin=2cm}
 \begin{landscape}
 
+\newpage
 \section{Risk Management} \label{sec:risk_management}
-% how to get it split into two pages??
-% Tintin: Have fixed it to become landscape. If you want to split the table in two tables, check out something called "longtable".
-%tina:think it looks good now :)
+
 \begin{longtable}{| p{3cm} | p{4cm}| l | l | p{3cm} | p{4cm}| p{4cm} |} \hline
 Risk & Description & Likelihood & Significance & Affected Area & Avoidance Plan & Mitigation Plan \\ \hline
 Sickness or no-show & Member is not available at critical time & High & Moderate & Deadlines and/or software functions & Stay healthy, good work-environment, give status updates & Delegate to another or work from home \\ \hline
@@ -398,13 +624,631 @@ Task not possible & Atask that is given is not possible to do & Low & Moderate &
 
 \chapter{Preliminary Study} \label{cha:preliminary_study}
 
+\section{Similar solutions}
 
+One of the main motivational factors for the customer to create a software like Wellvis was the lack of proper software solutions that fulfilled the requirements needed in the industry. During our brief research into similar solutions, we only found one potential competitor, TechDrill.
+
+\subsection{TechDrill}
+TechDrill\cite{website:techdrill} is all-in-one integrated drilling software. It has four different parts namely DSP-One, DDR-One, Octopus and AFE-One that are concentrated on well planning \& drilling operations, daily reporting, collaborative field development planning and automated calculations respectively. We attempted, but failed in retrieving a demo or test software from this company.
+We strongly recommend the customer to investigate further into this software, before make large decisions regarding the Wellvis project. 
+
+\newpage
+\section{Software Development Methodology}
+In this section we will describe about two of the most popular software development methodologies. In subsection \ref{sec:waterfall} we will discuss the waterfall model and in subsection \ref{sec:scrum} we will look at scrum.
+
+\subsection{Waterfall} \label{sec:waterfall}
+Waterfall model has been the most popular software development since 1970 when it was first defined. It is a sequential model where the output of each phase acts as the input for the next phase, allowing the process to move downstream like waterfall hence called waterfall model. The different phases, in the sequential order, are as follows
+
+\subsubsection{Requirement Specification}
+It involves gathering the information about what the customer needs and defining, as clearly as possible, the problem the solution is expected to solve. In addition it also includes the non-functional requirements.
+
+\subsubsection{Design}
+The requirements gathered in the requirement specification phase are evaluated and a proper implementation strategy is formulated according to the software environment. The goal here is to define the hardware and software architecture that would dictate most to the implementation phase. The design phase is further categorized into two sections, i.e. system design and component design. The system design contains details and specifications of the whole system and explains how each component of the system will interact with others. The component design contains specifications as to how each component will work separately and how results from one component will travel to another. For designing different software components different modeling languages/diagrams are used.
+
+\subsubsection{Implementation}
+Implementation phase is the time to actually start creating the components. Actual working parts of the system are created in this phase by applying the information gathered in the first two phases. The design generated in the design phase is converted into machine language that the computers can actually understand and process.
+
+\subsubsection{Integration}
+In this phase the different components from the Implementation phase are integrated to form a complete solution.
+
+\subsubsection{Testing}
+In this phase the software is checked for any errors or discrepancies. It actually starts right after the end of the implementation phase when the coding part is completed. Various different tools, software and strategies are used for testing the solution in order to make sure that it is error free.
+
+\subsubsection{Deployment}
+After the software is tested, the software is prepared for the installation/deployment. If the customer accepts the resulting software the product is installed into the customers' system. This is the phase where the customer can either accept or reject the resulting software. 
+
+\subsubsection{Maintenance}
+No software is completely bug free so a certain amount of time is required for the maintenance. Furthermore, with the passage of time, customers' requirements will also change and modification or additions will also be required. So maintenance is an ongoing process which may stretch from a month to several months or even more.
+
+\subsection{Scrum}\label{sec:scrum}
+Scrum is a agile project management framework which is often used when the requirements are developed incrementally and exist in a rapidly changing enviroment. The solusion is to deliver functional software at an early stage to the customer and evolve them as new requirements appear.
+
+Scrum consists of three main phases. The first is an outline planning phase where you establish the general objectives for the project and design the software architecture. This is followed by a series of sprint cycles, where each cycle develops an increment of the system. Finally, the project closure phase wraps up the project, completes required documentation (such as system help frames and user manuals), and assesses the lessions learned from the project.
+
+The innovative feature of Scrum is the sprint cycles in the central phase. A sprint is a planning unit in which the work to be done is assessed, features are selected for development and the software is implemented. At the end of a sprint, the completed functionality is delivered to stakeholders.
+
+The main idea is to to empower the team and let them make decisions as a group. Scrum deliberatly avoid using the term 'project manager'. Instead a 'Scrum master' is used to coordinate the development and have the responsibility to arrange daily meetings, track the backlog of work to be done, records decisions, measure progress against the backlog, and communicates with customers and management outside the team.
+
+The whole team attends daily meetings, which are somethimes 'stand-up' meetings to keep them short and focused. During the meeting, all team members share information, describe their progress, problems that have arisen, and their plan for the following day. This means that everyone on the team have a good overview of the current situation, and if problems arise, can replan short-term work to solve them. \cite[p. 72-74]{book:sommerville}
+
+
+\newpage
+\section{Project task management tools}
+
+Managing a software project involves many different aspects. We break down the requirements to smaller and more manageable tasks, both to track progress and to make the work easier to do. A method of doing this, is making a Work Breakdown Structure (WBS)[8002] that is a tree of the tasks that shows a hierarchical overview over the project[8001], and defines its scope. After creating a WBS, the tasks are then further specified with a time estimation and previous tasks it requires before it can be started, often in a project management tool. Having these, a Gant diagram[8003] is often made to find timing and ordering of the different tasks. 
+
+The purpose of doing project planning is manyfold. It makes it easier to know what to do, and that the requirements are covered. It simplifies task delegation and it provides the ability to say that we’re on, or behind schedule.
+
+In this section we will discuss popular project planning tools. In this section we evaluate the different candidates for project management tool for tasks, while in 4.3.2 we talk about other project tools for creating Gant diagrams, and WBS diagram.
+
+We found our candidates by searching for (scrum) project management tools. We noticed that the marked for this software hasn’t completely matured yet, and felt that the alternatives were almost too many, without clearly better candidates. The degree of payment methods, methods, and maturity were wide.
+
+Since this project is only over a few months, we wanted something that would be easy to learn, simple to use and get a status overview, and preferably free. Some functionality to be able to include it in our report was also wanted.
+
+We came up with the requirements that follows.
+
+\subsection{Requirements}\label{sec:project_managament_requirements}
+\begin{itemize}
+\item Free
+\item Group board for at least four users
+\item Task can be assigned a status
+\item Task can be assigned a priority
+\item Task can be assigned to a sprint / period
+\item Task can be assigned to user 
+\item Task can have attached files
+\item Task can be assigned a weight or time estimation
+\item Task can be assigned to a user story
+\item Task can have acceptance critera
+\item Can generate report to show burndown
+\item Can export what has been done
+\end{itemize}
+
+\newpage
+\subsection{Candidate: Trello}
+
+Trello\cite{website:trello} is a free and very simple task manager. You can create as many boards as you like, share them, and also add as many lists as you like in the boards. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{trello}
+    \caption{Trello is an easy to use task management tool.}  
+    \label{fig:trello}
+\end{figure}
+
+\subsubsection{Advantages}
+\begin{itemize}
+\item Very easy and simple to use
+\end{itemize}
+
+\subsubsection{Drawbacks}
+\begin{itemize}
+\item Does not have time estimation
+\item Does not have a sprint or project overview
+\item Does not have any report tools
+\item Can not have subtasks (assign tasks to user stories)
+\item Does not support priority (other than moving tasks up on list)
+\end{itemize}
+
+\newpage
+\subsection{Candidate: EasyBacklog}
+EasyBacklog\cite{website:easybacklog} fulfill most of the requirements. You can’t directly assign a task to a user, but you can assign a color to it. It also can’t attach files to tasks. On the other hand it has extra functionality such as creating a snapshot and comparing them. It can export the backlog to an excel file. It is easy to use and learn and is fitting for a small development team.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Easybacklog}
+    \caption{EasyBacklog's backlog is rich in information, but lacks ability to assign task to a person}  
+    \label{fig:Easybacklog}
+\end{figure}
+
+\subsubsection{Advantages}
+\begin{itemize}
+\item Can export backlog to excel file for reporting
+\item Can create a snapshot and compare between different statuses
+\item Easy to learn
+\end{itemize}
+
+\subsubsection{Drawbacks}
+\begin{itemize}
+\item Cannot assign task to user (assign color)
+\item Cannot assign tasks to stories
+\item Cannot add files
+\end{itemize}
+
+\newpage
+\subsection{Candidate: RallyDev}
+
+Rallydev\cite{website:rallydev} is free to use for projects less than 10 people. It’s a highly customizable tool, and has more functions that we need. Luckily, the views are simple enough to get a decent overview for the project. It satisfies all our requirements, though the reporting tool available in the free version is a bit weak.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{rallydev}
+    \caption{Rallydev provides a lot of information in an intuitive and user friendly way. Unfortunately the reporting tool isn't available in the free version of the software.}  
+    \label{fig:rallydev}
+\end{figure}
+
+\subsubsection{Advantages}
+\begin{itemize}
+\item User stories are easily moved between statuses and sprints
+\item The status board quickly lets you know the time estimate, status, assigned person and whether it’s blocked or discussed.
+\item Quick edit of multiple stories in the backlog
+\item Dashboard shows stories ready for acceptance and also blocks
+\end{itemize}
+
+\subsubsection{Drawbacks}
+\begin{itemize}
+\item Not a good overview over individual tasks within user stories
+\end{itemize}
+
+\newpage
+\subsection{Candidate: Pivotal Tracker}
+Pivotaltracker\cite{website:pivotaltracker} is free for public projects. It has nice reviews, and satisfies all the requirements we have set up. The use is simple and intuitive, and it has good reporting tools for showing what has been done within a given period. Epics show the progress on individual sprints in a nice way. Estimated hours, assigned person and status of individual tasks can be seen in the overview panel.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pivotal_tracker}
+    \caption{Pivotal Tracker allows integration with github, and has decent reporting tools}  
+    \label{fig:pivotal_tracker}
+\end{figure}
+
+\subsubsection{Advantages}
+\begin{itemize}
+\item The status boards are easy to understand and use.
+\item Easy overview over sprint status
+\item Reporting tools are the best we’ve seen.
+\item Possibilities for integration with github 
+\end{itemize}
+
+\subsubsection{Drawbacks}
+\begin{itemize}
+\item Requires project to be public in order to be free.
+\item Not a good overview over individual tasks within user stories
+\end{itemize}
+
+\newpage
+\section{Illustrative drawing tools}
+
+In a software development projects, drawing tools are commonly used to illustrate the planned system through diagrams, models and graphs. These can be ER-models for databases, UML-diagrams (class-diagrams and float charts) to describe how a system works, mockups or wireframing to draw prototype interfaces. While most drawing tools can do this with enough time and effort, we wanted to use as few tools as possible, doing all of these as easy as possible, while not spending any or much money. 
+The differences are summarized in table \ref{tab:illustrative_planning_summary}
+
+\subsection{Microsoft Visio}
+We chose to first look at Microsoft Visio\cite{website:microsoft_visio}. With a price range starting at 3 099 kr, it is not really a viable option, but it does provide us with a good standard to measure against. Microsoft Visio was introduced in 1992\cite{website:visio_wiki}, and is well established with great reviews\cite{website:visio_review}\cite{website:visio_review2}. 
+Figure \ref{fig:visio_example} shows an example chart in the program.
+
+\subsection{LucidChart}
+LucidChart\cite{website:lucidchart} was referenced in a lot of articles and user comments as the best free alternative to Visio\cite{website:visio_alternatives}. Our impression from their demo page was gave us the impression that this was a good all-round software that would satisfy all our needs. It also have the possiblity to collaborate with others in real time. Unfortunately, the product has become a pay-to-use software ranging from 5 to 25\$ per month.
+
+\subsection{Balsamiq}
+Balsamiq\cite{website:balsamiq} is a wireframing tool to mockup prototypes. It is profesionally made, and has a much richer variety of figures for interface mockups than draw.io. However, the scope for this software is noticeably smaller. It is clearly not ment to be used for other areas than for interface mockups. It has a downloadable free version, while the web version costs money. 
+Figure \ref{fig:balsamiq} shows an example chart in the program.
+
+\subsection{draw.io}
+draw.io\cite{website:draw_io} is a free web application that deliveres an intuitive drawing tool. It's has a rich span of different figures that makes it eligible for making class diagrams, flow charts, use-case diagrams, UML diagrams, ER-diagrams and interface mockups. The user interface is very simplistic, but at the same time has functionality for integrating with Atlassian Wiki, Google Drive and Google Apps for business.
+Figure \ref{fig:drawio} shows an example chart in the program.
+
+\begin{table}
+    \centering
+    \begin{tabular}
+        {c|ccccl} 
+        Name & UML & ER & Mockup & Price\\ \hline
+        Visio & Yes (great) & Yes (great) & Some & 3 099 kr\\
+        LucidChart & Very (great) & Very good & Yes & 9.95 \& / month\\
+        Balsamiq & No & No & Very good & 79 \& \\
+        draw.io & Yes & Some & Some & Free \\ 
+    \end{tabular}
+\label{tab:illustrative_planning_summary} 
+\caption{Summary of diagram type support and price for different drawing tools}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{visio_example}
+    \caption{Microsoft Visio can be applied to many types of charts and diagrams. Above an example for organization chart.}
+    \label{fig:visio_example}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{balsamiq}
+    \caption{Balsamiq is a great program for making interface mockups. Unfortunately, it lacks good figures for drawing other types of diagrams.}
+    \label{fig:balsamiq}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{drawio}
+    \caption{The free online drawing tool draw.io\cite{website:draw_io} does a great job competing against the pay-to-use solutions}
+    \label{fig:drawio}
+\end{figure}
+
+\newpage
+\section{Version Control}
+Version control systems (VCS) are software that records changes to a set of files over time. This allows you to both see the speed of the project, see who made what changes and restore specific versions at a later point. Compared to copying files into a backup directory (which is a common alternative to using a VCS), version control systems are faster, less space consuming and easier to handle, and makes it simpler to ensure consistency over a number of different computers\cite{website:whats_versioncontrol}.\\ 
+
+One of the main arguments for using VCS comes up when one collaborates in a distributed team. Say Anna pulls down files A to her computer and changes them to A1. While Anna changes these files, Björn downloads the same files A, and changes them to A2. If Anna now updates the server with A1, we have a risk that Björn will override these changes when uploading A2 to the server. VCS prevents this by forcing Björn to incorporate Annas changes A1 into his files before being allowed to upload them to the server. \\
+
+In this chapter, we will discuss the three most popular VCS. In section \ref{sec:svn}, we will look at an older and more traditional VCS, SVN. In \ref{sec:git}, we will look at the currently most used one, Git, before we look at a comparable alternative, Mercurial, in section \ref{sec:mercurial}.
+
+\subsection{SVN}  \label{sec:svn}
+SVN or Apache Subversion\cite{website:svn} which is it's full name, is a centralized version control system initially released in 2000\cite{website:svn_wiki} based on Concurrent Versions System (1990)\cite{website:cvn_wiki}. SVN saves space by saving deltas (changes) between versions instead of whole files. However, different versions and \emph{branches} of the repository is stored as files and folders, making a SVN tree potentially messy.
+
+\subsubsection{SVN key points}
+
+\begin{itemize}
+\item Full revision history of files
+\item Centralized
+\item Reduced space usage
+\item One point of failure (server)
+\item Messy file structure
+\end{itemize}
+
+\subsection{Git} \label{sec:git}
+
+Developed by Linus Torvalds, the distributed version control system Git\cite{website:git} has become a rising star after it's release in 2005\cite{website:git_history}. Compared to SVN, it's more complex and can take a little longer to get comfortable with. However, the web interface tool Github\cite{website:github} has both guides and community that should help you getting started. The advantages compared to SVN are several. Not only is Git faster and significantly smaller in size, but each copy is a redundant standalone with complete history making it much less vulnerable to data loss\cite{website:git_vs_svn}. In addition, git has a branching feature that makes it easy to implement continous integration\cite{website:continous_integration}  \\  \\
+Github also speaks in favour of Git, by providing \emph{service hooks} to update different project management tools or programs\cite{website:git_servicehooks}, as well as a great visual navigation of a repository.
+
+\subsubsection{Git key points}
+
+\begin{itemize}
+\item Complete version control
+\item Distributed
+\item Quick 
+\item Very efficient space usage 
+\item Integration with a range of project management tools 
+\item Great complementing tools (Github)
+\item Flexible
+\end{itemize}
+
+\subsection{Mercurial}  \label{sec:mercurial}
+Like Git, Mercurial\cite{website:mercurial} (2005) is a distributed version control system with major improvements over SVN. Where Git is purely written in C, Mercurial is implemented in Python with a C extension for the heavy lifting\cite{website:importantshock_git_vs_mercurial}. This has a negative effect on performance, though quite small. The main difference compared to git is its different philosophy when it comes to history. Mercury philosophy is that "History is permanent and sacred" and as such only allow you to undo the last pull or commit\cite{website_git_vs_mercurial}. Git on the other hand, allows you to do \verb|anything| to the history, including changing history as well as reverting to the point before you changed the history\cite{website:mercurial_vs_git}. As such, Mercury is more safe to "play around with" if you're not quite sure what you're doing, while Git allows you to do more if you know what you're doing. This user friendliness is also emphasized by Mercurials GUI options\cite{website:git_vs_mercurial}.
+
+\subsubsection{Mercurial key poitns}
+
+\begin{itemize}
+\item Complete version control
+\item Distributed
+\item Quick 
+\item Efficient space usage 
+\item Easy to learn, SVN-like commands
+\item Better GUI support
+\item Rigid 
+\end{itemize}
+
+\newpage
+\section{Programming languages}
+In order to select candidates for which programming language to base our project on, we looked at the current experience of our group members (see table \ref{tab:programming_languages}). In addition to having some prior experience with the programming language, we have decided to evaluate a programming language in these different ways. 
+
+\begin{itemize}
+\item Performance: How quickly does a program in the given language run? 
+\item Development time: How quickly can you develop a program?
+\item Tools: Is there developed good, mature tools in the languages?
+\item Popularity: Is the language rising or declining in popularity? 
+\item Web suitability: Is the language suitable for web development?
+\end{itemize}
+
+\subsubsection{Performance and development time}
+Performance, while never being a bad thing, is often negatively correlated with development time\cite{website:programming_speed}. Figure \ref{fig:size-vs-speed} illustrates this by showing the runtime and code size of 13 different implementations in Python, C, C++, C\#, Java, Ruby, PHP, Javascript. In our project, we will focus on illustrating the possiblities of well path 3d modelling, which is will not be especially computionally heavy, as it's only serving relatively small amount of data through a webpage. Hence, short development time is significantly more important for us than performance. Further thoughts on possible performance bottlenecks for the future product can be found in section  \label{sec:further_dev}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{size-vs-speed}
+    \caption{Speed and size of different languages\cite{website:the_computer_lang_benchmark_game}. Higher value on x-axis relates to longer runtime (lower performance), while y-axis relates to code size.}
+    \label{fig:size-vs-speed}
+\end{figure}
+
+\subsubsection{Tools and Popularity}
+The popularity of and community around a programming language is of vital importance. There are many reasons to this: bugs usually don't lay dorment. Tools and different uses of the language is being developed. The ease of which to find good resources online, as well as programmers to further develop your project. We're willing to take the bold statement that popularity is of more importance than the qualitative qualities of the language itself.
+Since the Wellvis project has a long time horizon, we have used the TIOBE Programming Community Index\cite{website:proglang_popularity_2} (see figure) and LangPop\cite{website:proglang_popularity} to evaluate the development of language popularity over time. This could be a good indication of how relevant the languages are in 5-10 years time.
+
+\subsubsection{Web suitability}
+The customers wish for a platform independant software, and the trend for putting applications in the cloud makes web suitability an important aspect. Different programming languages usually have different areas where they excel, and as such might not be equally suited for developing web applications.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{tiobe_index}
+    \caption{The TIOBE index\cite{website:proglang_popularity_2} shows the popularity of different programming languages based on web search results over time.}
+    \label{fig:tiobe_index}
+\end{figure}
+
+\subsection{C and C++}
+C is probably the most influential and commonly used programming languages of all time\cite{website:proglang_popularity}\cite{website:proglang_popularity_2}. It's a low-level language with high performance, meaning it should be considered for computionally heavy operations. \\
+Developed around 1980\cite{reference} C++ is basically an extended version of C. It is similarily very fast, though also comprises of high-level language features such as classes and exception handling. This shortens the implementation time compared to C, but is still somewhat slow to program in. The benchmark (fig \ref{fig:size-vs-speed}) illustrates this for both C and C++ by having a consistenty low run time (far left on x-axis) with the price of large code size (far up on the y-axis). \\
+Due to the fact that these are low level languages, the tools are usually related to computionally heavy tasks and crunching numbers. There exists C++ web framework, but they are not plentyfold, and the community around them are rather small. Popularity for these languages are declining, from a combined 35 \% to 26 \% since 2002.
+\begin{itemize}
+\item Great performance
+\item Long development time
+\item Very popular, but declining
+\item Great for computionally heavy tasks
+\item Limited web relevance 
+\item Low experience within group
+\end{itemize}
+\subsection{C\# and Java}
+Strongly influenced by C and C++, C\# is a popular programming language developed by Microsoft.\cite{reference}. Naturally, it's easily embedded in Microsoft environments. C\# is very similar to Java, both in performance, tools, usage and especially syntax. Figure \ref{fig:size-vs-speed} shows C\# falling a bit behind in performance, but not by a large margin. It would be probable that this is due to the long standing popularity of Java, that gives Java a head start in optimalizing compiler performance. Development time is slightly shorter compared with C and C++, and performance somewhat lower. Popularity is decreasing from Java, from 26 \% to 16 \% since 2002, while C\# has had a steady increase from 1 \% to 6 \%. 
+\begin{itemize}
+\item Good performance
+\item Long development time
+\item Java: Very popular, but declining
+\item C\#: Popular, increasing
+\item Much experience within group
+\end{itemize}
+\subsection{Python and Ruby}
+Ruby and Python are two interpreted, dynamically typed languages. The popularity of the Ruby language increased greatly with the release of Ruby on Rails, a popular web framework released in 2008 and is currently in use by large sites such as Twitter and Github \cite{website:ruby_on_rails}. Similarily, Python has a popular web frameworks\cite{website:python_frameworks}. They both have short development time, but pays for this with their low performance due to their dynamic nature (as indicated by figure \ref{fig:size-vs-speed}). Both languages can though be extended with C, C++ and Java and as such eliminate bottlenecks in computionally heavy parts by rewriting code in the appropriate language. Both Python and Ruby have had a decent increase in popularity since 2002, from 0.25 \%  and 1.3\% to 1.5 \%  and 3.5 \% respectively.
+\begin{itemize}
+\item Lower performance
+\item Open source
+\item Popular advanced frameworks
+\item Extendable to C, C++, Java
+\end{itemize}
+
+\subsection{JavaScript}
+According to w3schools\cite{website:w3schools_js}, JavaScript is the worlds most popular programming language. Whether or not that is true, we won't say, but it's certainly the case that it's being used on almost every single modern web page. It has also gained a lot of traction after the popularization of HTML5 and Apple subsequently posting their Thoughts on Flash\cite{website:thoughts_on_flash} in 2010, describing Flash as lackful and stating that several Apple devices would no longer support it. While the TIOBE index doesn't show a markant increase in JavaScript popularity, it is widely acknowleged that JavaScript is the web programming language for the decade to come, and will replace Java Applets and Flash in the web browser\cite{website:js_wins1}\cite{website:js_wins2}\cite{website:js_wins3}\cite{website:js_wins4}.
+\begin{itemize}
+\item Platform independant
+\item Can be used for client and server side purposes
+\item Access to hardware graphics through HTML5
+\end{itemize}
+
+\subsection{PHP}
+PHP is by far the most popular language for web development\cite{website:php_python_ruby}. Many user-friendly and popular content management systems, like Wordspress, Drupal and Joomla has been developed in it. That being said, PHP has been criticized for difficult debugging, and a non-conform way of doing things, claiming it to be potentially messy when the projects reach a certain size. and hard to pick up other peoples projects\cite{website:}
+\begin{itemize}
+\item Potentially messy 
+\item Lower performance
+\item Open source
+\item Extendable to C, C++, Java
+\end{itemize}
+\subsection{Other languages}
+Even though there is familiarity with the languages within the group, ActionScript, objective C, JSP and SQL has not been evaluated as thoroughly. The reason for this is the different nature of these languages. SQL is a database query language only egible for database related tasks. Actionscript (shortned AS in table \ref{tab:programming_languages}) is a dialect of ECMAscript focused towards Adobe Flash, and is in our opinion a non-viable option (any longer) in client-side graphics emulation. JSP is a lightweight version of Java to dynamically create webpages, and has been excluded due to it's simplicity. Objective C has simply been excluded due to the lack of experience with it within the group. It should be noted that it is a good option, ranking high on TIOBE index, gaining much popularity the last few years with web frameworks such as Typhoon\cite{website:typhoon} and Frothkit\cite{website:frothkit}.\\
+\begin{table}[H]
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|}  \hline
+& Java & Python & C\# & C/C++ & obj-C & AS & JS & JSP & PHP & SQL & Ruby \\ \hline 
+Tomas &\cellcolor{green!25} &\cellcolor{green!25} &\cellcolor{green!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{green!25} &\cellcolor{yellow!25} &\cellcolor{red!25}&\cellcolor{green!25}  &\cellcolor{red!25} \\ 
+Tintin &\cellcolor{green!25} &\cellcolor{yellow!25} &\cellcolor{green!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{green!25} &\cellcolor{green!25} &\cellcolor{yellow!25} &\cellcolor{green!25} &\cellcolor{green!25} &\cellcolor{yellow!25} \\ 
+Tina &\cellcolor{green!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{yellow!25} &\cellcolor{red!25}&\cellcolor{green!25}  &\cellcolor{red!25} \\ 
+Pawan &\cellcolor{green!25} &\cellcolor{yellow!25} &\cellcolor{red!25} &\cellcolor{yellow!25} &\cellcolor{red!25} &\cellcolor{red!25} &\cellcolor{green!25} &\cellcolor{yellow!25} &\cellcolor{red!25}& \cellcolor{green!25}  &\cellcolor{red!25} \\ 
+  \hline
+\end{tabular}
+\begin{tabular}{ll} % this is just used for spacing between the other tabulars
+& 
+\end{tabular} 
+\\
+\begin{tabular}{ll}
+\cellcolor{green!25} & Know well or have used recently \\
+\cellcolor{yellow!25} & Have some limited knowledge of \\
+\cellcolor{red!25} & Have never used before \\ 
+\end{tabular}
+\label{tab:programming_languages}
+\caption{The groups familiarity with different programming languages.}
+\end{table}
+\section{Parsers and libraries}
+
+\subsection{WebGL Frameworks}
+Making the application interface in a web browser is a very strong candidate for this project. If we end up doing this, using WebGL to render the well graphics is implicit simply due to the standarisation of web technologies. WebGL is a low level API for creating 3D graphics in the browser\cite{website:webgl_opengl}. Due to this, we would use a Javascript WebGL framework to generate the code. Compared to the alternatives, using WebGL with a Javascript framework has several advantages:
+
+\begin{itemize}
+\item A framework gives much faster development.
+\item All major browsers support JavaScript and WebGL (platform independent). 
+\item The technologies has become popular the last few years.
+\item WebGL is expected to be a popular standard for decently long period of time (longevity). 
+\end{itemize}
+
+We can with this develop graphically rich programs easily with JavaScript as our client-side scripting language. The one major drawback with using WebGL frameworks s that the technology is immature. The current shift going from Flash and Java Applets to WebGL for web-based applications is in it's childhood. There's therefore a lot of experimenting going on, which means that there is a great possibility that the code we write will be outdated within only a couple of years. We do not consider this to be a huge flaw, as the pure WebGL code can be extracted from the code in the framework, however we would like to minimize the risk of this being necessary. TO do this, we wanted the best established framework, with the most stable version available. We also considered that a large community around the framework would be a good indicator of it being continously developed, and therefore be a good choice in the long run. 
+
+\subsubsection{Requirements}
+\begin{itemize}
+\item Detailed documentation
+\item Good tutorials
+\item Variety of demos/examples
+\item Large support groups/communities
+\end{itemize}
+
+The candidates for framworks is plentyfold. As per november 2013, 36 different frameworks were listed on the official wiki\cite{website:webgl_frameworks}.  We chose the following 3 candidates for comparison:
+
+\subsubsection{Candidate: Babylon.js}
+Babylon.js\cite{website:babylon} has a really nice demos with very rich graphics. The examples are nice and interactive. However, the tutorials and documentation seems lacking, and there is limited community activity around it. In addition, one of the demos seems bugged in Chrome on OS X 10.7 (see figure \ref{fig:babylon.js}) \\ \\ 
+Googling "babylon.js" yields about 10 000 results as per september 2013
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{babylon}
+    \caption{One of the demos at the main page of Babylon.js seemed bugged.}
+    \label{fig:babylon.js}
+\end{figure}
+
+\subsubsection{Candidate: Canvas 3D JS Library (c3dapi.js)}
+Canvas 3D JS\cite{website:c3dl} is another framework for 3D modelling which lacked proper tutorials. In fact the tutorial it provides is the only tutorial so far and it’s not very easy to understand. It got complicated on the tutorial on how to use the camera settings and lighting effects. Even though it's not a special requirement for our project, most demos seemed to have some performance issues on one of our computers, even on simple demos (see figure \ref{fig:canvas_astroid}. We consider this a flaw that might prevent it from gaining popularity and as such not be in development a few years from now.\\ \\ 
+Googling "canvas 3d js" yields about 28 000 results as per september 2013
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{canvas_astroid}
+    \caption{A simple astroid demo used on the homepage of Canvas 3D JS. This one, and other demos, had performance issues even though they seemed relatively simple.}
+    \label{fig:canvas_astroid}
+\end{figure}
+
+\subsubsection{Candidate: THREE.js}
+Three.js\cite{website:three} had a really large set of examples (see figure \ref{fig:three.js}) and a lot of tutorials. Documentation was great, and it’s widely used. The livelihood in community around it and amount of help offered on the internet, makes us think that this library will still be used in many years to come.\\ \\ 
+Googling "three.js" yields about 430 000 results as per september 2013.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{three}
+    \caption{THREE had a variety of great demos than ran smoothly on their homepage.}
+    \label{fig:three.js}
+\end{figure}
+
+\newpage
+\subsection{jQuery}
+
+Since its apperance in 1995\cite{website:javascript_history}, JavaScript has become \emph{the} programming language for web pages and browsers\cite{website:javascript}. While it is in itself a high level language, the amount it is being used in has created fertile grounds for Javascript libraries to spire.
+In this section, we'll present a library to make JavaScript even simpler and faster to write, namely jQuery\\
+
+jQuery\cite{website:jquery} has become a defacto library to simplify client-side JavaScript. It masks the different handling of different browsers, and simplifies writing JavaScript by a large margin. It’s used by almost 70 percent of the top 10k webpages\cite{website:builtwith_jquery}, and team members are already familiar with the it. The library is a bit heavy, and when making small or lightweight web applications (for example for mobile phones), alternatives should be considered. However, for this project, we’re confident in choosing this tool without looking into alternatives.
+
+\subsection{CSS and visual libraries}
+In this section we will look at different tools to simplify front end development. The purpose of these tools is to provide simple, beautiful elements, css-styles and small javascript snippets to help you make a mobile-friendly and nice looking webpage with minimal amount of effort. These sort of tools has not been common for long, but had a rapid increase in usage the last year or so. 
+\subsubsection{Foundation}
+Foundation is a frontend visual framework for enabling quick and consistent creation of web page layout\cite{website:zurb}. Other than standard features like forms, buttons and dropdowns it has cool features like enhanced tooltips, image galleries, form validation and a neat little thing called Joyride, which gives you a tour of the site. Foundationss usage is still small, but has been increasing from about 0.01 \% to 0.1 \% in the last 6 months\cite{website:foundation_usage}.
+\subsubsection{Twitter Bootstrap}
+Twitter Bootstrap is the \emph{big brother}, or the least small brother rather, in this category of tools. While it doesn't really have any functionality outside the basic elements, the community around Bootstrap provides several hundred extensions so you can create many types of beautiful elements without being a designer. It is well tested and the most popular tool of this type we could find. Twitter Bootstrap has a 500 \%  increased usage the last 6 months, now being used by about 4 \% of the top 10 000 most visited web sites\cite{website:bootstrap_trend}.
+\subsubsection{HTML Kickstart}
+HTML Kickstart\cite{website:kickstart} has more or less the same visual elements as Twitter Bootstrap, perhaps with a slightly smaller size of options. It also got a few helper features such as adding .first and .last to list items. In our opinion, HTML Kickstart elements are especially beautiful.
+
+\newpage
+\section{Web frameworks}
+Unless one is creating a very small or very special application, frameworks are in most cases a must-have. They provide a general skeleton that can simplify security, user- and access-management, databases, even GUI. It also often gives you a rough sketch for the file structure of the application, which makes it easier for other to take over the project when you’re done. It’s a jungle of frameworks out there, that can handle near-to-nothing to nearly everything. \\ 
+
+Using a Web Framework for this project is an obvious choice. It allows us to focus our time on the functionality of the application, not the potentially large overhead of server configuration, protection against misuse, database choices and setup. Also, our codebase at the end of the project will be easier to understand and continue to use. 
+Under are the candidates we considered for python web development.
+
+\subsection{Django}
+Django calls itself “the web framework for perfectionists with deadlines”. It was originally made in 2004 for newspaper sites, and make pages quickly\cite{website:django}. This is reflected in that Django has a complete user-friendly admin interface delivered right of the bat. It is also centered around the idea of separated applications within the whole web page. It is a rather heavy framework, which allows programmers to easily get into it, but not as easily run the show. Django is centered around the logic and backend (model and controller in MVC), but does not impose any restrictions, nor help with frontend like HTML5 and JavaScript. Django has a dynamic database API that allows you to easily migrate between different DB solutions and integrated test framework that allows you to easily run tests. It also has really good documentation and a large community.
+
+\subsection{Flask}
+Flask is a very simple and lightweight python framework\cite{website:flask}. Its core is small, but there is possibilities to extend this to enhance its features. Flask doesn’t come bundled with other libraries, and may such be seen as both more configurable and free, but at the same time more time consuming to start up with (before you get the good stuff). 
+
+\subsection{Pylons}
+Pylons is a collection of web related technologies currently in development. It has released the Pyramid web framework, which uses python language\cite{website:pylons}. It makes extensive use of WSGI(web server gateway interface) standards to promote reusability and to separate functionality into distinct modules. It is also strongly influenced by Ruby on Rails. Pylons have multiple database support and is very good for complex sites. Pylons makes it easy to pick components like URL router, ORM, template system etc, and plug them together. But then there is not so much flexibility to reuse applications. Pylons has a high learning curve and it takes time to get something to work well in pylons. Unfortunately, there is not so much documentation on pylons as there is on other python frameworks.
+
+\newpage
+\section{Unit testing frameworks}
+Using unit testing is not something that goes without saying that we would use in a project as small as ours. It requires a good chunk of time, and can feel like a waste of time. Especially for relatively inexperienced programmers like ourselves, which has yet to feel the crackles of a large project about to fall over our heads. However, since the aim of this project is to become a start, or if we’re being ambitious, the first cornerstone of a rather comprehensive software suite, we think it’s beneficial for the customer that this first stone be a solid one. It it also a valuable experience for the team members that have not been through this before.
+
+\subsection{Unittest}
+For Python version 2.1 and newer, the unittest library is the standard testing module\cite{webcite:unittest}. It works pretty much the same as testing in any other programming language: Classes are derived from unittest.TestCase, and tests are run as assert variable == expected\_value. \\
+
+Django is already delivered with unittest set up, so that one easily can run all test cases within the project (or individual application) with a single line of code. Django will then set up a temporary test-database for the test run, making sure no data is actually created or deleted from the original database. This allows tests to be run in production environment without much hassle.
+
+\subsection{Pytest}
+Pytest\cite{website:pytest} is a library thats simple, great and makes it easy to write tests. No need to extend from TestClasses and has no external dependencies. This seems like a very “clean” way of testing, with possibility to use test-databases. All in all, it seems like a slightly tweaked or better version of unittest.py.
+
+\subsection{Selenium}
+Selenium\cite{website:selenium} is a type of test tool that runs the (web) application interactively in the web browser. Where the other test tools verifies that program methods works as they are suppose too, by sending python parameters in and evaluating it’s output, Selenium has a more abstract/grand testing. It will open a given webpage with a given browser, and do the tests within the browser. This allows you to do tests that both check JavaScript and other frontend elements, compatibility against browser version and basically do automatic, reliable user testing, without the actual user. It checks, clicks and interacts with DOM element based on xpath. A possible result is that the tests from early development can be prone to break later, if the HTML elements change too much\cite{website:django_doctest}.
+
+\subsection{Doctest}
+Doctest\cite{website:doctest} is a very simple form of writing simple tests within the inline documentation in the python code. This can make the code look more messy, especially with test methods that require a lot of setup. On the other hand, this will connect documentation and testing along with the code, and work as a reminder to do these things. It can also make it easier to understand the code for future developers, since they’re all located at the same place. 
+Just like unittest, doctest is also integrated with django, making it easier to run and verify the tests.
+
+\newpage
+\section{User documentation tools}
+We wish to use a documentation tool in order to extract inline documentation from the sourcecode out into a more readable format. The motivation for this is being able to ensure consistency between those two locations of documentation, as well as saving time.
+\subsection{Djangos admindocs}
+Django comes integrated with an app called admindocs\cite{website:django_admindocs} that automatically pulls documentation from docstrings of models, view, template tags and filters from application within the framework and dumps this to an HTML file. Simple markup within the documentation can create hyperlinks to other parts within django.
+\begin{itemize}
+\item Simple
+\item Automatically integrated with Django
+\end{itemize}
+\subsection{PyDoc}
+PyDoc  is  a  simple  doc-generator  included  by  standard  with  Python  installations\cite{website:pydoc}. Creates  a simple, clean HTML file for document, based on doc-strings within the code. 
+\begin{itemize}
+\item Simple
+\item Python standard
+\end{itemize}
+
+\subsection{Doxygen}
+Doxygen is a multi-language doc generator, with a large set of possible outputs-formats\cite{website:doxygen}. Can even create a graph to graphically represent the interactivity between the different classes. 
+\begin{itemize}
+\item Requires more time to use
+\item Advanced features
+\item Graphical representation of class interaction
+\end{itemize}
+\subsection{Sphinx}
+Sphinx\cite{website:sphinx} is a tool that makes it easy to create intelligent and beautiful documentation, and is the tool used for documenting Python v3.3.3. It can export documentation to many formats: PDF, LaTeX, HTML, man pages and plain text. 
+
+\begin{itemize}
+\item Requires more time to use
+\item Advanced features
+\item Several export formats
+\end{itemize}
+\newpage
+\section{Integrated Development Environments}
+
+\subsection{VIM}
+Vim\cite{website:vim} is a simple, old school, yet powerful text editor that can be set up as IDE. Primarily used from the command line, but GUI versions are also available. Popular in some circles, has a lot of community around it, but requires a lot of time to master. We do not recommend any members that does not have previous experience with vim to start with it during this project, due to the limited time frame and high user threshold.
+
+\subsection{Sublime Text}
+Sublime Text\cite{website:sublime_text} is a simple, yet powerful graphical text editor. Popular, with a lot of available plugins to help or simplify programming. For example, SublimeLinter can help you write PEP8. Is in it’s original form just a simple text editor, and it might take some time to enjoy it’s full potential in it’s vast amounts of additional modules. 
+
+\subsection{Eclipse}
+Eclipse\cite{website:eclipse} is a full IDE that most team members are familiar with from previous subjects. It requires some setup to integrate with Git, but provides a very rich environment. Hated by some, loved by others. 
+
+\subsection{PyCharm}
+PyCharm\cite{website:pycharm} is a full IDE in the sense of Eclipse and similar, with autocompletion and refactoring. It is somewhat simpler than Eclipse, so that the setup is less hassle. It is already delivered with easy-to-use git integration, but is unfortunately a pay-to-use product. Can be used as a 30 day free trial for those that are interested, but is pay to use after that.
+
+\newpage
+\section{Evaluation and Conclusions}
+\subsection{Software development methodology}
+The project is very loosely defined and the customer has no hard requirements. To the contriary, we were encouraged to come up with ideas as we went along and do what we thought would be best. This dynamic sort of developing is a very good fit for an agile methodology like Scrum, and similarily a poor one for the waterfall method.
+
+For this reason, we went for scrum.
+
+\subsection{Project task management tools}
+For project task management tool, we decided to use Pivotal tracker. There was two main selling points. It’s automatic generation of work reports from a given time period minimizes our time spent documenting the progress of the project, and lets us focus on work with the software itself. The fact that it also supported service hook integration with github simplifies the connection between task and code, and serves as another form for online documentation.
+The only potential obstacle with the tool, is that it has to be a public project. However, this was not an issue with our customer.
+
+\subsection{Illustrative drawing tools}
+We chose to use draw.io for illustration purposes. The main argument for this was that is was free, and had decent all-round capabilities that served all of our needs. Since one of our group members already had Microsoft Visio installed, he also used that for some illustrations.
+\subsection{Version control}
+Git was easily superior to SVN due to both functionality, and quantitative measures such as space usage and speed. Compared to Mercurial, we have not found hard objective arguments for choosing one or the other. Instead we went for Git due to our prior, positive experiences with git and the complementing web service, github.
+\subsection{Programming languages}
+We got our eyes on Python and Ruby with complementing JavaScript quite early. Javascript for the exciting development that happens in that area at this time, and the high probability that it will continue to be the dominent technology for web graphics. For Ruby and Python, a reason was the project directive to get our ideas out of our heads into prototypes and as such wanting low implementation time, which eliminated C, C++ and to some degree Java and C\#. Also, it was important that our code was easy to understand, so the product could be developed further by others. This made PHP a less lucerative choice. The choice came down between Ruby and Python. Our choice here was mainly influenced by the group members prior experience with the programming languages.
+\subsection{Parsers and libraries}
+\subsubsection{WebGL frameworks}
+The technical possibilities of all the candidates exceeded our need in this project. We therefore chose based on the easy to learn it. Since none of us had prior experience with 3D modelling in JavaScript, the documentation and community around it weighs the most to whether or not we wish to use it.
+
+Three.js is without doubt the library with the largest support groups and communities contributing to it. In addition, it had a good amount of tutorials to learn from. The documentations were detailed and had a large set of demos – from simple to advance examples. It supports HTML5 Canvas, WebGL and can even fallback to SVG setting for older browsers.
+\subsubsection{jQuery and visual libraries}
+jQuery was chosen to use due to it's simplification, time saving and increased readability compared to plain JavaScript. Among the visual libraries, Twitter Bootstrap was chosen due to a prior knowledge within the group and well established community that allows us to extend it if deemed necessary.
+\subsection{Web frameworks}
+The Django framework was chosen due to the impeccible documentation available online. It has also been used in high traffic pages like The Guardian and Washington Post for a small decade\cite{webpage:django_washingtonpost}, and as such proved reliable. Django simplifies a lot of things through powerful built-in tools. In addition, we think Djangos clean and simple structure makes it easy for Wellvis to further use and develop the programs we develop in it.
+\subsection{Unit testing frameworks}
+Regarding testing, we will initially try to use the doctests, i.e. unit testing within the actual code. If this becomes too messy, we will make a transition to unittest.py. This transition shouldn’t take much time, nor any configuration on the django side of things. Even though pytest.py is a bit sleeker in our opinion, the difference is too small to make up for the Django integration. Since testing with Selenium in it’s basic sense is a programmatic way of testing the user test cases, there is no necessity to implement this early. Depending on our progress and development later in the project, we can consider to use Selenium.
+\subsection{User documentation tools}
+In true Scrum-style, we start out with the simplest parts, and expand with other tools if it turns out they are needed. In such a way of thinking, starting with the integrated Django tools seemed both logical, and timesaving. The nice thing about this is that Djangos admindocs bases itself of the docstrings within the code. The more advanced option, Sphinx, can also do this, making a potential transition in the future not causing double-up documentation.
+
+\subsection{Integrated Development Environments}
+There is no obvious reason to force anyone to use a specific IDE or editor. In the short time span of this project, we see it as most beneficial for the work progress if no one has to learn a larger range of tools than necessary. The choice of IDE is also a matter of taste, as much as a matter of what’s objectively best. The four softwares mentioned are among the most popular environments to program in, and are all good candidates.
+
+\newpage
+\section{Intellectual Property Rights and License}
+Below are the licenses used in different parts of our solution. Section \ref{sec:licenses_integrated} describes parts that are integrated in the delivery itself. An example of this is the three.js library used for rendering WebGL graphics. Section \ref{sec:licenses_libraries} describes parts that have been used to simplify the process, such as virtualenv. These are not strictly a part of the solution, but used in setup.. Section \ref{sec:licenses_tools} describes tools that have been used outside the technical solution, such as Pivotal Tracker for tracking project progress. We have had a focus in the project to use open source and free products as far as we can. For a simple overview, colors are used to indicate licenses. Green indicates it's free to use and change for commercial purposes, commonly provided that the \emph{parts themselves} are delivered with the same license. The color yellow indicates is free to use, under some constrictions while red indicates it is propietary and cannot be used without a license.
+\subsection{Integrated parts in solution} \label{sec:licenses_integrated}
+\begin{tabular}{|l|l|}  \hline
+\textbf{Program} & \textbf{License} \\ \hline
+Python &\cellcolor{green!25} PSF\cite{license_python} \\ \hline
+Django &\cellcolor{green!25} BSD\cite{license_django} \\ \hline
+South &\cellcolor{green!25} Apache license\cite{license_south} \\ \hline
+jQuery &\cellcolor{green!25} MIT\cite{license_jquery} \\ \hline
+Twitter Bootstrap &\cellcolor{green!25} GPLv2\cite{license_bootstrap} \\ \hline
+Three.js & \cellcolor{green!25}GPLv2\cite{license_three} \\ \hline
+Spectrum & \cellcolor{green!25}Simplified MIT Copyright\cite{license_spectrum} \\ \hline
+Growl &\cellcolor{green!25} Simplified MIT Copyright\cite{license_growl} \\ \hline
+\end{tabular}
+\subsection{Libraries used} \label{sec:licenses_libraries}
+\begin{tabular}{|l|l|}  \hline
+\textbf{Program} & \textbf{License} \\ \hline
+virtualenv & \cellcolor{green!25}MIT\cite{license_virtualenv} \\ \hline
+Git & \cellcolor{green!25}GPLv2\cite{license_git} \\ \hline
+Pip &\cellcolor{green!25} BSD\cite{license_pip} \\ \hline
+\end{tabular}
+\subsection{Tools used} \label{sec:licenses_tools}
+\begin{tabular}{|l|l|}  \hline
+\textbf{Program} & \textbf{License} \\ \hline
+Draw & \cellcolor{yellow!25}Copyright\cite{license_drawio}  \\ \hline
+vsftpd &\cellcolor{green!25} GPL\cite{license_vsftpd}  \\ \hline
+netatalk & \cellcolor{green!25}GPL\cite{license_netatalk}  \\ \hline
+denyhosts & \cellcolor{green!25}GPLv2\cite{license_denyhosts}  \\ \hline
+vim & \cellcolor{green!25}GPL\cite{license_vim}  \\ \hline
+screen &\cellcolor{green!25} GPL\cite{license_screen}  \\ \hline
+opensshserver &\cellcolor{green!25} BSD\cite{license_openssh}  \\ \hline
+Microsoft Visio & \cellcolor{red!25}Copyright\cite{license_visio}  \\ \hline
+\end{tabular}
 
 \chapter{Test Plan} \label{cha:test_plan}
 This chapter is all about testing and how we are doing it. We start off with testing methodology in section \ref{sec:testing_met} before discussing the non-functional requirements in \ref{sec:non_func_req}. We show our testing templates in \ref{sec:testing_templates} and in the end we have our changelog, \ref{sec:changelog}.
 
+\newpage
 \section{Testing Methodology} \label{sec:testing_met}
 When testing a software system, we have three different types of tests available. In \ref{subse:white_box} we will talk about white box tests while \ref{subsec:black_box} will talk about black box tests. There is also grey box testing, which is a combination of the other two, but we will not discuss this.
+
 \subsection{White box} \label{subse:white_box}
 The method of software testing with the white box method is where you test internal structures or modules of an application, as opposed to it's functions. White box testing requires the tester to have an internal perspective of the system as well as sufficient programming skills. Because of these reasons we will do the whitebox testing ourselves. This is done by using the test libraries mentioned at section ????. %preplanning 4.8 in old report
 % do we use any tools that we should explain??
@@ -412,11 +1256,21 @@ The method of software testing with the white box method is where you test inter
 \subsection{Black box} \label{subsec:black_box}
 The method of software testing with the Black box method is where you test the functionality of the system, as opposed to it's internal structures. Black box testing does not generally require the tester to have an intimate knowledge about the system or any of the programming logic that went into making it. It is primarily interested in the relationship between the input and output of the system. Not having any knowledge about how the system is built can help detect errors that the developers did not foresee. We want the customers to do the black box testing since they are the ones who knows how it is supposed to be used.
 
+\newpage
 \section{Non-functional requirements} \label{sec:non_func_req}
 TODO
+
+\newpage
+\section{Tests} \label{sec:tests}
+Since we only are making a part of a software, and because it is only a prototype, we will not do all types of testing. This is because we feel that most of the tests like: performance, acceptance and system tests is more appropriate for a finished product, and not a protottype that is not finished. \\
+\textbf{User-tests} \\
+This project is not about making a finished software for our clients, but it is a prototype for them to keep working on later.Since we will not have a completely finished product with all requirements, we do not feel the necessity of doing user-testing. We feel that this is more suitable for a finished product that we know that the customer will use later. Also we have had meetings after the first sprints, where we have gone through what the customer liked, and what they felt were missing and could be better, and we have had close contact during this project so that is why we have not had any user-testing.
+
+\newpage
 \section{Test Criteria} \label{sec:test_criteria}
 An item will be considered to have passed a test if the actual result from the test matches the expected result from the test. An item will be considered to have failed the test if the output varies from the expected result. If there are some specific reason why the test failed it will also be documented.
 
+\newpage
 \section{Testing Templates} \label{sec:testing_templates}
 We have made two templates for our testing. The first template has info about the test case, what execution steps we will make and what the expected result should be. In the other template we have the test results. Here we can see when we tested what test case, and what the results are.
 Test case template ?.?:\\
@@ -438,9 +1292,11 @@ Date & Date of the test\\ \hline
 Result & Result of the test\\ \hline
 \end{tabular}
 
+\newpage
 \section{Testing Responsibilities} \label{sec:testing_responsibilities}
 Since each programmer has most knowledge about their own code, they are responsible for making unit testing for their part. The test manager is responsible for getting feedback from the customer when they do black box testing.
 
+\newpage
 \section{Changelog} \label{sec:changelog}
 \subsection{Sprint 1} \label{subsec:sprint_1}
 \subsection{Sprint 2} \label{subsec:sprint_2}
@@ -453,65 +1309,63 @@ Since each programmer has most knowledge about their own code, they are responsi
 
 
 
-%REMEMBER USEABILITY - undo function
-\chapter{Architectural Description}
-There are many ways to define software architecture and we have chosen the following definision: "The software architecture of a system is the set of structures needed to reason about a system, which comprise software elements, relations among them, and properties of both" \cite[page 4]{Bass2013}.
 
-This chapter will introduce the final architecture of the product. It will describe the qualities in the system we wanted to achive and how it was structured to accomplish them.
+\chapter{Architectural Description} \label{cha:architectural_description}
+There are many ways to define software architecture and we have chosen the following definision: "The software architecture of a system is the set of structures needed to reason about a system, which comprise software elements, relations among them, and properties of both" \cite[p. 4]{book:bass}.
 
+This chapter will introduce the final architecture of the product. It will describe the qualities in the system we wanted to achive and how it was structured to accomplish them. In section \ref{sec:architectural_drivers} we discuss which quality attributes had the biggest impact on the software structure. In section \ref{sec:architectural_tactics} we describe the tactics implemented to fulfill the architectural drivers. In section \ref{sec:architectural_patterns} we go through the architectural patterns that is included in our software. Finally, in section \ref{sec:architectural_views} we look at the architecure from different views.
 
-\section{Architectural Drivers}
-The main architectural driver for this project was modifiablity, which was important because the project only produced a small module which was part of a much larger system. We therefore focused on making our system easy to intergrate since it would have to work with other modules. This would reduce some of the main problems with the old system, where the modules had poor co-operation and introduced redundancy. Extensibility was something else we wanted to achive. The module was only a early prototype and would have to be able expand with more functionality at a later date. Our customer also required portability since the system had to be operating system independent.
+\newpage
+\section{Architectural Drivers} \label{sec:architectural_drivers}
+After the first customer meeting, we identified the main architectural drivers as modifiability and usability.
 
+Modifiability was important because the project only resulted in a small module which was part of a much larger system. We therefore focused on making our system easy to intergrate since it would have to work with other modules. This would reduce some of the main problems with the old system, where the modules had poor co-operation and introduced redundant work. Extensibility was something else we wanted to achive. The module was only a early prototype and would have to be able expand with more functionality at a later date.
 
-
-
-
-\section{Architectural Tactics}
-TODO
+Another large issue with the current system is that it has a high skill ceiling and users often struggle to complete their tasks. The focus was put on making the system more forgiving and intuitive.
 
 
 
+\newpage
+\section{Architectural Tactics} \label{sec:architectural_tactics}
+A tactic is a technique that can be used to achive a required quality attribute \cite[p. 70]{book:bass}.
 
-\subsection{Modifiablity Tactics}
-Modifiability deals with change and the cost in time or money of making a change, including the extent to which this modification affects other functions or quality attributes.
+\subsection{Modifiablity Tactics} 
+Modifiability deals with change and the cost in time or money of making a change, including the extent to which this modification affects other functions or quality attributes. \cite[p. 121]{book:bass}
 
-Changes can be made by developers, installers, or end users, and these changes need to be prepared for. There is a cost of preparing for change as well as a cost for making a change. The modifiabbility tacitcs are designed to prepare for subsequent changes.\cite[page 128]{Bass2013}
+There is a cost of preparing for change as well as a cost for making a change. The modifiabbility tactics are designed to prepare for subsequent changes. Changes can come from developers, installers, or end users. \cite[p. 128]{book:bass}
 
 \subsubsection{Split Module}
-The modification costs of a module with large capability is usually high. Refining the module into several smaller modules should reduce the average cost of future changes.
+The modification costs of a module with large capability is usually high. Refining the module into several smaller modules should reduce the average cost of future changes. \cite[p. 123]{book:bass}
 
 \subsubsection{Increase Semantic Coherence}
-If the responsibilites A and B in a module do not serve the same purpose, they should be placed in different modules. The purpose of moving a responsibility from one module to another is to reduce the likelihood of side effects affecting other responsibilities in the original module.
+If the responsibilites A and B in a module do not serve the same purpose, they should be placed in different modules. The purpose of moving a responsibility from one module to another is to minimize the chance of side effects affecting other responsibilities in the original module. \cite[p. 123]{book:bass}
 
 \subsubsection{Encapsulate}
-Encapsulation introduces an explicit interface to a module. This interface includes an application programming interface (API) and its associated responsibilites. Encapsulation reduces the probability that a change to one module propagates to other modules.
-
-\subsubsection{Use An Intermediatry}
-
+Encapsulation introduces an explicit interface to a module. This interface includes an application programming interface (API) and its associated responsibilites. Encapsulation reduces the likelihood for changes from one module to propagates to other modules. \cite[p. 123]{book:bass}
 
 \subsubsection{Restrict Dependencies}
-Restrict dependencies is tactic that restricts the modules that are given module interacts with or depends on. In practice this tactic is achieved by restricting access to only authorized modules.
+Restrict dependencies is tactic that restricts the modules that are given module interacts with or depends on and restricting access to only authorized modules. \cite[p. 124]{book:bass}
 
 
 \subsubsection{Refactor}
-Refactor is a tactic undertaken when two modules are affected by the same change because they are (at least partial) duplicates of each other. Code refactoring is a mainstay practice of agile development projects, as a cleanup step to make sure that teams have not produced duplicative or overly complex code; however, the concept applies to architectural elements as well. Common responsibilities (and the code that implements them) are "factored out" of the modules where they exist and assigned an appropriate home of their own.
+Refactor is a tactic used when two modules are affected by the same change because they are (at least partial) duplicates of each other. Code refactoring is a mainstay practice of agile development projects, as a cleanup step to make sure that teams have not produced duplicative or overly complex code; however, the concept applies to architectural elements as well. Common responsibilities (and the code that implements them) are "factored out" of the modules where they exist and assigned an appropriate home of their own. \cite[p. 124]{book:bass}
 
 \subsubsection{Abstract Common Services}
-In the case where two modules provide not quite the same, but similar services, it may be cost-effective to implement the services just once in a more general (abstract) form. Any modification to the common service would then need to occur in just one place, reducing modification costs.
-
-
-
-\subsubsection{Defer binding}
-
+In the case where two modules provide not quite the same, but similar services, it may be cost-effective to implement the services just once in a more general (abstract) form. Any modification to the common service would then need to occur in just one place, reducing modification costs. \cite[p. 124]{book:bass}
 
 
 \subsection{Usability Tactics}
+Usability is concerned with how easy it is for the user to accomplish a desired task and the kind of user support the system provides \cite[p. 175]{book:bass}. Once a system is executing, usability is enhanced by giving the user feedback as to what the system is doing and by doing and by allowing the user to make appropriate responses \cite[p. 179]{book:bass}.
 
+\subsubsection{Cancel}
+The system must be built so it is able to listen for when the user issues a cancel command. There must be a constant listener that is not blocked by the action that is being canceled. Furthermore, the command being canceled must be terminated and free any resources reserved.  It is also important to inform any components that where collaborating with the canceled action, since they may have to take appropriate action. \cite[p. 179]{book:bass}
 
+\subsubsection{Undo and Version Control}
+To support the ability to undo, the system must maintain a sufficient amount of information about the system state so that an earlier may be restored, at the user's request. Such a record may be in the form of "snapshots" of a state or a set of reversible operations. \cite[p. 179]{book:bass}
 
-\section{Architectural Patterns}
-Architectural patterns are packages of design decisions that is found repetedly in practice, has known properties that premits reuse, and describes a class of architectures.
+\newpage
+\section{Architectural Patterns} \label{sec:architectural_patterns}
+Architectural patterns are packages of design decisions that is found repetedly in practice, has known properties that premits reuse, and describes a class of architectures. Patterns can be seen as "packages" of tactics. \cite[p. 204]{book:bass}
 
 \subsection{Client-Server}
 There are shared resources and services that large numbers of distributed clients wish to access, and for which we wish to control access or quality of service.
@@ -522,10 +1376,10 @@ The client-server pattern separates client applications from the services they u
 
 Clients interact by requesting services of servers, which provide a set of services. Some components may act as both clients and servers. We have chosen to use one central server, instead of multiple distributed ones.
 
-Some disadvantages of the client-server pattern are that the server can be a performance bottleneck and it can be a single point of failure. Also, decisions about where to locate functionality (in the client or server) are often complex and costly to change after the system has been built.
+Some disadvantages of the client-server pattern are that the server can be a performance bottleneck and it can be a single point of failure. Also, decisions about where to locate functionality (in the client or server) are often complex and costly to change after the system has been built. \cite[p. 217]{book:bass}
 
 \subsection{Model-View-Controller}
-User interface software os typically the most frequently modified portion of an interactive application. For this reason it is important to keep modifications to the user interface software seperate from the rest of the system. Users often wish to look at data from different perspectives, which should all reflect the current state of the data.
+User interface software os typically the most frequently modified portion of an interactive application. For this reason it is important to keep modifications to the user interface software seperate from the rest of the system. Users often wish to look at data from different perspectives, which should all reflect the current state of the data.  \cite[p. 212]{book:bass}
 
 The model-view-controller pattern seperates application functionality into three kinds of components:
 
@@ -536,10 +1390,46 @@ The model-view-controller pattern seperates application functionality into three
 \end{itemize}
 
 
+\subsection{Architectural Views} \label{sec:architectural_views}
+We have chosen to use the 4+1 architectural view model. The views are used to describe the system from the viewpoint of different stakeholders, such as end-users, developers and project managers. The four views of the model are logical, development, process and physical view. In addition selected use cases or scenarios are utilized to illustrate the architecture serving as the 'plus one' view. \cite{website:kruchten}
 
 
+\emph{Logical view:} The logical view is concerned with the functionality that the system provides to end-users. This view is represented by the class diagram, entity relationship diagram and sequence diagram.
 
+\emph{Development view:} The development view illustrates a system from a programmer's perspective and is concerned with software management. This view is also known as the implementation view. We have chosen to not include this view because our system is only consisting of one module and does not have many dependencies.
 
+\emph{Process view:} The process view deals with the dynamic aspects of the system, explains the system processes and how they communicate, and focuses on the runtime behavior of the system. The process view addresses concurrency, distribution, integrators, performance, and scalability, etc. This view is represented by the activity diagram.
+
+\emph{Physical view:} The physical view depicts the system from a system engineer's point-of-view. It is concerned with the topology of software components on the physical layer, as well as the physical connections between these components. This view is also known as the deployment view. We have chosen to not include this view because our system is  software based and does not have hardware requirements.
+
+\emph{Scenarios:} The description of an architecture is illustrated using a small set of use cases, or scenarios which become a fifth view. The scenarios describe sequences of interactions between objects, and between processes. They are used to identify architectural elements and to illustrate and validate the architecture design. They also serve as a starting point for tests of an architecture prototype. This view is being represented by use cases.
+
+%MAYBE EXPLAIN EACH FIGURE IN TEXT
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{class}
+    \caption{Class diagram \label{classdiagram}}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{sequence}
+    \caption{Sequence diagram \label{sequencediagram}}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{database}
+    \caption{Entity relationship diagram \label{cldiagram}}
+\end{figure}
+
+%MAKE ACTIVITY AND USE CASE DIAGRAMS
+
+\subsection{Architectural Rationale}
+The client-server pattern was used because of the nature of the clients. The customer wanted the system to be able to run on any operating system and being able to run on mobile devices. We have therefore used a web interface to support these requirements. This means that the server is hosting the application and doing the heavy calculations, while the clients only need to display a screen of the results.
+
+The model-view-controller pattern was a good way to organize our system. The system had to be able to handle multiple users with different roles and degree of access. By seperating the view from the model the system is able to display only parts of the model to the user.
 
 
 
@@ -553,12 +1443,13 @@ The model-view-controller pattern seperates application functionality into three
 
 \chapter{Sprint 1} \label{cha:sprint_1}
 TODO
-\section{Sprint Planning} \label{sec:sprint_planning}
+\newpage
+\section{Sprint Planning} \label{sec:sprint_planning1}
 In this section we will discuss how this sprint was planned. We will discuss the duration of the sprint in \ref{subsec:duration} and our goals in \ref{subsec:sprint_goal}. We discussed everything with our customer before deciding the sprints.
-\subsection{Duration} \label{subsec:duration}
+\subsection{Duration} \label{subsec:duration1}
 The first sprint has a duration from september 9th until september 27th, when the first prototype is to be revealed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
 
-\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Sprint Goal} \label{subsec:sprint_goal1}
 The goal for this sprint is that a user should be able to:
 \begin{itemize}
 \item Login to the web page 
@@ -569,16 +1460,27 @@ The goal for this sprint is that a user should be able to:
 \item Show a very simple 3D visualization of well based on end and help points
 \end{itemize}
 These are things we feel that are some of the most important and basic parts of the system.
-\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
-\section{System Design} \label{sec:system:_design}
-\subsection{Preliminary Design} \label{subsec:prelim_design}
-\subsection{System Overview} \label{subsec:sys_overview}
-\subsection{User Stories} \label{subsec:user_stories}
-\section{Implementation} \label{sec:implementation}
-\section{Sprint Testing} \label{sec:sprint_testing}
-\subsection{Test Results} \label{subsec:test_results}
-\subsection{Evaluation} \label{subsec:evaluation}
-\section{Customer feedback} \label{sec:cust_feed}
+\subsection{Backlog} \label{subsec:backlog1} % from pivotal tracker?
+Work packages are illustrated in figure \ref{fig:sprint1_WBS}.
+TODO: Write proper backlog
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Sprint1_WBS}
+    \caption{Sprint 1 Work Breakdown Structure. Task 1 includes backend functionality to set up the solution environment. Task 2 corresponds to requirement F2, F3+F4 and F1 respectively. Task 3 corresponds to requirement F5 and F6.  \label{fig:sprint1_WBS}}
+\end{figure}
+\newpage
+\section{System Design} \label{sec:system:_design1}
+\subsection{Preliminary Design} \label{subsec:prelim_design1}
+\subsection{System Overview} \label{subsec:sys_overview1}
+\subsection{User Stories} \label{subsec:user_stories1}
+\newpage
+\section{Implementation} \label{sec:implementation1}
+\newpage
+\section{Sprint Testing} \label{sec:sprint_testing1}
+\subsection{Test Results} \label{subsec:test_results1}
+\subsection{Evaluation} \label{subsec:evaluation1}
+\newpage
+\section{Customer feedback} \label{sec:cust_feed1}
 The customer seemed very happy with what we had managed to do in the first sprint. They especially liked the fact that you had live-update from input data onto the 3D-model, which ran smoothly.
 \begin{itemize}
 \item “Already better than the existing tool” – Bjørn about the 3D module, 2013-09-29
@@ -588,14 +1490,15 @@ The customer seemed very happy with what we had managed to do in the first sprin
 \item “Grid should be less visible. Would also be nice to change colors.” – Øyvind, 2013-09-30 
 \item “I think it would be nice with a denser well-path” – Sigbjørn, 2013-09-30
 \end{itemize}
-\section{Sprint Evaluation} \label{sec:sprint_eva}
-\subsection{Review} \label{subsec:review}
-\subsection{Positive Experiences} \label{subsec:pos_exp}
-\subsection{Negative Experiences} \label{subsec:neg_exp}
+\newpage
+\section{Sprint Evaluation} \label{sec:sprint_eva1}
+\subsection{Review} \label{subsec:review1}
+\subsection{Positive Experiences} \label{subsec:pos_exp1}
+\subsection{Negative Experiences} \label{subsec:neg_exp1}
 - Imprecise task specification
 - Imprecise task delegation
 - Low amount of work hours (70-100 in total vs 124 planned)
-\subsection{Planned Actions} \label{subsec:planned_act}
+\subsection{Planned Actions} \label{subsec:planned_act1}
 \textbf{Better sprint planning}\\
 TODO \\
 \textbf{Design early in the sprint}\\
@@ -604,13 +1507,14 @@ TODO\\
 TODO\\
 \textbf{Split Coding and Report Writing between team members}\\
 TODO
-\subsection{Barriers} \label{subsec:barriers}
+\subsection{Barriers} \label{subsec:barriers1}
 
 \chapter{Sprint 2} \label{cha:sprint_2}
-\section{Sprint Planning} \label{sec:sprint_planning}
-\subsection{Duration} \label{subsec:duration}
+\newpage
+\section{Sprint Planning} \label{sec:sprint_planning2}
+\subsection{Duration} \label{subsec:duration2}
 The second sprint has a duration from September 30th until October 21th. What we will do is decided during our presentation for the customer after sprint 1 to see if some requirements might have changed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
-\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Sprint Goal} \label{subsec:sprint_goal2}
 Below are the goals for this sprint, ranged by importance:\\\\
 \textbf{Implement minimal curvature}\\
 The well graph is currently represented as straight lines between each points. The minimum curvature algorithm (as presented on customer meeting, Sunday 29.09.13) should be implemented.\\ \\
@@ -622,28 +1526,40 @@ The panel should include
 \begin{itemize}
 \item Colors of the background
 \item Colors of the grid.
-\item Colors of the well..
+\item Colors of the well.
 \item Thickness of the well
 \end{itemize} 
 \textbf{Distinction between end-, help- and nogo points}\\
 Currently all added points are considered help points, and lines are automatically drawn between them. The possibility to add help- end and no go points that are visually distinctable would make it easier for a user to see where to create a well. For sprint 2, these should be able to added, and look different. No other functionality is planned before sprint 3.
 
-\subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
-\section{System Design} \label{sec:sprint_planning}
-\subsection{Preliminary Design} \label{subsec:prelim_design}
-\subsection{System Overview} \label{subsec:sys_overview}
-\subsection{User Stories} \label{subsec:user_stories}
-\section{Implementation} \label{sec:implementation}
-\section{Sprint Testing} \label{sec:sprint_testing}
-\subsection{Test Results} \label{subsec:test_results}
-\subsection{Evaluation} \label{subsec:evaluation}
-\section{Customer feedback} \label{sec:cust_feed}
-\section{Sprint Evaluation} \label{sec:sprint_eva}
-\subsection{Review} \label{subsec:review}
-\subsection{Positive Experiences} \label{subsec:pos_exp}
-\subsection{Negative Experiences} \label{subsec:neg_exp}
+\subsection{Backlog} \label{subsec:backlog2} % from pivotal tracker?
+Work packages are illustrated in figure \ref{fig:sprint2_WBS}.
+TODO: Write proper backlog
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Sprint2_WBS}
+    \caption{Sprint 2 Work Breakdown Structure.   \label{fig:sprint2_WBS}}
+\end{figure}
+\newpage
+\section{System Design} \label{sec:system_design2}
+\subsection{Preliminary Design} \label{subsec:prelim_design2}
+\subsection{System Overview} \label{subsec:sys_overview2}
+\subsection{User Stories} \label{subsec:user_stories2}
+\newpage
+\section{Implementation} \label{sec:implementation2}
+\newpage
+\section{Sprint Testing} \label{sec:sprint_testing2}
+\subsection{Test Results} \label{subsec:test_results2}
+\subsection{Evaluation} \label{subsec:evaluation2}
+\newpage
+\section{Customer feedback} \label{sec:cust_feed2}
+\newpage
+\section{Sprint Evaluation} \label{sec:sprint_eva2}
+\subsection{Review} \label{subsec:review2}
+\subsection{Positive Experiences} \label{subsec:pos_exp2}
+\subsection{Negative Experiences} \label{subsec:neg_exp2}
 One memeber has had a lot to do with UKA, and has been sick
-\subsection{Planned Actions} \label{subsec:planned_act}
+\subsection{Planned Actions} \label{subsec:planned_act2}
 \textbf{Better sprint planning}\\
 TODO\\
 \textbf{Design early in the sprint}\\
@@ -652,29 +1568,42 @@ TODO\\
 TODO\\
 \textbf{Split Coding and Report Writing between team members}\\
 TODO
-\subsection{Barriers} \label{subsec:barriers}
+\subsection{Barriers} \label{subsec:barriers2}
 
 \chapter{Sprint 3} \label{cha:sprint_3}
-\section{Sprint Planning} \label{sec:sprint_planning}
-\subsection{Duration} \label{subsec:duration}
+\newpage
+\section{Sprint Planning} \label{sec:sprint_planning3}
+\subsection{Duration} \label{subsec:duration3}
 Our last sprint has a duration from October 24th untill November 8th.This gives us time to fix if anything is missing or not done untill delivery day. What we will do is decided during our presentation for the customer after sprint 1 and 2 to see if some requirements might have changed. Our goal is to finish a week before the deadline so that we can use the last week to fix bugs and test the system. We have weekly meetings with our advisor, but we will not have weekly meetings with our customers since our main contact is a lot away on job, and since we feel like we have the information we need, and know that our customers trust us.
-\subsection{Sprint Goal} \label{subsec:sprint_goal}
+\subsection{Sprint Goal} \label{subsec:sprint_goal3}
 \subsection{Backlog} \label{subsec:backlog} % from pivotal tracker?
-\section{System Design} \label{sec:sprint_planning}
-\subsection{Preliminary Design} \label{subsec:prelim_design}
-\subsection{System Overview} \label{subsec:sys_overview}
-\subsection{User Stories} \label{subsec:user_stories}
-\section{Implementation} \label{sec:implementation}
-\section{Sprint Testing} \label{sec:sprint_testing}
-\subsection{Test Results} \label{subsec:test_results}
-\subsection{Evaluation} \label{subsec:evaluation}
-\section{Customer feedback} \label{sec:cust_feed}
-\section{Sprint Evaluation} \label{sec:sprint_eva}
-\subsection{Review} \label{subsec:review}
-\subsection{Positive Experiences} \label{subsec:pos_exp}
-\subsection{Negative Experiences} \label{subsec:neg_exp}
-\subsection{Planned Actions} \label{subsec:planned_act}
-\textbf{Better sprint planning}\\
+Work packages are illustrated in figure \ref{fig:sprint3_WBS}.
+TODO: Write proper backlog
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Sprint3_WBS}
+    \caption{Sprint 3 Work Breakdown Structure.  \label{fig:sprint3_WBS}}
+\end{figure}
+\newpage
+\section{System Design} \label{sec:system_design3}
+\subsection{Preliminary Design} \label{subsec:prelim_design3}
+\subsection{System Overview} \label{subsec:sys_overview3}
+\subsection{User Stories} \label{subsec:user_stories3}
+\newpage
+\section{Implementation} \label{sec:implementation3}
+\newpage
+\section{Sprint Testing} \label{sec:sprint_testing3}
+\subsection{Test Results} \label{subsec:test_results3}
+\subsection{Evaluation} \label{subsec:evaluation3}
+\newpage
+\section{Customer feedback} \label{sec:cust_feed3}
+\newpage
+\section{Sprint Evaluation} \label{sec:sprint_eva3}
+\subsection{Review} \label{subsec:review3}
+\subsection{Positive Experiences} \label{subsec:pos_exp3}
+\subsection{Negative Experiences} \label{subsec:neg_exp3}
+\subsection{Planned Actions} \label{subsec:planned_act3}
+\textbf{Better sprint planning3}\\
 TODO\\
 \textbf{Design early in the sprint}\\
 TODO\\
@@ -682,12 +1611,140 @@ TODO\\
 TODO\\
 \textbf{Split Coding and Report Writing between team members}\\
 TODO
-\subsection{Barriers} \label{subsec:barriers}
+\subsection{Barriers} \label{subsec:barriers3}
 
 
 
+\part{Conclusion and Evalution}
+
+\chapter{Conclusion} \label{cha:conclusion}
+\newpage
+\section{System Overview} \label{sec:system_overview}
+\newpage
+\section{Further Development} \label{sec:further_dev}
+\subsection{Performance and language choices}
+Web frameworks with large communities is great.
+Developer time costs more than CPU time.
+Amazon db hosting services and such is great -> less operational costs.
+Serving the giga and terabytes of well data can cost alot, and be computionally heavy. This solution has very seperate demands than the webpage and should be considered to have a separate database. THIS PART WILL COST, as it's lot of traffic. What is it used for, anyway? If datamining on this for some cool data, C++ or similar should be considered. 
+\subsection{3D Well Path}
+Javascript is the way to go
+\subsubsection{Input validation}
+Currently, the well path does not validate input, so you might end up dividing by zero and get infinity and stuff. 
+\subsection{Development} \label{sec:development}
+Continous Integration git branching, is a way 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{continous_dev}
+    \caption{Continous integration with branching. A way of structuring branches in for example git that ensures a concise and good workflow. \label{fig:continous_dev}}
+\end{figure}
+
+\subsection{Database solution}
+\subsection{Database models}
+\subsection{Application Frameworks}
+\subsection{Server-client commmunication}
+Customer have expressed the need for the software to 
+\subsection{Interface ideas}
+\subsection{Different platforms}
+\newpage
+\section{Testing} \label{sec:testing}
+\newpage
+\section{Summary} \label{sec:summary_conc}
+
+\chapter{Evaluation} \label{cha:evaluation}
+In this chapter we will evaluate our work during this project. I section \ref{sec:group_dynamics} we will discuss how we have worked as a group, while we in \ref{sec:risk_handling} will explain how we have handled our risks. The scrum process is new to us, and how we handled that is explained in \ref{sec:scrum_process} and our time estimation is discussed in section \ref{sec:time_est}. Discussion of our quality assurance follows in \ref{sec:qual_ass} and we explain how our customer relations have worked in section \ref{sec:customer_relations}. We also think it was appropriate to discuss our lessons learned in \ref{sec:lessons_learned} and in the end we have a summary, \ref{sec:summary_eva}.
+\newpage
+\section{Group Dynamics} \label{sec:group_dynamics}
+\subsection{Goals and Team Building} \label{subsec:goals_team_building}
+In this project we were all assigned groups randomly, this was done so that we would work in a realistic setting, cause in real life we can not necessarily choose who we work with. Our group first consisted of four norwegians, but one of the persons was not there and it appeared he was taking another class. We quickly sent a mail to the coordinator and told them that we were only three persons, and later in the day we got our last member, an exchange student from Nepal.
+
+Because not everyone spoke Norwegian, we had too use English to communicate. Our supervisor spoke English as well, and since the project were to be written in English it all worked out well. No one had any any problems with speaking or writing English, but sometimes some discussions were done in Norwegian, but this mostly happened when everyone was not there.
+
+The course had its own team building course. We all attended and in this course we decided on some goals in our group.
+\begin{itemize}
+\item \emph{Grade:} Some of the members wanted an A in the course, so everyone decided that they would to their best to contribute to this goal. Although the goal is big, it is important to have something to reach for.
+\item \emph{Decisions:} Always consider options and strengths and weaknesses, then vote. This should be done quick.
+\item \emph{Conflicts:} Must take the time to discuss this. Use on of the meetings in the week to discuss what we like and dislike
+\item \emph{"Freeriders":} Must confront them and make sure to give them something to do to make up lost time.
+\item \emph{Help:} When we are stuck we must ask for help
+\item Cultural differences: Should speak English so that no one feels left out, and if something is more easily discussed between some members in Norwegian, we should translate later.
+\item \emph{Knowledge:} Utilize everyones knowledge so no one feels left out and to work the best way possible
+\item \emph{Roles:} Need to establish roles so everyone has one main task to take care of
+\end{itemize}
+These goals has helped us a lot during the project and it has made sure that everyone will do their best in this project.
+
+When it comes to relations between team memebers, none of us had worked together earlier. We have however met and been on a class trip, those of us that are norwegians, so we knew of each other. During this project we learned how to work together in a professional and efficient manner.
+
+\subsection{Team Evolution} \label{subsec:team_evo}
+During the first weeks we were gathering information about our customers and each other and we discussed how we were going to procede with this project. We did not have any real leader type, which made things a bit hard because when people were unsure of what to do, no one took command. We also used long times on our meetings.
+
+Luckily we figured this out early in the project and we decided in the start that two people worked on the documentation, while the other two worked on the implementation for the first sprint. We also started having scrum meetings where we quickly found out what people had done since last time, problems and questions, and what they were to do till next time. This worked a lot better because then the people who were not sure what to do got their own tasks. The taskmanaging with Pivotaltracker was not used so much during sprint 1, so when people forgot the scrum meetings, and everyone did not attend the meetings, someone did not have anything to do, even though they asked for something to do. There was also a problem that when the person who wrote the summaries for the meetings was missing, no one else wrote the summaries.
+
+In sprint 2 we managed the tasks in Pivotaltracker and this made it a lot easier to find something to work with when you had not been able to attend the meetings. To find time for the meetings was not so easy this month since half the group was involved with UKA, and one of these had to work with UKA approximately every second day. Luckily someone else tried to make sure the scrum meetings were filled out, and the day before the status report were to be sent in we also added what had happened that week so it would be easier to write the status report even if not all scrums were filled out. We also found out that we had to many requirements and did not have the time for all of them in this sprint.
+
+In our last sprint we decided to use more time on documenting and less time on implementing. This was to  make sure that we were not to have to much to do with the report when the last sprint were to be done. We also did this because we saw that we had to much in sprint 2 and it was better to make sure we had a working product in the end. We also had the problem with people being involved with UKA, and sickness, so it was important to make sure that we reached our goals in the last sprint.
+
+Some of the team members had a big disagreement about how to work and help each other. One person felt that when another person rewrote everything they had done, that what they had done was useless and did not feel like they had produced anything, while the other one was used to doing so because he was used to collaborating on wikipedia-articles and such. It was decided that if you disagreed you were to comment so that the person could fix it themselves if they agreed, unles there were some grammar errors and such. This was to make sure that no one felt that their work meant less and because there could be several possibilities that are right, it is not necessarily just one person that can write that chapter or section the right way.
+
+We had a few difficulties here and there, but it did not necessarily negatively influence the final product or report. We have learned a lot and when we have seen that something have been missing, or not done well enough, we have tried to improve this for the next sprint and even the next week.
 
 
+\newpage
+\section{Risk Handling} \label{sec:risk_handling}
+Some of the risks dicussed have occured during this project to a certain degree. This section will discuss how these risks were handled.
+
+TODO
+\newpage
+\section{Scrum Process} \label{sec:scrum_process}
+It was decided that we were to use scrum in the preplanning phase. This was recommended by the course, and it is also recommended by several companys, and is used a lot in the real world so it was a clear choice for us. We have not had any courses or such so no one knew a lot about how to do scrum, we only knew some parts and that it is a good technique.
+
+Because our project was so big we needed a lot of information from our customer before starting to plan the sprints. When we finally felt like we had the requirements we needed, we planned the sprint together with the customer. We decided to match the sprint with some of the deadlines given to us by our supervisor.
+
+After the first sprint we had a customer meeting. In this meeting we found out that some of the earlier requirements was no longer needed, and we also got some new requirements. This made us change the sprint plan, but it helped us a lot with following what the customer wanted. This was also done after sprint two. Since we were not going to do any more implementation after sprint three, we decided not to have a customer meeting, since they will see everything we have done in the last presentation.
+
+Our sprints all lasted for three weeks. This might have been a bit too long we see know, and we have also heard from a lot of companies that a sprint should be short and concise, approximately a week. Since we did not have any experience we did not think this through. Luckily we did not use much time on requirements that appeared to be unnecessary during the customer meetings so it did not affect the final product. We had a lot of contact with the customer during the whole project via mail.
+
+We think that scrum worked very good for this project, and we will probably use it more. It made it a lot easier getting input from the customer during the project, and not only in the end, because that made sure that we followed the customer's wishes, and when they changed their requirements, we were able to do it as well. This made the project more suited for the customer. 
+
+\newpage
+\section{Time Estimation} \label{sec:time_est}
+TODO
+\newpage
+\section{Quality Assurance} \label{sec:qual_ass}
+TODO
+\newpage
+\section{Customer Relations} \label{sec:customer_relations}
+We had a really good relationship with our customer during the entire project. Since they are only three people in the company we had contact with all of them, but since one of them were writing their doctorate on this project, we mostly had contact with him. Everyone was invited to all customer meetings and got all status reports so that everyone knew how everything was going the whole time.
+
+There were only one of the persons that had a technical background, the other two had background from the oil industry, but this did not slow or project in any way. They really wanted us to do what we wanted and that we were to use tools and such that were chosen by us. They were really open to all our ideas and they were really good at explaining everything we wondered about. Our main customer contact was in and out for four weeks at a time, but this did not stop him from keeping contact and answering our questions when needed.
+
+Already in our first meeting they had a lot of paperwork we could read about what they were thinking and planning and they shortly after shared a dropbox file with us and it was filled up with new information often, both information that we requested, and shown too us in our meetings. 
+
+We were invited to come and see the existing sofware, at Statoil in Trondheim, so that we could make our minds to what we would like o do with it and what we thought we might be able to do. This helped us a lot in deciding which parts we wanted to do. Here they also introduced a fifth grader from petroleum who we also could ask if there was anything we were wondering about. They also made sure that we got permission to visit and test the software at petroleum section in NTNU. %is this last right??
+
+It was not possible for us to get access to their database, but since we only are making a little part of the software, we did not really see this as a issue. Everything else we needed we got and they were really great.
+
+We were really happy with our customer and we really felt we got a good connection and that we got everything we needed. We are really happy that they let us choose so much for our selves, this made this project so much easier and fun to work with. It was really interesting being involved in making the requirements and we are really happy with the fact that they appreciated all of the suggestions we had. They were always quick to answer when we sent mail with questions, and they were always ready to help when we needed them to. They really helped us understand the software and what they needed in a new one. All in all, we could not have had a better customer.
+
+\newpage
+\section{Lessons Learned} \label{sec:lessons_learned}
+Through this experience we have learned a lot when it comes to working as a group, and at the same time learning new techniques.
+
+Working in a group that is randomly assigned to you is a lot like working in real life. We have learned that it is important to understand how the other people work, and what they like and dislike so that no one feels left out. As a team we have agreed on what our goals are and learned how to work together as a team to reach these goals. There has been discussions and arguments that we have learned how to handle together, and we have helped each other and learned from each other.
+
+Time has been a big issue during this process. Since we are students and this is not our only course, it has been hard finding a time for the meeting since we do not take the same courses. Also other commitments, like work and voluntarily work, have come in the way. Still we have learned that if we are good at giving assignments and still filling out the scrum, even though we do not have the time to meet, everyone still works, if it is from home or at school.
+
+The scrum process was new for everyone, although we all had heard about it. Working with this technique was new and it took some getting used to. We learned that we should have started with the scrum meetings from the beginning because it really made sure that everyone had something to do. We also larned that a sprint that goes over three weeks are a bit long, this is because requirements change and when the customer sees what has been done, their requirements change.
+
+When it comes to time estimation this has been really complicated. We have tried to fill in how much we have done everyday, but this has been forgotten many times, which have made things a bit more difficult. Some people have also worked more in some periods and less in other periods. All in all we have learned that planning is the most mportant thing when having a time estimation.
+
+Our customer relations have learned us a lot. Having a real customer and how to communicate with them has been a completely new experience for us. We have learned how to behave and communicate with them. We have not had any problems with them, so we have not learned how to handle complications, with them, but we know how to handle them and it has been an amazing experience and we have been really lucky. We know that we might not be so lucky later, but you still learn a lot from a good experience. 
+
+
+\newpage
+\section{Summary} \label{sec:summary_eva}
+We are very pleased with what we have managed to achieve in this project. We were four different people with different personalities and skills that had to worked together as a group. Our scope might have been one of the most complicated, and it had to do with an industry we did not know anything about. Luckily we got a lot of help from our customer that helped us understand and let us do what we wanted in our own way. We have worked very hard and learned a lot with help from our customer and advisor and we are really proud of what we have managed. It has not been a bumpy ride with some ups and downs both when it comes to scrum and meeting techniques. Over the weeks we learned to communicate and collaborate better which increased our work effort. We have learned a lot through this challenging process and have gotten invaluable work experience.
 
 
 
@@ -699,13 +1756,14 @@ TODO
 
 
 
-
+\part{Appendix}
 \appendix
 \chapter{Welldrilling} \label{cha:welldrilling}
 In this chapter we will give an general overview of the well drilling process, which is necessary to understand the situation that our system will assist. The following sections will describe how the actual drilling is done at sea (section \ref{sec:basic_introduction_to_well_drilling}) and the three main planning parts in the software (section \ref{sec:overview_of_workflow}).
 
 
 
+\newpage
 \section{Basic Introduction to Well Drilling} \label{sec:basic_introduction_to_well_drilling}
 On Norwegian continental shelf, there are a large number of oil fields. Two important ones are Gullfaks and Ekofisk. There are multiple platforms in each field, and each of the platforms usually have multiple wells.
 
@@ -746,6 +1804,7 @@ When repeating the steps, the well construction may resemble an extendable teles
     \caption{An oil well \label{fig:oil_well}}
 \end{figure}
 
+\newpage
 \section{Overview of Workflow} \label{sec:overview_of_workflow}
 
 \subsection{Contruct Well Path}
@@ -779,6 +1838,7 @@ The bullet points below show what the purpose of this part of the software is:
 
 \chapter{Guides} \label{cha:guides}
 
+\newpage
 \section{How to: Host solution} \label{sec:host_solution}
 This section will tell you how to set up a server to host our solution with Django. Ideally, there should be separate hosts for development, testing and production areas.
 
@@ -799,7 +1859,7 @@ in the user-part. You might want to make different groups and more users, as wel
 \subsection{Packages}
 The following packages were installed on our development area. While only virtualenv, pip and git are strictly required to run the solution, we recommend all of them.\\
 \begin{tabular}{| l | l | p{9cm} |} \hline
-Package name & Recommendation & Description \\ \hline
+\textbf{Package name} & \textbf{Recommendation} & \textbf{Description} \\ \hline
 openssh-server\cite{website:openssh} & Yes & Allows you to remotely ssh to server \\ \hline
 screen\cite{website:screen} & Yes & Allows you to keep several open ssh-tabs \\ \hline
 vim\cite{website:vim} & Yes & Better editor when editing files directly on server\\ \hline
@@ -888,21 +1948,21 @@ Learn to use virtualenv & http://simononsoftware.com/virtualenv-tutorial/ \\ \hl
 Interactive git game & http://pcottle.github.io/learnGitBranching/ \\ \hline
 \end{tabular}\\ \\
 
+\newpage
 \section{How to: Understand Django} \label{sec:understand_django}
 \subsection{Introduction}
-Django has neatly divided the logic of the server into different parts. The url part (\ref{django:urls}) handles what urls will be accessable and redirects spesific urls to a spesific method in the views part (\ref{django:views}). The view part will extract, insert and handle applicable data available from the database. The database is defined through models (\ref{django:models}). Once the views has extracted and defined the data, it will return these to the user through a spesific html file located in templates (\ref{django:templates}). The templates will usually link to resources, such as css and javascript files that are located in the static part (\ref{django:static}). 
+Django has neatly divided the logic of the server into different parts. The url part (\ref{django:urls}) handles what urls will be accessable and redirects spesific urls to a spesific method in the views part (\ref{django:views}). The view part will extract, insert and handle applicable data available from the database. The database is defined through models (\ref{django:models}). Once the views has extracted and defined the data, it will return these to the user through different means, usually through a spesific html file located in templates (\ref{django:templates}). The templates will usually link to resources, such as css and javascript files that are located in the static part (\ref{django:static}). 
 
-\begin{center}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{django_structure}
-    \caption{Operational Well Integrity Model \label{fig:django_struct}}
+    \caption{How Django processes a request. A user requests a spesific URL (1), which django translates to a spesific method (2 \& 3). The method gathers the responding data to fullfil the request (4), and (usually) sends that data to the user through an HTML template (5 \& 6) \label{fig:django_struct}}
 \end{figure}
-\end{center}
 
-See figure \ref{fig:djangostructure} for a visual representation
+See figure \ref{fig:django_struct} for a visual representation
 
 \subsection{Urls} \label{django:urls}
+
 \subsection{Views} \label{django:views}
 \subsection{Models} \label{django:models}
 \subsection{Templates} \label{django:templates}
@@ -912,6 +1972,7 @@ See figure \ref{fig:djangostructure} for a visual representation
 \subsection{Django admin panel} \label{django:adminpanel}
 \subsection{Resources} \label{django:resources}
 
+\newpage
 \section{How to: Use and change Django} \label{sec:use_and_change_django}
 \subsection{Django user management} 
 \subsection{Add applications to the solution}
@@ -920,26 +1981,95 @@ See figure \ref{fig:djangostructure} for a visual representation
 \subsection{Change to MySQL database} \label{sec:change_database}
 \subsection{Resources}
 
+\newpage
 \section{How to: Use and change 3D path module} \label{sec:use_and_change_frontend}
 \subsection{Introduction}
 \subsection{Wellpath structure}
 \subsection{Settings structure}
 \subsection{Resiources}
 
-\chapter{Further development}
-\section{Development} \label{sec:development}
-Continous Integration git branching
-\section{Database solution}
-\section{Database models}
-\section{Application Frameworks}
-\section{Server-client commmunication}
-\section{Interface ideas}
-\section{Different platforms}
+\chapter{Templates}
+\newpage
+\section{Meetings}
+\textbf{Meeting}\\
+\textbf{Scrum Meeting}\\
+2013-00-00\\
+00.00-00.00\\\\
+Place\\
+Present\\\\
+\textbf{What have you done?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & What I said I was going to do and what I actually did \\ \hline
+Tina & What I said I was going to do and what I actually did  \\ \hline
+Tintin & What I said I was going to do and what I actually did  \\ \hline
+Pawan & What I said I was going to do and what I actually did  \\ \hline
+\end{tabular}\\\\
+\textbf{Have you had any problems?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & \\ \hline
+Tina &  \\ \hline
+Tintin &  \\ \hline
+Pawan &  \\ \hline
+\end{tabular}\\\\
+\textbf{Do you have any questions or things you wonder about?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & \\ \hline
+Tina &  \\ \hline
+Tintin &  \\ \hline
+Pawan &  \\ \hline
+\end{tabular}\\\\
+\textbf{What are you going to do today/till next time?}\\
+\begin{tabular}{| l | p{9 cm} |} \hline
+Tomas & \\ \hline
+Tina &  \\ \hline
+Tintin &  \\ \hline
+Pawan &  \\ \hline
+\end{tabular}
 
-\chapter{System documentation}
-\section{Server OS and packages}
-\section{Virtual environment packages}
-\section{Javascript libraries}
+\newpage
+\section{Status Report}
+\textbf{Group 7: Development of Drilling Engineering Software}\\\\
+\textbf{Summary for week 35}\\
+Textual summary of what has happened this week\\\\
+\textbf{Work done in this period}
+\begin{itemize}
+    \item Bullet point of the text above
+\end{itemize}
+\textbf{Report progress}
+\begin{itemize}
+    \item I.x - Title:\\
+Short text about what was written in section I.x.
+\end{itemize}
+\textbf{Problems}
+\begin{itemize}
+    \item Risks that has taken effect
+\end{itemize}
+\textbf{Planning of work for the next period}
+\begin{itemize}
+    \item Title: Short description of what to do the next week
+\end{itemize}
+
+
+
+\newpage
+\section{Testing Templates}
+\begin{tabular}{| l | p{9 cm} |} \hline
+ID & ID of the test \\ \hline
+Description & Description/title of the test \\ \hline
+Related Task ID & ID of related task(s) in Pivotal Tracker \\ \hline %nødvendig?
+Precondition & Precondition that needs to be fulfilled to perform the test \\ \hline
+Feature & What feature of the project does this belong to \\ \hline
+Execution & Execution steps\\ \hline
+Expected Result & Expected result\\ \hline
+\end{tabular}\\\\
+Test result template ?.?\\
+\begin{tabular}{| l | l |} \hline
+ID & ID of the test \\ \hline
+Description & Description/title of the test \\ \hline
+Tester & Name of tester \\ \hline
+Date & Date of the test\\ \hline
+Result & Result of the test\\ \hline
+\end{tabular}
 
 \end{document}
 

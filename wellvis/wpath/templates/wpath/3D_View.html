@@ -38,43 +38,6 @@
 							<div class="divEmpty headerEmpty"></div>
 						</div>
 						<div id="theAddPathContainer">
-
-							<div id="wellPathInfoBoxContainer_000" class="wellPathInfoBoxContainer">
-								<div class="wellPathInputBoxContainer divMD">
-									<input id="valueMD_000" type="text" name="valueMD" size="10"/>
-								</div>
-								<div class="wellPathInputBoxContainer divINC">
-									<input id="valueINC_000" type="text" name="valueINC" size="10"/>
-								</div>
-								<div class="wellPathInputBoxContainer divAZI">
-									<input id="valueAZI_000" type="text" name="valueAZI" size="10"/>
-								</div>
-								<div class="wellPathInputBoxContainer divMD">
-									<input id="valueNS_000" type="text" name="valueMD" size="10"/>
-								</div>
-								<div class="wellPathInputBoxContainer divINC">
-									<input id="valueEW_000" type="text" name="valueINC" size="10"/>
-								</div>
-								<div class="wellPathInputBoxContainer divAZI">
-									<input id="valueVSec_000" type="text" name="valueAZI" size="10"/>
-								</div>
-								<div class="wellPathInputBoxContainer divAddPathBtn">
-									<button id="addPathBtn_000" class="btn addEditPathBtn addPathBtn">
-										<span class"">Add</span>
-									</button>
-								</div>
-								<div class="wellPathInputBoxContainer divEditPathBtn" style="display: none;">
-									<button id="editPathBtn_000" class="btn addEditPathBtn editPathBtn">
-										<span class"">Edit</span>
-									</button>
-								</div>
-								<div class="wellPathInputBoxContainer divDonePathBtn" style="display: none;">
-									<button id="donePathBtn_000" class="btn addEditPathBtn donePathBtn">
-										<span class"">Done</span>
-									</button>
-								</div>
-							</div>
-
 						</div>
 					</div>
 				</div>
@@ -795,12 +758,18 @@
 {% endblock %}
 
 {% block scripts %}
+		
+		<script src="{{ STATIC_URL }}/js/3D/wellvis_model.js"></script>
+		<script src="{{ STATIC_URL }}/js/3D/wellvis_controller.js"></script>
+		<script src="{{ STATIC_URL }}/js/3D/wellvis_math.js"></script>
+		<script src="{{ STATIC_URL }}/js/3D/wellvis_3D.js"></script>
+
+
 		<script src="{{ STATIC_URL }}/js/3D/three.min.js"></script>
 
 		<script src="{{ STATIC_URL }}/js/3D/TrackballControls-Modified.js"></script>
 
 		<script src="{{ STATIC_URL }}/js/3D/Detector.js"></script>
-		<script src="{{ STATIC_URL }}/js/3D/stats.js"></script>
 		<script src="{{ STATIC_URL }}/js/jquery-2.0.3.min.js"></script>
 		<script src="{{ STATIC_URL }}/js/jquery-ui.js"></script>
 		<script src="{{ STATIC_URL }}js/jquery-cookie.js"></script>
@@ -837,7 +806,13 @@
 </script>
 <script type="text/javascript">
 
+//==|| The well's primary key
 var well_pk = {{ wellpk }}
+
+
+//========================
+//==|| the well's data 
+//========================
 var theWellJSONdata = get_wellpath({{ wellpk }});
 
 
@@ -949,7 +924,12 @@ var someWellJSONdata = {
 // };
 
 
+//====================================
+//==|| The 3D module setting
+//====================================
 var theDefaultSettingsJSONdata = get_3dconfig();
+
+
 
 //==|| For Default Settings
 //==|| These are the setting different components of our 3D Module
@@ -996,8 +976,6 @@ save_3dconfig(theDefaultSettingsJSONdata);
 <script type="text/javascript">
 
 
-
-
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 	//=============================
@@ -1005,18 +983,20 @@ save_3dconfig(theDefaultSettingsJSONdata);
 	//=============================
 
 
-	var theContainer = $('#theContainer');
-	var stats;
+	var WELLVIS = {};
 
-	var theCamera;
-	var theCameraTarget;
 
-	var theControls;
+	WELLVIS.theContainer = $('#theContainer');
+	
+	WELLVIS.theCamera;
+	WELLVIS.theCameraTarget;
 
-	var theScene;
-	var theSceneColor = "#000";//"Black"; //0x000000;
+	WELLVIS.theControls;
 
-	var theRenderer;
+	WELLVIS.theScene;
+	WELLVIS.theSceneColor = "#000";//"Black"; //0x000000;
+
+	WELLVIS.theRenderer;
 
 	//==|| The Browser window/screen dimension
 	var theScreenWidth = window.innerWidth;
@@ -1030,205 +1010,174 @@ save_3dconfig(theDefaultSettingsJSONdata);
 
    	//==|| The widht and height for the 3D Module Area
 
-   	var theWidth 	= theScreenWidth - 446 - 8; //418 	//==|| Minus the Left Panel width and area taken by margin
-   	var theHeight 	= theScreenHeight - 60 - 100; 		//==|| Minus the Area taken by Top most Panels
-  	//theHeight = theHeight - 40;
-
+   	WELLVIS.theWidth 	= theScreenWidth - 446 - 8; //418 	//==|| Minus the Left Panel width and area taken by margin
+   	WELLVIS.theHeight 	= theScreenHeight - 60 - 100; 		//==|| Minus the Area taken by Top most Panels
+  	
 	//==|| The Axes-Plane Ranges
-   	var minY = -100, 
-   		maxY = 100;
-   	var	minX = -100, 
-   		maxX = 100;
-   	var	theZ = 150;
+   	WELLVIS.minY = -100; 
+   	WELLVIS.maxY = 100;
+   	WELLVIS.minX = -100; 
+   	WELLVIS.maxX = 100;
+   	WELLVIS.theZ = 150;
 
    	//==|| The Unit for grids
-   	var theUnit = 50;
+   	WELLVIS.theUnit = 50;
 
 
 
    	//==|| the Main Object that would contain every other object in the scene
-	var theMainObject = new THREE.Object3D();
+	WELLVIS.theMainObject = new THREE.Object3D();
 
 	//==|| The WellPath
-	var theWellPath = new THREE.Object3D();
+	WELLVIS.theWellPath = new THREE.Object3D();
 
 	//==|| Stores the lines that make up the Well Path
-	var theWellPathList = new Array();
+	WELLVIS.theWellPathList = new Array();
 
 
 	//==|| The three main Planes
-   	var theYZ_Plane = new THREE.Object3D();
-   	var theXZ_Plane = new THREE.Object3D();
-   	var theXY_Plane = new THREE.Object3D();
+   	WELLVIS.theYZ_Plane = new THREE.Object3D();
+   	WELLVIS.theXZ_Plane = new THREE.Object3D();
+   	WELLVIS.theXY_Plane = new THREE.Object3D();
 
 
    	//==|| The Arrow to North
-	var theArrowNorth, theArrowNorthmaterial, theArrowNorthgeo;
-	var theArrowNorthColor = "#FFFFFF";
-	var theArrowNorthOpacity = 1;	
-  	var theArrowNorth_Margin = 450; //==|| How far it is from the XY-Plane
-  	var theArrowNorth_Width = 50;	//==|| How wide is it spread NOT length
+	WELLVIS.theArrowNorth;
+	WELLVIS.theArrowNorthmaterial; 
+	WELLVIS.theArrowNorthgeo;
+	WELLVIS.theArrowNorthColor 		= "#FFFFFF";
+	WELLVIS.theArrowNorthOpacity 	= 1;	
+  	WELLVIS.theArrowNorth_Margin 	= 450; //==|| How far it is from the XY-Plane
+  	WELLVIS.theArrowNorth_Width 	= 50;	//==|| How wide is it spread NOT length
 
-	//==|| The Lines to the Origin
-	var linesToOrigin, linesToOriginMaterial, linesToOriginGeo;
-
-		var colorRed = 0xFF0000;
-		var colorGreen = 0x00FF00;
-		var colorBlue = 0x0000FF;
-
+	
 	   	//==|| The YZ-Plane Childrens
-	 	var theYZ_PlaneOutline, 	theYZ_PlaneOutlineGeo, 		theYZ_PlaneOutlineMaterial;
-	 	var theYZ_PlaneGridLines, 	theYZ_PlaneGridLinesGeo, 	theYZ_PlaneGridLinesMaterial;
-	 	var theYZ_PlaneAxisLine, 	theYZ_PlaneAxisLineGeo, 	theYZ_PlaneAxisLineMaterial;
-	 	var theYZ_PlaneOutlineMaterialColor 		= colorGreen;
-	 	var theYZ_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneOutlineMaterialLineOpacity 	= 1;
-	 	var theYZ_PlaneGridLinesMaterialColor 		= 0x333333;
-	 	var theYZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneGridLinesMaterialLineOpacity	= 1;
-	 	var theYZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
-	 	var theYZ_PlaneAxisLineMaterialLineWidth 	= 1;
-	 	var theYZ_PlaneAxisLineMaterialLineOpacity 	= 1;
+	WELLVIS.theYZ_PlaneOutline; 	
+	WELLVIS.theYZ_PlaneOutlineGeo; 		
+	WELLVIS.theYZ_PlaneOutlineMaterial;
+	WELLVIS.theYZ_PlaneGridLines;
+	WELLVIS.theYZ_PlaneGridLinesGeo;
+	WELLVIS.theYZ_PlaneGridLinesMaterial;
+	WELLVIS.theYZ_PlaneAxisLine;
+	WELLVIS.theYZ_PlaneAxisLineGeo;
+	WELLVIS.theYZ_PlaneAxisLineMaterial;
+	WELLVIS.theYZ_PlaneOutlineMaterialColor 		= 0x00FF00;
+	WELLVIS.theYZ_PlaneOutlineMaterialLineWidth 	= 1;
+	WELLVIS.theYZ_PlaneOutlineMaterialLineOpacity 	= 1;
+	WELLVIS.theYZ_PlaneGridLinesMaterialColor 		= 0x333333;
+	WELLVIS.theYZ_PlaneGridLinesMaterialLineWidth 	= 1;
+	WELLVIS.theYZ_PlaneGridLinesMaterialLineOpacity	= 1;
+	WELLVIS.theYZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
+	WELLVIS.theYZ_PlaneAxisLineMaterialLineWidth 	= 1;
+	WELLVIS.theYZ_PlaneAxisLineMaterialLineOpacity 	= 1;
 	 	//==|| The YZ-Plane Grids
-	 	var theYZ_PlaneGrids =  new THREE.Object3D();
+	WELLVIS.theYZ_PlaneGrids =  new THREE.Object3D();
 
 
 		//==|| The XZ-Plane Childrens
-	 	var theXZ_PlaneOutline, 	theXZ_PlaneOutlineGeo, 		theXZ_PlaneOutlineMaterial;
-     	var theXZ_PlaneGridLines, 	theXZ_PlaneGridLinesGeo, 	theXZ_PlaneGridLinesMaterial;
-     	var theXZ_PlaneAxisLine, 	theXZ_PlaneAxisLineGeo, 	theXZ_PlaneAxisLineMaterial;
-	 	var theXZ_PlaneOutlineMaterialColor 		= colorRed;
-	 	var theXZ_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneOutlineMaterialLineOpacity 	= 1;
-	 	var theXZ_PlaneGridLinesMaterialColor 		= 0x333333;
-	 	var theXZ_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneGridLinesMaterialLineOpacity	= 1;
-	 	var theXZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
-	 	var theXZ_PlaneAxisLineMaterialLineWidth 	= 1;
-	 	var theXZ_PlaneAxisLineMaterialLineOpacity 	= 1;
+	WELLVIS.theXZ_PlaneOutline;
+	WELLVIS.theXZ_PlaneOutlineGeo;
+	WELLVIS.theXZ_PlaneOutlineMaterial;
+    WELLVIS.theXZ_PlaneGridLines;
+    WELLVIS.theXZ_PlaneGridLinesGeo;
+    WELLVIS.theXZ_PlaneGridLinesMaterial;
+    WELLVIS.theXZ_PlaneAxisLine;
+    WELLVIS.theXZ_PlaneAxisLineGeo;
+    WELLVIS.theXZ_PlaneAxisLineMaterial;
+	WELLVIS.theXZ_PlaneOutlineMaterialColor 		= 0xFF0000;
+	WELLVIS.theXZ_PlaneOutlineMaterialLineWidth 	= 1;
+	WELLVIS.theXZ_PlaneOutlineMaterialLineOpacity 	= 1;
+	WELLVIS.theXZ_PlaneGridLinesMaterialColor 		= 0x333333;
+	WELLVIS.theXZ_PlaneGridLinesMaterialLineWidth 	= 1;
+	WELLVIS.theXZ_PlaneGridLinesMaterialLineOpacity	= 1;
+	WELLVIS.theXZ_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
+	WELLVIS.theXZ_PlaneAxisLineMaterialLineWidth 	= 1;
+	WELLVIS.theXZ_PlaneAxisLineMaterialLineOpacity 	= 1;
 	 	//==|| The XZ-Plane Grids
-	 	var theXZ_PlaneGrids =  new THREE.Object3D();
+	WELLVIS.theXZ_PlaneGrids =  new THREE.Object3D();
 
 
 		//==|| The XY-Plane Children
-     	var theXY_PlaneOutline, 	theXY_PlaneOutlineGeo, 		theXY_PlaneOutlineMaterial;
-     	var theXY_PlaneGridLines, 	theXY_PlaneGridLinesGeo, 	theXY_PlaneGridLinesMaterial;
-     	var theXY_PlaneAxisLine, 	theXY_PlaneAxisLineGeo, 	theXY_PlaneAxisLineMaterial;
-	 	var theXY_PlaneOutlineMaterialColor 		= colorBlue;
-	 	var theXY_PlaneOutlineMaterialLineWidth 	= 1;
-	 	var theXY_PlaneOutlineMaterialLineOpacity 	= 1;
-	 	var theXY_PlaneGridLinesMaterialColor 		= 0x333333;
-	 	var theXY_PlaneGridLinesMaterialLineWidth 	= 1;
-	 	var theXY_PlaneGridLinesMaterialLineOpacity = 1;
-	 	var theXY_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
-	 	var theXY_PlaneAxisLineMaterialLineWidth 	= 1;
-	 	var theXY_PlaneAxisLineMaterialLineOpacity 	= 1;
+    WELLVIS.theXY_PlaneOutline;
+    WELLVIS.theXY_PlaneOutlineGeo;
+    WELLVIS.theXY_PlaneOutlineMaterial;
+    WELLVIS.theXY_PlaneGridLines;
+    WELLVIS.theXY_PlaneGridLinesGeo;
+    WELLVIS.theXY_PlaneGridLinesMaterial;
+    WELLVIS.theXY_PlaneAxisLine;
+    WELLVIS.theXY_PlaneAxisLineGeo;
+    WELLVIS.theXY_PlaneAxisLineMaterial;
+	WELLVIS.theXY_PlaneOutlineMaterialColor 		= 0x0000FF;
+	WELLVIS.theXY_PlaneOutlineMaterialLineWidth 	= 1;
+	WELLVIS.theXY_PlaneOutlineMaterialLineOpacity 	= 1;
+	WELLVIS.theXY_PlaneGridLinesMaterialColor 		= 0x333333;
+	WELLVIS.theXY_PlaneGridLinesMaterialLineWidth 	= 1;
+	WELLVIS.theXY_PlaneGridLinesMaterialLineOpacity = 1;
+	WELLVIS.theXY_PlaneAxisLineMaterialColor 		= 0xAAAAAA;
+	WELLVIS.theXY_PlaneAxisLineMaterialLineWidth 	= 1;
+	WELLVIS.theXY_PlaneAxisLineMaterialLineOpacity 	= 1;
 	 	//==|| The XY-Plane Grids
-	 	var theXY_PlaneGrids =  new THREE.Object3D();
+	WELLVIS.theXY_PlaneGrids =  new THREE.Object3D();
 
 
 	//==|| The state of the grids
-	var planesAreVisible = true;
+	WELLVIS.planesAreVisible = true;
 
  	//==|| The state of the grids
-   	var gridIsVisible = true;
+   	WELLVIS.gridIsVisible = true;
 
    	//==|| The state of the rotation point
-   	var rotationPointIsVisible = true;
+    WELLVIS.rotationPointIsVisible = true;
 
    	//==|| The state of the Labels
-   	var labelsAreVisible = true;
+   	WELLVIS.labelsAreVisible = true;
 
    	//==|| The state of the well paths 
-   	var wellPathIsVisible = true;
+   	WELLVIS.wellPathIsVisible = true;
 
    	//==|| The state of the Left Panel
-   	var leftPanelIsVisible = true;
+   	WELLVIS.leftPanelIsVisible = true;
 
 
    	//==|| The center cursor/sign 
-	var theScreenCenter;
+	WELLVIS.theScreenCenter;
 	//==|| The length of each arm of the sign
-   	var centerSignLength = 100;
+   	WELLVIS.centerSignLength = 100;
    	//==|| The visibility status of the screen center sign
-   	var screenCenterIsVisible = true;
+   	WELLVIS.screenCenterIsVisible = true;
    	//==|| The Color of the Screen Center Sign
-   	var screenCenterSignColor = 0xEEEEEE;
+   	WELLVIS.screenCenterSignColor = 0xEEEEEE;
    	//==|| The Opacity of the Screen Center / The center of Rotation
-   	var screenCenterSignOpacity = 1;
+   	WELLVIS.screenCenterSignOpacity = 1;
 
 
    	//==|| Stores the values/labels for the grids
-   	var theXZ_PlaneLabels = new THREE.Object3D();
-   	var theXY_PlaneLabels = new THREE.Object3D();
+   	WELLVIS.theXZ_PlaneLabels = new THREE.Object3D();
+   	WELLVIS.theXY_PlaneLabels = new THREE.Object3D();
 
-   	var theLabelColor = "#FFFFFF";
-   	var theLabelFont = "Arial";
-   	var theLabelOpacity = 1.0;
-   	var theLabelFontSize = 60;
+   	WELLVIS.theLabelColor = "#FFFFFF";
+   	WELLVIS.theLabelFont = "Arial";
+   	WELLVIS.theLabelOpacity = 1.0;
+   	WELLVIS.theLabelFontSize = 60;
 
    	//==|| The distance between the Axes-Plane outline and the grid value/label
-   	var labelMargin = 200;
+   	WELLVIS.theLabelMargin = 200;
 
 
 
    	//==|| The Previous point - initially at the origin
-   	var thePreviousPoint = new THREE.Vector3(0,0,0); 
+   	WELLVIS.thePreviousPoint = new THREE.Vector3(0,0,0); 
 
    	//==|| The no. of well path lines in the model
-   	var noOfWellPathLines = 0;
+   	WELLVIS.noOfWellPathLines = 0;
 
-   	var theWellLineColor = 0x4045ff;
-   	var theWellLineOpacity = 1;
+   	WELLVIS.theWellLineColor = 0x4045ff;
+   	WELLVIS.theWellLineOpacity = 1;
 
-	var theWellPathArray = new Array();
-
-
-//==|| The object that holds everything about a line
-var theLine = function(theStartPoint, theEndPoint, theColor, theLineWidth, theLineOpacity) {
-	this.theStartPoint 	= theStartPoint;
-	this.theEndPoint 	= theEndPoint;
-	this.theColor 		= theColor;
-	this.theLineWidth 	= theLineWidth;
-	this.theLineOpacity = theLineOpacity;
-
-};
-
-var theRows = new Array();
-
-//==|| The Object that would store everything that a single row in Table has
-//==|| The Table being the left-panel where user inputs values
-function RowData(theMD, theCL, theINC, theAZI, theTVD, theX, theY, theZ, theNS, theEW, theVsec, theDogleg, theBuild, theTurn, theSecType) {
-	this.theMD 		= theMD;
-	this.theCL 		= theCL;
-	this.theINC 	= theINC;
-	this.theAZI 	= theAZI;
-	this.theTVD 	= theTVD; 
-	this.theX 		= theX;
-	this.theY 		= theY;
-	this.theZ 		= theZ;
-	this.theNS 		= theNS;
-	this.theEW 		= theEW;
-	this.theVsec	= theVsec;
-	this.theDogleg	= theDogleg;
-	this.theBuild 	= theBuild;
-	this.theTurn	= theTurn;
-	this.theSecType	= theSecType;
-}
+	WELLVIS.theWellPathArray = new Array();
 
 
-//==|| The function that creates a new RowData object with exactly same values that the passed argument RowData object contains
-function duplicateThisRowData(rowData) { 
-	return new RowData(	
-						rowData.theMD,		rowData.theCL, 
-						rowData.theINC, 	rowData.theAZI, 	rowData.theTVD, 
-						rowData.theX,		rowData.theY, 		rowData.theZ, 
-						rowData.theNS, 		rowData.theEW, 		rowData.theVsec, 
-						rowData.theDogleg,	rowData.theBuild, 	rowData.theTurn, 
-						rowData.theSecType
-					);
 
-}
 //####################################################################################################################################
 //#########################################################[ DOM Ready ]##############################################################
 //####################################################################################################################################
@@ -1245,15 +1194,15 @@ $(document).ready(function() {
 	//readWellJSONdata(theDefaultWellJSONdata); //==|| The Default empty 3D Well Module
 
 
-	//==Read the setting
+	//==Read the setting for 3D module
 	readSettings(theDefaultSettingsJSONdata);
 
 
-	$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
-	$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
+	$("#thePathsDetailContainer").css({"height" : WELLVIS.theHeight + 2 - 45});
+	$("#theConfigurationPanel").css({"height": WELLVIS.theHeight + 2 - 45});
 
-	$("#theContainer").css({"width" :  theWidth });
-	$("#theContainer").css({"height" :  theHeight});
+	WELLVIS.theContainer.css({"width" :  WELLVIS.theWidth });
+	WELLVIS.theContainer.css({"height" :  WELLVIS.theHeight});
 
 
 	//==|| Left Panel will be Tabbed
@@ -1325,40 +1274,47 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 
+
 //==|| Initialization -  the first method that set ups the entire 3D module
 function init() {
 
 	//==|| The Camera
-	theCamera = new THREE.PerspectiveCamera( 45, theWidth / theHeight, 1, 10000 );
+	WELLVIS.theCamera = new THREE.PerspectiveCamera( 45, WELLVIS.theWidth / WELLVIS.theHeight, 1, 10000 );
    
-    theCamera.position.x = -3350; 	//350; //==|| This is our zoom now
-    theCamera.position.y = 1285;	//285;
-	theCamera.position.z = -1055;	//-55;
+    WELLVIS.theCamera.position.x = -3350; 	//350; //==|| This is our zoom now
+    WELLVIS.theCamera.position.y = 1285;	//285;
+	WELLVIS.theCamera.position.z = -1055;	//-55;
 
     //==| Flip the camera so that the Z is pointing downwards rather than upwards
-    theCamera.up.set(0, 0, -1 ); 
+    WELLVIS.theCamera.up.set(0, 0, -1 ); 
 
    	
 	//==|| The World / The Scene
-	theScene = new THREE.Scene();
+	WELLVIS.theScene = new THREE.Scene();
 	
 	//==|| The Renderer
-	theRenderer = new THREE.WebGLRenderer( { antialias: true } );
-	theRenderer.setSize( theWidth, theHeight );
+	WELLVIS.theRenderer = new THREE.WebGLRenderer( { antialias: true } );
+	WELLVIS.theRenderer.setSize( WELLVIS.theWidth, WELLVIS.theHeight );
 
 	//==|| Add Axes Planes to the scene
 	addAxesPlanes();
 	
 
 	//==|| The Target for camera to rotate on -  this is the center of rotation - center of the screen
-   	theCameraTarget = new THREE.Vector3(0, -28, 810);
+   	WELLVIS.theCameraTarget = new THREE.Vector3(0, -28, 810);
 
 	//==|| Create a sign at the center of the screen - center of rotation
-	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
+	createScreenCenter(		WELLVIS.theCameraTarget.x, 
+							WELLVIS.theCameraTarget.y, 
+							WELLVIS.theCameraTarget.z, 
+							WELLVIS.centerSignLength, 
+							WELLVIS.screenCenterSignColor, 
+							WELLVIS.screenCenterSignOpacity
+						);
 		
 
     //==|| attach the render-supplied DOM element
-    theContainer.append(theRenderer.domElement);
+    WELLVIS.theContainer.append(WELLVIS.theRenderer.domElement);
 
 
     //==|| Add Trackball controls	
@@ -1370,1360 +1326,56 @@ function init() {
 }
 
 
+</script>
 
-//===================================================================================
-//==|| Reads theWellJSONdata JSON object and constructs the well according to it
-//===================================================================================
-function readWellJSONdata(theWellJSONdata) {
-
-	//==|| Resetting the Previous point to be Origin
-	thePreviousPoint = new THREE.Vector3(0,0,0); 
-
-	//==|| Resetting the No. of well Path lines to be 0
-   	noOfWellPathLines = 0;
-
-   	//==|| Emptying the Tables of values
-   	 $("#theAddPathContainer").empty();
-
-	//theWellPathArray
-
-	var data = theWellJSONdata;
-
-		//==|| Read the ranges for the Axes Plane
-		minX 	= data.minX;
-		maxX 	= data.maxX;
-		minY 	= data.minY;
-		maxY	= data.maxY;
-		theZ 	= data.theZ;
-		theUnit = data.theUnit;
-
-		
-		//==|| Redraw the Axes planes according to the new ranges
-		redrawAxesPlanes();
+<script type="text/javascript">
 
 
-		//==|| These are the values User inputted
-		var theValues = data.theValues;
-
-		//==|| Iterate through the values
-		$.each(theValues, function(valuesIndex) {
-				
-				//==|| The values 
-				var theMD 		= theValues[valuesIndex].theMD;
-				var theCL 		= theValues[valuesIndex].theCL;
-				var theINC 		= theValues[valuesIndex].theINC;
-				var theAZI		= theValues[valuesIndex].theAZI;
-				var theTVD		= theValues[valuesIndex].theTVD;
-				var itsX 		= theValues[valuesIndex].itsX;
-				var itsY 		= theValues[valuesIndex].itsY;
-				var itsZ 		= theValues[valuesIndex].itsZ;
-				var itsNS		= theValues[valuesIndex].itsNS;
-				var itsEW		= theValues[valuesIndex].itsEW;
-				var itsVsec		= theValues[valuesIndex].itsVsec;
-				var theDogleg	= theValues[valuesIndex].theDogleg;
-				var theBuild	= theValues[valuesIndex].theBuild;
-				var theTurn		= theValues[valuesIndex].theTurn;
-				var theSecType	= theValues[valuesIndex].theSecType;
-
-
-				colorTrace("Reading Data from the JSON object", "RED");
-				colorTrace("theMD = " + theMD + "\ttheCL = " + theCL + "\ttheINC = " + theINC + "\ttheAZI = " + theAZI + "\ttheTVD = " + theTVD, "Blue");
-				colorTrace("itsX = " + itsX + "\titsY = " + itsY + "\titsZ = " + itsZ + "\titsNS = " + itsNS + "\titsEW = " + itsEW + "\titsVsec = " + itsVsec, "Green");
-				colorTrace("theDogleg = " + theDogleg + "\ttheBuild = " + theBuild + "\ttheTurn = " + theTurn + "\ttheSecType = " + theSecType, "Blue");
-				
-				//==|| These are the points that make up the line
-				//==|| NOTE: currently not doing anything with them...
-				var thePoints 	= theValues[valuesIndex].thePoints;
-						
-			
-				//==|| Add this to our main Well path object
-				addWellPath(itsX, itsY, itsZ);
-
-				if(valuesIndex == (theValues.length - 1)) {
-					colorTrace("this is the last one", "Red");
-
-					//==|| Add a new Row in the table with the values shown
-					addNewRowInTable(	noOfWellPathLines, 
-										theMD, theCL, 
-										theINC, theAZI, theTVD, 
-										itsX, itsY, itsZ, itsNS, itsEW, itsVsec, 
-										theDogleg, theBuild, theTurn, 
-										theSecType, "Remove" , false
-									);
-				}
-				else {
-					//==|| Add a new Row in the table with the values shown
-					addNewRowInTable(	noOfWellPathLines, 
-										theMD, theCL, 
-										theINC, theAZI, theTVD, 
-										itsX, itsY, itsZ, itsNS, itsEW, itsVsec, 
-										theDogleg, theBuild, theTurn, 
-										theSecType, "Nothing" , false
-									);
-				}	
-				
-
-				noOfWellPathLines++;
-				
-				colorTrace("inside readWllJSONdata  no.of well path lines " + noOfWellPathLines, "Green");
-
-			
-				registerButtonPressReleaseEffects();
-
-
-				$.each(thePoints, function(pointsIndex) {
-					var x = thePoints[pointsIndex].x;
-					var y = thePoints[pointsIndex].y;
-					var z = thePoints[pointsIndex].z;
-					
-					/*
-					//==|| Let's check the values
-					colorTrace("x : " + x, "Green");
-					colorTrace("y : " + y, "Blue");
-					colorTrace("z : " + z, "Green");
-					*/
-
-					//==|| Need to do something with these points later ||==
-					// ****
-					// ****
-					// ****
-					// ****
-				});
-
-				
-
-		});
-
-	//==|| Adding a new row
-	addNewRowInTable(noOfWellPathLines, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);	
-
-	colorTrace("inside readWllJSONdata 2 no.of well path lines " + noOfWellPathLines, "Green");
-
-	//==|| Register the event listeners for the Buttons
-	registerAddPathButton();
-	registerEditPathButton();
-	registerDonePathButton();
-
-	registerButtonPressReleaseEffects();
-
-	//==|| Render the changes
-	render();	
-
-
-}
-
-
-//============================================================
-//==|| Reading the 3D Module Setting from a JSON object
-//==|| and update the 3D Module according to it.
-//============================================================
-function readSettings(data) {
- 	//var data = theDefaultSettingsJSONdata;
- 	
- 	//==|| Get the Values from the JSON object
- 	theSceneColor					  	= data.theSceneColor;
- 	theWellLineColor				  	= data.theWellLineColor;
- 	theWellLineOpacity					= data.theWellLineOpacity;
-
- 	theXY_PlaneOutlineMaterialColor	  			= data.theXY_PlaneOutlineMaterialColor;
- 	theXY_PlaneOutlineMaterialLineOpacity	  	= data.theXY_PlaneOutlineMaterialLineOpacity;
-	theXY_PlaneGridLinesMaterialColor 			= data.theXY_PlaneGridLinesMaterialColor;
-	theXY_PlaneGridLinesMaterialLineOpacity 	= data.theXY_PlaneGridLinesMaterialLineOpacity;
-	theXY_PlaneAxisLineMaterialColor  			= data.theXY_PlaneAxisLineMaterialColor;
-	theXY_PlaneAxisLineMaterialLineOpacity  	= data.theXY_PlaneAxisLineMaterialLineOpacity;
-
-	theXZ_PlaneOutlineMaterialColor	  			= data.theXZ_PlaneOutlineMaterialColor;
-	theXZ_PlaneOutlineMaterialLineOpacity		= data.theXZ_PlaneOutlineMaterialLineOpacity;
-	theXZ_PlaneGridLinesMaterialColor 			= data.theXZ_PlaneGridLinesMaterialColor;
-	theXZ_PlaneGridLinesMaterialLineOpacity 	= data.theXZ_PlaneGridLinesMaterialLineOpacity;
-	theXZ_PlaneAxisLineMaterialColor  			= data.theXZ_PlaneAxisLineMaterialColor;
-	theXZ_PlaneAxisLineMaterialLineOpacity  	= data.theXZ_PlaneAxisLineMaterialLineOpacity;
-
-	theYZ_PlaneOutlineMaterialColor   			= data.theYZ_PlaneOutlineMaterialColor;
-	theYZ_PlaneOutlineMaterialLineOpacity		= data.theYZ_PlaneOutlineMaterialLineOpacity;
-	theYZ_PlaneGridLinesMaterialColor 			= data.theYZ_PlaneGridLinesMaterialColor;
-	theYZ_PlaneGridLinesMaterialLineOpacity		= data.theYZ_PlaneGridLinesMaterialLineOpacity;
-	theYZ_PlaneAxisLineMaterialColor  			= data.theYZ_PlaneAxisLineMaterialColor;
-	theYZ_PlaneAxisLineMaterialLineOpacity		= data.theYZ_PlaneAxisLineMaterialLineOpacity;
-
-	theLabelColor				= data.theLabelColor;
-	theLabelFontSize			= data.theLabelFontSize;
-	theLabelOpacity				= data.theLabelOpacity;
-
-	theArrowNorthColor			= data.theArrowNorthColor;
-	theArrowNorthOpacity		= data.theArrowNorthOpacity;
-	screenCenterSignColor		= data.screenCenterSignColor;
-	screenCenterSignOpacity		= data.screenCenterSignOpacity;
-
-
-	//==|| Show the values in their respective Input boxes in the Configuration Tab in the Left Panel
-	$("#theSceneColorInput").val(theSceneColor);
-	$("#theWellPathColorInput").val(theWellLineColor);
-
-	$("#XYplaneOutlineColorInput").val(theXY_PlaneOutlineMaterialColor);
-	$("#XYplaneGridlineColorInput").val(theXY_PlaneGridLinesMaterialColor);
-	$("#XYplaneAxislineColorInput").val(theXY_PlaneAxisLineMaterialColor);
-
-	$("#XZplaneOutlineColorInput").val(theXZ_PlaneOutlineMaterialColor);
-	$("#XZplaneGridlineColorInput").val(theXZ_PlaneGridLinesMaterialColor);
-	$("#XZplaneAxislineColorInput").val(theXZ_PlaneAxisLineMaterialColor);
-
-	$("#YZplaneOutlineColorInput").val(theYZ_PlaneOutlineMaterialColor);
-	$("#YZplaneGridlineColorInput").val(theYZ_PlaneGridLinesMaterialColor);
-	$("#YZplaneAxislineColorInput").val(theYZ_PlaneAxisLineMaterialColor);
-
-	$("#labelColorInput").val(theLabelColor);
-	//$("#labelSizeInput").val(theLabelFontSize);
-
-	$("#arrowColorInput").val(theArrowNorthColor);
-	$("#rotationSignColorInput").val(screenCenterSignColor);
+//######################################################################################################################################
+//######################################################################################################################################
+//####################   #########   ###           ####        #####   #######   ####         ##########################################
+//#####################   #######   ########   ########   ##########   #######   ###    ################################################
+//######################   #####   #########   ########      #######   #######   ####         ##########################################
+//#######################   ###   ##########   ########   ##########   #     #   ###########   #########################################
+//########################   #   ###########   ########   ##########      #      ##########    #########################################
+//#########################     ########           ####         ####     ###     ####         ##########################################
+//######################################################################################################################################
+//######################################################################################################################################
 
 
 
 
-	//###############################################################################################################
-	//##########################################[ The Color Pickers ]################################################
-	//###############################################################################################################
+//==|| This checks if the point entered in the text-boxes is fine
+//==|| This receives the current active row no (by active row it means the row in the table
+//==|| in which the text input is active ) which is used to check each of the inputs
+//==|| Currently it only checks if the inputs are non-empty or not.
+//==|| later need to add the features like adding 0 automatically when nothing is there
+//==|| when there are non-numbers, change them to 0 or show some message saying false input
+function isPointOkToAdd(noOfWellPathLines) {
+
+
+	var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
 	
-	//========================
-	//==|| For the Scene
-	//========================
-	$("#theSceneColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();
-			changeSceneColor(tinycolor);
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	changeSceneColor(tinycolor);
-	    	theSceneColor = tinycolor;
+	colorTrace("noOfWellPathLinesStr" + noOfWellPathLinesStr, "Green");
 
-			saveSettings();
+	//==|| Checks if the input fields are empty 
+	if($("#valueMD_" + noOfWellPathLinesStr).val().length == 0 ) {
+    	return false;
+    }
 
-			render();
-        }
-	});
+	if($("#valueINC_" + noOfWellPathLinesStr).val().length == 0 ) {
+    	return false;
+    }
 
+    if($("#valueAZI_" + noOfWellPathLinesStr).val().length == 0 ) {
+    	return false;
+    }
 
-	//========================
-	//==|| For the Well Path
-	//========================
-	$("#theWellPathColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theWellLineColor = tinycolor;
-			redrawWellPath(true);
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	theWellLineColor = tinycolor;
-	    	redrawWellPath(true);
-			render();
 
-			saveSettings();
-        }
-	});
-
-
-	//==================================
-	//==|| For the Outline of XY Plane
-	//==================================
-	$("#XYplaneOutlineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theXY_PlaneOutlineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXY_Plane();
-			//==|| Redrawing the XY Plane
-			drawXY_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theXY_PlaneOutlineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXY_Plane();
-			//==|| Redrawing the XY Plane
-			drawXY_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-
-	//=======================================
-	//==|| For the Gridlines  of XY Plane
-	//=======================================
-	$("#XYplaneGridlineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theXY_PlaneGridLinesMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXY_Plane();
-			//==|| Redrawing the XY Plane
-			drawXY_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theXY_PlaneGridLinesMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXY_Plane();
-			//==|| Redrawing the XY Plane
-			drawXY_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-	//=======================================
-	//==|| For the Axes lines  of XY Plane
-	//=======================================
-	$("#XYplaneAxislineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theXY_PlaneAxisLineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXY_Plane();
-			//==|| Redrawing the XY Plane
-			drawXY_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theXY_PlaneAxisLineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXY_Plane();
-			//==|| Redrawing the XY Plane
-			drawXY_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-
-	//=======================================
-	//==|| For the Outline of XZ Plane
-	//=======================================
-	$("#XZplaneOutlineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theXZ_PlaneOutlineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawXZ_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theXZ_PlaneOutlineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawXZ_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-
-	//=======================================
-	//==|| For the Gridlines  of XZ Plane
-	//=======================================
-	$("#XZplaneGridlineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theXZ_PlaneGridLinesMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawXZ_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theXZ_PlaneGridLinesMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawXZ_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-	//=======================================
-	//==|| For the Axes lines  of XZ Plane
-	//=======================================
-	$("#XZplaneAxislineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theXZ_PlaneAxisLineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawXZ_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theXZ_PlaneAxisLineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyXZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawXZ_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-
-	//=======================================
-	//==|| For the Outline of YZ Plane
-	//=======================================
-	$("#YZplaneOutlineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theYZ_PlaneOutlineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyYZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawYZ_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theYZ_PlaneOutlineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyYZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawYZ_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-
-	//=======================================
-	//==|| For the Gridlines  of YZ Plane
-	//=======================================
-	$("#YZplaneGridlineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theYZ_PlaneGridLinesMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyYZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawYZ_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theYZ_PlaneGridLinesMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyYZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawYZ_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-	//=======================================
-	//==|| For the Axes lines  of YZ Plane
-	//=======================================
-	$("#YZplaneAxislineColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theYZ_PlaneAxisLineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyYZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawYZ_Plane();	
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theYZ_PlaneAxisLineMaterialColor = tinycolor;
-
-			//==|| Empty XY Plane first
-			emptyYZ_Plane();
-			//==|| Redrawing the XY Plane
-			drawYZ_Plane();	
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-	//=======================================
-	//==|| For the Labels
-	//=======================================
-	$("#labelColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theLabelColor = tinycolor;
-
-			//==|| Empty all Axes Planes first
-			emptyYZ_Plane();
-			emptyXY_Plane();
-			emptyXZ_Plane();
-
-			//==|| Redrawing all Axes Planes
-			drawYZ_Plane();
-			drawXY_Plane();
-			drawXZ_Plane();
-
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theLabelColor = tinycolor;
-
-			//==|| Empty all Axes Planes first
-			emptyYZ_Plane();
-			emptyXY_Plane();
-			emptyXZ_Plane();
-
-			//==|| Redrawing all Axes Planes
-			drawYZ_Plane();	
-			drawXY_Plane();
-			drawXZ_Plane();
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-	//=======================================
-	//==|| For the North arrow
-	//=======================================
-	$("#arrowColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	theArrowNorthColor = tinycolor;
-					
-			//==|| remove the previous North Arrow 
-			theMainObject.remove(theArrowNorth);
-
-			//==|| Now redraw the North Arrow
-			drawArrowNorth();
-
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	theArrowNorthColor = tinycolor;
-					
-			//==|| remove the previous North Arrow 
-			theMainObject.remove(theArrowNorth);
-
-			//==|| Now redraw the North Arrow
-			drawArrowNorth();
-
-			render();
-
-			saveSettings();
-        }
-	});
-
-
-	//=======================================
-	//==|| For the North arrow
-	//=======================================
-	$("#rotationSignColorInput").spectrum({
-	    preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    move: function(tinycolor) {
-	    	tinycolor = tinycolor.toHexString();	    	
-	    	screenCenterSignColor = tinycolor;
-				
-			//==|| remove the previous Screen Center		
-			theMainObject.remove(theScreenCenter);
-			//==|| Now create a new Screen Center
-			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
-
-			
-			render();
-	    },
-	    hide: function(tinycolor) {
-            tinycolor = tinycolor.toHexString();
-	    	//theWellLineColor = tinycolor;	    	
-	    	screenCenterSignColor = tinycolor;
-
-	    	//==|| remove the previous Screen Center
-	    	theMainObject.remove(theScreenCenter);			
-			//==|| Now create a new Screen Center		
-			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
-
-			render();
-
-
-			saveSettings();
-        }
-	});
-
-
-
-	//###########################################################################################################
-	//##########################################[ Opactiy Sliders ]##############################################
-	//###########################################################################################################
-
-	//=======================================
-	//==|| Opacity Slider for the Well Path
-	//=======================================
-	$("#theWellPathLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theWellLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			//colorTrace("Current Slide value is = " + values, "Green");
-			var displayValue = parseFloat(values);
-
-			//==|| new opacity value
-			theWellLineOpacity = displayValue;
-			
-			//==|| Redraw the well path with new changed features
-			redrawWellPath(true);
-			render();
-
-			//$(this).find(".noUi-origin-lower").html('<div class="noUi-handle noUi-handle-lower"></div>' + '<span class="opacityValue">' + values + "</span>");
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			colorTrace("Slide Stopped", "Red");
-
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-	//==============================================
-	//==|| Opacity Slider for the XY Plane Outline
-	//==============================================
-	$("#XYplaneOutlineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theXY_PlaneOutlineMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theXY_PlaneOutlineMaterialLineOpacity = displayValue;
-
-			emptyXY_Plane();
-			drawXY_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-	//==============================================
-	//==|| Opacity Slider for the XY Plane Outline
-	//==============================================
-	$("#XYplaneGridlineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theXY_PlaneGridLinesMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theXY_PlaneGridLinesMaterialLineOpacity = displayValue;
-
-			emptyXY_Plane();
-			drawXY_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-	//==============================================
-	//==|| Opacity Slider for the XY Plane Outline
-	//==============================================
-	$("#XYplaneAxislineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theXY_PlaneAxisLineMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theXY_PlaneAxisLineMaterialLineOpacity = displayValue;
-
-			emptyXY_Plane();
-			drawXY_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-
-
-
-	//==============================================
-	//==|| Opacity Slider for the XZ Plane Outline
-	//==============================================
-	$("#XZplaneOutlineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theXZ_PlaneOutlineMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theXZ_PlaneOutlineMaterialLineOpacity = displayValue;
-
-			emptyXZ_Plane();
-			drawXZ_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-	//================================================
-	//==|| Opacity Slider for the XZ Plane Gridline
-	//================================================
-	$("#XZplaneGridlineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theXZ_PlaneGridLinesMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theXZ_PlaneGridLinesMaterialLineOpacity = displayValue;
-
-			emptyXZ_Plane();
-			drawXZ_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-	//================================================
-	//==|| Opacity Slider for the XZ Plane Axisline
-	//================================================
-	$("#XZplaneAxislineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theXZ_PlaneAxisLineMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theXZ_PlaneAxisLineMaterialLineOpacity = displayValue;
-
-			emptyXZ_Plane();
-			drawXZ_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-
-
-
-	//================================================
-	//==|| Opacity Slider for the YZ Plane Outline
-	//================================================
-	$("#YZplaneOutlineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theYZ_PlaneOutlineMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theYZ_PlaneOutlineMaterialLineOpacity = displayValue;
-
-			emptyYZ_Plane();
-			drawYZ_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-	//================================================
-	//==|| Opacity Slider for the YZ Plane Gridlines
-	//================================================
-	$("#YZplaneGridlineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theYZ_PlaneGridLinesMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theYZ_PlaneGridLinesMaterialLineOpacity = displayValue;
-
-			emptyYZ_Plane();
-			drawYZ_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-	//================================================
-	//==|| Opacity Slider for the YZ Plane Axis Line
-	//================================================
-	$("#YZplaneAxislineLineOpacity").noUiSlider({
-		range: [0,1],
-		start: theYZ_PlaneAxisLineMaterialLineOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theYZ_PlaneAxisLineMaterialLineOpacity = displayValue;
-
-			emptyYZ_Plane();
-			drawYZ_Plane();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-
-	//================================================
-	//==|| Opacity Slider for the North Arrow 
-	//================================================
-	$("#arrowOpacity").noUiSlider({
-		range: [0,1],
-		start: theArrowNorthOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theArrowNorthOpacity = displayValue;
-
-			//==|| remove the previous North Arrow 
-			theMainObject.remove(theArrowNorth);
-
-			//==|| Now redraw the North Arrow
-			drawArrowNorth();
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-
-
-	//=====================================================
-	//==|| Opacity Slider for the Center of Rotation Sign
-	//=====================================================
-	$("#rotationSignOpacity").noUiSlider({
-		range: [0,1],
-		start: screenCenterSignOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			screenCenterSignOpacity = displayValue;
-
-	    	//==|| remove the previous Screen Center
-	    	theMainObject.remove(theScreenCenter);			
-			//==|| Now create a new Screen Center
-			createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1) );
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-
-
-	//=====================================================
-	//==|| Opacity Slider for the Center of Rotation Sign
-	//=====================================================
-	$("#labelSizeSlider").noUiSlider({
-		range: [300,950],
-		start: theLabelFontSize,
-		steps: 50,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseInt(values);
-
-			theLabelFontSize = displayValue;
-
-			//==|| Empty all Axes Planes first
-			emptyYZ_Plane();
-			emptyXY_Plane();
-			emptyXZ_Plane();
-
-			//==|| Redrawing all Axes Planes
-			drawYZ_Plane();
-			drawXY_Plane();
-			drawXZ_Plane();
-
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue);
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-
-
-
-	//=====================================================
-	//==|| Opacity Slider for the Center of Rotation Sign
-	//=====================================================
-	$("#labelOpacity").noUiSlider({
-		range: [0,1],
-		start: theLabelOpacity,
-		steps: 0.01,
-		handles: 1,
-
-		slide: function(){
-			var values = $(this).val();
-			var displayValue = parseFloat(values);
-
-			theLabelOpacity = displayValue;
-
-			//==|| Empty all Axes Planes first
-			emptyYZ_Plane();
-			emptyXY_Plane();
-			emptyXZ_Plane();
-
-			//==|| Redrawing all Axes Planes
-			drawYZ_Plane();
-			drawXY_Plane();
-			drawXZ_Plane();
-
-			render();
-
-			//==|| Display the current Opacity value in the Slide handle
-			$(this).find(".noUi-handle-lower").html( displayValue.toFixed(1));
-
-   		},
-   		set: function() {
-   			//==|| Lets Empty Slider handle 
-   			$(this).find(".noUi-handle-lower").html("");
-
-   			saveSettings();
-   		}
-	});
-
-
-//############################################
-//######[ Finally Redrawing everything ]######
-//############################################
-
-
-	//==|| Change the Scene color
-	changeSceneColor(theSceneColor);
-
-	//==|| remove the previous Screen Center
-	theMainObject.remove(theScreenCenter);	
-	//==|| Now create a new Screen Center		
-	createScreenCenter(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity);
-
-
-	//==|| Read the Settings 
-	redrawAxesPlanes();
-	redrawWellPath(true);
-
-
-
-
-
-} //==||################################################# readSettings() //#########################################
-
-//=========================================
-//==|| Save the Configurations/Settings 
-//=========================================
-function saveSettings() {		
-
-	theDefaultSettingsJSONdata.theSceneColor 							= theSceneColor;
-	theDefaultSettingsJSONdata.theWellLineColor 						= theWellLineColor;
-	theDefaultSettingsJSONdata.theWellLineOpacity 						= theWellLineOpacity;
-	theDefaultSettingsJSONdata.theXY_PlaneOutlineMaterialColor 			= theXY_PlaneOutlineMaterialColor;
-	theDefaultSettingsJSONdata.theXY_PlaneOutlineMaterialLineOpacity 	= theXY_PlaneOutlineMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theXY_PlaneGridLinesMaterialColor 		= theXY_PlaneGridLinesMaterialColor;
-	theDefaultSettingsJSONdata.theXY_PlaneGridLinesMaterialLineOpacity 	= theXY_PlaneGridLinesMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theXY_PlaneAxisLineMaterialColor 		= theXY_PlaneAxisLineMaterialColor;
-	theDefaultSettingsJSONdata.theXY_PlaneAxisLineMaterialLineOpacity 	= theXY_PlaneAxisLineMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theXZ_PlaneOutlineMaterialColor 			= theXZ_PlaneOutlineMaterialColor;
-	theDefaultSettingsJSONdata.theXZ_PlaneOutlineMaterialLineOpacity 	= theXZ_PlaneOutlineMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theXZ_PlaneGridLinesMaterialColor 		= theXZ_PlaneGridLinesMaterialColor;
-	theDefaultSettingsJSONdata.theXZ_PlaneGridLinesMaterialLineOpacity 	= theXZ_PlaneGridLinesMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theXZ_PlaneAxisLineMaterialColor 		= theXZ_PlaneAxisLineMaterialColor;
-	theDefaultSettingsJSONdata.theXZ_PlaneAxisLineMaterialLineOpacity 	= theXZ_PlaneAxisLineMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theYZ_PlaneOutlineMaterialColor 			= theYZ_PlaneOutlineMaterialColor;
-	theDefaultSettingsJSONdata.theYZ_PlaneOutlineMaterialLineOpacity 	= theYZ_PlaneOutlineMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theYZ_PlaneGridLinesMaterialColor 		= theYZ_PlaneGridLinesMaterialColor;
-	theDefaultSettingsJSONdata.theYZ_PlaneGridLinesMaterialLineOpacity 	= theYZ_PlaneGridLinesMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theYZ_PlaneAxisLineMaterialColor 		= theYZ_PlaneAxisLineMaterialColor;
-	theDefaultSettingsJSONdata.theYZ_PlaneAxisLineMaterialLineOpacity 	= theYZ_PlaneAxisLineMaterialLineOpacity;
-	theDefaultSettingsJSONdata.theLabelColor 							= theLabelColor;
-	theDefaultSettingsJSONdata.theLabelFontSize 						= theLabelFontSize;
-	theDefaultSettingsJSONdata.theLabelOpacity 							= theLabelOpacity;
-	theDefaultSettingsJSONdata.theArrowNorthColor 						= theArrowNorthColor;
-	theDefaultSettingsJSONdata.theArrowNorthOpacity 					= theArrowNorthOpacity;
-	theDefaultSettingsJSONdata.screenCenterSignColor 					= screenCenterSignColor;
-	theDefaultSettingsJSONdata.screenCenterSignOpacity 					= screenCenterSignOpacity;
-
-
-	//==|| Save the configuration
-	save_3dconfig(theDefaultSettingsJSONdata);
-
+    //==|| yah it's perfectly fine to add the point
+	return true;
 }
 
-
-
-
-//================================================
-//==|| Add a new line to the entire well Path
-//================================================
-function addWellPath(x, y, z) {
-	
-	var newPoint = v(x,y,z);
-
-	//==|| The New Line material
-  	var theNewLineMaterial = new THREE.LineBasicMaterial( {
-  			transparent: true,
-  			color: theWellLineColor,
-  			opacity: theWellLineOpacity, 
-  			lineWidth: 1
-  		}
-  	);
-
-
-	//==|| The New Line Geometry
-  	var theNewLineGeo = new THREE.Geometry();
-  	theNewLineGeo.vertices.push(
-  		thePreviousPoint, newPoint
-  	);
-
-
-  	//==|| The New Line
-  	var theNewLine = new THREE.Line(theNewLineGeo, theNewLineMaterial);
-  	theNewLine.type = THREE.Lines;
-
-
-	//==|| Add the line to the list of wellPath Lines
-	theWellPathArray.push(new theLine(thePreviousPoint, newPoint, theWellLineColor, 1, theWellLineOpacity) );
-
-		//==|| Add the new line to the Well Path object in the scene
-	theWellPath.add(theNewLine);
-
-	//==|| Keeping the list
-	theWellPathList.push(theNewLine);
-
-	//==|| Now new point becomes the previous point
-	thePreviousPoint = newPoint;
-
-
-
-
-}
-
-
-
-	//==|| This checks if the point entered in the text-boxes is fine
-	//==|| This receives the current active row no (by active row it means the row in the table
-	//==|| in which the text input is active ) which is used to check each of the inputs
-	//==|| Currently it only checks if the inputs are non-empty or not.
-	//==|| later need to add the features like adding 0 automatically when nothing is there
-	//==|| when there are non-numbers, change them to 0 or show some message saying false input
-	function isPointOkToAdd(noOfWellPathLines) {
-
-
-		var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
-		
-		colorTrace("noOfWellPathLinesStr" + noOfWellPathLinesStr, "Green");
-
-		//==|| Checks if the input fields are empty 
-		if($("#valueMD_" + noOfWellPathLinesStr).val().length == 0 ) {
-        	return false;
-        }
-
-		if($("#valueINC_" + noOfWellPathLinesStr).val().length == 0 ) {
-        	return false;
-        }
-
-        if($("#valueAZI_" + noOfWellPathLinesStr).val().length == 0 ) {
-        	return false;
-        }
-
-   
-        //==|| yah it's perfectly fine to add the point
-		return true;
-	}
-
-
-
-
-	//==|| Takes in the integer value and return the equivalent value in 3-letters
-	//==|| 1 becomes 001, 11 becomes 011 
-	function changeNoOfWellPathLinesIntoString(no) {
-
-		if(no >0 && no <= 999) {
-			if(no < 10) {
-				return "00" + no;
-			}
-			else if(no > 9 && no < 100){
-				return "0" + no;
-			}
-			else {
-				return no + "";
-			}
-		}
-		else {
-			return "000";
-		}
-
-
-	}
 
 
 //==|| for the toggle buttons, add/remove the pressedBtn class for the Pressed or Released effect
@@ -2743,15 +1395,15 @@ function registerButtonPressReleaseEffects() {
 //==|| Show/hide left panel
 function registerToggleShowHideLeftPanel() {
 	$("#showHideLeftPanelBtn").click(function (){
-		if(leftPanelIsVisible) {
-			leftPanelIsVisible = false;
+		if(WELLVIS.leftPanelIsVisible) {
+			WELLVIS.leftPanelIsVisible = false;
 			$("#theTabs").css({"display":"none"});
 			$("#showHideLeftPanelButtonContainer").css({"left":"15px"});
 			$("#showHideLeftPanelBtn").find(".ui-button-text").text("Show");
 
 		}
 		else {
-			leftPanelIsVisible = true;
+			WELLVIS.leftPanelIsVisible = true;
 			$("#theTabs").css({"display":"block"});
 			$("#showHideLeftPanelButtonContainer").css({"left":"418px"});
 			$("#showHideLeftPanelBtn").find(".ui-button-text").text("Hide");
@@ -2774,28 +1426,24 @@ function registerTogglePlanes() {
        		 $(this).toggleClass("inactiveBtn");
    		 //});
 
-		if(planesAreVisible) { 
-			planesAreVisible = false;
+		if(WELLVIS.planesAreVisible) { 
+			WELLVIS.planesAreVisible = false;
 			
-			theMainObject.remove(theXY_Plane);
-			theMainObject.remove(theYZ_Plane);
-			theMainObject.remove(theXZ_Plane);
+			WELLVIS.theMainObject.remove(WELLVIS.theXY_Plane);
+			WELLVIS.theMainObject.remove(WELLVIS.theYZ_Plane);
+			WELLVIS.theMainObject.remove(WELLVIS.theXZ_Plane);
 
-			theMainObject.remove(theArrowNorth);
-
-			//theMainObject.remove(linesToOrigin);
+			WELLVIS.theMainObject.remove(WELLVIS.theArrowNorth);
 
 		}
 		else {
-			planesAreVisible = true;			
+			WELLVIS.planesAreVisible = true;			
 	
-			theMainObject.add(theXY_Plane);
-			theMainObject.add(theYZ_Plane);
-			theMainObject.add(theXZ_Plane);
+			WELLVIS.theMainObject.add(WELLVIS.theXY_Plane);
+			WELLVIS.theMainObject.add(WELLVIS.theYZ_Plane);
+			WELLVIS.theMainObject.add(WELLVIS.theXZ_Plane);
 
-			theMainObject.add(theArrowNorth);
-
-			//theMainObject.add(linesToOrigin);
+			WELLVIS.theMainObject.add(WELLVIS.theArrowNorth);
 
 		}
 
@@ -2818,36 +1466,26 @@ function registerToggleGrids() {
        		 $(this).toggleClass("inactiveBtn");
    		 //});
 
-		if(gridIsVisible) { 
+		if(WELLVIS.gridIsVisible) { 
 			colorTrace("Grid is going to be invisible", "red");
-			gridIsVisible = false;
-
-			//==|| Hide all grids from the axes planes
-			//theYZ_Plane.remove(theYZ_PlaneGrids);
-			//theXZ_Plane.remove(theXZ_PlaneGrids);
-			//theXY_Plane.remove(theXY_PlaneGrids);\
-
+			WELLVIS.gridIsVisible = false;
 
 			//==|| Hide grids but not the axis lines
-			theYZ_PlaneGrids.remove(theYZ_PlaneGridLines);
-			theXZ_PlaneGrids.remove(theXZ_PlaneGridLines);
-			theXY_PlaneGrids.remove(theXY_PlaneGridLines);
+			WELLVIS.theYZ_PlaneGrids.remove(WELLVIS.theYZ_PlaneGridLines);
+			WELLVIS.theXZ_PlaneGrids.remove(WELLVIS.theXZ_PlaneGridLines);
+			WELLVIS.theXY_PlaneGrids.remove(WELLVIS.theXY_PlaneGridLines);
 
 
 		}
 		else {
 			colorTrace("Grid is going to be visible","green");
-			gridIsVisible = true;
+			WELLVIS.gridIsVisible = true;
 			
-			//==|| Hide all grids from the axes planes
-			//theYZ_Plane.add(theYZ_PlaneGrids);
-			//theXZ_Plane.add(theXZ_PlaneGrids);
-			//theXY_Plane.add(theXY_PlaneGrids);
-
+		
 			//==|| Hide grids but not the axis lines
-			theYZ_PlaneGrids.add(theYZ_PlaneGridLines);
-			theXZ_PlaneGrids.add(theXZ_PlaneGridLines);
-			theXY_PlaneGrids.add(theXY_PlaneGridLines);
+			WELLVIS.theYZ_PlaneGrids.add(WELLVIS.theYZ_PlaneGridLines);
+			WELLVIS.theXZ_PlaneGrids.add(WELLVIS.theXZ_PlaneGridLines);
+			WELLVIS.theXY_PlaneGrids.add(WELLVIS.theXY_PlaneGridLines);
 
 		}
 
@@ -2870,18 +1508,18 @@ function registerToggleRotationPoint() {
        		 $(this).toggleClass("inactiveBtn");
    		 //});
 
-		if(rotationPointIsVisible) { 
+		if(WELLVIS.rotationPointIsVisible) { 
 			colorTrace("Rotation Point is going to be invisible", "red");
-			rotationPointIsVisible = false;
+			WELLVIS.rotationPointIsVisible = false;
 
-			theMainObject.remove(theScreenCenter);
+			WELLVIS.theMainObject.remove(WELLVIS.theScreenCenter);
 
 		}
 		else {
 			colorTrace("Rotation Point is going to be visible","green");
-			rotationPointIsVisible = true;
+			WELLVIS.rotationPointIsVisible = true;
 			
-			theMainObject.add(theScreenCenter);
+			WELLVIS.theMainObject.add(WELLVIS.theScreenCenter);
 
 		}
 
@@ -2905,22 +1543,18 @@ function registerToggleLabels() {
        		 $(this).toggleClass("inactiveBtn");
    		 //});
 
-		if(labelsAreVisible) { 
-			labelsAreVisible = false;
+		if(WELLVIS.labelsAreVisible) { 
+			WELLVIS.labelsAreVisible = false;
 			
-			theXZ_Plane.remove(theXZ_PlaneLabels);
-			theXY_Plane.remove(theXY_PlaneLabels);
-
-			//theMainObject.remove(theScreenCenter);
+			WELLVIS.theXZ_Plane.remove(WELLVIS.theXZ_PlaneLabels);
+			WELLVIS.theXY_Plane.remove(WELLVIS.theXY_PlaneLabels);
 
 		}
 		else {
-			labelsAreVisible = true;
+			WELLVIS.labelsAreVisible = true;
 			
-			theXZ_Plane.add(theXZ_PlaneLabels);
-			theXY_Plane.add(theXY_PlaneLabels);
-
-			//theMainObject.add(theScreenCenter);
+			WELLVIS.theXZ_Plane.add(WELLVIS.theXZ_PlaneLabels);
+			WELLVIS.theXY_Plane.add(WELLVIS.theXY_PlaneLabels);
 
 		}
 
@@ -2944,16 +1578,16 @@ function registerToggleWellPath() {
        		 $(this).toggleClass("inactiveBtn");
    		 //});
 
-		if(wellPathIsVisible) { 
-			wellPathIsVisible = false;
+		if(WELLVIS.wellPathIsVisible) { 
+			WELLVIS.wellPathIsVisible = false;
 			
-			theMainObject.remove(theWellPath);
+			WELLVIS.theMainObject.remove(WELLVIS.theWellPath);
 
 		}
 		else {
-			wellPathIsVisible = true;
+			WELLVIS.wellPathIsVisible = true;
 			
-			theMainObject.add(theWellPath);
+			WELLVIS.theMainObject.add(WELLVIS.theWellPath);
 
 		}
 
@@ -2975,11 +1609,11 @@ function registerAddPathButton() {
 
 
 		//==|| If the Point is okay to add
-		if(isPointOkToAdd(noOfWellPathLines)) {
+		if(isPointOkToAdd(WELLVIS.noOfWellPathLines)) {
 			colorTrace("Point is okay to add", "Green");
 
 			//==|| Find the current table row no
-			var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
+			var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(WELLVIS.noOfWellPathLines);
 			colorTrace("noOfWellPathLinesStr = " + noOfWellPathLinesStr, "Blue");
 
 			var selectedOption = $("#valueSecType_" + noOfWellPathLinesStr).val();
@@ -3028,8 +1662,8 @@ function registerAddPathButton() {
 			var preTurn 	= 0;
 			var preSecType  = "";
 			
-			if(noOfWellPathLines != 0){
-				var preRowNo = 	noOfWellPathLines - 1;
+			if(WELLVIS.noOfWellPathLines != 0){
+				var preRowNo = 	WELLVIS.noOfWellPathLines - 1;
 				var preRowNoStr = changeNoOfWellPathLinesIntoString(preRowNo);
 				colorTrace("preRowNoStr = " + preRowNoStr, "Green");
 
@@ -3119,22 +1753,25 @@ function registerAddPathButton() {
 					newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
 					newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
 
+					newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
 					logValues(newRowData, "Green");
 
 				}
 
 
 				//==|| Putting the calculated MD, AZI
-				$("#valueMD_" 	+ noOfWellPathLinesStr).val(newRowData.theMD) - 0;
-				$("#valueAZI_" 	+ noOfWellPathLinesStr).val(newRowData.theAZI) - 0;
+				$("#valueMD_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theMD.toFixed(2))) - 0;
+				$("#valueAZI_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theAZI.toFixed(2))) - 0;
 
-				$("#valueTVD_" 	+ noOfWellPathLinesStr).val(newRowData.theTVD) - 0;
+				$("#valueTVD_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theTVD.toFixed(2))) - 0;
 
 				//==|| Putting new dN, dE, dZ in the row				
-				$("#valueCL_" 	+ noOfWellPathLinesStr).val(newRowData.theCL) - 0;
-				$("#valueNS_"  	+ noOfWellPathLinesStr).val(newRowData.theNS) - 0;
-				$("#valueEW_" 	+ noOfWellPathLinesStr).val(newRowData.theEW) - 0;
-				$("#valueVsec_" + noOfWellPathLinesStr).val(newRowData.theVsec) - 0;
+				$("#valueCL_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theCL.toFixed(2))) - 0;
+				$("#valueNS_"  	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theNS.toFixed(2))) - 0;
+				$("#valueEW_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theEW.toFixed(2))) - 0;
+				$("#valueVsec_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theVsec.toFixed(2))) - 0;
+				$("#valueDogleg_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theDogleg.toFixed(2))) - 0;
 
 				//==|| Putting new X, Y, Z in the hidden DIVs in the row
 				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
@@ -3227,6 +1864,8 @@ function registerAddPathButton() {
 							newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
 							newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
 
+							newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
 							logValues(newData, "Green");
 
 						}
@@ -3256,6 +1895,7 @@ function registerAddPathButton() {
 						preData.theNS 	= newData.theNS;
 						preData.theEW 	= newData.theEW;
 						preData.theVsec = newData.theVsec;
+						preData.theDogleg = newData.theDogleg;
 						preData.theX 	= newData.theX;
 						preData.theY 	= newData.theY;
 						preData.theZ 	= newData.theZ;
@@ -3322,6 +1962,8 @@ function registerAddPathButton() {
 					newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
 					newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
 
+					newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
 					colorTrace("----------------------------------");
 					logValues(newRowData, "Green");
 					colorTrace("----------------------------------");
@@ -3330,16 +1972,17 @@ function registerAddPathButton() {
 
 
 				//==|| Putting the calculated MD, AZI
-				$("#valueMD_" 	+ noOfWellPathLinesStr).val(newRowData.theMD) - 0;
-				$("#valueINC_" 	+ noOfWellPathLinesStr).val(newRowData.theINC) - 0;
+				$("#valueMD_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theMD.toFixed(2))) - 0;
+				$("#valueINC_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theINC.toFixed(2))) - 0;
 
-				$("#valueTVD_" 	+ noOfWellPathLinesStr).val(newRowData.theTVD) - 0;
+				$("#valueTVD_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theTVD.toFixed(2))) - 0;
 
 				//==|| Putting new dN, dE, dZ in the row				
-				$("#valueCL_" 	+ noOfWellPathLinesStr).val(newRowData.theCL) - 0;
-				$("#valueNS_"  	+ noOfWellPathLinesStr).val(newRowData.theNS) - 0;
-				$("#valueEW_" 	+ noOfWellPathLinesStr).val(newRowData.theEW) - 0;
-				$("#valueVsec_" + noOfWellPathLinesStr).val(newRowData.theVsec) - 0;
+				$("#valueCL_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theCL.toFixed(2))) - 0;
+				$("#valueNS_"  	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theNS.toFixed(2))) - 0;
+				$("#valueEW_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theEW.toFixed(2))) - 0;
+				$("#valueVsec_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theVsec.toFixed(2))) - 0;
+				$("#valueDogleg_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theDogleg.toFixed(2))) - 0;
 
 				//==|| Putting new X, Y, Z in the hidden DIVs in the row
 				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
@@ -3433,6 +2076,8 @@ function registerAddPathButton() {
 							newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
 							newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
 
+							newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
 							logValues(newData, "Green");
 
 						}
@@ -3464,6 +2109,7 @@ function registerAddPathButton() {
 						preData.theNS 	= newData.theNS;
 						preData.theEW 	= newData.theEW;
 						preData.theVsec = newData.theVsec;
+						preData.theDogleg = newData.theDogleg;
 						preData.theX 	= newData.theX;
 						preData.theY 	= newData.theY;
 						preData.theZ   	= newData.theZ;
@@ -3531,6 +2177,8 @@ function registerAddPathButton() {
 					newRowData.theEW 	= (n1.theEW + n2.theEW) / 2;
 					newRowData.theVsec 	= (n1.theVsec + n2.theVsec) / 2;
 
+					newRowData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
 					colorTrace("----------------------------------");
 					logValues(newRowData, "Green");
 					colorTrace("----------------------------------");
@@ -3539,16 +2187,17 @@ function registerAddPathButton() {
 
 
 				//==|| Putting the calculated MD, AZI
-				$("#valueMD_" 	+ noOfWellPathLinesStr).val(newRowData.theMD) - 0;
-				$("#valueINC_" 	+ noOfWellPathLinesStr).val(newRowData.theINC) - 0;
+				$("#valueMD_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theMD.toFixed(2))) - 0;
+				$("#valueINC_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theINC.toFixed(2))) - 0;
 
-				$("#valueAZI_" 	+ noOfWellPathLinesStr).val(newRowData.theAZI) - 0;
+				$("#valueAZI_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theAZI.toFixed(2))) - 0;
 
 				//==|| Putting new dN, dE, dZ in the row				
-				$("#valueCL_" 	+ noOfWellPathLinesStr).val(newRowData.theCL) - 0;
-				$("#valueNS_"  	+ noOfWellPathLinesStr).val(newRowData.theNS) - 0;
-				$("#valueEW_" 	+ noOfWellPathLinesStr).val(newRowData.theEW) - 0;
-				$("#valueVsec_" + noOfWellPathLinesStr).val(newRowData.theVsec) - 0;
+				$("#valueCL_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theCL.toFixed(2))) - 0;
+				$("#valueNS_"  	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theNS.toFixed(2))) - 0;
+				$("#valueEW_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theEW.toFixed(2))) - 0;
+				$("#valueVsec_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theVsec.toFixed(2))) - 0;
+				$("#valueDogleg_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theDogleg.toFixed(2))) - 0;
 
 				//==|| Putting new X, Y, Z in the hidden DIVs in the row
 				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
@@ -3648,6 +2297,8 @@ function registerAddPathButton() {
 							newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
 							newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
 
+							newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
 							colorTrace("----------------------------------");
 							logValues(newData, "Green");
 							colorTrace("----------------------------------");
@@ -3681,6 +2332,7 @@ function registerAddPathButton() {
 						preData.theNS 	= newData.theNS;
 						preData.theEW 	= newData.theEW;
 						preData.theVsec = newData.theVsec;
+						preData.theDogleg = newData.theDogleg;
 						preData.theX 	= newData.theX;
 						preData.theY 	= newData.theY;
 						preData.theZ   	= newData.theZ;
@@ -3752,8 +2404,8 @@ function registerAddPathButton() {
 
 
 			//==|| Add an empty Row in the Table so that User can enter a new point
-			addNewRowInTable(noOfWellPathLines + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);
-			noOfWellPathLines++;
+			addNewRowInTable(WELLVIS.noOfWellPathLines + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);
+			WELLVIS.noOfWellPathLines++;
 
 			
 
@@ -3789,681 +2441,6 @@ function registerAddPathButton() {
 
 }
 
-
-//==|| calculate the Tangent
-function methodTangent(newRowData, preRowData) {
-
-	colorTrace("==== Tangent Calculation Starts ====", "Green");
-
-
-	colorTrace("Previous Row", "Green")
-	logValues(preRowData, "Blue");
-	
-	colorTrace("New Row", "Green")
-	logValues(newRowData, "Blue");
-
-	//==|| Calculate x, y, z by tangent method
-	var dMD = newRowData.theMD - preRowData.theMD;
-	var dN = dMD * (Math.sin(newRowData.theINC * (Math.PI / 180) ) ) * (Math.cos(newRowData.theAZI * (Math.PI / 180)));
-	var dE = dMD * (Math.sin(newRowData.theINC * (Math.PI / 180) ) ) * (Math.sin(newRowData.theAZI * (Math.PI / 180)));
-	var dZ = dMD * (Math.cos(newRowData.theINC * (Math.PI / 180)));
-
-	//dMD = parseFloat(dMD.toFixed(2));
-	//dN  = parseFloat(dN.toFixed(2));
-	//dE  = parseFloat(dE.toFixed(2));
-	//dZ  = parseFloat(dZ.toFixed(2));
-
-	newRowData.theCL 	= dMD;
-	newRowData.theNS 	= preRowData.theNS + dN;
-	newRowData.theEW 	= preRowData.theEW + dE;
-	newRowData.theVsec 	= preRowData.theVsec + dZ;
-
-
-	/*
-		//==|| Putting new dN, dE, dZ in the row
-		$("#valueNS_"  + noOfWellPathLinesStr).val(dN.toFixed(2)) - 0;
-		$("#valueEW_" + noOfWellPathLinesStr).val(dE.toFixed(2)) - 0;
-		$("#valueVsec_" + noOfWellPathLinesStr).val(dZ.toFixed(2)) - 0;
-	*/
-
-	//==|| Calculating new x,y, z
-	var newX = preRowData.theX + dN;
-	var newY = preRowData.theY + dE;
-	var newZ = preRowData.theZ + dZ;
-
-	newRowData.theX = newX;
-	newRowData.theY = newY;
-	newRowData.theZ = newZ;
-
-	newRowData.theTVD = preRowData.theTVD + dZ;
-
-	/*
-		//==|| Putting new X, Y, Z in the hidden DIVs in the row
-		$("#valueX_"  + noOfWellPathLinesStr).val(newX.toFixed(2)) - 0;
-		$("#valueY_"  + noOfWellPathLinesStr).val(newY.toFixed(2)) - 0;
-		$("#valueZ_"  + noOfWellPathLinesStr).val(newZ.toFixed(2)) - 0;
-	*/
-
-	colorTrace("-- So the new values are --");
-	colorTrace("dMD = " + dMD, "Green");
-	colorTrace("dN = " + dN, "Blue");
-	colorTrace("dE = " + dE, "Green");
-	colorTrace("dZ = " + dZ, "Blue");
-	colorTrace("newX = " + newX, "Green");
-	colorTrace("newY = " + newY, "Blue");
-	colorTrace("newZ = " + newZ, "Green");
-
-
-	//==||
-	return newRowData;
-
-}
-
-
-//==|| method M1 - INC
-function methodM1INC(newRowData, preRowData) {
-
-	colorTrace("== M1 - INC Calculation starts ==" , "Green");
-
-
-
-	//==|| The inputs
-	var md1 = preRowData.theMD;
-	var I1 = preRowData.theINC;
-	var A1 = preRowData.theAZI;
-
-	var I2 = newRowData.theINC;
-	var T = newRowData.theTurn;
-	var B = newRowData.theBuild;
-
-
-	colorTrace("The inputs are ", "green");
-	colorTrace("md1 = " + md1 + "\t\t I1 = " + I1 + "\t\t A1 = " + A1, "Blue");
-	colorTrace("I2 = " + I2 + "\t\t T = " + T + "\t\t B = " + B, "Blue");
-	//==|| Testing the forumulas 
-	//==|| Test successful 2013-11-08-0058
-	/*
-	B = 1
-	T = 3
-	I2 = 65
-	//md1 = 
-	I1 = 5;
-	A1 = 12.51;
-	*/
-
-	//==|| Step 1: Calculate RCi
-	var factor = 1.016; //==|| 100 ft = 30.48m so factor = 30.48 / 30 = 1.016
-	var FtToM = 0.3048; //==|| 1 ft = 0.3048 M
-	
-	var RCIinFt, RCIinM,
-		CLinFt, CLinM;
-
-	if (B != 0) {
-		RCIinFt = (180 * (100 / factor)) / (Math.PI * B);
-		RCIinM = RCIinFt * FtToM;
-
-		//==|| Step 2: Calcualate CL
-		CLinFt = (RCIinFt * Math.PI * (I2 - I1) )/ 180;
-		CLinM  = CLinFt * FtToM;
-	}
-	else {
-		RCIinFt = 0;
-		RCIinM = 0;
-		CLinFt = 0;
-		CLinM = 0;
-	}
-
-
-	var RCAinFt, RCAinM;
-
-	if(T != 0 ) {
-		//==|| Step 3: Calcualte RCa
-		RCAinFt = 180 * (100 / factor) / (Math.PI * Math.abs(T));
-		RCAinM  = RCAinFt * FtToM;
- 	}
- 	else {
- 		RCAinFt = 0;
- 		RCAinM = 0;
- 	}
-
-	//==|| Step 4: Calculate the Azimuth in the end point - A2
-	//var A2 = A1 + (ClinFt / FtToM * 180) / (Math.PI * RCAinFt / FtToM);
-	var A2 = A1 + (CLinM * 180) / (Math.PI * RCAinM);
-
-
-	//==|| Step 5: Calculate DLS
-	var DLS = Math.sqrt(Math.pow(B, 2) + Math.pow(T, 2) * Math.pow(Math.sin(radians(I2)), 2));
-
-	
-	colorTrace("RCIinM = " + RCIinM + "\tCLinM = " + CLinM + "\tRCAinM = " + RCAinM + "\tA2 = " + A2 + "\tDLS = " + DLS);
-
-	//==|| Step 6: Calculate DLT and DLB
-
-	var DLT = T * CLinM / 30;
-	var DLB = B * CLinM / 30;
-
-	var DLTrad = radians(DLT);
-	var DLBrad = radians(DLB);
-
-	var DLTradM , DLBradM;
-	if(CLinM != 0) {
-		DLTradM = DLTrad / CLinM;	
-		DLBradM = DLBrad / CLinM;
-	}
-	else {
-		DLTradM = 0;
-		DLBradM = 0;
-	}
-
-	colorTrace("DLTradM = " + DLTradM + "\tDLBradM = " + DLBradM );
-
-
-	//==|| Step 7: Calculate dx, dy, dz or dN, dE, dZ
-	var dN, dE, dZ;
-
-	if(DLTradM != 0 && DLBradM != 0) {
-
-		var dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-				(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
-					DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
-				);
-
-		var dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-				(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
-					 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
-				);
-
-		var dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
-
-	}
-	else {
-		dN = 0;
-		dE = 0;
-		dZ = 0;
-	}
-
-	//==|| Trimming the decimal parts
-	//dN = parseFloat(dN.toFixed(2));
-	//dE = parseFloat(dE.toFixed(2));
-	//dZ = parseFloat(dZ.toFixed(2));
-
-	//CLinM 	= parseFloat(CLinM.toFixed(2));
-	//A2 		= parseFloat(A2.toFixed(2));
-
-
-	//colorTrace("=== M1 - Inc Calcuation ===");
-	colorTrace("dN = " + dN + "\tdE = " + dE + "\tdZ = " + dZ);
-
-
-
-
-	newRowData.theAZI 	= A2;
-	newRowData.theCL 	= CLinM;
-	newRowData.theMD 	= preRowData.theMD 		+ CLinM;
-	newRowData.theTVD 	= preRowData.theTVD 	+ dZ;
-
-	newRowData.theNS 	= preRowData.theNS 		+ dN;
-	newRowData.theEW 	= preRowData.theEW 		+ dE;
-	newRowData.theVsec 	= preRowData.theVsec	+ dZ;
-
-	newRowData.theX 	= preRowData.theX + dN;
-	newRowData.theY 	= preRowData.theY + dE;
-	newRowData.theZ 	= preRowData.theZ + dZ;
-
-
-	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
-	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
-	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
-	newRowData.theTVD 	= parseFloat(newRowData.theTVD.toFixed(2));
-	newRowData.theNS 	= parseFloat(newRowData.theNS.toFixed(2));
-	newRowData.theEW 	= parseFloat(newRowData.theEW.toFixed(2));
-	newRowData.theVsec 	= parseFloat(newRowData.theVsec.toFixed(2));
-	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
-	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
-	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
-
-
-	colorTrace("== So the new values are ==", "Blue");
-	colorTrace("dN = " + newRowData.theNS + "\tdE = " + newRowData.theEW  + "\tdZ = " + newRowData.theVsec + "\tTVD = " + newRowData.theTVD + "\tpre TVD = " + preRowData.theTVD);
-
-
-	//==||
-	return newRowData;
-
-}
-
-
-//==|| M1-AZI method
-function methodM1AZI(newRowData, preRowData) {
-
-	colorTrace("== M1 - AZI Calculation starts ==" , "Green");
-
-
-
-	//==|| The inputs
-	var md1 = preRowData.theMD;
-	var I1 = preRowData.theINC;
-	var A1 = preRowData.theAZI;
-
-	//var I2 = newRowData.theINC;
-	var A2 = newRowData.theAZI;
-	var T = newRowData.theTurn;
-	var B = newRowData.theBuild;
-
-
-	colorTrace("The inputs are ", "green");
-	colorTrace("md1 = " + md1 + "\t\t I1 = " + I1 + "\t\t A1 = " + A1, "Blue");
-	colorTrace("A2 = " + A2 + "\t\t T = " + T + "\t\t B = " + B, "Blue");
-	//==|| Testing the forumulas 
-	//==|| Test successful 2013-11-08-0058
-	/*
-	B = 1
-	T = -3
-	A2 = 345
-	//md1 = 
-	I1 = 5;
-	A1 = 12.51;
-	*/
-
-
-	
-	var factor = 1.016; //==|| 100 ft = 30.48m so factor = 30.48 / 30 = 1.016
-	var FtToM = 0.3048; //==|| 1 ft = 0.3048 M
-	
-	//==|| Step 1: Calculate RCa
-	var RCAinFt, RCAinM;
-
-	if(T != 0 ) {
-		//==|| Step 3: Calcualte RCa
-		RCAinFt = 180 * (100 / factor) / (Math.PI * Math.abs(T));
-		RCAinM  = RCAinFt * FtToM;
- 	}
- 	else {
- 		RCAinFt = 0;
- 		RCAinM = 0;
- 	}
-
-
- 	var dA = 0;
- 	//==calculating dA
- 	if(T < 0) {
- 		if(A1 < A2) { 
- 			dA = 360 - A2 + A1;
- 		}
- 		else { 
- 			dA = A1 - A2;
- 		}
- 	}
- 	else {
- 		if(A2 < A1) { 
- 			dA = 360 - A1 + A2;
- 		}
- 		else {
- 			dA = A2 - A1;
- 		}
- 	}
-
-
-	//==|| Step 2: Calcualate CL
-	var	CLinFt, CLinM;
-
-	CLinFt = (RCAinFt * Math.PI * (dA) )/ 180;
-	CLinM  = CLinFt * FtToM;
-
-
-	var RCIinFt, RCIinM;
-	if (B != 0) {
-		RCIinFt = (180 * (100 / factor)) / (Math.PI * B);
-		RCIinM = RCIinFt * FtToM;
-
-		
-	}
-	else {
-		RCIinFt = 0;
-		RCIinM = 0;
-		CLinFt = 0;
-		CLinM = 0;
-	}
-
-
-	//==|| Step 4: Calculate the Inclination in the end point - I2
-	//var A2 = A1 + (ClinFt / FtToM * 180) / (Math.PI * RCIinFt / FtToM);
-	var I2 = I1 + (CLinM * 180) / (Math.PI * RCIinM);
-
-
-	//==|| Step 5: Calculate DLS
-	var DLS = Math.sqrt(Math.pow(B, 2) + Math.pow(T, 2) * Math.pow(Math.sin(radians(I2)), 2));
-
-	
-	colorTrace("RCIinM = " + RCIinM + "\tCLinM = " + CLinM + "\tRCAinM = " + RCAinM + "\tI2 = " + I2 + "\tDLS = " + DLS);
-
-	//==|| Step 6: Calculate DLT and DLB
-
-	var DLT = T * CLinM / 30;
-	var DLB = B * CLinM / 30;
-
-	var DLTrad = radians(DLT);
-	var DLBrad = radians(DLB);
-
-	var DLTradM , DLBradM;
-	if(CLinM != 0) {
-		DLTradM = DLTrad / CLinM;	
-		DLBradM = DLBrad / CLinM;
-	}
-	else {
-		DLTradM = 0;
-		DLBradM = 0;
-	}
-
-	colorTrace("DLTradM = " + DLTradM + "\tDLBradM = " + DLBradM );
-
-	
-	//==|| Step 7: Calculate x, y, z
-	var dN, dE, dZ;
-
-	if(DLTradM != 0 && DLBradM != 0) { 
-	
-		dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-			(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
-				DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
-			);
-
-		dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-			(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
-				 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
-			);
-
-		dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
-	}
-	else {
-		dN = 0;
-		dE = 0;
-		dZ = 0;
-	}
-
-
-	//==|| Trimming the decimal parts
-	//dN = parseFloat(dN.toFixed(2));
-	//dE = parseFloat(dE.toFixed(2));
-	//dZ = parseFloat(dZ.toFixed(2));
-
-	//CLinM 	= parseFloat(CLinM.toFixed(2));
-	//A2 		= parseFloat(A2.toFixed(2));
-
-
-	//colorTrace("=== M1 - Inc Calcuation ===");
-	colorTrace("dN = " + dN + "\tdE = " + dE + "\tdZ = " + dZ);
-
-
-	//newRowData.theAZI 	= A2;
-	newRowData.theINC 	= I2;
-	newRowData.theCL 	= CLinM;
-	newRowData.theMD 	= preRowData.theMD 		+ CLinM;
-	newRowData.theTVD 	= preRowData.theTVD 	+ dZ;
-
-	newRowData.theNS 	= preRowData.theNS 		+ dN;
-	newRowData.theEW 	= preRowData.theEW 		+ dE;
-	newRowData.theVsec 	= preRowData.theVsec	+ dZ;
-
-	newRowData.theX 	= preRowData.theX + dN;
-	newRowData.theY 	= preRowData.theY + dE;	
-	newRowData.theZ 	= preRowData.theZ + dZ;
-
-
-
-	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
-	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
-	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
-	newRowData.theTVD 	= parseFloat(newRowData.theTVD.toFixed(2));
-	newRowData.theNS 	= parseFloat(newRowData.theNS.toFixed(2));
-	newRowData.theEW 	= parseFloat(newRowData.theEW.toFixed(2));
-	newRowData.theVsec 	= parseFloat(newRowData.theVsec.toFixed(2));
-	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
-	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
-	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
-
-
-	colorTrace("== So the new values are ==", "Blue");
-	//colorTrace("dN = " + newRowData.theNS + "\tdE = " + newRowData.theEW  + "\tdZ = " + newRowData.theVsec + "\tTVD = " + newRowData.theTVD + "\tpre TVD = " + preRowData.theTVD);
-
-	logValues(newRowData, "Green");
-
-	//==||
-	return newRowData;
-}
-
-
-//==|| M1 - TVD method
-function methodM1TVD(newRowData, preRowData) {
-
-	colorTrace("== M1 - TVD Calculation starts ==" , "Green");
-
-
-
-	//==|| The inputs
-	var md1 = preRowData.theMD;
-	var I1 = preRowData.theINC;
-	var A1 = preRowData.theAZI;
-	var tvd1 = preRowData.theTVD;
-
-	//var I2 = newRowData.theINC;
-	//var A2 = newRowData.theAZI;
-	var tvd2 = newRowData.theTVD;
-	var T 	= newRowData.theTurn;
-	var B 	= newRowData.theBuild;
-
-
-	colorTrace("The inputs are ", "green");
-	colorTrace("md1 = " + md1 + "\t\t I1 = " + I1 + "\t\t A1 = " + A1, "Blue");
-	colorTrace("tvd2 = " + tvd2 + "\t\t T = " + T + "\t\t B = " + B, "Blue");
-	//==|| Testing the forumulas 
-	//==|| Test successful 2013-11-08-0058
-	/*
-	B = 1
-	T = -3
-	A2 = 345
-	//md1 = 
-	I1 = 5;
-	A1 = 12.51;
-	*/
-
-
-
-	
-	var factor = 1.016;  //==|| 100 ft = 30.48m so factor = 30.48 / 30 = 1.016
-	var FtToM  = 0.3048; //==|| 1 ft = 0.3048 M
-	
-
-	//==|| Step 1: Calculate RCi
-	var RCIinFt, RCIinM;
-	if (B != 0) {
-		RCIinFt = (180 * (100 / factor)) / (Math.PI * B);
-		RCIinM = RCIinFt * FtToM;
-		
-	}
-	else {
-		RCIinFt = 0;
-		RCIinM = 0;
-		CLinFt = 0;
-		CLinM = 0;
-	}
-
-	//==|| dTVD should not turn negative
-	var dTVD = 0;
-	if(tvd2 - tvd1 < 0) {
-		tvd2 =  tvd1 + 1;
-		dTVD = tvd2;
-	}
-	else {
-		dTVD = tvd2 - tvd1;
-	}
-
-
-	//==|| Step 2: Calculating I2
-	var I2 = degrees(Math.asin( dTVD / RCIinM + (Math.sin(radians(I1)))));
-
-	colorTrace("I2 = " + I2 + " dTVD = " + dTVD);
-
-	var RCAinFt, RCAinM;
-
-	if(T != 0 ) {
-		//==|| Step 3: Calcualte RCa
-		RCAinFt = 180 * (100 / factor) / (Math.PI * Math.abs(T));
-		RCAinM  = RCAinFt * FtToM;
- 	}
- 	else {
- 		RCAinFt = 0;
- 		RCAinM = 0;
- 	}
-
-
-	//==|| Step 4: Calcualate CL
-	var	CLinFt, CLinM;
-
-	CLinFt = (RCIinFt * Math.PI * (I2 - I1) )/ 180;
-	CLinM  = CLinFt * FtToM;
-
-
-
-
-	//==|| Calculating A2
-	var A2 = 0;
-	var som = 0;
-	 
-	if(T < 0) {
-		som =	-(CLinM * 180 / (Math.PI * RCAinM));
-	}
-	else {
-		som =	(CLinM * 180 / (Math.PI * RCAinM));
-	}
-
-	if(A1 + som < 0) {
-		A2 = 360 + A1 +  som;
-	}
-	else {
-		A2 = A1 + som;
-	}
-
-
-
-
-
-
-
-	//==|| Step 5: Calculate DLS
-	var DLS = Math.sqrt(Math.pow(B, 2) + Math.pow(T, 2) * Math.pow(Math.sin(radians(I2)), 2));
-
-	
-	colorTrace("RCIinM = " + RCIinM + "\tCLinM = " + CLinM + "\tRCAinM = " + RCAinM + "\tI2 = " + I2 + "\tDLS = " + DLS);
-
-	//==|| Step 6: Calculate DLT and DLB
-
-	var DLT = T * CLinM / 30;
-	var DLB = B * CLinM / 30;
-
-	var DLTrad = radians(DLT);
-	var DLBrad = radians(DLB);
-
-	var DLTradM , DLBradM;
-	if(CLinM != 0) {
-		DLTradM = DLTrad / CLinM;	
-		DLBradM = DLBrad / CLinM;
-	}
-	else {
-		DLTradM = 0;
-		DLBradM = 0;
-	}
-
-	colorTrace("DLTradM = " + DLTradM + "\tDLBradM = " + DLBradM );
-
-
-	//==|| Step 7: Calculate x, y, z
-	var dN, dE, dZ;
-
-	if(DLTradM != 0 && DLBradM != 0) {
-
-		dN = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-				(	DLTradM * (Math.sin(radians(I2)) * Math.sin(radians(A2)) - Math.sin(radians(I1)) * Math.sin(radians(A1))) + 
-					DLBradM * (Math.cos(radians(I2)) * Math.cos(radians(A2)) - Math.cos(radians(I1)) * Math.cos(radians(A1)))
-				);
-
-		dE = 1 / (Math.pow(DLTradM, 2) - Math.pow(DLBradM, 2)) * 
-				(	-DLTradM * (Math.sin(radians(I2)) * Math.cos(radians(A2)) - Math.sin(radians(I1)) * Math.cos(radians(A1))) + 
-					 DLBradM * (Math.cos(radians(I2)) * Math.sin(radians(A2)) - Math.cos(radians(I1)) * Math.sin(radians(A1)))
-				);
-
-		dZ = 1 / DLBradM * (Math.sin(radians(I2)) - Math.sin(radians(I1)));
-	}
-	else {
-		dN = 0;
-		dE = 0;
-		dZ = 0;
-	}
-
-
-	//==|| Trimming the decimal parts
-	//dN = parseFloat(dN.toFixed(2));
-	//dE = parseFloat(dE.toFixed(2));
-	//dZ = parseFloat(dZ.toFixed(2));
-
-	//CLinM 	= parseFloat(CLinM.toFixed(2));
-	//A2 		= parseFloat(A2.toFixed(2));
-
-
-	//colorTrace("=== M1 - Inc Calcuation ===");
-	colorTrace("dN = " + dN + "\tdE = " + dE + "\tdZ = " + dZ);
-
-
-	newRowData.theAZI 	= A2;
-	newRowData.theINC 	= I2;
-	newRowData.theCL 	= CLinM;
-	newRowData.theMD 	= preRowData.theMD 		+ CLinM;
-	newRowData.theTVD 	= preRowData.theTVD 	+ dZ;
-
-	newRowData.theNS 	= preRowData.theNS 		+ dN;
-	newRowData.theEW 	= preRowData.theEW 		+ dE;
-	newRowData.theVsec 	= preRowData.theVsec	+ dZ;
-
-	newRowData.theX 	= preRowData.theX + dN;
-	newRowData.theY 	= preRowData.theY + dE;	
-	newRowData.theZ 	= preRowData.theZ + dZ;
-
-
-
-	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
-	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
-	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
-	newRowData.theTVD 	= parseFloat(newRowData.theTVD.toFixed(2));
-	newRowData.theNS 	= parseFloat(newRowData.theNS.toFixed(2));
-	newRowData.theEW 	= parseFloat(newRowData.theEW.toFixed(2));
-	newRowData.theVsec 	= parseFloat(newRowData.theVsec.toFixed(2));
-	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
-	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
-	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
-
-
-	colorTrace("== So the new values are ==", "Blue");
-	//colorTrace("dN = " + newRowData.theNS + "\tdE = " + newRowData.theEW  + "\tdZ = " + newRowData.theVsec + "\tTVD = " + newRowData.theTVD + "\tpre TVD = " + preRowData.theTVD);
-
-	logValues(newRowData, "Green");
-
-	//==||
-	return newRowData;
-}
-
-
-
-
-
-//==|| Convert Degree to Radians
-function radians(degrees) { 
-	return (degrees * (Math.PI / 180) );
-}
-
-//==|| Convert radians to degrees
-function degrees(radians) { 
-	return ( radians * (180 / Math.PI ));
-}
 
 
 //==|| Add a mew row in the table 
@@ -4647,7 +2624,7 @@ function registerEditPathButton() {
 		$(this).parent().parent().removeClass("inactiveRowWellPathContainer");
 
 
-		var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
+		var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(WELLVIS.noOfWellPathLines);
 		
 		//==||Hide the inputs for new point/line
 		$("#wellPathInfoBoxContainer_" + noOfWellPathLinesStr).css({"display":"none"});
@@ -4687,7 +2664,7 @@ function registerDonePathButton() {
 
 		colorTrace("ID =" + currentDivName, "Blue");
 		colorTrace("currentLineCountIs = " + currentLineCountIs, "Green");
-		colorTrace("noOfWellPathLines = " + noOfWellPathLines, "Blue")
+		colorTrace("noOfWellPathLines = " + WELLVIS.noOfWellPathLines, "Blue")
 
 		if(isPointOkToAdd(currentLineCountIs)) {
 			colorTrace("The line is OK to add", "Green");	
@@ -4748,23 +2725,18 @@ function registerDonePathButton() {
 			$("#valueVsec_" + currentLineCountIsStr).val(dZ.toFixed(2)) - 0;
 
 			
-			//colorTrace("New Values are x = " + x + " y = " +  y + " z = " +  z,"Blue");
-
-			//var data = theWellPathArray;
-			//$.each(data, function(index){
-
 			var theNewPoint = v(newX, newY, newZ);
 
 			//==|| the new point would be the new end point for the current line
-			theWellPathArray[currentLineCountIs].theEndPoint = theNewPoint;
+			WELLVIS.theWellPathArray[currentLineCountIs].theEndPoint = theNewPoint;
 
-			if(currentLineCountIs == noOfWellPathLines - 1){
+			if(currentLineCountIs == WELLVIS.noOfWellPathLines - 1){
 				//==|| our last point has changed
-				thePreviousPoint = theNewPoint;
+				WELLVIS.thePreviousPoint = theNewPoint;
 			}
 			else {
 				//==|| The new point would be the new start point for the next line
-				theWellPathArray[currentLineCountIs + 1].theStartPoint = theNewPoint;
+				WELLVIS.theWellPathArray[currentLineCountIs + 1].theStartPoint = theNewPoint;
 
 			}
 
@@ -4789,7 +2761,7 @@ function registerDonePathButton() {
 			$(this).parent().parent().find(".divAZI").find("input").prop('disabled', true);
 
 
-			var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(noOfWellPathLines);
+			var noOfWellPathLinesStr = changeNoOfWellPathLinesIntoString(WELLVIS.noOfWellPathLines);
 			//==||Show the inputs for new point/line
 			$("#wellPathInfoBoxContainer_" + noOfWellPathLinesStr).css({"display":"block"});
 
@@ -4879,930 +2851,20 @@ function registerSelectSectionType(newNoOfWellPathLinesStr){
 }
 
 
-//######################################################################################################################################
-//###################################################################################################################################### #
-//#############        #####          ##############        ###          ####  ######  ###        ####        #######        ########### ##
-//###################   ######  ####   ############   #############  ########  ######  ###  ##########  ############   ################# ##
-//#################   ########  ####   #############        #######  ########  ######  ###       #####       ########        ########### ##
-//############  #####   ######  ###   ###################   #######  #########  ####  ####  ##########  ###################  ########### ##
-//#############        #####         ##############        ########  ##########      #####  ##########  #############       ############ ##
-//###################################################################################################################################### #
-//######################################################################################################################################
 
 
-//==|| The Vector3
-function v(x,y,z) { 
-	return new THREE.Vector3(x,y,z); 
-}
 
 
-//==|| Change the Color of the scene (whole 3D module)
-function changeSceneColor(color) {	
-	theScene.fog = new THREE.FogExp2( color, 0 );
-	theRenderer.setClearColor( theScene.fog.color, 1 );
-	theSceneColor = color;
-	colorTrace("The Scene color is changed to" + color, "Blue");
-}
 
 
 
-//==|| Add Track ball controls
-function addTrackballControls() {
-	theControls = new THREE.TrackballControls(theCamera, theCameraTarget,  theRenderer.domElement);
 
-	theControls.rotateSpeed = 3.0;
-	theControls.zoomSpeed = 2;
-	theControls.panSpeed = 1;
 
-	theControls.noZoom = false;
-	theControls.noPan = false;
 
-	theControls.staticMoving = true;
-	theControls.dynamicDampingFactor = 0.3;  //==|| Control the speed of drag rotation
 
-	var radius = 24; // scalar value used to determine relative zoom distances
 
-	theControls.minDistance = radius * 0.1;  //==|| Min zoom out distance
-	theControls.maxDistance = radius * 5235;   //==|| Max zoom out distance
 
 
-	theControls.keys = [ 65, 83, 68 ];
-
-	theControls.addEventListener( 'change', render );
-
-}	
-
-
-
-//==|| When the browser window gets resized
-function onWindowResize() {
-	colorTrace("On Window Resize", "Blue");
-
-
-	theScreenWidth = window.innerWidth;
-		theScreenHeight = window.innerHeight;
-
-		theHeight 	= theScreenHeight - 60 - 100; 
-
-		if(leftPanelIsVisible){
-			theWidth 	= theScreenWidth - 446 - 8;   		
-		}
-		else {
-			theWidth 	= theScreenWidth - 8;
-		}
-
-		$("#thePathsDetailContainer").css({"height" : theHeight + 2 - 45});
-		$("#theConfigurationPanel").css({"height": theHeight + 2 - 45});
-
-		$("#theContainer").css({"width" :  theWidth});
-		$("#theContainer").css({"height" :  theHeight});
-
-
-	theCamera.aspect = theWidth / theHeight;
-	theCamera.updateProjectionMatrix();
-
-	theRenderer.setSize( theWidth, theHeight );
-
-	theControls.handleResize();
-
-	render();
-
-}
-
-
-
-function animate() {
-	requestAnimationFrame( animate );
-	theControls.update();
-}
-
-
-
-function render() {
-	theRenderer.render( theScene, theCamera );
-}
-
-
-function createTextCanvas(text, color, font, size) {
-    size = size || 24;
-    var canvas = document.createElement('canvas');
-    
-    var ctx = canvas.getContext('2d');
-    
-    var fontStr = (size + 'px ') + (font || 'Arial');
-    ctx.font = fontStr;
-    
-    var w = ctx.measureText(text).width;
-    var h = Math.ceil(size);
-    
-    canvas.width = w;
-    canvas.height = h;
-    
-    ctx.font = fontStr;
-    ctx.fillStyle = color || 'black';
-    ctx.fillText(text, 0, Math.ceil(size*0.8));
-    
-    return canvas;
-}
-
-function createText2D(text, color, font, size, theLabelOpacity, segW, segH) {
-    var canvas = createTextCanvas(text, color, font, size);
-    var plane = new THREE.PlaneGeometry(canvas.width, canvas.height, segW, segH);
-    
-    var tex = new THREE.Texture(canvas);
-    tex.needsUpdate = true;
-
-    var planeMat = new THREE.MeshBasicMaterial({
-        map: tex, 
-        color: 0xffffff, 
-        transparent: true, 
-        side: THREE.DoubleSide,
-        opacity: theLabelOpacity
-    });
-
-    var mesh = new THREE.Mesh(plane, planeMat);
-    mesh.scale.set(0.25, 0.25, 0.25);
-    mesh.doubleSided = true;
-    return mesh;
-}
-
-
-
-//==|| Check if the current point fall under the current Axes plane ranges
-//==|| if not adjust the ranges again and redraw the Axes planes again
-function checkRangesForPlanes(x, y, z) {
-
-	var redraw = false;
-
-	if(x > maxX) { 
-		maxX = parseInt(x / theUnit) * theUnit + theUnit;
-		redraw = true;
-	}
-
-	if(x < minX) {
-		minX = parseInt(x / theUnit) * theUnit - theUnit;
-		redraw = true;
-	}
-
-	if(y > maxY) {
-		maxY =parseInt(y / theUnit) * theUnit + theUnit;
-		redraw = true;
-	}
-
-	if(y < minY) {
-		minY = parseInt(y / theUnit) * theUnit - theUnit;
-		redraw = true;
-	}
-
-	if(z > theZ) {
-		theZ = parseInt(z / theUnit) * theUnit + theUnit;
-		redraw = true;
-	}
-
-
-	if(redraw) {
-		redrawAxesPlanes();
-	}
-
-
-}
-
-//==|| Redraw the Axes plane
-function redrawAxesPlanes() {
-
-	//==|| Empty YZ Plane first
-	emptyYZ_Plane();
-  	//==|| Redrawing the YZ Plane
-	drawYZ_Plane();
-
-
-
-	//==|| Empty XZ Plane first
-	emptyXZ_Plane();
-	//==|| Redrawing the XZ Plane
-	drawXZ_Plane();
-
-
-
-	//==|| Empty XY Plane first
-	emptyXY_Plane();
-	//==|| Redrawing the XY Plane
-	drawXY_Plane();	
-
-
-
-	//==|| remove the previous North Arrow 
-	theMainObject.remove(theArrowNorth);
-
-	//==|| Now redraw the North Arrow
-	drawArrowNorth();
-
-
-
-}
-
-//==|| Remove everything from YZ Plane
-function emptyYZ_Plane() {
-  	//==|| Removing the outlines and grids of YZ Plane
-  	theYZ_Plane.remove(theYZ_PlaneOutline);
-  	theYZ_Plane.remove(theYZ_PlaneGrids);
-
-  	//==|| Removing the grid line and the axis line from the plane grids
-  	theYZ_PlaneGrids.remove(theYZ_PlaneGridLines);		      	
-		theYZ_PlaneGrids.remove(theYZ_PlaneAxisLine);
-
-}
-
-//==|| Remove everything from XZ Plane
-function emptyXZ_Plane() {
-  	//==|| Removing the outline and the grids of XZ Plane
-  	theXZ_Plane.remove(theXZ_PlaneOutline);
-  	theXZ_Plane.remove(theXZ_PlaneGrids);
-
-	//==|| Removing the grid line and the axis line from the plane grids
-  	theXZ_PlaneGrids.remove(theXZ_PlaneGridLines);		      	
-		theXZ_PlaneGrids.remove(theXZ_PlaneAxisLine);
-
-  	//==|| Removing the labels
-	theXZ_Plane.remove(theXZ_PlaneLabels);
-
-	//==|| Remove all the children of theXZ_PlaneLabels
-	for ( var i = theXZ_PlaneLabels.children.length - 1; i >= 0 ; i-- ) {
-	  	theXZ_PlaneLabels.remove(theXZ_PlaneLabels.children[ i ]);
-	}
-
-}
-
-//==|| Remove everything from XY Plane
-function emptyXY_Plane() {
-  	//==|| Removing the Outline and the grids of XY Plane
-  	theXY_Plane.remove(theXY_PlaneOutline);
-  	theXY_Plane.remove(theXY_PlaneGrids);
-
-  	//==|| Removing the grid line and the axis line from the plane grids
-  	theXY_PlaneGrids.remove(theXY_PlaneGridLines);		      	
-		theXY_PlaneGrids.remove(theXY_PlaneAxisLine);
-
-
-	//==|| Removing the labels from XY Plane
-  	theXY_Plane.remove(theXY_PlaneLabels);
-
-  	
-  	//==|| Remove all the children of theXY_PlaneLabels
-	for ( var i = theXY_PlaneLabels.children.length - 1; i >= 0 ; i-- ) {
-	  	theXY_PlaneLabels.remove(theXY_PlaneLabels.children[ i ]);
-	}
-
-}
-
-
-
-
-//==|| Redraw the well path
-function redrawWellPath(changedFeatures) {
-
-	//==|| First of all lets remove the current well path
-	theMainObject.remove(theWellPath);
-
-	//==|| Empty the well path object as well
-	//theWellPath.length = 0;
-
-	//theWellPathList
-	//==|| Empty the well path object3D
-	$.each(theWellPathList, function(index){
-		//colorTrace("object is "+ theObject, "Green");
-		theWellPath.remove(theWellPathList[index]);
-	});
-
-
-	//colorTrace("theWellPath = " +  theWellPath.length, "Green");
-
-	//==|| empty the well path list
-	theWellPathList.length = 0;
-
-	//theWellPath.forEach(function(object) {
-	//	theWellPath.remove(object);
-	//});
-
-	//theWellPath.remove(theLine);
-
-	//theWellPath = new THREE.Object3D();
-	//colorTrace("Emptied the Well Path Object. Now ready for inserting new ones", "Green");
-
-
-	var data = theWellPathArray;
-	
-	$.each(data, function(index){
-
-		var theStartPoint 	= data[index].theStartPoint;
-		var theEndPoint 	= data[index].theEndPoint;
-		var theColor 		= data[index].theColor;
-		var theLineWidth 	= data[index].theLineWidth;
-		var theLineOpacity  = data[index].theLineOpacity;
-
-		//==|| The Well Line must have the new Colors SO
-		if(changedFeatures) {
-			theColor = theWellLineColor;
-			theLineOpacity = theWellLineOpacity;
-		}
-
-		var theNewLineMaterial = new THREE.LineBasicMaterial( {
-				transparent: true,
-				opacity: theLineOpacity,
-      			color: theColor, 
-      			lineWidth: 1
-      		}
-      	);
-
-
-		//==|| The New Line Geometry
-      	var theNewLineGeo = new THREE.Geometry();
-      	theNewLineGeo.vertices.push(
-      		theStartPoint, theEndPoint
-      	);
-
-
-      	//==|| The New Line
-      	var theNewLine = new THREE.Line(theNewLineGeo, theNewLineMaterial);
-      	theNewLine.type = THREE.Lines;
-
-      	//==|| Add the new line to the Well Path object in the scene
-		theWellPath.add(theNewLine);
-
-		//==|| Pushing in the New lines it the well path
-		theWellPathList.push(theNewLine);
-
-	});
-
-
-		//==||Let's add the well path back to the main object
-	theMainObject.add(theWellPath);
-
-
-	//colorTrace("theWellPathList length = " + theWellPathList.length, "Blue");
-
-	//==|| Let's render the changes
-	render();
-
-}
-
-
-
-//==|| Display all three Axes planes and the North Arrow
-function addAxesPlanes() {
-
-	//==|| Draw the Three Planes
-	drawYZ_Plane();
-	drawXZ_Plane();
-	drawXY_Plane();
-
-	//==|| Draw the arrow pointing to the North
-	drawArrowNorth();
-
-
-	//==|| Draw the Lines to the Origin
-	//drawLinesToOrigin();
-
-
-	//==|| Add the well path in the main object
-	theMainObject.add(theWellPath);
-
-	//==|| Add the main object to the Scene
-	theScene.add(theMainObject);
-
-}
-
-
-
-
-function drawYZ_Plane() {
-
-  	//==|| The X Plane
-
-	//==|| The Outline Material
-  	theYZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
-  			color: theYZ_PlaneOutlineMaterialColor, 
-  			lineWidth: theYZ_PlaneOutlineMaterialLineWidth,
-  			transparent: true,
-  			opacity: theYZ_PlaneOutlineMaterialLineOpacity
-  		}
-  	);
-
-  	//==|| The Gridline Material
-	theYZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
-  			color: theYZ_PlaneGridLinesMaterialColor, 
-  			lineWidth: theYZ_PlaneGridLinesMaterialLineWidth,
-  			transparent: true,
-  			opacity: theYZ_PlaneGridLinesMaterialLineOpacity
-  		}
-  	);
-
-	//==|| the AxisLine Material
-	theYZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
-  			color: theYZ_PlaneAxisLineMaterialColor, 
-  			lineWidth: theYZ_PlaneAxisLineMaterialLineWidth,
-  			transparent: true,
-  			opacity: theYZ_PlaneAxisLineMaterialLineOpacity
-  		}
-  	);
-
-
-	//==|| the Outline Geometry
-  	theYZ_PlaneOutlineGeo = new THREE.Geometry();
-  	theYZ_PlaneOutlineGeo.vertices.push(
-
-  		v(maxX, minY, 0), v(maxX, maxY, 0),
-  		v(maxX, maxY, 0), v(maxX, maxY, theZ),
-  		v(maxX, maxY, theZ), v(maxX, minY, theZ),
-  		v(maxX, minY, theZ), v(maxX, minY, 0)
-
-
-  	);
-
-
-  	//==|| the Outline
-  	theYZ_PlaneOutline = new THREE.Line(theYZ_PlaneOutlineGeo, theYZ_PlaneOutlineMaterial);
-  	theYZ_PlaneOutline.type = THREE.Lines;
-
-
-
-  	//==|| Checking how many grids are there in width, lenght and height
-  	var noOfGridsInLength = ((-1 * minY) + maxY) / theUnit;
-  	var noOfGridsInHeight = (theZ / theUnit)
-
-  	//==|| The Gridlines Geometry
-	theYZ_PlaneGridLinesGeo = new THREE.Geometry();
-
-  	//==|| If more than 2 grids we need to draw additional lines
-  	//if(noOfGridsInLength > 1){
-  	//==|| Across the length		      		
-      	for(var value = (minY + theUnit); value <= (maxY - theUnit); value += theUnit) {
-      		if(value != 0) {
-      			theYZ_PlaneGridLinesGeo.vertices.push(
-      				v(maxX, value, 0), v(maxX, value, theZ)
-      			);
-      		}	
-      	}
-   //	}
-
-	//==|| If more than 2 grids we need to draw additional lines
-  	//if(noOfGridsInHeight > 1){	
-  	//==|| Across the height	      		
-      	for(var value = (theUnit); value <= (theZ - theUnit); value += theUnit) {
-  			theYZ_PlaneGridLinesGeo.vertices.push(
-  				v(maxX, minY, value), v(maxX, maxY, value)
-  			);			      		
-      	}
-   	//	}
-
-
-  	//==|| the Gridlines
-  	theYZ_PlaneGridLines = new THREE.Line(theYZ_PlaneGridLinesGeo, theYZ_PlaneGridLinesMaterial);
-  	theYZ_PlaneGridLines.type = THREE.Lines;
-
-   	//==|| The AxisLine Geometry
-	theYZ_PlaneAxisLineGeo = new THREE.Geometry();
-  	theYZ_PlaneAxisLineGeo.vertices.push(
-  		v(maxX, 0, 0), v(maxX, 0, theZ)
-  	);
-
-  	//==|| The AxisLine
-  	theYZ_PlaneAxisLine = new THREE.Line(theYZ_PlaneAxisLineGeo, theYZ_PlaneAxisLineMaterial);
-  	theYZ_PlaneAxisLine.type = THREE.Lines;
-
-
-  	//==|| Adding axis line to the Plane Grids object  	
-  	theYZ_PlaneGrids.add(theYZ_PlaneGridLines);		      	
-  	theYZ_PlaneGrids.add(theYZ_PlaneAxisLine);
-
-  	//==|| Adding different lines in the X-Plane  
-  	theYZ_Plane.add(theYZ_PlaneOutline);
-  	theYZ_Plane.add(theYZ_PlaneGrids);
-
-  	//==|| Adding the X-Plane to the MainObject
-  	theMainObject.add(theYZ_Plane);
-
-}
-
-
-
-function drawXZ_Plane() {
-
-  	//==|| The Y Plane
-
- 
-
- 	//==|| The Outline Material
-  	theXZ_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
-  			color: theXZ_PlaneOutlineMaterialColor, 
-  			lineWidth: theXZ_PlaneOutlineMaterialLineWidth,
-  			transparent: true,
-  			opacity: theXZ_PlaneOutlineMaterialLineOpacity
-  		}
-  	);
-
-  	//==|| The Gridline Material
-	theXZ_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
-  			color: theXZ_PlaneGridLinesMaterialColor, 
-  			lineWidth: theXZ_PlaneGridLinesMaterialLineWidth,
-  			transparent: true,
-  			opacity: theXZ_PlaneGridLinesMaterialLineOpacity
-  		}
-  	);
-
-	//==|| the AxisLine Material
-	theXZ_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
-  			color: theXZ_PlaneAxisLineMaterialColor, 
-  			lineWidth: theXZ_PlaneAxisLineMaterialLineWidth,
-  			transparent: true,
-  			opacity: theXZ_PlaneAxisLineMaterialLineOpacity
-  		}
-  	);
-
-
-	//==|| The Outline Geometry
-  	theXZ_PlaneOutlineGeo = new THREE.Geometry();
-  	theXZ_PlaneOutlineGeo.vertices.push(
-
-  		v(maxX, minY, 0), v(maxX, minY, theZ),
-  		v(maxX, minY, theZ), v(minX, minY, theZ),
-  		v(minX, minY, theZ), v(minX, minY, 0),
-  		v(minX, minY, 0), v(maxX, minY, 0)
-
-
-  	);
-
-  	//==|| The Outline
-  	theXZ_PlaneOutline = new THREE.Line(theXZ_PlaneOutlineGeo, theXZ_PlaneOutlineMaterial);
-  	theXZ_PlaneOutline.type = THREE.Lines;
-
-  	
-
-
-  	//==|| Checking how many grids are there in width, lenght and height
-  	var noOfGridsInBreadth = ((-1 * minX) + maxX) / theUnit;
-  	var noOfGridsInHeight = (theZ / theUnit)
-
-  	//==|| The Gridlines Geometry
-	theXZ_PlaneGridLinesGeo = new THREE.Geometry();
-
-  	//==|| If more than 2 grids we need to draw additional lines
-  	//if(noOfGridsInBreadth > 1){		      		
-      	for(var value = (minX + theUnit); value <= (maxX - theUnit); value += theUnit) {
-      		if(value != 0) {
-      			theXZ_PlaneGridLinesGeo.vertices.push(
-      				v(value, minY, 0), v(value, minY, theZ)
-      			);
-      		}	
-      	}
-   //	}
-
-	//==|| If more than 2 grids we need to draw additional lines
-  //	if(noOfGridsInHeight > 1){		      		
-      	//for(var value = (theUnit); value <= (theZ - theUnit); value += theUnit) {
-      	for(var value = 0; value <= theZ; value += theUnit) {
-      		if(value > 0 && value < theZ){
-      			theXZ_PlaneGridLinesGeo.vertices.push(
-      				v(minX, minY, value), v(maxX, minY, value)
-      			);
-      		}
-
-		   	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize, theLabelOpacity);
-	     	gridValue.position.x = minX - labelMargin;
-	     	gridValue.position.y = minY;
-	     	gridValue.position.z = value;
-	      //	theMainObject.add(gridValue);
-
-
-	      	//==|| Rotating the text/label/value to level it with the Y-Plane
-	      	//	gridValue.rotation.set(Math.PI, Math.PI/2, 0);
-
-			gridValue.rotation.set(Math.PI/2, Math.PI, Math.PI);
-
-
-	      	theXZ_PlaneLabels.add(gridValue);
-	      	
-	      	//var axis = new THREE.Vector3(0.5,0.5,0);
-
-	      	//theXZ_PlaneLabels.rotation.set(0, Math.PI, 0);
-
-      	}
-   //	}
-
-
-
-
-  	//==|| the Gridlines
-  	theXZ_PlaneGridLines = new THREE.Line(theXZ_PlaneGridLinesGeo, theXZ_PlaneGridLinesMaterial);
-  	theXZ_PlaneGridLines.type = THREE.Lines;
-
-   	//==|| The AxisLine Geometry
-	theXZ_PlaneAxisLineGeo = new THREE.Geometry();
-  	theXZ_PlaneAxisLineGeo.vertices.push(
-  		v(0, minY, 0), v(0, minY, theZ)
-  	);
-
-  	//==|| The AxisLine
-  	theXZ_PlaneAxisLine = new THREE.Line(theXZ_PlaneAxisLineGeo, theXZ_PlaneAxisLineMaterial);
-  	theXZ_PlaneAxisLine.type = THREE.Lines;
-
-
-
-
-  	//==|| Adding axis line to the Plane Grids object  	
-  	theXZ_PlaneGrids.add(theXZ_PlaneGridLines);		      	
-  	theXZ_PlaneGrids.add(theXZ_PlaneAxisLine);
-
-  	//==|| Adding different lines in the Y-Plane
-  	theXZ_Plane.add(theXZ_PlaneOutline);
-  	theXZ_Plane.add(theXZ_PlaneGrids);
-
-
-  	//==|| Adding the labels/values in the Y-Plane
-	theXZ_Plane.add(theXZ_PlaneLabels);
-
-	//==|| Adding the X-Plane to the MainObject
-  	theMainObject.add(theXZ_Plane);
-
-}
-
-
-
-function drawXY_Plane() {
-
- 	//==|| The Outline Material
-  	theXY_PlaneOutlineMaterial = new THREE.LineBasicMaterial( {
-  			color: theXY_PlaneOutlineMaterialColor, 
-  			lineWidth: theXY_PlaneOutlineMaterialLineWidth,
-  			transparent: true,
-  			opacity: theXY_PlaneOutlineMaterialLineOpacity
-  		}
-  	);
-
-  	//==|| The Gridline Material
-	theXY_PlaneGridLinesMaterial = new THREE.LineBasicMaterial( {
-  			color: theXY_PlaneGridLinesMaterialColor, 
-  			lineWidth: theXY_PlaneGridLinesMaterialLineWidth,
-  			transparent: true,
-  			opacity: theXY_PlaneGridLinesMaterialLineOpacity
-  		}
-  	);
-
-	//==|| the AxisLine Material
-	theXY_PlaneAxisLineMaterial = new THREE.LineBasicMaterial( {
-  			color: theXY_PlaneAxisLineMaterialColor, 
-  			lineWidth: theXY_PlaneAxisLineMaterialLineWidth,
-  			transparent: true,
-  			opacity: theXY_PlaneAxisLineMaterialLineOpacity
-  		}
-  	);
-
-
- 	//==|| The Outline Geometry
-  	theXY_PlaneOutlineGeo = new THREE.Geometry();
-  	theXY_PlaneOutlineGeo.vertices.push(
-
-  		v(maxX, minY, theZ), v(maxX, maxY, theZ),
-  		v(maxX, maxY, theZ), v(minX, maxY, theZ),
-  		v(minX, maxY, theZ), v(minX, minY, theZ),
-  		v(minX, minY, theZ), v(maxX, minY, theZ)
-
-
-  	);
-
-  	//==|| The Outline
-  	theXY_PlaneOutline = new THREE.Line(theXY_PlaneOutlineGeo, theXY_PlaneOutlineMaterial);
-  	theXY_PlaneOutline.type = THREE.Lines;
-
-
-
-
-
-
-  	//==|| Checking how many grids are there in width, lenght and height
-  	var noOfGridsInBreadth = ((-1 * minX) + maxX) / theUnit;
-  	var noOfGridsInLength = ((-1 * minY) + maxY) / theUnit;
-
-  	//==|| The Gridlines Geometry
-	theXY_PlaneGridLinesGeo = new THREE.Geometry();
-
-  	//==|| If more than 2 grids we need to draw additional lines
-  	//if(noOfGridsInBreadth > 1){		      		
-      	//for(var value = (minX + theUnit); value <= (maxX - theUnit); value += theUnit) {
-      	for(var value = (minX ); value <= (maxX); value += theUnit) {
-      		if(value > minX && value < maxX) {	      	
-	      		if(value != 0) {
-	      			theXY_PlaneGridLinesGeo.vertices.push(
-	      				v(value, minY, theZ), v(value, maxY, theZ)
-	      			);
-	      		}
-	      	}
-
-	      	var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize, theLabelOpacity);
-	     	gridValue.position.x = value;
-	     	gridValue.position.y = maxY + labelMargin;
-	     	gridValue.position.z = theZ;
-
-	      	//==|| Rotating the text/label/value to level it with the Y-Plane
-	      	gridValue.rotation.set(0, Math.PI, Math.PI/2);
-
-	      	theXY_PlaneLabels.add(gridValue);
-
-      	}
-   //	}
-
-	//==|| If more than 2 grids we need to draw additional lines
-  	//if(noOfGridsInLength > 1){		      		
-      	//for(var value = (minY + theUnit); value <= (maxY - theUnit); value += theUnit) {
-      	for(var value = (minY + theUnit); value <= (maxY); value += theUnit) {	
-      		if(value > (minY) && value < maxY) {
-	      		if(value != 0) {
-	      			theXY_PlaneGridLinesGeo.vertices.push(
-	      				v(minX, value, theZ), v(maxX, value, theZ)
-	      			);
-	      		}
-	      	}
-
-      		var gridValue = createText2D(value + '', theLabelColor, theLabelFont, theLabelFontSize, theLabelOpacity);
-	     	gridValue.position.x = minX  - labelMargin;
-	     	gridValue.position.y = value;
-	     	gridValue.position.z = theZ;
-
-	      	//==|| Rotating the text/label/value to level it with the Y-Plane
-	      	gridValue.rotation.set(Math.PI, 0, 0);
-
-	      	theXZ_PlaneLabels.add(gridValue);
-
-
-      	}
-   //	}
-
-
-  	//==|| the Gridlines
-  	theXY_PlaneGridLines = new THREE.Line(theXY_PlaneGridLinesGeo, theXY_PlaneGridLinesMaterial);
-  	theXY_PlaneGridLines.type = THREE.Lines;
-
-   	//==|| The AxisLine Geometry
-	theXY_PlaneAxisLineGeo = new THREE.Geometry();
-  	theXY_PlaneAxisLineGeo.vertices.push(
-  		v(0, minY, theZ), v(0, maxY, theZ),
-  		v(minX, 0, theZ), v(maxX, 0, theZ)
-  	);
-
-  	//==|| The AxisLine
-  	theXY_PlaneAxisLine = new THREE.Line(theXY_PlaneAxisLineGeo, theXY_PlaneAxisLineMaterial);
-  	theXY_PlaneAxisLine.type = THREE.Lines;
-
-
-
-
-
-  	//==|| Adding axis line to the Plane Grids object  	
-  	theXY_PlaneGrids.add(theXY_PlaneGridLines);		      	
-  	theXY_PlaneGrids.add(theXY_PlaneAxisLine);
-
-  	//==|| Adding different lines in the Z-Plane
-  	theXY_Plane.add(theXY_PlaneOutline);
-  	theXY_Plane.add(theXY_PlaneGrids);
-
-
-	//==|| Adding the labels/values in the Z-Plane
-  	theXY_Plane.add(theXY_PlaneLabels);
-
-
-  	//==|| Adding the X-Plane to the MainObject
-  	theMainObject.add(theXY_Plane);
-
-}
-
-
-
-//==|| Draw an Arrow right of the XY Plane to denote the North direction
-function drawArrowNorth() {
-
-	
-
-	//==|| The Outline Material
-  	theArrowNorthmaterial = new THREE.LineBasicMaterial( {
-  			color: theArrowNorthColor, 
-  			lineWidth: 1,
-  			transparent: true,
-  			opacity: theArrowNorthOpacity
-  		}
-  	);
-
-
-
-  	var midX = (maxX + minX) / 2; 
-
-  	var halfLength = (maxX - minX) / 2 - theUnit;
-
-  	if(halfLength > 3 * theUnit) { 
-  		halfLength = 3 * theUnit;
-  	}
-
-  	colorTrace("midX = " +  midX + "  halfLength = " + halfLength + " minX = " + minX + " maxX = " + maxX + "Green");
-  	//halfLength = theUnit
-
-	//==|| The Outline Geometry
-  	var theArrowNorthgeo = new THREE.Geometry();
-  	theArrowNorthgeo.vertices.push(
-
-  		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ),
-  		v(midX - halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX - halfLength,  maxY + theArrowNorth_Margin - theArrowNorth_Width, theZ),
-  		v(midX,  maxY + theArrowNorth_Margin, theZ), 		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ),
-  		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + theArrowNorth_Width,  maxY + theArrowNorth_Margin - theArrowNorth_Width, theZ),
-  		v(midX + halfLength,  maxY + theArrowNorth_Margin, theZ), 	v(midX + theArrowNorth_Width,  maxY + theArrowNorth_Margin + theArrowNorth_Width, theZ)
-
-
-  	);
-
-
-	//==|| The Outline
-  	theArrowNorth = new THREE.Line(theArrowNorthgeo, theArrowNorthmaterial);
-  	theArrowNorth.type = THREE.Lines;
-
-	theMainObject.add(theArrowNorth);
-
-}
-
-
-//==|| It's still not working as I have not been able to figure out
-//==|| why dashed lines are getting drawn.
-function drawLinesToOrigin() {
-
-	//==|| The Lines to Origin Material
-  	linesToOriginMaterial = new THREE.LineDashedMaterial( {
-  			color: 0x000000, 
-  			dashSize: 3, 
-  			gapSize:2,
-  			linewidth: 2 
-  		}
-  	);
-
-
-	//==|| The Lines to Origin Geometry
-  	var linesToOriginGeo = new THREE.Geometry();
-			linesToOriginGeo.computeLineDistances();
-  	linesToOriginGeo.vertices.push(
-  		v(0, minY, 0), v(0, 0, 0),
-  		v(maxX, 0, 0), v(0, 0, 0)
-  	);
-
-
-	//==|| The Outline
-  	linesToOrigin = new THREE.Line(linesToOriginGeo, linesToOriginMaterial);		
-  	linesToOrigin.type = THREE.LinePieces;
-
-	theMainObject.add(linesToOrigin);
-
-
-}
-
-
-//==|| Creates the sign at the center of the screen
-//==|| which is the center of rotation for object in our 3D Module
-function createScreenCenter(x, y, z, centerSignLength, screenCenterSignColor, screenCenterSignOpacity ) {
-
-	//==|| The Screen Center
-  	var theScreenCenterMaterial = new THREE.LineBasicMaterial( {
-  			color: screenCenterSignColor, 
-  			lineWidth: 1,
-  			transparent: true,
-  			opacity: screenCenterSignOpacity
-  		}
-  	);
-
-  	//var centerSignLength = 10;
-	//==|| the Outline Geometry
-  	var theScreenCenterGeo = new THREE.Geometry();
-  	theScreenCenterGeo.vertices.push(
-  		v(x - centerSignLength, y, z), v(x + centerSignLength, y, z),
-  		v(x, y - centerSignLength, z), v(x, y + centerSignLength, z),
-  		v(x, y, z - centerSignLength), v(x, y, z + centerSignLength)
-
-  	);
-
-
-  	//==|| the Outline
-  	theScreenCenter = new THREE.Line(theScreenCenterGeo, theScreenCenterMaterial);
-  	theScreenCenter.type = THREE.Lines;
-
-  	theMainObject.add(theScreenCenter);
-  	//theScreenCenter.position.set(theCameraTarget.x, theCameraTarget.y, theCameraTarget.z)
-  	//theScreenCenter.position.set(0, 0, 100)
-
-
-}
-
-function updateScreenCenter(x, y, z) {
-	//colorTrace("Update Screen Center called ", "Green");
-
-	theScreenCenter.position.x = x;
-	theScreenCenter.position.y = y;
-	theScreenCenter.position.z = z;
-
-}
 
 
 

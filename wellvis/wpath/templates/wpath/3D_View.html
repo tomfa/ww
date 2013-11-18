@@ -1904,7 +1904,76 @@ function registerAddPathButton() {
 						//newData = methodM1INC(newData, preData);
 						if(Math.abs(newData.theBuild) != Math.abs(newData.theTurn)) {
 							colorTrace(" Turn and Build are not equal", "Green");
-							newData = methodM1INC(newData, preData);
+
+							if(newData.theBuild != 0 && newData.theTurn !=0 ) {
+								colorTrace("and the Build and the Turn are not 0", "Blue");
+								newData = methodM1INC(newData, preData);
+							}
+							else if(newData.theBuild == 0){
+								colorTrace("But the Build = 0", "RED");
+
+								var n1 = duplicateThisRowData(newData);
+								var n2 = duplicateThisRowData(newData);
+
+								n1.theBuild = n1.theBuild + 0.001;
+								n2.theBuild = n2.theBuild - 0.001;
+
+								
+								n1 = methodM1INC(n1, preData);
+								n2 = methodM1INC(n2, preData);
+
+								colorTrace("-- Taking the average values --", "Blue");
+								//==|| Now we will take the average value
+								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+								newData.theX 	= (n1.theX + n2.theX) / 2;
+								newData.theY 	= (n1.theY + n2.theY) / 2;
+								newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+								newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+								newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+								newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+								newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+								logValues(newData, "Green");
+
+							}
+							else if(newData.theTurn == 0) {
+								colorTrace("But the Turn = 0", "RED");
+
+								var n1 = duplicateThisRowData(newData);
+								var n2 = duplicateThisRowData(newData);
+
+								n1.theTurn = n1.theTurn + 0.001;
+								n2.theTurn = n2.theTurn - 0.001;
+
+								
+								n1 = methodM1INC(n1, preData);
+								n2 = methodM1INC(n2, preData);
+
+								colorTrace("-- Taking the average values --", "Blue");
+								//==|| Now we will take the average value
+								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+								newData.theX 	= (n1.theX + n2.theX) / 2;
+								newData.theY 	= (n1.theY + n2.theY) / 2;
+								newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+								newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+								newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+								newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+								newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+								logValues(newData, "Green");
+							}
 						}
 						else { 
 							colorTrace("### Turn and Build ARE equal ###", "RED");
@@ -2190,7 +2259,77 @@ function registerAddPathButton() {
 						//newData = methodM1AZI(newData, preData);
 						if(Math.abs(newData.theBuild) != Math.abs(newData.theTurn)) {
 							colorTrace(" Turn and Build are not equal", "Green");
-							newData = methodM1AZI(newData, preData);
+
+							if(newData.theBuild != 0 && newData.theTurn != 0) {
+								colorTrace("and the Turn and Build are not 0", "Blue");
+								newData = methodM1AZI(newData, preData);
+							}
+							else if(newData.theBuild == 0) {
+								colorTrace("But the Build = 0", "RED");
+
+								var n1 = duplicateThisRowData(newData);
+								var n2 = duplicateThisRowData(newData);
+
+								n1.theBuild = n1.theBuild + 0.001;
+								n2.theBuild = n2.theBuild - 0.001;
+
+								
+								n1 = methodM1AZI(n1, preData);
+								n2 = methodM1AZI(n2, preData);
+
+								colorTrace("-- Taking the average values --", "Blue");
+								//==|| Now we will take the average value
+								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								//newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+								newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+								newData.theX 	= (n1.theX + n2.theX) / 2;
+								newData.theY 	= (n1.theY + n2.theY) / 2;
+								newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+								newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+								newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+								newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+								newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+								logValues(newData, "Green");
+							}
+							else if(newData.theTurn == 0 ) {
+								colorTrace("But the Turn = 0", "RED");
+
+								var n1 = duplicateThisRowData(newData);
+								var n2 = duplicateThisRowData(newData);
+
+								n1.theTurn = n1.theTurn + 0.001;
+								n2.theTurn = n2.theTurn - 0.001;
+
+								
+								n1 = methodM1AZI(n1, preData);
+								n2 = methodM1AZI(n2, preData);
+
+								colorTrace("-- Taking the average values --", "Blue");
+								//==|| Now we will take the average value
+								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								//newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+								newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+								newData.theX 	= (n1.theX + n2.theX) / 2;
+								newData.theY 	= (n1.theY + n2.theY) / 2;
+								newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+								newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+								newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+								newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+								newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+								logValues(newData, "Green");
+							}
 						}
 						else { 
 							colorTrace("### Turn and Build ARE equal ###", "RED");
@@ -2487,7 +2626,81 @@ function registerAddPathButton() {
 						//newData = methodM1TVD(newData, preData);
 						if(Math.abs(newData.theBuild) != Math.abs(newData.theTurn)) {
 							colorTrace(" Turn and Build are not equal", "Green");
-							newData = methodM1TVD(newData, preData);
+
+							if(newData.theBuild != 0 && newData.theTurn != 0) {
+								colorTrace("and the Build and Turn are not 0", "Blue");
+								newData = methodM1TVD(newData, preData);
+							}
+							else if(newData.theBuild == 0) {
+								colorTrace("But the Build = 0", "Red");
+
+								var n1 = duplicateThisRowData(newData);
+								var n2 = duplicateThisRowData(newData);
+
+								n1.theBuild = n1.theBuild + 0.001;
+								n2.theBuild = n2.theBuild - 0.001;
+
+								
+								n1 = methodM1TVD(n1, preData);
+								n2 = methodM1TVD(n2, preData);
+
+								colorTrace("-- Taking the average values --", "Blue");
+								//==|| Now we will take the average value
+								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+								//newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+								newData.theX 	= (n1.theX + n2.theX) / 2;
+								newData.theY 	= (n1.theY + n2.theY) / 2;
+								newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+								newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+								newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+								newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+								newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+								colorTrace("----------------------------------");
+								logValues(newData, "Green");
+								colorTrace("----------------------------------");
+							}
+							else if(newData.theTurn == 0) {
+								colorTrace("But the Turn = 0 ", "RED");
+
+								var n1 = duplicateThisRowData(newData);
+								var n2 = duplicateThisRowData(newData);
+
+								n1.theTurn = n1.theTurn + 0.001;
+								n2.theTurn = n2.theTurn - 0.001;
+
+								
+								n1 = methodM1TVD(n1, preData);
+								n2 = methodM1TVD(n2, preData);
+
+								colorTrace("-- Taking the average values --", "Blue");
+								//==|| Now we will take the average value
+								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
+								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+								//newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
+
+								newData.theX 	= (n1.theX + n2.theX) / 2;
+								newData.theY 	= (n1.theY + n2.theY) / 2;
+								newData.theZ 	= (n1.theZ + n2.theZ) / 2;
+
+								newData.theNS 	= (n1.theNS   + n2.theNS)   / 2;
+								newData.theEW 	= (n1.theEW   + n2.theEW)   / 2;
+								newData.theVsec	= (n1.theVsec + n2.theVsec) / 2;
+
+								newData.theDogleg 	= (n1.theDogleg + n2.theDogleg) / 2;
+
+								colorTrace("----------------------------------");
+								logValues(newData, "Green");
+								colorTrace("----------------------------------");
+							}
 						}
 						else { 
 							colorTrace("### Turn and Build ARE equal ###", "RED");

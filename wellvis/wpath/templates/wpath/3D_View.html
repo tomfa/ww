@@ -1974,7 +1974,7 @@ function registerAddPathButton() {
 				//==|| update the well JSON data object
 				theWellJSONdata.theValues.push(theNewJSONvalue);
 
-				//==|| This is the index for the current theValues Object where we will push other values
+				//==|| This is the index for the current theValues Object where we will push Point values
 				var theCurrentValueNo = theWellJSONdata.theValues.length - 1;
 
 
@@ -2387,7 +2387,7 @@ function registerAddPathButton() {
 				theWellJSONdata.theValues.push(theNewJSONvalue);
 
 
-				//==|| This is the index for the current theValues Object where we will push other values
+				//==|| This is the index for the current theValues Object where we will push Point values
 				var theCurrentValueNo = theWellJSONdata.theValues.length - 1;
 
 
@@ -2438,8 +2438,8 @@ function registerAddPathButton() {
 					//colorTrace("The diff Turn = " 	+ diffT + "     , diff Turn unit = "  + diffTunit);
 
 					
-					//newData.theINC = preRowData.theINC + diffINCunit;
-					newData.theAZI = preRowData.theAZI + diffAZIunit;
+					newData.theINC = preRowData.theINC + diffINCunit;
+					//newData.theAZI = preRowData.theAZI + diffAZIunit;
 
 					for(var i = 1; i <= noOfPointsInBetween; i++) {
 						
@@ -2451,7 +2451,7 @@ function registerAddPathButton() {
 
 							if(newData.theBuild != 0 && newData.theTurn != 0) {
 								colorTrace("and the Turn and Build are not 0", "Blue");
-								newData = methodM1AZI(newData, preData);
+								newData = methodM1INC(newData, preData);
 							}
 							else if(newData.theBuild == 0) {
 								colorTrace("But the Build = 0", "RED");
@@ -2463,15 +2463,15 @@ function registerAddPathButton() {
 								n2.theBuild = n2.theBuild - 0.001;
 
 								
-								n1 = methodM1AZI(n1, preData);
-								n2 = methodM1AZI(n2, preData);
+								n1 = methodM1INC(n1, preData);
+								n2 = methodM1INC(n2, preData);
 
 								colorTrace("-- Taking the average values --", "Blue");
 								//==|| Now we will take the average value
 								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
 								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
-								//newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
-								newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+								newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								//newRowData.theINC = (n1.theINC + n2.theINC) / 2;
 								newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
 
 								newData.theX 	= (n1.theX + n2.theX) / 2;
@@ -2496,14 +2496,14 @@ function registerAddPathButton() {
 								n2.theTurn = n2.theTurn - 0.01;
 
 								
-								n1 = methodM1AZI(n1, preData);
-								n2 = methodM1AZI(n2, preData);
+								n1 = methodM1INC(n1, preData);
+								n2 = methodM1INC(n2, preData);
 
 								colorTrace("-- Taking the average values --", "Blue");
 								//==|| Now we will take the average value
 								newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
-								newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
-								//newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+								//newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
+								newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
 								newRowData.theINC = (n1.theINC + n2.theINC) / 2;
 								newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
 
@@ -2529,15 +2529,15 @@ function registerAddPathButton() {
 							n2.theBuild = n2.theBuild - 0.01;
 
 							
-							n1 = methodM1AZI(n1, preData);
-							n2 = methodM1AZI(n2, preData);
+							n1 = methodM1INC(n1, preData);
+							n2 = methodM1INC(n2, preData);
 
 							colorTrace("-- Taking the average values --", "Blue");
 							//==|| Now we will take the average value
 							newData.theMD 	= (n1.theMD  + n2.theMD)  / 2;
 							newData.theCL 	= (n1.theCL  + n2.theCL)  / 2;
-							//newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
-							newRowData.theINC = (n1.theINC + n2.theINC) / 2;
+							newData.theAZI 	= (n1.theAZI + n2.theAZI) / 2;
+							//newRowData.theINC = (n1.theINC + n2.theINC) / 2;
 							newData.theTVD 	= (n1.theTVD + n2.theTVD) / 2;
 
 							newData.theX 	= (n1.theX + n2.theX) / 2;
@@ -2612,8 +2612,8 @@ function registerAddPathButton() {
 
 
 						//newData.theMD = newData.theMD + 30;
-						//newData.theINC = newData.theINC + diffINCunit;
-						newData.theAZI = newData.theAZI + diffAZIunit;
+						newData.theINC = newData.theINC + diffINCunit;
+						//newData.theAZI = newData.theAZI + diffAZIunit;
 
 						//newData.theBuild = newData.theBuild + diffBunit;
 						//newData.theTurn = newData.theTurn + diffTunit;
@@ -2801,7 +2801,7 @@ function registerAddPathButton() {
 				theWellJSONdata.theValues.push(theNewJSONvalue);
 
 
-				//==|| This is the index for the current theValues Object where we will push other values
+				//==|| This is the index for the current theValues Object where we will push Point values
 				var theCurrentValueNo = theWellJSONdata.theValues.length - 1;
 
 

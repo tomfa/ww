@@ -178,7 +178,27 @@ function methodM1INC(newRowData, preRowData) {
 
 	//==|| Step 4: Calculate the Azimuth in the end point - A2
 	//var A2 = A1 + (ClinFt / FtToM * 180) / (Math.PI * RCAinFt / FtToM);
-	var A2 = A1 + (CLinM * 180) / (Math.PI * RCAinM);
+	//var A2 = A1 + (CLinM * 180) / (Math.PI * RCAinM);
+
+	//==|| Calculating A2
+	var A2 = 0;
+	var som = 0;
+	 
+	if(T < 0) {
+		som =	-(CLinM * 180 / (Math.PI * RCAinM));
+	}
+	else {
+		som =	(CLinM * 180 / (Math.PI * RCAinM));
+	}
+
+	if(A1 + som < 0) {
+		A2 = 360 + A1 +  som;
+	}
+	else {
+		A2 = A1 + som;
+	}
+
+
 
 
 	//==|| Step 5: Calculate DLS

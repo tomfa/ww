@@ -80,13 +80,48 @@ function readWellJSONdata(theWellJSONdata) {
 				colorTrace("theDogleg = " + theDogleg + "\ttheBuild = " + theBuild + "\ttheTurn = " + theTurn + "\ttheSecType = " + theSecType, "Blue");
 				
 				//==|| These are the points that make up the line
-				//==|| NOTE: currently not doing anything with them...
 				var thePoints 	= theValues[valuesIndex].thePoints;
 						
 			
-				//==|| Add this to our main Well path object
+				if(theSecType == "Tangent") {
+					//==|| Add this to our main Well path object
+					
+				}
+				else {
+					//==|| Drawing the curve with the points in it
+					colorTrace("Not the Tangent", "Blue");
+
+					$.each(thePoints, function(pointsIndex) {
+				
+						//==|| The values 
+						//var pointMD 		= theValues[valuesIndex].theMD;
+						//var pointCL 		= theValues[valuesIndex].theCL;
+						//var pointINC 		= theValues[valuesIndex].theINC;
+						//var pointAZI		= theValues[valuesIndex].theAZI;
+						//var pointTVD		= theValues[valuesIndex].theTVD;
+						var pointX 			= thePoints[pointsIndex].itsX;
+						var pointY 			= thePoints[pointsIndex].itsY;
+						var pointZ 			= thePoints[pointsIndex].itsZ;
+						//var pointNS			= theValues[valuesIndex].itsNS;
+						//var pointEW			= theValues[valuesIndex].itsEW;
+						//var pointVsec		= theValues[valuesIndex].itsVsec;
+						//var pointDogleg		= theValues[valuesIndex].theDogleg;
+						//var pointBuild		= theValues[valuesIndex].theBuild;
+						//var pointTurn		= theValues[valuesIndex].theTurn;
+						//var pointSecType	= theValues[valuesIndex].theSecType;
+
+						colorTrace("( " + pointX + ", " + pointY + ", " + pointZ + ")", "Blue");
+						addWellPath(pointX, pointY, pointZ);
+
+					});
+
+				}
+
 				addWellPath(itsX, itsY, itsZ);
 
+
+
+				//==|| Conditioning to add the delete button for the last row -- currently not implemented
 				if(valuesIndex == (theValues.length - 1)) {
 					colorTrace("this is the last one", "Red");
 

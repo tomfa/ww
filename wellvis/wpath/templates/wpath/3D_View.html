@@ -36,7 +36,7 @@
 							<div class="divMiddleBoxes headerMiddleOnes">TVD  <br />  (m) </div>
 							<div class="divMiddleBoxes headerMiddleOnes">NS  <br />  (m)</div>
 							<div class="divMiddleBoxes headerMiddleOnes">EW  <br /> (m)</div>
-							<div class="divMiddleBoxes headerMiddleOnes">V.Sec  <br /> (m)</div>
+							<div class="divMiddleBoxes headerMiddleOnes" style="display: none;">V.Sec  <br /> (m)</div>
 							<div class="divMiddleBoxes headerMiddleOnes">Dogleg  <br />  (&#176;/30m)</div>
 							<div class="divMiddleBoxes headerMiddleOnes">Build <br />  (&#176;/30m)</div>
 							<div class="divMiddleBoxes headerMiddleOnes">Turn  <br />  (&#176;/30m)</div>
@@ -1668,7 +1668,7 @@ function registerResetWellPath() {
 
 
 	 	redrawWellPath(false);
-	 	
+
 	  	render();
 
 		colorTrace("Resetting the well path", "Green");
@@ -1786,11 +1786,11 @@ function registerAddPathButton() {
 				
 
 				//==|| Putting new dN, dE, dZ in the row				
-				$("#valueCL_" 	+ noOfWellPathLinesStr).val(newRowData.theCL) - 0;
-				$("#valueNS_"  	+ noOfWellPathLinesStr).val(newRowData.theNS) - 0;
-				$("#valueEW_" 	+ noOfWellPathLinesStr).val(newRowData.theEW) - 0;
-				$("#valueVsec_" + noOfWellPathLinesStr).val(newRowData.theVsec) - 0;
-				$("#valueTVD_"  + noOfWellPathLinesStr).val(newRowData.theTVD) - 0;
+				$("#valueCL_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theCL.toFixed(2))) - 0;
+				$("#valueNS_"  	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theNS.toFixed(2))) - 0;
+				$("#valueEW_" 	+ noOfWellPathLinesStr).val(parseFloat(newRowData.theEW.toFixed(2))) - 0;
+				$("#valueVsec_" + noOfWellPathLinesStr).val(parseFloat(newRowData.theVsec.toFixed(2))) - 0;
+				$("#valueTVD_"  + noOfWellPathLinesStr).val(parseFloat(newRowData.theTVD.toFixed(2))) - 0;
 
 				//==|| Putting new X, Y, Z in the hidden DIVs in the row
 				$("#valueX_"  + noOfWellPathLinesStr).text(newRowData.theX) - 0;
@@ -1966,7 +1966,7 @@ function registerAddPathButton() {
 										'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
 										'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
 										'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ ',' +
-										'	"theSecType": "M1 - INC" ,' +
+										'	"theSecType": "M1 - Inc" ,' +
 										'	"thePoints" :[]' +
 									'}';
 
@@ -2157,20 +2157,20 @@ function registerAddPathButton() {
 
 
 						var theNewJSONvalue = '{';
-						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
-												'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
-												'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
-												'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
-												'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
-												'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
-												'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
-												'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
-												'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
-												'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
-												'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
-												'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
-												'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
-												'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ 
+						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newData.theMD )		+ ',' +
+												'	"theCL"		: ' + parseFloat(newData.theCL )		+ ',' +
+												'	"theINC" 	: ' + parseFloat(newData.theINC )	+ ',' +
+												'	"theAZI"	: ' + parseFloat(newData.theAZI )	+ ',' +
+												'	"theTVD"	: ' + parseFloat(newData.theTVD )	+ ',' +
+												'	"itsX" 		: ' + parseFloat(newData.theX )		+ ',' +
+												'	"itsY" 		: ' + parseFloat(newData.theY )		+ ',' +
+												'	"itsZ" 		: ' + parseFloat(newData.theZ )		+ ',' +
+												'	"itsNS"		: ' + parseFloat(newData.theNS )		+ ',' +
+												'	"itsEW"		: ' + parseFloat(newData.theEW )		+ ',' +
+												'	"itsVsec"	: ' + parseFloat(newData.theVsec )	+ ',' +
+												'	"theDogleg" : ' + parseFloat(newData.theDogleg )	+ ',' +
+												'	"theBuild"	: ' + parseFloat(newData.theBuild) 	+ ',' +
+												'	"theTurn"	: ' + parseFloat(newData.theTurn )	+ 
 											'}';
 
 						theNewJSONvalue = JSON.parse(theNewJSONvalue);
@@ -2378,7 +2378,7 @@ function registerAddPathButton() {
 										'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
 										'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
 										'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ ',' +
-										'	"theSecType": "M1 - AZI" ,' +
+										'	"theSecType": "M1 - Azi" ,' +
 										'	"thePoints" :[]' +
 									'}';
 
@@ -2573,20 +2573,20 @@ function registerAddPathButton() {
 
 
 						var theNewJSONvalue = '{';
-						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
-												'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
-												'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
-												'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
-												'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
-												'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
-												'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
-												'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
-												'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
-												'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
-												'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
-												'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
-												'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
-												'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ 
+						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newData.theMD )		+ ',' +
+												'	"theCL"		: ' + parseFloat(newData.theCL )		+ ',' +
+												'	"theINC" 	: ' + parseFloat(newData.theINC )	+ ',' +
+												'	"theAZI"	: ' + parseFloat(newData.theAZI )	+ ',' +
+												'	"theTVD"	: ' + parseFloat(newData.theTVD )	+ ',' +
+												'	"itsX" 		: ' + parseFloat(newData.theX )		+ ',' +
+												'	"itsY" 		: ' + parseFloat(newData.theY )		+ ',' +
+												'	"itsZ" 		: ' + parseFloat(newData.theZ )		+ ',' +
+												'	"itsNS"		: ' + parseFloat(newData.theNS )		+ ',' +
+												'	"itsEW"		: ' + parseFloat(newData.theEW )		+ ',' +
+												'	"itsVsec"	: ' + parseFloat(newData.theVsec )	+ ',' +
+												'	"theDogleg" : ' + parseFloat(newData.theDogleg )	+ ',' +
+												'	"theBuild"	: ' + parseFloat(newData.theBuild) 	+ ',' +
+												'	"theTurn"	: ' + parseFloat(newData.theTurn )	+ 
 											'}';
 
 						theNewJSONvalue = JSON.parse(theNewJSONvalue);
@@ -3000,20 +3000,20 @@ function registerAddPathButton() {
 
 
 						var theNewJSONvalue = '{';
-						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newRowData.theMD )		+ ',' +
-												'	"theCL"		: ' + parseFloat(newRowData.theCL )		+ ',' +
-												'	"theINC" 	: ' + parseFloat(newRowData.theINC )	+ ',' +
-												'	"theAZI"	: ' + parseFloat(newRowData.theAZI )	+ ',' +
-												'	"theTVD"	: ' + parseFloat(newRowData.theTVD )	+ ',' +
-												'	"itsX" 		: ' + parseFloat(newRowData.theX )		+ ',' +
-												'	"itsY" 		: ' + parseFloat(newRowData.theY )		+ ',' +
-												'	"itsZ" 		: ' + parseFloat(newRowData.theZ )		+ ',' +
-												'	"itsNS"		: ' + parseFloat(newRowData.theNS )		+ ',' +
-												'	"itsEW"		: ' + parseFloat(newRowData.theEW )		+ ',' +
-												'	"itsVsec"	: ' + parseFloat(newRowData.theVsec )	+ ',' +
-												'	"theDogleg" : ' + parseFloat(newRowData.theDogleg )	+ ',' +
-												'	"theBuild"	: ' + parseFloat(newRowData.theBuild) 	+ ',' +
-												'	"theTurn"	: ' + parseFloat(newRowData.theTurn )	+ 
+						theNewJSONvalue += 		'	"theMD" 	: ' + parseFloat(newData.theMD )		+ ',' +
+												'	"theCL"		: ' + parseFloat(newData.theCL )		+ ',' +
+												'	"theINC" 	: ' + parseFloat(newData.theINC )		+ ',' +
+												'	"theAZI"	: ' + parseFloat(newData.theAZI )		+ ',' +
+												'	"theTVD"	: ' + parseFloat(newData.theTVD )		+ ',' +
+												'	"itsX" 		: ' + parseFloat(newData.theX )			+ ',' +
+												'	"itsY" 		: ' + parseFloat(newData.theY )			+ ',' +
+												'	"itsZ" 		: ' + parseFloat(newData.theZ )			+ ',' +
+												'	"itsNS"		: ' + parseFloat(newData.theNS )		+ ',' +
+												'	"itsEW"		: ' + parseFloat(newData.theEW )		+ ',' +
+												'	"itsVsec"	: ' + parseFloat(newData.theVsec )		+ ',' +
+												'	"theDogleg" : ' + parseFloat(newData.theDogleg )	+ ',' +
+												'	"theBuild"	: ' + parseFloat(newData.theBuild) 		+ ',' +
+												'	"theTurn"	: ' + parseFloat(newData.theTurn )		+ 
 											'}';
 
 						theNewJSONvalue = JSON.parse(theNewJSONvalue);
@@ -3180,7 +3180,7 @@ function addNewRowInTable(	currentRow,
 					'<div class="wellPathInputBoxContainer divMiddleBoxes divEW">' +
 						'<input id="valueEW_' + newNoOfWellPathLinesStr+ '" type="text" name="valueEW" value="' + valueEW + '" size="9"  disabled/>' +
 					'</div>' +
-					'<div class="wellPathInputBoxContainer divMiddleBoxes divVsec">' +
+					'<div class="wellPathInputBoxContainer divMiddleBoxes divVsec" style="display: none;">' +
 						'<input id="valueVsec_' + newNoOfWellPathLinesStr+ '" type="text" name="valueVsec" value="' + valueVsec + '" size="9"  disabled/>' +
 					'</div>' +
 					'<div class="wellPathInputBoxContainer divMiddleBoxes divDogleg">' +

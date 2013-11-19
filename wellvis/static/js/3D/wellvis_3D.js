@@ -344,7 +344,10 @@ function addWellPath(x, y, z) {
 
 
 //==|| Redraw the well path
+//==|| changedFeatures  is a boolean that represent if the well should be drawn with the new properties or simply from it's JSON object
 function redrawWellPath(changedFeatures) {
+
+
 
   //==|| First of all lets remove the current well path
   WELLVIS.theMainObject.remove(WELLVIS.theWellPath);
@@ -400,7 +403,7 @@ function redrawWellPath(changedFeatures) {
         //==|| Add the new line to the Well Path object in the scene
     WELLVIS.theWellPath.add(theNewLine);
 
-    //==|| Pushing in the New lines it the well path
+    //==|| Pushing in the New lines in the well path
     WELLVIS.theWellPathList.push(theNewLine);
 
   });

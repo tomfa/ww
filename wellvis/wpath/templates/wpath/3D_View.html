@@ -13,8 +13,8 @@
 			<button id="toggleWellPath" class="btn activeBtn">Well Path</button>
 
 
-			<button id="toggleWellPath" class="btn" style="float: right;">Reset</button>
-			<button id="toggleWellPath" class="btn" style="float: right;">Save</button>
+			<button id="resetWellPath" class="btn" style="float: right;">Reset</button>
+			<button id="saveWellPath" class="btn" style="float: right;">Save</button>
 			<span style="color: #fff; float: right; margin: 0px 5px; padding: 5px 0px 0px 0px">Well Path</span>
 
 
@@ -1250,6 +1250,13 @@ $(document).ready(function() {
 
 
 
+	//==|| Register the event listener for the Save Wellpath button
+	registerSaveWellPath();
+
+
+	//==|| Register the event listener for the Reset Wellpath button
+	registerResetWellPath();
+
 /*
 	//==|| Register the button press and release effect event listener
 	registerButtonPressReleaseEffects();
@@ -1612,6 +1619,65 @@ function registerToggleWellPath() {
 	});
 
 }
+
+
+
+//==|| Save the current well path data
+function registerSaveWellPath() {
+
+	$("#saveWellPath").click(function () {
+
+		save_wellpath(well_pk, theWellJSONdata);
+
+		colorTrace("Well path saved", "Green");
+
+	});
+
+
+}
+
+
+
+//==|| Reset the well path as the new well path
+function registerResetWellPath() {
+	
+	$("#resetWellPath").click(function () {
+
+		theWellJSONdata = newWellJSONdata;
+
+		readWellJSONdata(theWellJSONdata);
+
+
+
+	  	//==|| First of all lets remove the current well path
+	  	WELLVIS.theMainObject.remove(WELLVIS.theWellPath);
+
+	  	//==|| Empty the well path object3D
+	  	$.each(WELLVIS.theWellPathList, function(index){
+	    	//colorTrace("object is "+ theObject, "Green");
+	    	WELLVIS.theWellPath.remove(WELLVIS.theWellPathList[index]);
+	 	 });
+
+
+	  	//==|| empty the well path list
+	  	WELLVIS.theWellPathList.length = 0;
+	 	WELLVIS.theWellPathArray.length = 0;
+	 	WELLVIS.noOfWellPathLines = 0;
+
+	 	WELLVIS.thePreviousPoint = new THREE.Vector3(0,0,0); 
+
+
+	 	redrawWellPath(false);
+	 	
+	  	render();
+
+		colorTrace("Resetting the well path", "Green");
+
+	});
+
+}
+
+
 
 
 //==|| The Add button

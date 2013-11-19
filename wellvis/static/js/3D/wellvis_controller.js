@@ -113,7 +113,7 @@ function readWellJSONdata(theWellJSONdata) {
 
 				WELLVIS.noOfWellPathLines++;
 				
-				colorTrace("inside readWllJSONdata  no.of well path lines " + WELLVIS.noOfWellPathLines, "Green");
+				colorTrace("inside readWellJSONdata  no.of well path lines " + WELLVIS.noOfWellPathLines, "Green");
 
 			
 				registerButtonPressReleaseEffects();
@@ -166,7 +166,7 @@ function readWellJSONdata(theWellJSONdata) {
 //===================================================================================
 function saveWellJSONdata() {
 	
-	//save_wellpath(well_pk, theWellJSONdata);
+	save_wellpath(well_pk, theWellJSONdata);
 
 }
 

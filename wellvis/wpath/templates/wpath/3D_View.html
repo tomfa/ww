@@ -1645,9 +1645,22 @@ function registerResetWellPath() {
 
 		theWellJSONdata = newWellJSONdata;
 
-		readWellJSONdata(theWellJSONdata);
+		//readWellJSONdata(theWellJSONdata);
+		
+		$("#theAddPathContainer").empty();
+
+		
+		addNewRowInTable(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);	
+
+		colorTrace("no.of well path lines " + WELLVIS.noOfWellPathLines, "Green");
+
+		//==|| Register the event listeners for the Buttons
+		registerAddPathButton();
+
+		registerButtonPressReleaseEffects();
 
 
+		
 
 	  	//==|| First of all lets remove the current well path
 	  	WELLVIS.theMainObject.remove(WELLVIS.theWellPath);

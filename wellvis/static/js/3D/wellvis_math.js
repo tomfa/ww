@@ -82,6 +82,22 @@ function methodTangent(newRowData, preRowData) {
 		$("#valueZ_"  + noOfWellPathLinesStr).val(newZ.toFixed(2)) - 0;
 	*/
 
+
+
+
+	//newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
+	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
+	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
+	newRowData.theTVD 	= parseFloat(newRowData.theTVD.toFixed(2));
+	newRowData.theNS 	= parseFloat(newRowData.theNS.toFixed(2));
+	newRowData.theEW 	= parseFloat(newRowData.theEW.toFixed(2));
+	newRowData.theVsec 	= parseFloat(newRowData.theVsec.toFixed(2));
+	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
+	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
+	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
+
+
+
 	colorTrace("-- So the new values are --");
 	colorTrace("dMD = " + dMD, "Green");
 	colorTrace("dN = " + dN, "Blue");
@@ -300,6 +316,7 @@ function methodM1INC(newRowData, preRowData) {
 	newRowData.theZ 	= preRowData.theZ + dZ;
 
 
+	newRowData.theINC 	= parseFloat(newRowData.theINC.toFixed(2));
 	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
 	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
 	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
@@ -310,6 +327,7 @@ function methodM1INC(newRowData, preRowData) {
 	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
 	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
 	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
+	newRowData.theDogleg 	= parseFloat(newRowData.theDogleg.toFixed(2));
 
 
 	colorTrace("== So the new values are ==", "Blue");
@@ -531,6 +549,7 @@ function methodM1AZI(newRowData, preRowData) {
 
 
 
+	newRowData.theINC 	= parseFloat(newRowData.theINC.toFixed(2));
 	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
 	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
 	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
@@ -541,6 +560,7 @@ function methodM1AZI(newRowData, preRowData) {
 	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
 	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
 	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
+	newRowData.theDogleg 	= parseFloat(newRowData.theDogleg.toFixed(2));
 
 
 	colorTrace("== So the new values are ==", "Blue");
@@ -779,6 +799,7 @@ function methodM1TVD(newRowData, preRowData) {
 
 
 
+	newRowData.theINC 	= parseFloat(newRowData.theINC.toFixed(2));
 	newRowData.theAZI 	= parseFloat(newRowData.theAZI.toFixed(2));
 	newRowData.theCL 	= parseFloat(newRowData.theCL.toFixed(2));
 	newRowData.theMD 	= parseFloat(newRowData.theMD.toFixed(2));
@@ -789,6 +810,7 @@ function methodM1TVD(newRowData, preRowData) {
 	newRowData.theX 	= parseFloat(newRowData.theX.toFixed(2));
 	newRowData.theY 	= parseFloat(newRowData.theY.toFixed(2));
 	newRowData.theZ 	= parseFloat(newRowData.theZ.toFixed(2));
+	newRowData.theDogleg 	= parseFloat(newRowData.theDogleg.toFixed(2));
 
 
 	colorTrace("== So the new values are ==", "Blue");

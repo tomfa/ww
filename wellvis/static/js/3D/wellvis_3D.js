@@ -56,7 +56,7 @@ function addTrackballControls() {
   var radius = 24; // scalar value used to determine relative zoom distances
 
   WELLVIS.theControls.minDistance = radius * 0.1;  //==|| Min zoom out distance
-  WELLVIS.theControls.maxDistance = radius * 5235;   //==|| Max zoom out distance
+  WELLVIS.theControls.maxDistance = radius * 1375;   //==|| Max zoom out distance
 
 
   WELLVIS.theControls.keys = [ 65, 83, 68 ];

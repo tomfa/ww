@@ -3114,6 +3114,10 @@ function registerAddPathButton() {
 			$(this).parent().parent().find(".divTurn").find("input").prop('disabled', true);
 
 
+			$(this).parent().parent().find("select").prop('disabled', true);
+			//$("#wellPathInfoBoxContainer_" + newNoOfWellPathLinesStr).find("#valueSecType_" + newNoOfWellPathLinesStr).prop('disabled', true);
+
+
 			//==|| Add an empty Row in the Table so that User can enter a new point
 			addNewRowInTable(WELLVIS.noOfWellPathLines + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Tangent", "Add", true);
 			WELLVIS.noOfWellPathLines++;

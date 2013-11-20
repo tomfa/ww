@@ -3,7 +3,7 @@
  */
 
  /*
- *	Modification by Pawan Chamling Rai Kirat for Wellvis 3D planes rendering
+ *	Some Modification for Wellvis 3D planes rendering
  */
 
 
@@ -256,19 +256,9 @@ THREE.TrackballControls = function ( object, target, domElement) {
 
 			}
 
-			//colorTrace("panning", "Red");
-			//colorTrace("x = " +  _this.target.x, "Red");
-			//colorTrace("y = " +  _this.target.y, "Green");
-			//colorTrace("z = " +  _this.target.z, "Blue");
-
-			//==|| Update the Screen Center
-
-			//updateScreenCenter( _this.target.x + 45,  _this.target.y - 80,  _this.target.z + 20);
-
-			//==|| Fixing the deviation in the target 
+			
+			//==|| 
 			updateScreenCenter( _this.target.x - this.targetXdev,  _this.target.y - this.targetYdev,  _this.target.z - this.targetZdev);
-
-			//updateScreenCenter( _this.target.x + 45,  _this.target.y - 80,  _this.target.z + 20);
 
 
 
@@ -452,21 +442,6 @@ THREE.TrackballControls = function ( object, target, domElement) {
 			_panEnd = _this.getMouseOnScreen( event.clientX, event.clientY );
 
 		}
-
-/*
-		//colorTrace("Mouse Moved", "Green");
-		colorTrace("x : " +  theCamera.position.x, "Blue");
-		colorTrace("y : " +  theCamera.position.y, "Green");
-		colorTrace("z : " +  theCamera.position.z, "Red");
-		colorTrace("-----------", "Black");
-*/
-
-
-
-		//	colorTrace("x = " +  _this.target.x, "Black");
-		//	colorTrace("y = " +  _this.target.y, "Black");
-		//	colorTrace("z = " +  _this.target.z, "Black");
-
 
 	}
 

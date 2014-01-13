@@ -126,7 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',  # Database helper
+    #'south',  # Database helper
     'main',
     'wpath',
     'django.contrib.admin',  # admin pages
